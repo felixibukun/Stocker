@@ -3,120 +3,120 @@
     "id": 1,
     "name": "Apple",
     "symbol": "AAPL",
-    "price": 92.81
+    "price": 95.97
   },
   {
     "id": 2,
     "name": "Tesla",
     "symbol": "TSLA",
-    "price": 173.43
+    "price": 173.01
   },
   {
     "id": 3,
     "name": "Amazon",
     "symbol": "AMZN",
-    "price": 48.64
+    "price": 50.36
   },
   {
     "id": 4,
     "name": "Nvidia",
     "symbol": "NVDA",
-    "price": 453.61
+    "price": 453.82
   },
   {
     "id": 5,
     "name": "Microsoft",
     "symbol": "MSFT",
-    "price": 526.45
+    "price": 527.65
   },
   {
     "id": 6,
     "name": "Meta",
     "symbol": "META",
-    "price": 289.25
+    "price": 289.68
   },
   {
     "id": 7,
     "name": "Google",
     "symbol": "GOOGL",
-    "price": 165.79
+    "price": 159.17
   },
   {
     "id": 8,
     "name": "Netflix",
     "symbol": "NFLX",
-    "price": 383.15
+    "price": 386.23
   },
   {
     "id": 9,
     "name": "Coca Cola",
     "symbol": "KO",
-    "price": 40.31
+    "price": 37.28
   },
   {
     "id": 10,
     "name": "Pepsi",
     "symbol": "PEP",
-    "price": 11.86
+    "price": 10.65
   },
   {
     "id": 11,
     "name": "JP Morgan",
     "symbol": "JPM",
-    "price": 178.44
+    "price": 176.13
   },
   {
     "id": 12,
     "name": "Bank of America",
     "symbol": "BAC",
-    "price": 22.05
+    "price": 25.61
   },
   {
     "id": 13,
     "name": "Intel",
     "symbol": "INTC",
-    "price": 182.49
+    "price": 187.15
   },
   {
     "id": 14,
     "name": "AMD",
     "symbol": "AMD",
-    "price": 141.87
+    "price": 144.04
   },
   {
     "id": 15,
     "name": "Adobe",
     "symbol": "ADBE",
-    "price": 541.32
+    "price": 539.51
   },
   {
     "id": 16,
     "name": "Salesforce",
     "symbol": "CRM",
-    "price": 229.21
+    "price": 227.2
   },
   {
     "id": 17,
     "name": "Shopify",
     "symbol": "SHOP",
-    "price": 109.66
+    "price": 106.73
   },
   {
     "id": 18,
     "name": "Uber",
     "symbol": "UBER",
-    "price": 5.06
+    "price": 8.62
   },
   {
     "id": 19,
     "name": "Airbnb",
     "symbol": "ABNB",
-    "price": 172.62
+    "price": 173.72
   },
   {
     "id": 20,
     "name": "PayPal",
     "symbol": "PYPL",
-    "price": 69.13
+    "price": 71.29
   }
 ]
