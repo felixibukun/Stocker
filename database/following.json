@@ -5,8 +5,8 @@
     "traderId": 1,
     "traderName": "Alpha Trader",
     "startedAt": "2025-11-27T03:53:55.716Z",
-    "lastProfit": 35.67,
-    "updatedAt": "2025-11-30T22:20:59.821Z"
+    "lastProfit": 18.35,
+    "updatedAt": "2025-11-30T22:57:29.867Z"
   },
   {
     "id": 1764494258532,
@@ -14,8 +14,8 @@
     "traderId": 4,
     "traderName": "Pro Scalper",
     "startedAt": "2025-11-30T09:17:38.532Z",
-    "lastProfit": 31.6,
-    "updatedAt": "2025-11-30T22:20:59.821Z"
+    "lastProfit": 18,
+    "updatedAt": "2025-11-30T22:57:29.867Z"
   },
   {
     "id": 1764503344509,
@@ -23,7 +23,7 @@
     "traderId": 1,
     "traderName": "Alpha Trader",
     "startedAt": "2025-11-30T11:49:04.509Z",
-    "lastProfit": 0.02,
-    "updatedAt": "2025-11-30T22:20:59.821Z"
+    "lastProfit": 0.03,
+    "updatedAt": "2025-11-30T22:57:29.867Z"
   }
 ]
