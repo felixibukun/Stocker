@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" class="dark h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deposit and Withdrawal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white">
+
+<header class="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl flex items-center">
+  <div class="w-full max-w-6xl mx-auto px-4 flex items-center justify-between">
+    <p class="text-sm font-semibold">Deposit and Withdrawal</p>
+    <a href="/dashboard" class="text-xs text-slate-300 hover:text-white">Back to dashboard</a>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+  <!-- Deposit form -->
+  <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-lg">
+
+    <p class="text-sm font-semibold mb-3">Submit a deposit</p>
+
+    <form action="/deposit" method="POST" enctype="multipart/form-data" class="space-y-4">
+
+      <!-- Amount -->
+      <div>
+        <label class="block text-xs text-slate-400 mb-1">Amount</label>
+        <input type="number"
+               name="amount"
+               min="1"
+               required
+               class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm">
+      </div>
+
+      <!-- Method -->
+      <div>
+        <label class="block text-xs text-slate-400 mb-1">Method</label>
+
+        <select name="method"
+        onchange="showDetails(this.value)"
+        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
+        required>
+
+  <option value="">Select method</option>
+  <option value="Crypto">🪙 Crypto</option>
+  <option value="CashApp">💵 CashApp</option>
+  <option value="Chime">🏦 Chime</option>
+  <option value="PayPal">📨 PayPal</option>
+  <option value="Giftcard">🎁 Giftcard</option>
+  <option value="Bank Transfer">🏛️ Bank Transfer</option>
+
+</select>
+
+
+        <p class="text-[11px] text-slate-500 mt-1">
+          Bank Transfer is not available now.
+        </p>
+      </div>
+
+      <!-- Dynamic Payment Details -->
+      <div id="paymentDetails" class="text-xs text-slate-300 p-3 bg-slate-800 rounded hidden"></div>
+
+      <!-- Proof -->
+      <div>
+        <label class="block text-xs text-slate-400 mb-1">Proof of payment</label>
+        <input type="file" name="proof" accept="image/*" required class="text-xs text-slate-400 w-full">
+        <p class="text-[11px] text-slate-500 mt-1">Upload a screenshot or photo of your payment.</p>
+      </div>
+
+      <!-- Submit -->
+      <button class="w-full py-2.5 bg-blue-600 rounded text-sm font-semibold">
+        Submit deposit
+      </button>
+
+    </form>
+  </section>
+
+  <!-- History -->
+  <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-lg">
+    <p class="text-sm font-semibold mb-3">Your deposit history</p>
+
+    <% if (!deposits || deposits.length === 0) { %>
+
+      <p class="text-xs text-slate-500">No deposits yet.</p>
+
+    <% } else { %>
+
+      <div class="space-y-3 text-xs">
+
+        <% deposits.forEach(d => { %>
+          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3">
+
+            <div class="flex justify-between">
+              <span class="text-slate-300">Amount</span>
+              <span class="text-slate-100">$<%= Number(d.amount).toFixed(2) %></span>
+            </div>
+
+            <div class="flex justify-between mt-1">
+              <span class="text-slate-300">Method</span>
+              <span class="text-slate-100"><%= d.method %></span>
+            </div>
+
+            <div class="flex justify-between mt-1">
+              <span class="text-slate-300">Status</span>
+
+              <% if (d.status === 'approved') { %>
+                <span class="text-emerald-400 font-semibold">Approved</span>
+              <% } else if (d.status === 'rejected') { %>
+                <span class="text-red-400 font-semibold">Rejected</span>
+              <% } else { %>
+                <span class="text-amber-400 font-semibold">Pending</span>
+              <% } %>
+
+            </div>
+
+            <div class="flex justify-between mt-1">
+              <span class="text-slate-300">Date</span>
+              <span class="text-slate-400"><%= new Date(d.createdAt).toLocaleString() %></span>
+            </div>
+
+            <% if (d.proofUrl) { %>
+              <div class="mt-2">
+                <a href="<%= d.proofUrl %>" target="_blank" class="text-blue-400 underline">
+                  View proof
+                </a>
+              </div>
+            <% } %>
+
+          </div>
+        <% }) %>
+
+      </div>
+
+    <% } %>
+
+  </section>
+
+</div>
+</main>
+
+<script>
+  const instructions = <%- JSON.stringify(instructions) %>
+
+  function showDetails(method) {
+    let box = document.getElementById('paymentDetails')
+
+    if (!method || method === '') {
+      box.classList.add('hidden')
+      box.innerHTML = ''
+      return
+    }
+
+    if (method === 'Bank Transfer') {
+      alert('Bank Transfer is not available at the moment')
+      box.classList.add('hidden')
+      box.innerHTML = ''
+      return
+    }
+
+    let html = ''
+
+    if (method === 'Crypto') {
+      html = `
+        <p>USDT: ${instructions.Crypto.usdt}</p>
+        <p class="mt-1">BTC: ${instructions.Crypto.btc}</p>
+      `
+    }
+
+    if (method === 'CashApp') {
+      html = `<p>CashApp Tag: ${instructions.CashApp}</p>`
+    }
+
+    if (method === 'Chime') {
+      html = `<p>Chime Email: ${instructions.Chime}</p>`
+    }
+
+    if (method === 'PayPal') {
+      html = `<p>PayPal Email: ${instructions.PayPal}</p>`
+    }
+
+    if (method === 'Giftcard') {
+      html = `<p>${instructions.Giftcard}</p>`
+    }
+
+    box.innerHTML = html
+    box.classList.remove('hidden')
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<% if (toast) { %>
+<script>
+  Swal.fire({
+    icon: '<%= toast.type %>',
+    title: '<%= toast.message %>',
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>
+<% } %>
+
+</body>
+</html>

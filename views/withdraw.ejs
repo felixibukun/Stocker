@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" class="dark h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Withdraw Funds</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { primary: { 600: '#4F46E5' } }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white">
+
+<header class="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl flex items-center">
+  <div class="w-full max-w-6xl mx-auto px-4 flex items-center justify-between">
+    <p class="text-sm font-semibold">Withdraw Funds</p>
+    <a href="/dashboard" class="text-xs text-slate-300 hover:text-white">Back to dashboard</a>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+  <!-- Withdraw Form -->
+  <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-lg">
+
+    <p class="text-sm font-semibold mb-1">Submit a withdrawal</p>
+    <p class="text-xs text-slate-400 mb-4">
+      Available balance:
+      <span class="text-white font-medium">$<%= Number(user.balance || 0).toFixed(2) %></span>
+    </p>
+
+    <form action="/withdraw" method="POST" class="space-y-4">
+
+      <!-- Amount -->
+      <div>
+        <label class="text-xs text-slate-300 mb-1 block">Amount</label>
+        <input
+          type="number"
+          name="amount"
+          min="10"
+          step="0.01"
+          placeholder="Enter amount"
+          class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
+          required
+        >
+      </div>
+
+      <!-- Wallet box -->
+      <div id="walletBox">
+        <label class="text-xs text-slate-300 mb-1 block">Payout Details</label>
+        <input
+          type="text"
+          name="wallet"
+          id="walletInput"
+          placeholder="Enter your payout details"
+          class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
+        >
+      </div>
+
+      <!-- Method -->
+      <div>
+        <label class="text-xs text-slate-300 mb-1 block">Payout Method</label>
+        <select
+          name="network"
+          id="network"
+          class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
+        >
+
+          <!-- CRYPTO -->
+          <option value="USDT TRC20">🪙 USDT TRC20</option>
+          <option value="USDT ERC20">🪙 USDT ERC20</option>
+          <option value="BTC">🟧 Bitcoin BTC</option>
+          <option value="ETH">🟦 Ethereum ETH</option>
+          <option value="DOGE">🐶 Dogecoin</option>
+          <option value="LTC">🟩 Litecoin</option>
+
+          <!-- CASH -->
+          <option value="CashApp">💵 Cash App</option>
+          <option value="PayPal">📨 PayPal</option>
+          <option value="Chime">🏦 Chime</option>
+          <option value="Zelle">🏧 Zelle</option>
+          <option value="Venmo">💳 Venmo</option>
+          <option value="Apple Pay">🍎 Apple Pay</option>
+          <option value="Google Pay">🟡 Google Pay</option>
+
+          <!-- BANK -->
+          <option value="BANK">🏛️ Bank Transfer</option>
+
+        </select>
+
+        <p id="bankWarn" class="text-red-400 text-xs mt-1 hidden">
+          Bank transfer is not available at the moment.
+        </p>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full py-2.5 bg-blue-600 text-sm font-semibold rounded"
+      >
+        Submit Withdrawal
+      </button>
+    </form>
+  </section>
+
+  <!-- Withdrawal History -->
+  <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-lg">
+
+    <p class="text-sm font-semibold mb-3">Withdrawal history</p>
+
+    <% if (!history || history.length === 0) { %>
+
+      <p class="text-xs text-slate-500">No withdrawals yet.</p>
+
+    <% } else { %>
+
+      <div class="space-y-3 text-xs">
+
+        <% history.forEach(w => { %>
+          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3">
+
+            <div class="flex justify-between">
+              <span class="text-slate-300">Amount</span>
+              <span class="text-slate-100">$<%= Number(w.amount).toFixed(2) %></span>
+            </div>
+
+            <div class="flex justify-between mt-1">
+              <span class="text-slate-300">Method</span>
+              <span class="text-slate-100"><%= w.network %></span>
+            </div>
+
+            <div class="flex justify-between mt-1">
+              <span class="text-slate-300">Status</span>
+
+              <% if (w.status === 'approved') { %>
+                <span class="text-emerald-400 font-semibold">Approved</span>
+              <% } else if (w.status === 'rejected') { %>
+                <span class="text-red-400 font-semibold">Rejected</span>
+              <% } else { %>
+                <span class="text-amber-400 font-semibold">Pending</span>
+              <% } %>
+
+            </div>
+
+            <div class="flex justify-between mt-1">
+              <span class="text-slate-300">Date</span>
+              <span class="text-slate-400"><%= new Date(w.date).toLocaleString() %></span>
+            </div>
+
+          </div>
+        <% }) %>
+
+      </div>
+
+    <% } %>
+
+  </section>
+
+</div>
+</main>
+
+<script>
+  const method = document.getElementById('network')
+  const warn = document.getElementById('bankWarn')
+  const walletBox = document.getElementById('walletBox')
+  const walletInput = document.getElementById('walletInput')
+
+  function updateWalletPlaceholder() {
+    const val = method.value
+
+    warn.classList.add('hidden')
+    walletBox.classList.remove('hidden')
+
+    if (
+      val === 'USDT TRC20' ||
+      val === 'USDT ERC20' ||
+      val === 'BTC' ||
+      val === 'ETH' ||
+      val === 'DOGE' ||
+      val === 'LTC'
+    ) walletInput.placeholder = "Enter your crypto wallet address"
+
+    else if (val === 'CashApp') walletInput.placeholder = "Enter your $Cashtag"
+    else if (val === 'PayPal') walletInput.placeholder = "Enter your PayPal email"
+    else if (val === 'Chime') walletInput.placeholder = "Enter your Chime ID or email"
+    else if (val === 'Zelle') walletInput.placeholder = "Enter your Zelle email or phone"
+    else if (val === 'Venmo') walletInput.placeholder = "Enter your Venmo username"
+    else if (val === 'Apple Pay') walletInput.placeholder = "Enter your Apple ID email"
+    else if (val === 'Google Pay') walletInput.placeholder = "Enter your Google Pay email"
+
+    else if (val === 'BANK') {
+      warn.classList.remove('hidden')
+      walletBox.classList.add('hidden')
+    }
+  }
+
+  updateWalletPlaceholder()
+  method.addEventListener('change', updateWalletPlaceholder)
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<% if (toast) { %>
+<script>
+  Swal.fire({
+    icon: '<%= toast.type %>',
+    title: '<%= toast.message %>',
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>
+<% } %>
+
+</body>
+</html>

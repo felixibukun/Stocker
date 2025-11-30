@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment Settings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-white">
+
+<div class="flex">
+  
+  <!-- Sidebar -->
+  <%- include('admin-sidebar') %>
+
+  <main class="flex-1 p-10">
+
+    <h1 class="text-2xl font-semibold mb-6">Payment Settings</h1>
+
+    <form method="POST" class="space-y-6 max-w-xl">
+
+      <div>
+        <label class="block mb-1">USDT Wallet</label>
+        <input name="usdt" 
+               value="<%= instructions.Crypto.usdt %>" 
+               class="w-full px-3 py-2 bg-slate-800 rounded">
+      </div>
+
+      <div>
+        <label class="block mb-1">BTC Wallet</label>
+        <input name="btc" 
+               value="<%= instructions.Crypto.btc %>" 
+               class="w-full px-3 py-2 bg-slate-800 rounded">
+      </div>
+
+      <div>
+        <label class="block mb-1">CashApp Tag</label>
+        <input name="cashapp" 
+               value="<%= instructions.CashApp %>" 
+               class="w-full px-3 py-2 bg-slate-800 rounded">
+      </div>
+
+      <div>
+        <label class="block mb-1">Chime Email</label>
+        <input name="chime" 
+               value="<%= instructions.Chime %>" 
+               class="w-full px-3 py-2 bg-slate-800 rounded">
+      </div>
+
+      <div>
+        <label class="block mb-1">PayPal Email</label>
+        <input name="paypal" 
+               value="<%= instructions.PayPal %>" 
+               class="w-full px-3 py-2 bg-slate-800 rounded">
+      </div>
+
+      <div>
+        <label class="block mb-1">Giftcard Instructions</label>
+        <textarea name="giftcard" 
+                  class="w-full px-3 py-2 bg-slate-800 rounded h-24"><%= instructions.Giftcard %></textarea>
+      </div>
+
+      <button class="px-5 py-2 bg-blue-600 rounded font-semibold">
+        Save Settings
+      </button>
+
+    </form>
+
+  </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<% if (toast) { %>
+<script>
+  Swal.fire({
+    icon: '<%= toast.type %>',
+    title: '<%= toast.message %>',
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>
+<% } %>
+
+</body>
+</html>

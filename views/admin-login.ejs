@@ -1,0 +1,54 @@
+<!DOCTYPE html> <html lang="en" class="dark h-full"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <title>Admin Login</title> <script src="https://cdn.tailwindcss.com"></script>
+ </head> <body class="bg-gray-900 text-white flex items-center justify-center h-screen"> <div class="w-full max-w-sm bg-gray-800 p-8 rounded-xl shadow-xl">
+<div class="flex justify-center mb-6">
+  <img src="/temp/custom/img/logo.png" width="80">
+</div>
+
+<h2 class="text-center text-2xl font-semibold mb-6">Admin Login</h2>
+
+<form action="/admin-login" method="POST">
+
+  <div class="mb-4">
+    <label class="block mb-1">Username</label>
+    <input 
+      type="text" 
+      name="username" 
+      class="w-full p-3 bg-gray-700 rounded outline-none" 
+      required
+    >
+  </div>
+
+  <div class="mb-6">
+    <label class="block mb-1">Password</label>
+    <input 
+      type="password" 
+      name="password" 
+      class="w-full p-3 bg-gray-700 rounded outline-none" 
+      required
+    >
+  </div>
+
+  <button 
+    class="w-full bg-blue-600 p-3 rounded text-center font-semibold"
+  >
+    Login
+  </button>
+
+</form>
+
+</div> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<% if (toast) { %>
+<script>
+  Swal.fire({
+    icon: '<%= toast.type %>',
+    title: '<%= toast.message %>',
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>
+<% } %>
+</body> </html>

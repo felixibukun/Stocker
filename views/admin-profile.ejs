@@ -1,0 +1,60 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <title>Admin Profile</title> <script src="https://cdn.tailwindcss.com"></script>
+ </head> <body class="bg-slate-950 text-white min-h-screen"> <div class="w-full bg-slate-900 border-b border-slate-800 p-4 flex items-center justify-between"> <div> <p class="text-sm font-semibold">Admin profile</p> <p class="text-xs text-slate-400">Update your login details</p> </div>
+<a href="/admin" class="bg-slate-800 px-4 py-2 rounded text-sm">
+  Back to dashboard
+</a>
+
+</div> <div class="max-w-lg mx-auto mt-8 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+<p class="text-lg font-semibold mb-4">Login details</p>
+
+<form action="/admin/profile" method="POST" class="space-y-4">
+
+  <div>
+    <label class="block text-xs text-slate-400 mb-1">Username</label>
+    <input
+      type="text"
+      name="username"
+      value="<%= adminUser.username %>"
+      required
+      class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm outline-none"
+    >
+  </div>
+
+  <div>
+    <label class="block text-xs text-slate-400 mb-1">Password</label>
+    <input
+      type="password"
+      name="password"
+      value="<%= adminUser.password %>"
+      required
+      class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm outline-none"
+    >
+    <p class="text-[11px] text-slate-500 mt-1">
+      This password is used only for admin login.
+    </p>
+  </div>
+
+  <button
+    type="submit"
+    class="w-full py-2.5 rounded-lg bg-blue-600 text-sm font-semibold">
+    Save changes
+  </button>
+
+</form>
+
+</div> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<% if (toast) { %>
+<script>
+  Swal.fire({
+    icon: '<%= toast.type %>',
+    title: '<%= toast.message %>',
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>
+<% } %>
+</body> </html>

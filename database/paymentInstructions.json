@@ -1,0 +1,10 @@
+{
+  "Crypto": {
+    "usdt": "TXXX-USDT-WALLET-HERE",
+    "btc": "BTC-ADDRESS-HERE"
+  },
+  "CashApp": "$YourCashAppTag",
+  "Chime": "your@chime.com",
+  "PayPal": "paypal@email.com",
+  "Giftcard": "Send clear front and back images"
+}

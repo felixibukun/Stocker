@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1764228865335,
+    "userId": 1764215292760,
+    "stockId": 1,
+    "stockName": "Apple",
+    "symbol": "AAPL",
+    "side": "BUY",
+    "quantity": 2,
+    "price": 152.57,
+    "total": 305.14,
+    "profit": 0,
+    "timestamp": "2025-11-27T07:34:25.335Z"
+  },
+  {
+    "id": 1764230506157,
+    "userId": 1764215292760,
+    "stockId": 3,
+    "stockName": "Amazon",
+    "symbol": "AMZN",
+    "side": "BUY",
+    "quantity": 1,
+    "price": 59.65,
+    "total": 59.65,
+    "profit": 0,
+    "timestamp": "2025-11-27T08:01:46.157Z"
+  },
+  {
+    "id": 1764235843072,
+    "userId": 1764215292760,
+    "stockId": 1,
+    "stockName": "Apple",
+    "symbol": "AAPL",
+    "side": "SELL",
+    "quantity": 1,
+    "price": 133.33,
+    "total": 133.33,
+    "profit": -19.23999999999998,
+    "timestamp": "2025-11-27T09:30:43.073Z"
+  },
+  {
+    "id": 1764342946922,
+    "userId": 1764215292760,
+    "stockId": 1,
+    "stockName": "Apple",
+    "symbol": "AAPL",
+    "side": "SELL",
+    "quantity": 1,
+    "price": 117.03,
+    "total": 117.03,
+    "profit": -35.53999999999999,
+    "timestamp": "2025-11-28T15:15:46.922Z"
+  }
+]

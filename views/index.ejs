@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Global Equinox Trade</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            primary: {
+              500: '#6366F1',
+              600: '#4F46E5',
+              700: '#4338CA'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    body { overflow-x: hidden }
+
+    i[data-lucide] {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.7;
+      display: inline-block;
+    }
+
+    .fade-section {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .fade-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-white font-sans">
+<div class="fixed inset-0 pointer-events-none">
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950 to-slate-950"></div>
+  <div class="absolute -top-24 -left-16 w-72 h-72 bg-primary-600/25 rounded-full blur-3xl"></div>
+  <div class="absolute top-40 right-0 w-80 h-80 bg-emerald-500/15 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-0 left-1/3 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+</div>
+<div class="relative min-h-screen flex flex-col">
+  <!-- NAVBAR -->
+  <header class="border-b border-slate-800/70 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+  <a href="/" class="flex items-center gap-3">
+    <img src="/temp/custom/img/logo.png" class="h-8 w-auto" alt="Global Equinox Trade">
+    <div class="flex flex-col leading-tight">
+      <span class="text-sm font-semibold tracking-wide text-slate-100">Global Equinox Trade</span>
+      <span class="text-[11px] text-slate-400">Forex Crypto Stocks Broker</span>
+    </div>
+  </a>
+
+  <nav class="hidden lg:flex items-center gap-6 text-xs text-slate-300">
+    <a href="/" class="hover:text-white">Home</a>
+    <a href="#markets" class="hover:text-white">Markets</a>
+    <a href="#pricing" class="hover:text-white">Pricing</a>
+    <a href="#platforms" class="hover:text-white">Platforms</a>
+    <a href="#copy" class="hover:text-white">Copy trading</a>
+    <a href="#about" class="hover:text-white">About</a>
+    <a href="#contact" class="hover:text-white">Contact</a>
+  </nav>
+
+  <div class="hidden lg:flex items-center gap-3 text-xs">
+    <a href="/login" class="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 hover:bg-slate-800">
+      Login
+    </a>
+    <a href="/signup" class="px-4 py-2 rounded-xl bg-primary-600 text-xs font-semibold hover:bg-primary-500">
+      Signup
+    </a>
+  </div>
+
+  <button id="mobileToggle" class="lg:hidden h-9 w-9 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center">
+    <i data-lucide="menu" class="w-4 h-4"></i>
+  </button>
+</div>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu" class="lg:hidden hidden border-t border-slate-800 bg-slate-950/95 backdrop-blur-xl">
+  <div class="max-w-6xl mx-auto px-4 py-3 space-y-3 text-xs text-slate-200">
+    <div class="flex flex-col gap-2">
+      <a href="/" class="py-1">Home</a>
+      <a href="#markets" class="py-1">Markets</a>
+      <a href="#pricing" class="py-1">Pricing</a>
+      <a href="#platforms" class="py-1">Platforms</a>
+      <a href="#copy" class="py-1">Copy trading</a>
+      <a href="#about" class="py-1">About</a>
+      <a href="#contact" class="py-1">Contact</a>
+    </div>
+
+    <div class="flex gap-3 pt-2">
+      <a href="/login" class="flex-1 px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-center">
+        Login
+      </a>
+      <a href="/signup" class="flex-1 px-4 py-2 rounded-xl bg-primary-600 text-center font-semibold">
+        Signup
+      </a>
+    </div>
+  </div>
+</div>
+
+  </header>
+  <main class="flex-1">
+<!-- HERO -->
+<section class="max-w-6xl mx-auto px-4 py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center fade-section">
+  <div class="space-y-6">
+    <div class="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1">
+      <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <p class="text-[11px] text-emerald-200">
+        Live access to Forex Crypto Stocks and Indices
+      </p>
+    </div>
+
+    <div class="space-y-3">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-50">
+        Trade the global markets with Global Equinox Trade
+      </h1>
+      <p class="text-xs sm:text-sm text-slate-400 max-w-md">
+        Fund from 500 dollars up to 50 000 dollars and manage every position from a simple web dashboard.
+      </p>
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      <a href="/signup" class="px-5 py-2.5 rounded-xl bg-primary-600 text-xs font-semibold hover:bg-primary-500 flex items-center gap-2">
+        <span>Open live account</span>
+        <i data-lucide="arrow-right" class="w-3 h-3"></i>
+      </a>
+
+      <a href="/login" class="px-5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-100 hover:bg-slate-800 flex items-center gap-2">
+        <i data-lucide="play-circle" class="w-3 h-3"></i>
+        <span>View client dashboard</span>
+      </a>
+    </div>
+
+    <!-- TRUST BADGES -->
+    <div class="flex flex-wrap items-center gap-4 pt-4 text-[10px] text-slate-500">
+      <span class="uppercase tracking-wide">Platform features</span>
+      <div class="flex flex-wrap gap-3">
+        <div class="flex items-center gap-1">
+          <i data-lucide="shield-check" class="w-3 h-3 text-emerald-400"></i>
+          <span>Secure wallet handling</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <i data-lucide="zap" class="w-3 h-3 text-primary-500"></i>
+          <span>Fast payout review</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <i data-lucide="headphones" class="w-3 h-3 text-sky-400"></i>
+          <span>24/5 client support</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO SIDE CARD -->
+  <div class="relative">
+    <div class="absolute inset-0 bg-gradient-to-tr from-primary-600/20 via-emerald-500/10 to-slate-900/0 blur-3xl -z-10"></div>
+
+    <div class="bg-slate-900/70 border border-slate-800 rounded-3xl p-4 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between mb-1">
+        <p class="text-xs font-semibold text-slate-200">Sample account snapshot</p>
+        <span class="text-[10px] text-emerald-400 flex items-center gap-1">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+          Active
+        </span>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3 text-[11px]">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
+          <p class="text-slate-400">Wallet balance</p>
+          <p class="text-sm font-semibold text-slate-50 mt-1">$12 480.40</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
+          <p class="text-slate-400">Open P L</p>
+          <p class="text-sm font-semibold text-emerald-400 mt-1">plus 284.22</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3">
+          <p class="text-slate-400">Margin level</p>
+          <p class="text-sm font-semibold text-slate-50 mt-1">412 percent</p>
+        </div>
+      </div>
+
+      <div class="space-y-2 text-[11px]">
+        <div class="flex items-center justify-between bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-2">
+          <div>
+            <p class="text-slate-100">BTCUSD</p>
+            <p class="text-[10px] text-slate-500">Crypto</p>
+          </div>
+          <div class="text-right">
+            <p class="text-slate-100">0.20 lot</p>
+            <p class="text-[10px] text-emerald-400">plus 152.44</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-between bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-2">
+          <div>
+            <p class="text-slate-100">XAUUSD</p>
+            <p class="text-[10px] text-slate-500">Metals</p>
+          </div>
+          <div class="text-right">
+            <p class="text-slate-100">0.50 lot</p>
+            <p class="text-[10px] text-emerald-400">plus 88.10</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-[10px] text-slate-500">
+        Balances and P L are shown on your dashboard in real time once admin approves deposits and withdrawals.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- MARKETS -->
+<section id="markets" class="max-w-6xl mx-auto px-4 py-10 space-y-6 fade-section">
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+    <div>
+      <p class="text-xs text-primary-500 font-semibold tracking-wide">Markets</p>
+      <h2 class="text-xl md:text-2xl font-semibold text-slate-50 mt-1">Trade multiple markets from one wallet</h2>
+      <p class="text-xs text-slate-400 max-w-md mt-2">
+        Global Equinox Trade gives access to Forex pairs, Crypto assets, global Stocks, Indices, and Commodities from a single account.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-xs">
+    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-slate-100 font-semibold">Forex</span>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+          Tight spreads
+        </span>
+      </div>
+      <p class="text-slate-400 text-[11px]">
+        Major, minor, and selected exotic currency pairs.
+      </p>
+    </div>
+
+    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-slate-100 font-semibold">Crypto</span>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-primary-600/10 text-primary-300 border border-primary-600/40">
+          All day
+        </span>
+      </div>
+      <p class="text-slate-400 text-[11px]">
+        Trade leading coins without a separate wallet interface.
+      </p>
+    </div>
+
+    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-slate-100 font-semibold">Indices</span>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700">
+          Global
+        </span>
+      </div>
+      <p class="text-slate-400 text-[11px]">
+        Work with US and EU stock indices for index exposure.
+      </p>
+    </div>
+
+    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-slate-100 font-semibold">Commodities</span>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30">
+          Metals and energy
+        </span>
+      </div>
+      <p class="text-slate-400 text-[11px]">
+        Trade gold, silver, and key energy contracts.
+      </p>
+    </div>
+
+    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-slate-100 font-semibold">Stocks</span>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-900 text-slate-200 border border-slate-700">
+          US and EU
+        </span>
+      </div>
+      <p class="text-slate-400 text-[11px]">
+        Access well known company names with simple tickets.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="max-w-6xl mx-auto px-4 py-10 space-y-6 fade-section">
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+    <div>
+      <p class="text-xs text-primary-500 font-semibold tracking-wide">Pricing</p>
+      <h2 class="text-xl md:text-2xl font-semibold text-slate-50 mt-1">Account plans from 500 to 50 000 dollars</h2>
+      <p class="text-xs text-slate-400 max-w-md mt-2">
+        Choose a plan that matches your starting balance. Limits and attention from the admin desk scale with the plan size.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 flex flex-col">
+      <p class="text-slate-300 font-semibold mb-1">Starter</p>
+      <p class="text-[11px] text-slate-400 mb-4">From 500 dollars</p>
+      <p class="text-2xl font-semibold text-slate-50 mb-4">$500</p>
+      <ul class="space-y-1 text-slate-400 mb-4">
+        <li> access to all markets</li>
+        <li> standard spreads</li>
+        <li> normal withdrawal queue</li>
+      </ul>
+      <a href="/signup" class="mt-auto inline-flex justify-center px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-[11px] font-semibold hover:bg-slate-800">
+        Start with starter
+      </a>
+    </div>
+
+    <div class="bg-slate-900 border border-primary-600/70 rounded-2xl p-5 flex flex-col relative overflow-hidden">
+      <div class="absolute inset-x-0 -top-8 h-16 bg-primary-600/15 blur-3xl"></div>
+      <p class="text-slate-100 font-semibold mb-1">Advanced</p>
+      <p class="text-[11px] text-slate-400 mb-4">From 5 000 dollars</p>
+      <p class="text-2xl font-semibold text-slate-50 mb-4">$5 000</p>
+      <ul class="space-y-1 text-slate-400 mb-4">
+        <li> tighter spreads on majors</li>
+        <li> faster withdrawal review</li>
+        <li> direct access to support channel</li>
+      </ul>
+      <a href="/signup" class="mt-auto inline-flex justify-center px-4 py-2 rounded-xl bg-primary-600 text-[11px] font-semibold hover:bg-primary-500">
+        Move to advanced
+      </a>
+    </div>
+
+    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 flex flex-col">
+      <p class="text-slate-300 font-semibold mb-1">Elite</p>
+      <p class="text-[11px] text-slate-400 mb-4">From 50 000 dollars</p>
+      <p class="text-2xl font-semibold text-slate-50 mb-4">$50 000</p>
+      <ul class="space-y-1 text-slate-400 mb-4">
+        <li> priority withdrawal handling</li>
+        <li> highest internal limits</li>
+        <li> direct line to admin desk</li>
+      </ul>
+      <a href="/signup" class="mt-auto inline-flex justify-center px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-[11px] font-semibold hover:bg-slate-800">
+        Apply for elite
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="max-w-6xl mx-auto px-4 py-10 fade-section">
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-5">
+    <div>
+      <p class="text-xs text-primary-500 font-semibold tracking-wide">Testimonials</p>
+      <h2 class="text-xl md:text-2xl font-semibold text-slate-50 mt-1">What traders say about the platform</h2>
+      <p class="text-xs text-slate-400 max-w-md mt-2">
+        Short comments from users who worked with Global Equinox Trade style layouts and features.
+      </p>
+    </div>
+  </div>
+
+  <div class="relative">
+    <div id="testimonialTrack" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col">
+        <p class="text-[11px] text-slate-300 mb-3">
+          The dashboard makes it simple for me to check P L and closed trades without jumping across screens.
+        </p>
+        <div class="mt-auto flex items-center justify-between">
+          <div>
+            <p class="text-slate-100 font-semibold text-xs">Samuel</p>
+            <p class="text-[10px] text-slate-500">Copy trading client</p>
+          </div>
+          <div class="flex items-center gap-1 text-amber-400 text-[10px]">
+            <i data-lucide="star" class="w-3 h-3"></i>
+            <span>4.8</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col">
+        <p class="text-[11px] text-slate-300 mb-3">
+          I like that deposits and withdrawals show clearly in the transaction history with status and time.
+        </p>
+        <div class="mt-auto flex items-center justify-between">
+          <div>
+            <p class="text-slate-100 font-semibold text-xs">Rita</p>
+            <p class="text-[10px] text-slate-500">Account holder</p>
+          </div>
+          <div class="flex items-center gap-1 text-amber-400 text-[10px]">
+            <i data-lucide="star" class="w-3 h-3"></i>
+            <span>4.7</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col">
+        <p class="text-[11px] text-slate-300 mb-3">
+          Support answers inside the dashboard instead of sending me to different portals and links.
+        </p>
+        <div class="mt-auto flex items-center justify-between">
+          <div>
+            <p class="text-slate-100 font-semibold text-xs">Michael</p>
+            <p class="text-[10px] text-slate-500">Forex trader</p>
+          </div>
+          <div class="flex items-center gap-1 text-amber-400 text-[10px]">
+            <i data-lucide="star" class="w-3 h-3"></i>
+            <span>4.9</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY AND AWARDS -->
+<section class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start fade-section">
+  <div class="space-y-4">
+    <p class="text-xs text-primary-500 font-semibold tracking-wide">Security and oversight</p>
+    <h2 class="text-xl md:text-2xl font-semibold text-slate-50">Risk and account protection processes</h2>
+    <p class="text-xs text-slate-400">
+      The platform layout helps clients follow funding rules, monitor exposure, and request withdrawals with a clear audit trail.
+    </p>
+    <ul class="space-y-2 text-xs text-slate-300">
+      <li class="flex gap-2">
+        <i data-lucide="lock" class="w-4 h-4 text-emerald-400 mt-[2px]"></i>
+        <span>Wallet and P L views separated from admin control zones.</span>
+      </li>
+      <li class="flex gap-2">
+        <i data-lucide="file-text" class="w-4 h-4 text-primary-500 mt-[2px]"></i>
+        <span>Full log of deposits, withdrawals, and closed trades visible to the user.</span>
+      </li>
+      <li class="flex gap-2">
+        <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400 mt-[2px]"></i>
+        <span>Clear risk disclaimer and trading conditions on the website.</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="space-y-4">
+    <p class="text-xs text-primary-500 font-semibold tracking-wide">Awards style section</p>
+    <div class="grid grid-cols-2 gap-4 text-xs">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col items-start">
+        <i data-lucide="trophy" class="w-5 h-5 text-amber-400 mb-2"></i>
+        <p class="text-slate-100 font-semibold text-xs">Client experience</p>
+        <p class="text-[11px] text-slate-400 mt-1">
+          Interface built to keep trading steps simple.
+        </p>
+      </div>
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col items-start">
+        <i data-lucide="award" class="w-5 h-5 text-primary-500 mb-2"></i>
+        <p class="text-slate-100 font-semibold text-xs">Dashboard clarity</p>
+        <p class="text-[11px] text-slate-400 mt-1">
+          Separate views for holdings, P L records, and transactions.
+        </p>
+      </div>
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col items-start">
+        <i data-lucide="users" class="w-5 h-5 text-emerald-400 mb-2"></i>
+        <p class="text-slate-100 font-semibold text-xs">Copy trader set up</p>
+        <p class="text-[11px] text-slate-400 mt-1">
+          Dedicated section in the panel to follow strategies.
+        </p>
+      </div>
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col items-start">
+        <i data-lucide="globe-2" class="w-5 h-5 text-sky-400 mb-2"></i>
+        <p class="text-slate-100 font-semibold text-xs">Global access</p>
+        <p class="text-[11px] text-slate-400 mt-1">
+          Web based access without installing heavy platforms.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORMS / MT5 DOWNLOAD -->
+<section id="platforms" class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center fade-section">
+  <div class="space-y-3">
+    <p class="text-xs text-primary-500 font-semibold tracking-wide">Trading platforms</p>
+    <h2 class="text-xl md:text-2xl font-semibold text-slate-50">Connect to MT5 style environment</h2>
+    <p class="text-xs text-slate-400 max-w-md">
+      Work from the web dashboard or link your account to a standard MT5 layout on supported devices.
+    </p>
+    <ul class="space-y-2 text-xs text-slate-300">
+      <li class="flex gap-2">
+        <i data-lucide="monitor" class="w-4 h-4 mt-[2px]"></i>
+        <span>Web access from any recent browser.</span>
+      </li>
+      <li class="flex gap-2">
+        <i data-lucide="smartphone" class="w-4 h-4 mt-[2px]"></i>
+        <span>Mobile usage through responsive dashboard layout.</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="space-y-3 text-xs">
+    <div class="grid grid-cols-2 gap-3">
+      <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 hover:bg-slate-800">
+        <i data-lucide="monitor" class="w-4 h-4"></i>
+        <span>MT5 for Windows</span>
+      </a>
+      <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 hover:bg-slate-800">
+        <i data-lucide="smartphone" class="w-4 h-4"></i>
+        <span>Android app</span>
+      </a>
+      <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 hover:bg-slate-800">
+        <i data-lucide="apple" class="w-4 h-4"></i>
+        <span>iOS app</span>
+      </a>
+      <a href="/login" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-primary-600 hover:bg-primary-500">
+        <i data-lucide="globe-2" class="w-4 h-4"></i>
+        <span>Web dashboard</span>
+      </a>
+    </div>
+    <p class="text-[11px] text-slate-500">
+      Use the same login details for the dashboard and linked platforms where applicable.
+    </p>
+  </div>
+</section>
+
+<!-- COPY TRADING BANNER -->
+<section id="copy" class="max-w-6xl mx-auto px-4 py-10 fade-section">
+  <div class="bg-gradient-to-r from-primary-600 to-indigo-500 rounded-3xl px-5 py-6 md:px-8 md:py-7 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="space-y-2 text-xs">
+      <p class="text-[11px] uppercase tracking-wide text-indigo-100 font-semibold">Copy trading</p>
+      <h2 class="text-lg md:text-xl font-semibold text-white">
+        Follow strategies from your dashboard
+      </h2>
+      <p class="text-[11px] text-indigo-100 max-w-md">
+        Use the copy trader section to connect to plans and track performance inside your P L record and holdings table.
+      </p>
+    </div>
+    <a href="/copy-trader" class="px-4 py-2.5 rounded-xl bg-white text-[11px] font-semibold text-slate-900 hover:bg-slate-100">
+      Open copy trader page
+    </a>
+  </div>
+</section>
+
+<!-- WIDGETS: ECONOMIC CALENDAR AND NEWS -->
+<section class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-6 fade-section">
+  <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4">
+    <p class="text-xs text-primary-500 font-semibold tracking-wide mb-2">Economic calendar</p>
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+      {
+        "colorTheme": "dark",
+        "isTransparent": true,
+        "width": "100%",
+        "height": "360",
+        "locale": "en"
+      }
+      </script>
+    </div>
+  </div>
+
+  <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4">
+    <p class="text-xs text-primary-500 font-semibold tracking-wide mb-2">Market news</p>
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+      {
+        "feedMode": "market",
+        "market": "forex",
+        "colorTheme": "dark",
+        "isTransparent": true,
+        "displayMode": "adaptive",
+        "width": "100%",
+        "height": "360",
+        "locale": "en"
+      }
+      </script>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT AND CONTACT -->
+<section id="about" class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start fade-section">
+  <div class="space-y-3">
+    <p class="text-xs text-primary-500 font-semibold tracking-wide">About Global Equinox Trade</p>
+    <h2 class="text-xl md:text-2xl font-semibold text-slate-50">Broker style layout focused on clarity</h2>
+    <p class="text-xs text-slate-400 max-w-md">
+      The goal is to give traders a clean view of balance, open trades, P L, and funding activity without mixing too many screens.
+    </p>
+    <p class="text-xs text-slate-400 max-w-md">
+      Every change to the wallet such as deposits, withdrawals, or profit transfers runs through admin approval with a status that appears in your history.
+    </p>
+  </div>
+
+  <div id="contact" class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 md:p-5 text-xs">
+    <p class="text-xs text-primary-500 font-semibold tracking-wide mb-2">Contact</p>
+    <p class="text-[11px] text-slate-400 mb-3">
+      Use the form to send a message or open a ticket from inside the dashboard once you are logged in.
+    </p>
+    <form action="/support" method="GET" class="space-y-3">
+      <div>
+        <label class="block text-[11px] text-slate-300 mb-1">Name</label>
+        <input type="text" name="name" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-[11px] focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600" placeholder="Your name">
+      </div>
+      <div>
+        <label class="block text-[11px] text-slate-300 mb-1">Email</label>
+        <input type="email" name="email" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-[11px] focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600" placeholder="you@email.com">
+      </div>
+      <div>
+        <label class="block text-[11px] text-slate-300 mb-1">Message</label>
+        <textarea name="message" rows="3" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-[11px] focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600" placeholder="Short description of your question"></textarea>
+      </div>
+      <button type="submit" class="w-full px-4 py-2.5 rounded-xl bg-primary-600 text-[11px] font-semibold hover:bg-primary-500">
+        Go to support
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-800 bg-slate-950">
+  <div class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-4 gap-6 text-[11px] text-slate-400">
+    <div class="space-y-2">
+      <div class="flex items-center gap-2">
+        <img src="/temp/custom/img/logo.png" class="h-6 w-auto" alt="Global Equinox Trade">
+        <span class="text-slate-100 font-semibold text-xs">Global Equinox Trade</span>
+      </div>
+      <p class="max-w-xs">
+        Web based trading layout with integrated wallet overview, P L records, and funding history.
+      </p>
+    </div>
+
+    <div class="space-y-2">
+      <p class="text-slate-200 font-semibold text-xs">Platform</p>
+      <div class="flex flex-col gap-1">
+        <a href="/login" class="hover:text-slate-200">Client login</a>
+        <a href="/signup" class="hover:text-slate-200">Open account</a>
+        <a href="/packages" class="hover:text-slate-200">Plans and packages</a>
+        <a href="/copy-trader" class="hover:text-slate-200">Copy trading</a>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <p class="text-slate-200 font-semibold text-xs">Information</p>
+      <div class="flex flex-col gap-1">
+        <a href="#pricing" class="hover:text-slate-200">Pricing</a>
+        <a href="#markets" class="hover:text-slate-200">Market overview</a>
+        <a href="#about" class="hover:text-slate-200">About the platform</a>
+        <a href="#contact" class="hover:text-slate-200">Contact</a>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <p class="text-slate-200 font-semibold text-xs">Legal and risk</p>
+      <div class="flex flex-col gap-1">
+        <a href="#" class="hover:text-slate-200">Terms of use</a>
+        <a href="#" class="hover:text-slate-200">Privacy policy</a>
+        <a href="#" class="hover:text-slate-200">Risk disclosure</a>
+        <a href="#" class="hover:text-slate-200">AML statement</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+      <p>© <span id="year"></span> Global Equinox Trade. All rights reserved.</p>
+      <p>
+        Trading leveraged products involves risk. Only trade with money you are ready to expose to market moves.
+      </p>
+    </div>
+  </div>
+</footer>
+
+  </main>
+</div>
+<a href="/support" class="fixed bottom-5 right-4 z-40 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-primary-600 text-[11px] font-semibold shadow-lg hover:bg-primary-500">
+  <i data-lucide="headset" class="w-3 h-3"></i>
+  <span>Support</span>
+</a>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons()
+    }
+
+    var toggle = document.getElementById('mobileToggle')
+    var menu = document.getElementById('mobileMenu')
+
+    if (toggle && menu) {
+      toggle.addEventListener('click', function () {
+        menu.classList.toggle('hidden')
+      })
+    }
+
+    var yearEl = document.getElementById('year')
+    if (yearEl) {
+      var y = new Date().getFullYear()
+      yearEl.textContent = y
+    }
+
+    var sections = document.querySelectorAll('.fade-section')
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+            observer.unobserve(entry.target)
+          }
+        })
+      }, { threshold: 0.15 })
+
+      sections.forEach(function (sec) {
+        observer.observe(sec)
+      })
+    } else {
+      sections.forEach(function (sec) {
+        sec.classList.add('visible')
+      })
+    }
+  })
+</script>
+</body>
+</html>

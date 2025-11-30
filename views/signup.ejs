@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" x-data="{ darkMode: true }" :class="{ 'dark': darkMode }" class="dark h-full">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create Trading Account</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              600: '#4F46E5'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <style>
+    body { overflow-x: hidden; }
+    [x-cloak] { display: none !important; }
+  </style>
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white font-sans">
+
+  <!-- Background Effects -->
+  <div class="fixed inset-0 pointer-events-none">
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900"></div>
+    <div class="absolute -top-32 -left-32 w-72 h-72 bg-primary-600/30 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 -right-10 w-80 h-80 bg-cyan-500/25 rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="relative min-h-screen flex items-center justify-center px-4 py-10">
+    <div class="w-full max-w-3xl">
+
+      <!-- Glass Card -->
+      <div class="relative rounded-3xl bg-slate-900/70 border border-slate-700 backdrop-blur-xl shadow-xl px-6 sm:px-10 py-10"
+           x-data="signupForm()" x-cloak>
+
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+          <div class="flex items-center gap-3">
+            <img src="temp/custom/img/logo.png" class="h-10 w-auto" alt="Logo">
+            <div>
+              <p class="text-xs text-slate-400">Broker Registration</p>
+              <h1 class="text-xl font-semibold">Create Your Account</h1>
+            </div>
+          </div>
+        </div>
+
+        <!-- Steps -->
+        <div class="grid grid-cols-3 gap-4 mb-10">
+          <template x-for="(step, index) in steps" :key="index">
+            <div class="flex flex-col items-center">
+              <div class="h-9 w-9 rounded-full flex items-center justify-center text-xs font-bold border transition-all"
+                   :class="{
+                     'bg-primary-600 text-white border-primary-600': currentStep === index,
+                     'bg-emerald-600 text-white border-emerald-600': currentStep > index,
+                     'bg-slate-800 border-slate-600 text-slate-400': currentStep < index
+                   }">
+                <span x-show="currentStep <= index" x-text="index + 1"></span>
+                <i data-lucide='check' x-show="currentStep > index" class="w-4 h-4"></i>
+              </div>
+              <p class="text-xs mt-2" x-text="step.label"></p>
+            </div>
+          </template>
+        </div>
+
+        <!-- Form -->
+        <form action="/signup" method="POST" class="space-y-6">
+
+          <!-- STEP 1 -->
+          <div x-show="currentStep === 0" x-transition>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+              <div>
+                <label class="text-xs text-slate-300">Username</label>
+                <div class="mt-1 relative">
+                  <input type="text" name="username" required
+                         class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2.5 text-sm focus:ring-primary-600 focus:border-primary-600"
+                         placeholder="trader007">
+                </div>
+              </div>
+
+              <div>
+                <label class="text-xs text-slate-300">Full Name</label>
+                <div class="mt-1 relative">
+                  <input type="text" name="name" required
+                         class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2.5 text-sm focus:ring-primary-600 focus:border-primary-600"
+                         placeholder="Your full name">
+                </div>
+              </div>
+
+              <div>
+                <label class="text-xs text-slate-300">Email</label>
+                <div class="mt-1 relative">
+                  <input type="email" name="email" required
+                         class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2.5 text-sm focus:ring-primary-600 focus:border-primary-600"
+                         placeholder="you@example.com">
+                </div>
+              </div>
+
+              <div>
+                <label class="text-xs text-slate-300">Phone</label>
+                <div class="mt-1 relative">
+                  <input type="tel" name="phone" required
+                         class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2.5 text-sm focus:ring-primary-600 focus:border-primary-600"
+                         placeholder="+234 801 234 5678">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div x-show="currentStep === 1" x-transition>
+            <label class="text-xs text-slate-300">Country</label>
+            <select name="country" required
+                    class="w-full mt-1 bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2.5 text-sm focus:ring-primary-600 focus:border-primary-600">
+              <option value="" disabled selected>Select country</option>
+              <option>Nigeria</option>
+              <option>Ghana</option>
+              <option>South Africa</option>
+              <option>United Kingdom</option>
+              <option>United States</option>
+            </select>
+          </div>
+
+          <!-- STEP 3 -->
+          <div x-show="currentStep === 2" x-transition>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+              <div>
+                <label class="text-xs text-slate-300">Password</label>
+                <input type="password" name="password" required minlength="8"
+                       class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2.5 text-sm focus:ring-primary-600 focus:border-primary-600"
+                       placeholder="At least 8 characters">
+              </div>
+
+              <div>
+                <label class="text-xs text-slate-300">Confirm Password</label>
+                <input type="password" name="password_confirmation" required
+                       class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2.5 text-sm focus:ring-primary-600 focus:border-primary-600"
+                       placeholder="Repeat password">
+              </div>
+
+            </div>
+
+            <div class="flex items-start gap-3 mt-4">
+              <input type="checkbox" required class="h-4 w-4 mt-1">
+              <p class="text-xs text-slate-300">I agree to the Terms and Policy</p>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="flex justify-between mt-8">
+            <button type="button"
+                    x-show="currentStep > 0"
+                    @click="previousStep()"
+                    class="px-5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-sm">
+              Back
+            </button>
+
+            <button type="button"
+                    x-show="currentStep < steps.length - 1"
+                    @click="nextStep()"
+                    class="px-7 py-2.5 rounded-xl bg-primary-600 text-sm font-semibold text-white">
+              Continue
+            </button>
+
+            <button type="submit"
+                    x-show="currentStep === steps.length - 1"
+                    class="px-7 py-2.5 rounded-xl bg-emerald-600 text-sm font-semibold text-white">
+              Create Account
+            </button>
+          </div>
+
+        </form>
+
+        <!-- Footer -->
+        <p class="text-center text-sm text-slate-400 mt-6">
+          Already have an account?
+          <a href="/login" class="text-primary-600 font-semibold">Login</a>
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function signupForm() {
+      return {
+        currentStep: 0,
+        steps: [
+          { label: 'Details' },
+          { label: 'Location' },
+          { label: 'Security' }
+        ],
+        nextStep() {
+          if (this.currentStep < this.steps.length - 1) {
+            this.currentStep++;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        },
+        previousStep() {
+          if (this.currentStep > 0) {
+            this.currentStep--;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+
+    document.addEventListener('alpine:updated', () => {
+      lucide.createIcons();
+    });
+  </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<% if (toast) { %>
+<script>
+  Swal.fire({
+    icon: '<%= toast.type %>',
+    title: '<%= toast.message %>',
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>
+<% } %>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <title>Deposit Methods</title> <script src="https://cdn.tailwindcss.com"></script>
+
+ </head> <body class="bg-slate-950 text-white min-h-screen"> <div class="w-full bg-slate-900 border-b border-slate-800 p-4 flex items-center justify-between"> <div> <p class="text-sm font-semibold">Deposit methods</p> <p class="text-xs text-slate-400">Add, rename or enable and disable methods</p> </div> <a href="/admin" class="bg-slate-800 px-4 py-2 rounded text-sm"> Back to dashboard </a> </div> <div class="max-w-4xl mx-auto p-6 space-y-6">
+<!-- Add new -->
+<section class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+  <p class="text-sm font-semibold mb-3">Add new method</p>
+  <form action="/admin/deposit-methods/add" method="POST" class="flex gap-3 text-sm">
+    <input
+      type="text"
+      name="name"
+      placeholder="Method name, example: CashApp"
+      required
+      class="flex-1 px-3 py-2 rounded-lg bg-slate-800 border border-slate-700">
+    <button class="px-4 py-2 rounded-lg bg-blue-600 font-semibold">
+      Add
+    </button>
+  </form>
+</section>
+
+<!-- List methods -->
+<section class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg text-xs">
+  <p class="text-sm font-semibold mb-4">Existing methods</p>
+
+  <% if (!methods || methods.length === 0) { %>
+    <p class="text-slate-500">No methods yet.</p>
+  <% } else { %>
+    <div class="space-y-3">
+      <% methods.forEach(m => { %>
+        <div class="flex items-center gap-3 border border-slate-800 rounded-xl px-3 py-3 bg-slate-950/60">
+
+          <form action="/admin/deposit-methods/edit" method="POST" class="flex-1 flex items-center gap-3">
+            <input type="hidden" name="id" value="<%= m.id %>">
+
+            <input
+              type="text"
+              name="name"
+              value="<%= m.name %>"
+              class="flex-1 px-3 py-2 rounded-lg bg-slate-800 border border-slate-700">
+
+            <label class="flex items-center gap-1 text-slate-300">
+              <input
+                type="checkbox"
+                name="enabled"
+                <%= m.enabled === false ? '' : 'checked' %>>
+              <span>Enabled</span>
+            </label>
+
+            <button class="px-3 py-2 rounded-lg bg-blue-600">
+              Save
+            </button>
+          </form>
+
+          <form action="/admin/deposit-methods/delete" method="POST">
+            <input type="hidden" name="id" value="<%= m.id %>">
+            <button
+              class="px-3 py-2 rounded-lg bg-red-600"
+              onclick="return confirm('Delete this method?')">
+              Delete
+            </button>
+          </form>
+
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+</section>
+
+</div> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<% if (toast) { %>
+<script>
+  Swal.fire({
+    icon: '<%= toast.type %>',
+    title: '<%= toast.message %>',
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>
+<% } %>
+</body> </html>

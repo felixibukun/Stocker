@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Packages</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-950 text-white">
+
+<header class="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl flex items-center">
+  <div class="max-w-5xl mx-auto w-full px-4 flex justify-between">
+    <p class="text-sm font-semibold">Packages</p>
+    <a href="/dashboard" class="text-xs text-slate-300 hover:text-white">Back</a>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+    <% const packages = [
+      { name: "Starter", price: 500, profit: "5% weekly" },
+      { name: "Standard", price: 1000, profit: "8% weekly" },
+      { name: "Premium", price: 2000, profit: "12% weekly" },
+      { name: "Advanced", price: 5000, profit: "15% weekly" },
+      { name: "Gold", price: 10000, profit: "18% weekly" },
+      { name: "Elite", price: 50000, profit: "20% weekly" }
+    ] %>
+
+    <% packages.forEach(plan => { %>
+    <div class="bg-slate-900/80 p-5 border border-slate-800 rounded-xl shadow-lg">
+
+      <p class="text-sm font-semibold text-slate-100"><%= plan.name %></p>
+
+      <p class="mt-2 text-lg font-semibold text-slate-50">$<%= plan.price %></p>
+      <p class="text-xs text-slate-400 mb-3">Profit <%= plan.profit %></p>
+
+      <form action="/packages/subscribe" method="POST">
+  <input type="hidden" name="price" value="<%= plan.price %>">
+  <button class="w-full py-2 bg-primary-600 rounded-lg text-xs font-semibold">
+    Subscribe
+  </button>
+</form>
+
+      </form>
+
+    </div>
+    
+    <% }) %>
+
+  </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<% if (toast) { %>
+<script>
+  Swal.fire({
+    icon: '<%= toast.type %>',
+    title: '<%= toast.message %>',
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>
+<% } %>
+
+</body>
+</html>

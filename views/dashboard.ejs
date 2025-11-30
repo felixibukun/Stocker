@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" class="dark h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Dashboard</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { primary: { 600: '#4F46E5' } }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <style>
+    body { overflow-x: hidden }
+    i[data-lucide] { width: 16px !important; height: 16px !important; stroke-width: 1.5 !important; display: inline-block !important; }
+  </style>
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white" x-data="{ sidebarOpen: true }">
+
+<div class="fixed inset-0 pointer-events-none">
+  <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900"></div>
+  <div class="absolute -top-24 -left-24 w-72 h-72 bg-primary-600/30 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-0 right-0 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl"></div>
+</div>
+
+<div class="relative min-h-screen flex">
+
+<!-- SIDEBAR -->
+<aside class="bg-slate-950/90 border-r border-slate-800 backdrop-blur-xl text-slate-200 flex flex-col transition-all duration-200"
+       :class="sidebarOpen ? 'w-64' : 'w-20'">
+
+  <div class="h-16 flex items-center px-4 border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <img src="/temp/custom/img/logo1.png" class="h-8 w-auto">
+      <span class="font-semibold text-sm tracking-wide" x-show="sidebarOpen">Trader Panel</span>
+    </div>
+  </div>
+
+  <nav class="flex-1 overflow-y-auto py-4 text-sm space-y-1">
+
+    <a href="/dashboard" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 bg-primary-600 text-white">
+      <i data-lucide="layout-dashboard"></i>
+      <span x-show="sidebarOpen">Dashboard</span>
+    </a>
+
+    <a href="/account" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+      <i data-lucide="user"></i>
+      <span x-show="sidebarOpen">Account</span>
+    </a>
+
+    <a href="/support" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+      <i data-lucide="life-buoy"></i>
+      <span x-show="sidebarOpen">Support</span>
+    </a>
+
+    <a href="/kyc-verification" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+      <i data-lucide="id-card"></i>
+      <span x-show="sidebarOpen">KYC Verification</span>
+    </a>
+
+    <a href="/copy-trader" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+      <i data-lucide="users"></i>
+      <span x-show="sidebarOpen">Copy Trader</span>
+    </a>
+
+    <a href="/stocks" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+      <i data-lucide="trending-up"></i>
+      <span x-show="sidebarOpen">Stocks</span>
+    </a>
+
+    <a href="/pl-record" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+      <i data-lucide="bar-chart-2"></i>
+      <span x-show="sidebarOpen">P L Record</span>
+    </a>
+
+    <a href="/trading-history" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+      <i data-lucide="activity"></i>
+      <span x-show="sidebarOpen">Trading History</span>
+    </a>
+
+    <a href="/package-history" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+      <i data-lucide="history"></i>
+      <span x-show="sidebarOpen">Package History</span>
+    </a>
+
+    <a href="/transactions-history" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+      <i data-lucide="list-tree"></i>
+      <span x-show="sidebarOpen">Transactions History</span>
+    </a>
+
+    <div>
+      <button onclick="toggleDW()" class="flex items-center gap-3 w-full px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+        <i data-lucide="wallet"></i>
+        <span x-show="sidebarOpen">Deposit Withdrawal</span>
+        <i data-lucide="chevron-down" id="dwArrow" class="ml-auto transition-transform"></i>
+      </button>
+
+      <ul id="dwMenu" class="hidden pl-14 space-y-1">
+        <li><a href="/deposit-withdrawal" class="block px-2 py-1 text-slate-300 hover:text-white">Deposit</a></li>
+        <li><a href="/withdraw" class="block px-2 py-1 text-slate-300 hover:text-white">Withdraw</a></li>
+      </ul>
+    </div>
+
+    <a href="/packages" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+      <i data-lucide="gift"></i>
+      <span x-show="sidebarOpen">Packages</span>
+    </a>
+
+  </nav>
+
+  <div class="border-t border-slate-800 px-4 py-3 text-xs text-slate-500">
+    <div class="flex items-center gap-3">
+      <div class="h-8 w-8 rounded-full bg-slate-800 flex items-center justify-center text-[11px]">
+        <%= (user.name || user.username).slice(0,1).toUpperCase() %>
+      </div>
+      <div x-show="sidebarOpen">
+        <p class="text-slate-200 font-medium"><%= user.name || user.username %></p>
+        <p class="text-slate-500 text-[11px]">Standard account</p>
+      </div>
+    </div>
+  </div>
+
+</aside>
+
+<!-- MAIN -->
+<div class="flex-1 flex flex-col min-h-screen">
+
+<header class="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl flex items-center">
+  <div class="w-full max-w-6xl mx-auto px-4 flex items-center justify-between gap-4">
+
+    <div class="flex items-center gap-3">
+      <button class="h-9 w-9 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center md:hidden" @click="sidebarOpen = !sidebarOpen">
+        <i data-lucide="menu"></i>
+      </button>
+
+      <div class="hidden md:flex items-center gap-3">
+        <button class="h-9 w-9 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center" @click="sidebarOpen = !sidebarOpen">
+          <i data-lucide="panel-left-close" x-show="sidebarOpen"></i>
+          <i data-lucide="panel-left-open" x-show="!sidebarOpen"></i>
+        </button>
+        <div>
+          <p class="text-xs text-slate-400">Dashboard</p>
+          <p class="text-sm font-semibold text-slate-100">Welcome, <%= user.name || user.username %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3 text-xs">
+      <div class="hidden sm:flex flex-col items-end">
+        <span class="text-slate-400">Account</span>
+        <span class="text-slate-100 font-medium"><%= user.username %></span>
+      </div>
+
+      <a href="/logout" class="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold">
+        Logout
+      </a>
+    </div>
+
+  </div>
+</header>
+
+<main class="flex-1">
+  <div class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+
+    <!-- BALANCE and SNAPSHOT -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+      <div class="md:col-span-2 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-lg">
+        <p class="text-xs text-slate-400 mb-2">Total balance</p>
+
+        <p class="text-3xl font-semibold text-slate-50 mb-1">
+          $<%= Number(user.balance || 0).toFixed(2) %>
+        </p>
+
+        <p class="text-xs text-slate-500">Updated wallet balance</p>
+
+        <div class="mt-5 flex flex-wrap gap-3">
+          <a href="/deposit-withdrawal" class="px-4 py-2.5 rounded-xl bg-primary-600 text-xs font-semibold">Deposit</a>
+          <a href="/deposit-withdrawal" class="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold">Withdraw</a>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
+        <p class="text-xs text-slate-400">Account snapshot</p>
+
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-300">Open trades</span>
+          <span class="text-slate-100 font-medium"><%= openTrades %></span>
+        </div>
+
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-300">Total P L</span>
+          <span class="text-slate-100 font-medium">$<%= totalPL.toFixed(2) %></span>
+        </div>
+
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-300">Status</span>
+          <span class="text-emerald-400 font-semibold">Active</span>
+        </div>
+
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-300">KYC Status</span>
+
+          <% if (user.kycStatus === 'verified') { %>
+            <span class="text-emerald-400 font-semibold">Verified</span>
+          <% } else if (user.kycStatus === 'rejected') { %>
+            <span class="text-red-400 font-semibold">Rejected</span>
+          <% } else { %>
+            <span class="text-amber-400 font-semibold">Not Verified</span>
+          <% } %>
+        </div>
+
+        <div class="bg-slate-800/50 rounded-xl p-4 space-y-3">
+          <div class="flex justify-between text-sm">
+            <span class="text-slate-300">Bonus</span>
+            <span class="text-slate-100">$<%= Number(user.bonus || 0).toFixed(2) %></span>
+          </div>
+
+          <div class="flex justify-between text-sm">
+            <span class="text-slate-300">Profit</span>
+            <span class="text-slate-100">$<%= Number(user.profit || 0).toFixed(2) %></span>
+          </div>
+
+          <div class="flex justify-between text-sm">
+            <span class="text-slate-300">Total deposit</span>
+            <span class="text-slate-100">$<%= Number(user.deposit || 0).toFixed(2) %></span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- STOCK HOLDINGS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+      <div class="md:col-span-2 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-lg">
+
+        <p class="text-sm font-semibold text-slate-100 mb-3">Your Stock Holdings</p>
+
+        <% if (!holdings || holdings.length === 0) { %>
+
+          <p class="text-xs text-slate-500">You have no stocks yet. Go to the Stocks page to buy.</p>
+
+        <% } else { %>
+
+          <div class="space-y-3 text-xs">
+            <% holdings.forEach(h => { %>
+
+              <div class="border-b border-slate-800 pb-3">
+                <div class="flex justify-between">
+                  <span class="text-slate-200">
+                    <%= h.stockName %> (<%= h.symbol %>)
+                  </span>
+
+                  <span class="text-slate-300">
+                    Qty: <%= h.quantity %>  
+                    Avg: $<%= h.avgPrice.toFixed(2) %>
+                  </span>
+                </div>
+
+                <form action="/stocks/sell" method="POST" class="mt-2 flex gap-2">
+                  <input type="hidden" name="stockId" value="<%= h.stockId %>">
+
+                  <input type="number" name="quantity" min="1" max="<%= h.quantity %>" placeholder="Sell quantity" class="w-24 px-2 py-1 rounded-lg bg-slate-800 border border-slate-700 text-[11px]">
+
+                  <button type="submit" class="px-3 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-semibold">
+                    Sell
+                  </button>
+                </form>
+
+              </div>
+
+            <% }) %>
+          </div>
+
+        <% } %>
+
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-lg">
+        <p class="text-sm font-semibold text-slate-100 mb-2">Account details</p>
+
+        <p class="text-xs text-slate-400 mb-1">
+          Name
+          <span class="text-slate-100"><%= user.name || '-' %></span>
+        </p>
+
+        <p class="text-xs text-slate-400 mb-1">
+          Username
+          <span class="text-slate-100"><%= user.username %></span>
+        </p>
+
+        <p class="text-xs text-slate-400">
+          Account type
+          <span class="text-slate-100">Standard</span>
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- TRADINGVIEW CHART ADDED HERE -->
+    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 mt-6 shadow-lg">
+      <p class="text-sm font-semibold text-slate-100 mb-3">Market Chart</p>
+
+      <div class="tradingview-widget-container" style="height: 500px;">
+        <div id="tradingview_chart" style="height: 100%;"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons()
+      setTimeout(() => lucide.createIcons(), 500)
+    }
+  })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  function toggleDW() {
+    const menu = document.getElementById('dwMenu')
+    const arrow = document.getElementById('dwArrow')
+    const open = menu.classList.contains('hidden')
+
+    if (open) {
+      menu.classList.remove('hidden')
+      arrow.style.transform = 'rotate(180deg)'
+    } else {
+      menu.classList.add('hidden')
+      arrow.style.transform = 'rotate(0deg)'
+    }
+  }
+</script>
+
+<% if (toast) { %>
+<script>
+  Swal.fire({
+    icon: '<%= toast.type %>',
+    title: '<%= toast.message %>',
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 2500
+  })
+</script>
+<% } %>
+
+<!-- TRADINGVIEW SCRIPT -->
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+<script>
+  new TradingView.widget({
+    autosize: true,
+    symbol: "BTCUSD",
+    interval: "60",
+    timezone: "Etc/UTC",
+    theme: "dark",
+    style: "1",
+    locale: "en",
+    toolbar_bg: "#1e293b",
+    enable_publishing: false,
+    hide_top_toolbar: false,
+    hide_legend: false,
+    container_id: "tradingview_chart"
+  });
+</script>
+
+</body>
+</html>

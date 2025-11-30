@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1764215546735,
+    "userId": 1764215292760,
+    "username": "Trader_Alaga",
+    "amount": 500,
+    "method": "Crypto",
+    "status": "approved",
+    "proofUrl": "/uploads/1764215546657-413817844.jpg",
+    "createdAt": "2025-11-27T03:52:26.735Z"
+  },
+  {
+    "id": 1764504924087,
+    "userId": 1764504824266,
+    "username": "TraderDC",
+    "amount": 7000,
+    "method": "Crypto",
+    "status": "approved",
+    "proofUrl": "/uploads/1764504912699-468484524.jpeg",
+    "createdAt": "2025-11-30T12:15:24.087Z"
+  }
+]
