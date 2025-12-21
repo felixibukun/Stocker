@@ -3,55 +3,379 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Packages</title>
+  <title>Investment Packages</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .profit-progress {
+      background: linear-gradient(90deg, #0ea5e9, #8b5cf6);
+    }
+    
+    .package-card {
+      transition: all 0.3s ease;
+    }
+    
+    .package-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .tier-badge {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    
+    /* Enhanced gradient for better visibility */
+    .main-heading {
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 640px) {
+      .mobile-stack {
+        flex-direction: column !important;
+      }
+      
+      .mobile-full-width {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      
+      .mobile-text-center {
+        text-align: center !important;
+      }
+      
+      .mobile-space-y-4 > * + * {
+        margin-top: 1rem !important;
+      }
+      
+      .mobile-p-3 {
+        padding: 0.75rem !important;
+      }
+      
+      .mobile-gap-4 {
+        gap: 1rem !important;
+      }
+    }
+  </style>
 </head>
 
-<body class="bg-slate-950 text-white">
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-gray-950 text-white min-h-screen">
 
-<header class="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl flex items-center">
-  <div class="max-w-5xl mx-auto w-full px-4 flex justify-between">
-    <p class="text-sm font-semibold">Packages</p>
-    <a href="/dashboard" class="text-xs text-slate-300 hover:text-white">Back</a>
+<header class="h-16 border-b border-slate-800/50 bg-slate-950/90 backdrop-blur-xl sticky top-0 z-50 flex items-center">
+  <div class="max-w-6xl mx-auto w-full px-4 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <i class="fas fa-cubes text-blue-400"></i>
+      <p class="text-sm font-semibold">Investment Packages</p>
+    </div>
+    <a href="/dashboard" class="text-xs text-slate-300 hover:text-white flex items-center gap-1 transition-colors">
+      <i class="fas fa-arrow-left text-xs"></i>
+      <span class="hidden sm:inline">Back to Dashboard</span>
+      <span class="sm:hidden">Back</span>
+    </a>
   </div>
 </header>
 
-<main class="max-w-5xl mx-auto px-4 py-8 space-y-6">
-
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-    <% const packages = [
-      { name: "Starter", price: 500, profit: "5% weekly" },
-      { name: "Standard", price: 1000, profit: "8% weekly" },
-      { name: "Premium", price: 2000, profit: "12% weekly" },
-      { name: "Advanced", price: 5000, profit: "15% weekly" },
-      { name: "Gold", price: 10000, profit: "18% weekly" },
-      { name: "Elite", price: 50000, profit: "20% weekly" }
-    ] %>
-
-    <% packages.forEach(plan => { %>
-    <div class="bg-slate-900/80 p-5 border border-slate-800 rounded-xl shadow-lg">
-
-      <p class="text-sm font-semibold text-slate-100"><%= plan.name %></p>
-
-      <p class="mt-2 text-lg font-semibold text-slate-50">$<%= plan.price %></p>
-      <p class="text-xs text-slate-400 mb-3">Profit <%= plan.profit %></p>
-
-      <form action="/packages/subscribe" method="POST">
-  <input type="hidden" name="price" value="<%= plan.price %>">
-  <button class="w-full py-2 bg-primary-600 rounded-lg text-xs font-semibold">
-    Subscribe
-  </button>
-</form>
-
-      </form>
-
+<main class="max-w-6xl mx-auto px-4 py-6 md:py-8 space-y-6 md:space-y-8">
+  
+  <!-- Header Section - Optimized for mobile -->
+  <div class="text-center space-y-4 md:space-y-6 mobile-space-y-4">
+    <h1 class="text-3xl md:text-4xl font-bold main-heading px-2">
+      Tiered Investment Packages
+    </h1>
+    
+    <!-- Subtitle with better mobile spacing -->
+    <div class="max-w-2xl mx-auto bg-slate-900/40 rounded-xl p-3 md:p-4 border border-slate-700/30 mobile-full-width">
+      <p class="text-base md:text-lg text-slate-200 mobile-text-center">
+        <i class="fas fa-arrow-up text-green-400 mr-2"></i>
+        Higher tiers = Higher profits
+      </p>
+      <p class="text-base md:text-lg font-medium text-blue-300 mt-2 mobile-text-center">
+        <i class="fas fa-chart-line mr-2"></i>
+        Invest more, earn more!
+      </p>
     </div>
     
-    <% }) %>
-
+    <!-- Profit Scale Visualization - Mobile Optimized -->
+    <div class="max-w-3xl mx-auto bg-slate-900/60 rounded-xl p-4 md:p-5 border border-slate-700/50 mt-4 md:mt-6 backdrop-blur-sm mobile-full-width">
+      <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
+        <p class="text-sm font-semibold text-slate-200 mobile-text-center">
+          <i class="fas fa-scale-balanced mr-2"></i>
+          Profit Scale Visualization
+        </p>
+        <p class="text-sm font-medium text-blue-300 bg-blue-900/30 px-3 py-1 rounded-full mobile-text-center">
+          <i class="fas fa-chart-line mr-1"></i>
+          Higher Tier = Higher Returns
+        </p>
+      </div>
+      
+      <!-- Profit Scale Bar - Mobile Optimized -->
+      <div class="relative mb-8 md:mb-10 mobile-p-3">
+        <div class="profit-progress h-2 md:h-3 rounded-full w-full"></div>
+        
+        <!-- Profit percentage markers - Mobile adjusted -->
+        <div class="flex justify-between mt-2 md:mt-0">
+          <div class="flex flex-col items-center">
+            <div class="text-xs md:text-sm font-bold text-blue-400 mb-1">5%</div>
+            <div class="text-[10px] md:text-xs text-slate-400">Starter</div>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="text-xs md:text-sm font-bold text-cyan-400 mb-1">8%</div>
+            <div class="text-[10px] md:text-xs text-slate-400">Standard</div>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="text-xs md:text-sm font-bold text-purple-400 mb-1">12%</div>
+            <div class="text-[10px] md:text-xs text-slate-400">Premium</div>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="text-xs md:text-sm font-bold text-purple-500 mb-1">15%</div>
+            <div class="text-[10px] md:text-xs text-slate-400">Advanced</div>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="text-xs md:text-sm font-bold text-yellow-300 mb-1">18%</div>
+            <div class="text-[10px] md:text-xs text-slate-400">Gold</div>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="text-xs md:text-sm font-bold text-green-400 mb-1">20%</div>
+            <div class="text-[10px] md:text-xs text-slate-400">Elite</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Scale description - Stack on mobile -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mobile-gap-4">
+        <div class="text-center p-3 bg-slate-800/50 rounded-lg">
+          <p class="text-sm text-slate-300 mb-1">Lowest Tier</p>
+          <p class="text-lg md:text-xl font-bold text-blue-400">5% Weekly</p>
+          <p class="text-xs text-slate-400 mt-1">Minimum investment</p>
+        </div>
+        <div class="text-center p-3 bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-lg border border-blue-700/30">
+          <p class="text-sm text-slate-200 mb-1">Recommended</p>
+          <p class="text-lg md:text-xl font-bold text-purple-400">12% Weekly</p>
+          <p class="text-xs text-slate-300 mt-1">Best value</p>
+        </div>
+        <div class="text-center p-3 bg-gradient-to-r from-purple-900/30 to-green-900/30 rounded-lg border border-green-700/30">
+          <p class="text-sm text-slate-200 mb-1">Highest Tier</p>
+          <p class="text-lg md:text-xl font-bold text-green-400">20% Weekly</p>
+          <p class="text-xs text-slate-300 mt-1">Maximum returns</p>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <!-- Packages Grid - Mobile optimized -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+    
+    <% 
+      const packages = [
+        { 
+          name: "Starter", 
+          price: 500, 
+          profit: "5% weekly",
+          icon: "fas fa-seedling",
+          color: "from-blue-500 to-cyan-500",
+          badge: "Entry",
+          features: ["Basic Support", "Weekly Reports", "5% ROI"]
+        },
+        { 
+          name: "Standard", 
+          price: 1000, 
+          profit: "8% weekly",
+          icon: "fas fa-chart-line",
+          color: "from-cyan-500 to-blue-600",
+          badge: "Popular",
+          features: ["Priority Support", "Daily Reports", "8% ROI", "Bonus: 1%"]
+        },
+        { 
+          name: "Premium", 
+          price: 2000, 
+          profit: "12% weekly",
+          icon: "fas fa-gem",
+          color: "from-purple-500 to-indigo-500",
+          badge: "Value",
+          features: ["24/7 Support", "Real-time Reports", "12% ROI", "Bonus: 2%"]
+        },
+        { 
+          name: "Advanced", 
+          price: 5000, 
+          profit: "15% weekly",
+          icon: "fas fa-rocket",
+          color: "from-indigo-500 to-purple-600",
+          badge: "Advanced",
+          features: ["Dedicated Manager", "Advanced Analytics", "15% ROI", "Bonus: 3%"]
+        },
+        { 
+          name: "Gold", 
+          price: 10000, 
+          profit: "18% weekly",
+          icon: "fas fa-crown",
+          color: "from-yellow-500 to-amber-500",
+          badge: "Premium",
+          features: ["VIP Support", "Custom Strategies", "18% ROI", "Bonus: 5%", "Risk Management"]
+        },
+        { 
+          name: "Elite", 
+          price: 50000, 
+          profit: "20% weekly",
+          icon: "fas fa-trophy",
+          color: "from-green-500 to-emerald-500",
+          badge: "Exclusive",
+          features: ["Executive Support", "Personal Advisor", "20% ROI", "Bonus: 8%", "Priority Access", "All Features"]
+        }
+      ];
+      
+      let index = 0;
+    %>
+    
+    <% packages.forEach(plan => { %>
+      <% index++; %>
+      <div class="package-card bg-gradient-to-br from-slate-900/80 to-slate-950/90 p-5 md:p-6 border border-slate-800 rounded-xl md:rounded-2xl shadow-lg relative">
+        
+        <!-- Tier Badge -->
+        <div class="tier-badge bg-gradient-to-r <%= plan.color %> shadow-lg text-[10px]">
+          <%= plan.badge %>
+        </div>
+        
+        <!-- Package Header -->
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <div class="flex items-center gap-3">
+              <div class="bg-gradient-to-r <%= plan.color %> p-2 md:p-3 rounded-lg md:rounded-xl shadow-md">
+                <i class="<%= plan.icon %> text-white text-sm md:text-base"></i>
+              </div>
+              <div>
+                <h3 class="text-lg md:text-xl font-bold text-slate-100"><%= plan.name %></h3>
+                <p class="text-[10px] md:text-xs text-slate-400 mt-1">Tier <%= index %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Price & Profit -->
+        <div class="mb-5 md:mb-6">
+          <div class="flex items-end gap-2">
+            <p class="text-2xl md:text-3xl font-bold text-slate-50">$<%= plan.price.toLocaleString() %></p>
+            <p class="text-xs md:text-sm text-slate-400 mb-1">one-time</p>
+          </div>
+          
+          <!-- Profit Highlight -->
+          <div class="mt-3 md:mt-4 p-3 md:p-4 bg-gradient-to-r <%= plan.color %>/20 border border-<%= plan.color.split(' ')[1] %>/40 rounded-lg md:rounded-xl shadow-inner">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <div>
+                <p class="text-xs font-medium text-slate-300">Weekly Profit</p>
+                <p class="text-xl md:text-2xl font-bold text-white"><%= plan.profit %></p>
+              </div>
+              <div class="text-left sm:text-right">
+                <p class="text-xs text-slate-300">Annual ROI</p>
+                <%
+                  const percent = parseFloat(plan.profit);
+                  const annualROI = (percent * 52).toFixed(0);
+                %>
+                <p class="text-lg md:text-xl font-bold text-green-400">~<%= annualROI %>%</p>
+              </div>
+            </div>
+            
+            <!-- Profit Scale Indicator -->
+            <div class="mt-3">
+              <div class="flex justify-between text-xs text-slate-400 mb-1">
+                <span class="text-[10px] md:text-xs">Lower Tier</span>
+                <span class="font-medium text-white text-[10px] md:text-xs">Tier <%= index %></span>
+                <span class="text-[10px] md:text-xs">Higher Tier</span>
+              </div>
+              <div class="h-1.5 md:h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div 
+                  class="h-full bg-gradient-to-r <%= plan.color %>" 
+                  style="width: <%= (index / packages.length) * 100 %>%">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Features List - Mobile optimized -->
+        <ul class="space-y-1.5 md:space-y-2 mb-5 md:mb-6">
+          <% plan.features.forEach(feature => { %>
+            <li class="flex items-center gap-2 text-xs md:text-sm text-slate-300">
+              <i class="fas fa-check text-[10px] md:text-xs text-green-400"></i>
+              <span class="truncate"><%= feature %></span>
+            </li>
+          <% }) %>
+        </ul>
+        
+        <!-- Subscribe Button -->
+        <form action="/packages/subscribe" method="POST">
+          <input type="hidden" name="price" value="<%= plan.price %>">
+          <button 
+            class="w-full py-2.5 md:py-3 bg-gradient-to-r <%= plan.color %> hover:opacity-90 rounded-lg md:rounded-xl text-xs md:text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+            type="submit">
+            <i class="fas fa-bolt text-xs"></i>
+            Subscribe Now
+          </button>
+        </form>
+        
+        <!-- Value Indicator -->
+        <div class="text-center mt-3 md:mt-4">
+          <p class="text-[10px] md:text-xs text-slate-500">
+            <i class="fas fa-arrow-up text-green-400 mr-1"></i>
+            <%= index === packages.length ? 'Maximum profit tier' : 'Upgrade for +' + (packages[index].profit.split('%')[0] - plan.profit.split('%')[0]) + '%' %>
+          </p>
+        </div>
+        
+      </div>
+    <% }) %>
+  </div>
+  
+  <!-- Investment Summary - Mobile optimized -->
+  <div class="max-w-3xl mx-auto bg-gradient-to-r from-slate-900/70 to-slate-800/70 rounded-xl md:rounded-2xl p-4 md:p-6 border border-slate-700/50 mt-6 md:mt-8 mobile-full-width">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 mobile-stack">
+      <div class="md:w-2/3 w-full">
+        <h3 class="text-lg md:text-xl font-bold text-slate-100 mb-3 mobile-text-center">
+          <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
+          Why Higher Packages Yield More Profit
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
+          <div class="bg-slate-950/40 p-2 md:p-3 rounded-lg">
+            <p class="text-xs md:text-sm font-medium text-blue-300 mb-1">
+              <i class="fas fa-chart-pie mr-1 md:mr-2"></i>
+              Premium Opportunities
+            </p>
+            <p class="text-[10px] md:text-xs text-slate-400">Exclusive investments with better returns</p>
+          </div>
+          <div class="bg-slate-950/40 p-2 md:p-3 rounded-lg">
+            <p class="text-xs md:text-sm font-medium text-purple-300 mb-1">
+              <i class="fas fa-cogs mr-1 md:mr-2"></i>
+              Advanced Strategies
+            </p>
+            <p class="text-[10px] md:text-xs text-slate-400">Sophisticated trading algorithms</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gradient-to-br from-blue-900/50 to-purple-900/50 p-3 md:p-5 rounded-lg md:rounded-xl border border-blue-700/50 w-full md:min-w-[220px] shadow-lg mt-3 md:mt-0">
+        <p class="text-xs md:text-sm text-blue-300 mb-1 md:mb-2 mobile-text-center">
+          <i class="fas fa-medal mr-1 md:mr-2"></i>
+          Best Value Package
+        </p>
+        <p class="text-xl md:text-2xl font-bold text-white mb-1 mobile-text-center">
+          <i class="fas fa-crown text-yellow-400 mr-1 md:mr-2"></i>
+          Elite Package
+        </p>
+        <p class="text-base md:text-lg font-bold text-green-400 mobile-text-center">20% Weekly Profit</p>
+        <p class="text-[10px] md:text-xs text-slate-300 mt-1 mobile-text-center">Maximum returns</p>
+      </div>
+    </div>
+  </div>
+  
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -64,10 +388,34 @@
     toast: true,
     position: 'top',
     showConfirmButton: false,
-    timer: 2500
+    timer: 3000,
+    background: '#0f172a',
+    color: '#fff',
+    iconColor: '<%= toast.type === "success" ? "#10b981" : toast.type === "error" ? "#ef4444" : "#3b82f6" %>'
   })
 </script>
 <% } %>
+
+<script>
+  // Add subtle hover effects
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.package-card');
+    
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        if (window.innerWidth > 640) { // Only on desktop
+          const colorClass = this.querySelector('.tier-badge').className.match(/from-([^\s]+)/)[0];
+          const color = colorClass.split('-')[1];
+          this.style.boxShadow = `0 25px 50px -12px rgba(var(--color-${color}-rgb), 0.25)`;
+        }
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.boxShadow = '';
+      });
+    });
+  });
+</script>
 
 </body>
 </html>

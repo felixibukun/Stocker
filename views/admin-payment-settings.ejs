@@ -7,65 +7,36 @@
 <body class="bg-slate-950 text-white">
 
 <div class="flex">
-  
-  <!-- Sidebar -->
+
   <%- include('admin-sidebar') %>
 
   <main class="flex-1 p-10">
 
     <h1 class="text-2xl font-semibold mb-6">Payment Settings</h1>
 
-    <form method="POST" class="space-y-6 max-w-xl">
+    <% if (methods.length === 0) { %>
 
-      <div>
-        <label class="block mb-1">USDT Wallet</label>
-        <input name="usdt" 
-               value="<%= instructions.Crypto.usdt %>" 
-               class="w-full px-3 py-2 bg-slate-800 rounded">
-      </div>
+      <p class="text-slate-400">No deposit methods added yet.</p>
 
-      <div>
-        <label class="block mb-1">BTC Wallet</label>
-        <input name="btc" 
-               value="<%= instructions.Crypto.btc %>" 
-               class="w-full px-3 py-2 bg-slate-800 rounded">
-      </div>
+    <% } else { %>
 
-      <div>
-        <label class="block mb-1">CashApp Tag</label>
-        <input name="cashapp" 
-               value="<%= instructions.CashApp %>" 
-               class="w-full px-3 py-2 bg-slate-800 rounded">
-      </div>
+      <% methods.forEach(m => { %>
+        <div class="mb-6">
+          <label class="block mb-1 font-semibold"><%= m.name %></label>
+          <input 
+            type="text"
+            value="<%= m.details %>"
+            class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded"
+            readonly
+          >
+        </div>
+      <% }) %>
 
-      <div>
-        <label class="block mb-1">Chime Email</label>
-        <input name="chime" 
-               value="<%= instructions.Chime %>" 
-               class="w-full px-3 py-2 bg-slate-800 rounded">
-      </div>
-
-      <div>
-        <label class="block mb-1">PayPal Email</label>
-        <input name="paypal" 
-               value="<%= instructions.PayPal %>" 
-               class="w-full px-3 py-2 bg-slate-800 rounded">
-      </div>
-
-      <div>
-        <label class="block mb-1">Giftcard Instructions</label>
-        <textarea name="giftcard" 
-                  class="w-full px-3 py-2 bg-slate-800 rounded h-24"><%= instructions.Giftcard %></textarea>
-      </div>
-
-      <button class="px-5 py-2 bg-blue-600 rounded font-semibold">
-        Save Settings
-      </button>
-
-    </form>
+    <% } %>
 
   </main>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <% if (toast) { %>

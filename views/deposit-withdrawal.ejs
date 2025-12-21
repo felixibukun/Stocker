@@ -42,19 +42,13 @@
       <div>
         <label class="block text-xs text-slate-400 mb-1">Method</label>
 
-        <select name="method"
-        onchange="showDetails(this.value)"
-        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
-        required>
+<select id="methodSelect" name="method" required onchange="showDetails(this.value)" class="w-full bg-slate-800 px-3 py-2 rounded">
 
-  <option value="">Select method</option>
-  <option value="Crypto">🪙 Crypto</option>
-  <option value="CashApp">💵 CashApp</option>
-  <option value="Chime">🏦 Chime</option>
-  <option value="PayPal">📨 PayPal</option>
-  <option value="Giftcard">🎁 Giftcard</option>
-  <option value="Bank Transfer">🏛️ Bank Transfer</option>
+<option value="">Select Method</option>
 
+<% depositMethods.forEach(m => { %>
+<option value="<%= m.name %>"><%= m.name %></option>
+<% }) %>
 </select>
 
 
@@ -64,8 +58,10 @@
       </div>
 
       <!-- Dynamic Payment Details -->
-      <div id="paymentDetails" class="text-xs text-slate-300 p-3 bg-slate-800 rounded hidden"></div>
-
+<div id="paymentBox" class="hidden mt-4 bg-slate-900 p-4 rounded-lg border border-slate-700"> 
+  <p id="paymentText" class="text-sm break-all"></p>
+   <button onclick="copyDetails()" class="px-3 py-1 bg-blue-600 rounded text-sm font-semibold"> Copy </button>
+   </div>
       <!-- Proof -->
       <div>
         <label class="block text-xs text-slate-400 mb-1">Proof of payment</label>
@@ -145,53 +141,45 @@
 </main>
 
 <script>
-  const instructions = <%- JSON.stringify(instructions) %>
+  const methods = <%- JSON.stringify(depositMethods) %>;
 
-  function showDetails(method) {
-    let box = document.getElementById('paymentDetails')
+  function showDetails(name) {
+    const box = document.getElementById('paymentBox');
+    const text = document.getElementById('paymentText');
 
-    if (!method || method === '') {
-      box.classList.add('hidden')
-      box.innerHTML = ''
-      return
-    }
+    box.classList.add('hidden');
+    text.innerHTML = '';
 
-    if (method === 'Bank Transfer') {
-      alert('Bank Transfer is not available at the moment')
-      box.classList.add('hidden')
-      box.innerHTML = ''
-      return
-    }
+    if (!name) return;
 
-    let html = ''
+    const method = methods.find(m => m.name === name);
+    if (!method) return;
 
-    if (method === 'Crypto') {
-      html = `
-        <p>USDT: ${instructions.Crypto.usdt}</p>
-        <p class="mt-1">BTC: ${instructions.Crypto.btc}</p>
-      `
-    }
-
-    if (method === 'CashApp') {
-      html = `<p>CashApp Tag: ${instructions.CashApp}</p>`
-    }
-
-    if (method === 'Chime') {
-      html = `<p>Chime Email: ${instructions.Chime}</p>`
-    }
-
-    if (method === 'PayPal') {
-      html = `<p>PayPal Email: ${instructions.PayPal}</p>`
-    }
-
-    if (method === 'Giftcard') {
-      html = `<p>${instructions.Giftcard}</p>`
-    }
-
-    box.innerHTML = html
-    box.classList.remove('hidden')
+    text.textContent = method.details;
+    box.classList.remove('hidden');
   }
+
+  function copyDetails() {
+  const text = document.getElementById('paymentText').textContent;
+  navigator.clipboard.writeText(text);
+
+  const toast = document.createElement('div');
+  toast.textContent = 'Copied';
+  toast.style.position = 'fixed';
+  toast.style.bottom = '20px';
+  toast.style.right = '20px';
+  toast.style.background = '#1e40af';
+  toast.style.color = 'white';
+  toast.style.padding = '8px 16px';
+  toast.style.borderRadius = '6px';
+  toast.style.zIndex = '9999';
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.remove(), 2000);
+}
+
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <% if (toast) { %>

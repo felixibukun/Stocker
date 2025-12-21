@@ -30,7 +30,7 @@
   <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6">
     <p class="text-sm font-semibold text-slate-300 mb-4">Closed Trades</p>
 
-    <% if (!trades || trades.length === 0) { %>
+    <% if (!holdings || holdings.length === 0) { %>
 
       <p class="text-xs text-slate-400">No closed trades</p>
 
@@ -38,7 +38,7 @@
 
       <div class="space-y-3 text-xs">
 
-        <% trades.forEach(t => { %>
+        <% holdings.forEach(t => { %>
 
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
 

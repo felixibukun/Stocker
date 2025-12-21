@@ -1,9 +1,27 @@
-<!DOCTYPE html> <html lang="en" class="dark h-full"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <title>KYC Verification</title> <script src="https://cdn.tailwindcss.com"></script>
- </head> <body class="min-h-screen bg-slate-950 text-white"> <header class="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl flex items-center"> <div class="w-full max-w-4xl mx-auto px-4 flex items-center justify-between"> <p class="text-sm font-semibold">KYC Verification</p> <a href="/dashboard" class="text-xs text-slate-300 hover:text-white">Back to dashboard</a> </div> </header> <main class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+<!DOCTYPE html>
+<html lang="en" class="dark h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KYC Verification</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white">
+
+<header class="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl flex items-center">
+  <div class="w-full max-w-4xl mx-auto px-4 flex items-center justify-between">
+    <p class="text-sm font-semibold">KYC Verification</p>
+    <a href="/dashboard" class="text-xs text-slate-300 hover:text-white">Back to dashboard</a>
+  </div>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+
 <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-lg">
   <p class="text-sm font-semibold mb-4">Submit verification</p>
 
-  <form action="/kyc-verification" method="POST" class="space-y-4">
+  <form action="/kyc-verification" method="POST" enctype="multipart/form-data" class="space-y-4">
 
     <div>
       <label class="block text-xs text-slate-400 mb-1">Document type</label>
@@ -31,6 +49,30 @@
         name="note"
         rows="3"
         class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm"></textarea>
+    </div>
+
+    <!-- ID FRONT -->
+    <div>
+      <label class="block text-xs text-slate-400 mb-1 mt-4">ID front</label>
+      <input
+        type="file"
+        name="idFront"
+        accept="image/*"
+        required
+        class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm"
+      >
+    </div>
+
+    <!-- ID BACK -->
+    <div>
+      <label class="block text-xs text-slate-400 mb-1 mt-4">ID back</label>
+      <input
+        type="file"
+        name="idBack"
+        accept="image/*"
+        required
+        class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm"
+      >
     </div>
 
     <button
@@ -86,6 +128,7 @@
 </section>
 
 </main>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <% if (toast) { %>
@@ -100,4 +143,6 @@
   })
 </script>
 <% } %>
- </body> </html>
+
+</body>
+</html>

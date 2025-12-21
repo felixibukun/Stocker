@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>User Dashboard</title>
+  <title>Dashboard - <%= user.name || user.username %></title>
 
+  <link rel="icon" type="image/png" href="/temp/custom/img/logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -14,347 +15,1331 @@
       theme: {
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: { primary: { 600: '#4F46E5' } }
+          colors: {
+            primary: { 600: '#4F46E5', 700: '#4338ca', 500: '#6366f1' },
+            success: '#10b981',
+            warning: '#f59e0b',
+            danger: '#ef4444',
+            long: '#10b981',
+            short: '#ef4444'
+          },
+          animation: {
+            'slide-in': 'slideIn 0.3s ease-out',
+            'fade-in': 'fadeIn 0.3s ease-in',
+            'pulse-slow': 'pulse 3s infinite'
+          },
+          keyframes: {
+            slideIn: {
+              '0%': { transform: 'translateX(-100%)' },
+              '100%': { transform: 'translateX(0)' }
+            },
+            fadeIn: {
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 }
+            }
+          }
         }
       }
     }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
 
   <style>
-    body { overflow-x: hidden }
-    i[data-lucide] { width: 16px !important; height: 16px !important; stroke-width: 1.5 !important; display: inline-block !important; }
+    body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 40;
+      backdrop-filter: blur(4px);
+      transition: opacity .3s ease;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      background: #0f172a;
+      border-right: 1px solid #1e293b;
+      z-index: 50;
+      overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform .3s ease;
+    }
+
+    .sidebar.open { transform: translateX(0); }
+
+    @media (max-width: 767px) {
+      .sidebar.open ~ .sidebar-overlay { display: block; }
+    }
+
+    .main-content { width: 100%; transition: margin-left .3s ease; }
+
+    @media (min-width: 768px) {
+      .sidebar.open ~ .main-content { margin-left: 280px; }
+    }
+
+    .nav-active { background: #4F46E5; color: white; }
+    .nav-item:hover { background: rgba(255,255,255,0.05); }
+
+    .sidebar::-webkit-scrollbar { width: 6px; }
+    .sidebar::-webkit-scrollbar-track { background: #1e293b; }
+    .sidebar::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+
+    i[data-lucide] { width: 18px; height: 18px; stroke-width: 1.5; display: inline-block; }
+
+    .balance-gradient { background: linear-gradient(135deg,#4F46E5 0,#7c3aed 100%); }
+    .trade-widget { background: linear-gradient(135deg,#1e293b 0,#0f172a 100%); }
+
+    .price-up { color:#10b981; background:rgba(16,185,129,0.1); }
+    .price-down { color:#ef4444; background:rgba(239,68,68,0.1); }
+
+    .signal-buy { background:rgba(16,185,129,0.15); border-left:3px solid #10b981; }
+    .signal-sell { background:rgba(239,68,68,0.15); border-left:3px solid #ef4444; }
+
+    .order-buy { background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); }
+    .order-sell { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); }
+
+    @keyframes pulse {
+      0%,100% { opacity:1; }
+      50% { opacity:.5; }
+    }
+
+    .pulse-indicator { animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite; }
+
+    @media (max-width:480px) {
+      header h1 { font-size:14px; }
+      header p { font-size:11px; }
+      header .h-10.w-10 { height:34px; width:34px; }
+      header .px-2.py-1 { padding:1px 4px; font-size:10px; }
+      .flex.items-center.gap-4 { gap:8px; }
+    }
   </style>
 </head>
 
-<body class="min-h-screen bg-slate-950 text-white" x-data="{ sidebarOpen: true }">
+<body class="bg-slate-950 text-white"
+      x-data="{ sidebarOpen:false, quickTrade:{symbol:'BTC/USD', type:'market', side:'buy', amount:100, leverage:1}, showTradeModal:false, activeTab:'overview' }"
+      @keydown.escape="sidebarOpen = false">
+      <% if (admin) { %>
+  <div class="bg-yellow-500/10 border-b border-yellow-500/30 px-6 py-3 flex justify-between items-center">
+    <p class="text-yellow-300 text-sm">
+      Viewing user account as admin
+    </p>
 
-<div class="fixed inset-0 pointer-events-none">
-  <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900"></div>
-  <div class="absolute -top-24 -left-24 w-72 h-72 bg-primary-600/30 rounded-full blur-3xl"></div>
-  <div class="absolute bottom-0 right-0 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl"></div>
-</div>
+    <form action="/admin/return" method="POST">
+      <button class="px-4 py-2 text-sm bg-yellow-500/20 text-yellow-300 rounded hover:bg-yellow-500/30">
+        Return to Admin
+      </button>
+    </form>
+  </div>
+<% } %>
 
-<div class="relative min-h-screen flex">
+<div x-show="sidebarOpen"
+     @click="sidebarOpen = false"
+     class="sidebar-overlay md:hidden"
+     x-transition:enter="transition-opacity ease-out duration-300"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition-opacity ease-in duration-200"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0"
+     style="display:none"></div>
 
-<!-- SIDEBAR -->
-<aside class="bg-slate-950/90 border-r border-slate-800 backdrop-blur-xl text-slate-200 flex flex-col transition-all duration-200"
-       :class="sidebarOpen ? 'w-64' : 'w-20'">
+<aside class="sidebar"
+       :class="{ 'open': sidebarOpen }"
+       x-transition:enter="transition ease-out duration-300"
+       x-transition:enter-start="transform -translate-x-full"
+       x-transition:enter-end="transform translate-x-0"
+       x-transition:leave="transition ease-in duration-200"
+       x-transition:leave-start="transform translate-x-0"
+       x-transition:leave-end="transform -translate-x-full">
 
-  <div class="h-16 flex items-center px-4 border-b border-slate-800">
-    <div class="flex items-center gap-3">
-      <img src="/temp/custom/img/logo1.png" class="h-8 w-auto">
-      <span class="font-semibold text-sm tracking-wide" x-show="sidebarOpen">Trader Panel</span>
+  <div class="p-6 border-b border-slate-800">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="/temp/custom/img/logo1.png" class="h-8 w-auto">
+        <div>
+          <h1 class="font-bold text-lg text-white">Trader Panel</h1>
+          <div class="flex items-center gap-2 mt-1">
+            <span class="inline-block h-2 w-2 rounded-full bg-emerald-500 pulse-indicator"></span>
+            <span class="text-xs text-slate-400">Live</span>
+          </div>
+        </div>
+      </div>
+
+      <button @click="sidebarOpen = false" class="text-slate-400 hover:text-white md:hidden">
+        <i data-lucide="x"></i>
+      </button>
     </div>
   </div>
 
-  <nav class="flex-1 overflow-y-auto py-4 text-sm space-y-1">
+  <div class="p-6 border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <div class="relative">
+        <div class="h-12 w-12 rounded-full bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center text-white font-bold text-lg">
+          <%= (user.name || user.username).slice(0,1).toUpperCase() %>
+        </div>
+        <div class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-slate-900 bg-emerald-500"></div>
+      </div>
 
-    <a href="/dashboard" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 bg-primary-600 text-white">
-      <i data-lucide="layout-dashboard"></i>
-      <span x-show="sidebarOpen">Dashboard</span>
+      <div class="flex-1 min-w-0">
+        <p class="font-semibold text-white truncate"><%= user.name || user.username %></p>
+        <p class="text-sm text-slate-400">Standard Account</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="p-4 space-y-1 flex-1 overflow-y-auto">
+
+    <a href="/dashboard"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all group"
+       :class="window.location.pathname === '/dashboard' ? 'bg-primary-600 text-white' : 'text-slate-300'">
+      <i data-lucide="layout-dashboard" class="group-hover:scale-110 transition-transform"></i>
+      <span class="font-medium">Dashboard</span>
     </a>
 
-    <a href="/account" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+    <a href="/account"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all group text-slate-300 hover:bg-slate-800/50">
       <i data-lucide="user"></i>
-      <span x-show="sidebarOpen">Account</span>
+      <span>Account</span>
     </a>
 
-    <a href="/support" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+    <a href="/support"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all group text-slate-300 hover:bg-slate-800/50">
       <i data-lucide="life-buoy"></i>
-      <span x-show="sidebarOpen">Support</span>
+      <span>Support</span>
     </a>
 
-    <a href="/kyc-verification" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
+    <a href="/kyc-verification"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all group text-slate-300 hover:bg-slate-800/50">
       <i data-lucide="id-card"></i>
-      <span x-show="sidebarOpen">KYC Verification</span>
+      <span>KYC Verification</span>
+
+      <% if (user.kycStatus === 'verified') { %>
+        <span class="ml-auto"><i data-lucide="check-circle" class="text-emerald-400"></i></span>
+      <% } else if (user.kycStatus === 'pending') { %>
+        <span class="ml-auto pulse-indicator"><i data-lucide="clock" class="text-amber-400"></i></span>
+      <% } %>
     </a>
 
-    <a href="/copy-trader" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
-      <i data-lucide="users"></i>
-      <span x-show="sidebarOpen">Copy Trader</span>
-    </a>
-
-    <a href="/stocks" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
-      <i data-lucide="trending-up"></i>
-      <span x-show="sidebarOpen">Stocks</span>
-    </a>
-
-    <a href="/pl-record" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
-      <i data-lucide="bar-chart-2"></i>
-      <span x-show="sidebarOpen">P L Record</span>
-    </a>
-
-    <a href="/trading-history" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
-      <i data-lucide="activity"></i>
-      <span x-show="sidebarOpen">Trading History</span>
-    </a>
-
-    <a href="/package-history" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
-      <i data-lucide="history"></i>
-      <span x-show="sidebarOpen">Package History</span>
-    </a>
-
-    <a href="/transactions-history" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
-      <i data-lucide="list-tree"></i>
-      <span x-show="sidebarOpen">Transactions History</span>
-    </a>
-
-    <div>
-      <button onclick="toggleDW()" class="flex items-center gap-3 w-full px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
-        <i data-lucide="wallet"></i>
-        <span x-show="sidebarOpen">Deposit Withdrawal</span>
-        <i data-lucide="chevron-down" id="dwArrow" class="ml-auto transition-transform"></i>
-      </button>
-
-      <ul id="dwMenu" class="hidden pl-14 space-y-1">
-        <li><a href="/deposit-withdrawal" class="block px-2 py-1 text-slate-300 hover:text-white">Deposit</a></li>
-        <li><a href="/withdraw" class="block px-2 py-1 text-slate-300 hover:text-white">Withdraw</a></li>
-      </ul>
+    <div class="pt-6 pb-2 px-4">
+      <p class="text-xs font-semibold text-slate-500 uppercase">TRADING</p>
     </div>
 
-    <a href="/packages" class="flex items-center gap-3 px-4 py-2 rounded-xl mx-2 hover:bg-slate-800">
-      <i data-lucide="gift"></i>
-      <span x-show="sidebarOpen">Packages</span>
+    <a href="/copy-trader"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl group hover:bg-slate-800/50 text-slate-300">
+      <i data-lucide="users"></i>
+      <span>Copy Trader</span>
     </a>
+
+    <a href="/stocks"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl group hover:bg-slate-800/50 text-slate-300">
+      <i data-lucide="trending-up"></i>
+      <span>Stocks</span>
+    </a>
+
+    <a href="/pl-record"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl group hover:bg-slate-800/50 text-slate-300">
+      <i data-lucide="bar-chart-2"></i>
+      <span>P&L Record</span>
+    </a>
+
+    <a href="/trading-history"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl group hover:bg-slate-800/50 text-slate-300">
+      <i data-lucide="activity"></i>
+      <span>Trading History</span>
+    </a>
+
+    <div class="pt-6 pb-2 px-4">
+      <p class="text-xs font-semibold text-slate-500 uppercase">FINANCIAL</p>
+    </div>
+
+    <div x-data="{ dropdownOpen:false }" class="relative">
+      <button @click="dropdownOpen = !dropdownOpen"
+              class="flex items-center justify-between w-full px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50">
+        <div class="flex items-center gap-3">
+          <i data-lucide="wallet"></i>
+          <span>Deposit & Withdrawal</span>
+        </div>
+        <i data-lucide="chevron-down"
+           class="transition-transform"
+           :class="{ 'rotate-180': dropdownOpen }"></i>
+      </button>
+
+      <div x-show="dropdownOpen" x-collapse class="pl-12 pr-4 pt-2 space-y-1">
+        <a href="/deposit-withdrawal"
+           class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-slate-800/30">
+          <i data-lucide="arrow-down-circle" class="w-4 h-4"></i>
+          Deposit
+        </a>
+
+        <a href="/withdraw"
+           class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-slate-800/30">
+          <i data-lucide="arrow-up-circle" class="w-4 h-4"></i>
+          Withdraw
+        </a>
+      </div>
+    </div>
+
+    <a href="/packages"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl group hover:bg-slate-800/50 text-slate-300">
+      <i data-lucide="gift"></i>
+      <span>Packages</span>
+    </a>
+
+    <a href="/package-history"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl group hover:bg-slate-800/50 text-slate-300">
+      <i data-lucide="history"></i>
+      <span>Package History</span>
+    </a>
+
+    <a href="/transactions-history"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl group hover:bg-slate-800/50 text-slate-300">
+      <i data-lucide="list-tree"></i>
+      <span>Transactions</span>
+    </a>
+
+    <div class="pt-6 mt-6 border-t border-slate-800">
+      <a href="/logout"
+         class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10">
+        <i data-lucide="log-out"></i>
+        <span>Logout</span>
+      </a>
+    </div>
 
   </nav>
 
-  <div class="border-t border-slate-800 px-4 py-3 text-xs text-slate-500">
-    <div class="flex items-center gap-3">
-      <div class="h-8 w-8 rounded-full bg-slate-800 flex items-center justify-center text-[11px]">
-        <%= (user.name || user.username).slice(0,1).toUpperCase() %>
-      </div>
-      <div x-show="sidebarOpen">
-        <p class="text-slate-200 font-medium"><%= user.name || user.username %></p>
-        <p class="text-slate-500 text-[11px]">Standard account</p>
-      </div>
-    </div>
+  <div class="p-4 border-t border-slate-800">
+    <a href="/" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800/50">
+      <i data-lucide="home"></i>
+      <span>Back to Home</span>
+    </a>
   </div>
 
 </aside>
 
-<!-- MAIN -->
-<div class="flex-1 flex flex-col min-h-screen">
+<div class="main-content flex flex-col min-h-screen">
 
-<header class="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl flex items-center">
-  <div class="w-full max-w-6xl mx-auto px-4 flex items-center justify-between gap-4">
-
-    <div class="flex items-center gap-3">
-      <button class="h-9 w-9 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center md:hidden" @click="sidebarOpen = !sidebarOpen">
-        <i data-lucide="menu"></i>
-      </button>
-
-      <div class="hidden md:flex items-center gap-3">
-        <button class="h-9 w-9 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center" @click="sidebarOpen = !sidebarOpen">
-          <i data-lucide="panel-left-close" x-show="sidebarOpen"></i>
-          <i data-lucide="panel-left-open" x-show="!sidebarOpen"></i>
+<header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-xl border-b border-slate-800">
+  <div class="px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center gap-4">
+        <button @click="sidebarOpen = !sidebarOpen"
+                class="h-10 w-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center hover:bg-slate-700">
+          <i data-lucide="menu"></i>
         </button>
+
         <div>
-          <p class="text-xs text-slate-400">Dashboard</p>
-          <p class="text-sm font-semibold text-slate-100">Welcome, <%= user.name || user.username %></p>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-bold text-white">Trading Dashboard</h1>
+            <span class="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-xs font-semibold flex items-center gap-1">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              Live
+            </span>
+          </div>
+          <p class="text-sm text-slate-400">
+            Welcome back,
+            <span class="text-slate-300 font-medium"><%= user.name || user.username %></span>
+          </p>
         </div>
       </div>
-    </div>
 
-    <div class="flex items-center gap-3 text-xs">
-      <div class="hidden sm:flex flex-col items-end">
-        <span class="text-slate-400">Account</span>
-        <span class="text-slate-100 font-medium"><%= user.username %></span>
+      <div class="flex items-center gap-3">
+        <button @click="showTradeModal = true"
+                class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-sm font-semibold hover:bg-emerald-700">
+          <i data-lucide="zap" class="w-4 h-4"></i>
+          Quick Trade
+        </button>
+
+        <div class="relative" x-data="{ userMenuOpen: false }">
+          <button @click="userMenuOpen = !userMenuOpen"
+                  class="flex items-center gap-3 px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700">
+            <div class="h-8 w-8 rounded-full bg-slate-700 flex items-center justify-center font-semibold">
+              <%= (user.name || user.username).slice(0,1).toUpperCase() %>
+            </div>
+            <div class="hidden sm:block text-left">
+              <p class="text-sm font-medium text-white"><%= user.username %></p>
+              <p class="text-xs text-slate-400">Trading Account</p>
+            </div>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+          </button>
+
+          <div x-show="userMenuOpen"
+               @click.outside="userMenuOpen = false"
+               class="absolute right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-xl shadow-xl py-2 z-50"
+               x-transition:enter="transition ease-out duration-100"
+               x-transition:enter-start="transform opacity-0 scale-95"
+               x-transition:enter-end="transform opacity-100 scale-100"
+               x-transition:leave="transition ease-in duration-75"
+               x-transition:leave-start="transform opacity-100 scale-100"
+               x-transition:leave-end="transform opacity-0 scale-95"
+               style="display:none">
+
+            <a href="/account"
+               class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-700/50">
+              <i data-lucide="user" class="w-4 h-4"></i>
+              <span class="text-sm">Account Settings</span>
+            </a>
+
+            <a href="/kyc-verification"
+               class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-700/50">
+              <i data-lucide="shield" class="w-4 h-4"></i>
+              <span class="text-sm">KYC Verification</span>
+            </a>
+
+            <div class="border-t border-slate-700 my-2"></div>
+
+            <a href="/logout"
+               class="flex items-center gap-3 px-4 py-2.5 text-red-400 hover:bg-red-500/10">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+              <span class="text-sm">Logout</span>
+            </a>
+
+          </div>
+        </div>
       </div>
 
-      <a href="/logout" class="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold">
-        Logout
-      </a>
     </div>
-
   </div>
 </header>
 
-<main class="flex-1">
-  <div class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+<main class="flex-1 p-4 sm:p-6 lg:p-8">
+<div class="max-w-7xl mx-auto space-y-6">
 
-    <!-- BALANCE and SNAPSHOT -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+  <div class="flex space-x-1 p-1 bg-slate-800/50 rounded-xl">
+    <button @click="activeTab = 'overview'"
+            :class="activeTab === 'overview' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'"
+            class="px-4 py-2 rounded-lg text-sm font-medium">
+      <i data-lucide="layout-dashboard" class="w-4 h-4 mr-2 inline"></i>
+      Overview
+    </button>
 
-      <div class="md:col-span-2 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-lg">
-        <p class="text-xs text-slate-400 mb-2">Total balance</p>
+    <button @click="activeTab = 'trading'"
+            :class="activeTab === 'trading' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'"
+            class="px-4 py-2 rounded-lg text-sm font-medium">
+      <i data-lucide="trending-up" class="w-4 h-4 mr-2 inline"></i>
+      Trading
+    </button>
 
-        <p class="text-3xl font-semibold text-slate-50 mb-1">
-          $<%= Number(user.balance || 0).toFixed(2) %>
-        </p>
+    <button @click="activeTab = 'portfolio'"
+            :class="activeTab === 'portfolio' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'"
+            class="px-4 py-2 rounded-lg text-sm font-medium">
+      <i data-lucide="pie-chart" class="w-4 h-4 mr-2 inline"></i>
+      Portfolio
+    </button>
 
-        <p class="text-xs text-slate-500">Updated wallet balance</p>
+    <button @click="activeTab = 'market'"
+            :class="activeTab === 'market' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'"
+            class="px-4 py-2 rounded-lg text-sm font-medium">
+      <i data-lucide="bar-chart-2" class="w-4 h-4 mr-2 inline"></i>
+      Market
+    </button>
+  </div>
 
-        <div class="mt-5 flex flex-wrap gap-3">
-          <a href="/deposit-withdrawal" class="px-4 py-2.5 rounded-xl bg-primary-600 text-xs font-semibold">Deposit</a>
-          <a href="/deposit-withdrawal" class="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold">Withdraw</a>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <div class="lg:col-span-2">
+      <div class="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl">
+
+        <div class="flex items-start justify-between mb-6">
+          <div>
+            <p class="text-sm text-slate-400 font-medium mb-2">Trading Balance</p>
+
+            <p class="text-4xl font-bold text-white mb-1">
+              $<%= Number(user.balance || 0).toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2}) %>
+            </p>
+
+            <p class="text-sm text-slate-400">Available for trading</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-xs font-semibold">
+              Margin: $<%= (user.balance * 10).toLocaleString() %>
+            </span>
+          </div>
         </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
+            <p class="text-sm text-slate-400 mb-2">Total Deposit</p>
+            <p class="text-2xl font-bold text-white">
+              $<%= Number(user.deposit || 0).toFixed(2) %>
+            </p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
+            <p class="text-sm text-slate-400 mb-2">Total Profit</p>
+            <p class="text-2xl font-bold text-emerald-400">
+              $<%= Number(user.profit || 0).toFixed(2) %>
+            </p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
+            <p class="text-sm text-slate-400 mb-2">Bonus</p>
+            <p class="text-2xl font-bold text-blue-400">
+              $<%= Number(user.bonus || 0).toFixed(2) %>
+            </p>
+          </div>
+
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <button @click="showTradeModal = true; quickTrade.side = 'buy'"
+                  class="flex-1 min-w-[140px] px-6 py-3 rounded-xl bg-emerald-600 text-white font-semibold hover:bg-emerald-700">
+            <i data-lucide="trending-up" class="w-4 h-4 mr-2 inline"></i>
+            Buy/Long
+          </button>
+
+          <button @click="showTradeModal = true; quickTrade.side = 'sell'"
+                  class="flex-1 min-w-[140px] px-6 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700">
+            <i data-lucide="trending-down" class="w-4 h-4 mr-2 inline"></i>
+            Sell/Short
+          </button>
+
+          <a href="/copy-trader"
+             class="flex-1 min-w-[140px] px-6 py-3 rounded-xl bg-primary-600 text-white font-semibold hover:bg-primary-700">
+            <i data-lucide="users" class="w-4 h-4 mr-2 inline"></i>
+            Copy Trade
+          </a>
+
+          <a href="/stocks"
+             class="flex-1 min-w-[140px] px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white font-semibold hover:bg-slate-700">
+            <i data-lucide="shopping-bag" class="w-4 h-4 mr-2 inline"></i>
+            Buy Stocks
+          </a>
+        </div>
+
       </div>
-
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
-        <p class="text-xs text-slate-400">Account snapshot</p>
-
-        <div class="flex justify-between text-sm">
-          <span class="text-slate-300">Open trades</span>
-          <span class="text-slate-100 font-medium"><%= openTrades %></span>
-        </div>
-
-        <div class="flex justify-between text-sm">
-          <span class="text-slate-300">Total P L</span>
-          <span class="text-slate-100 font-medium">$<%= totalPL.toFixed(2) %></span>
-        </div>
-
-        <div class="flex justify-between text-sm">
-          <span class="text-slate-300">Status</span>
-          <span class="text-emerald-400 font-semibold">Active</span>
-        </div>
-
-        <div class="flex justify-between text-sm">
-          <span class="text-slate-300">KYC Status</span>
-
-          <% if (user.kycStatus === 'verified') { %>
-            <span class="text-emerald-400 font-semibold">Verified</span>
-          <% } else if (user.kycStatus === 'rejected') { %>
-            <span class="text-red-400 font-semibold">Rejected</span>
-          <% } else { %>
-            <span class="text-amber-400 font-semibold">Not Verified</span>
-          <% } %>
-        </div>
-
-        <div class="bg-slate-800/50 rounded-xl p-4 space-y-3">
-          <div class="flex justify-between text-sm">
-            <span class="text-slate-300">Bonus</span>
-            <span class="text-slate-100">$<%= Number(user.bonus || 0).toFixed(2) %></span>
-          </div>
-
-          <div class="flex justify-between text-sm">
-            <span class="text-slate-300">Profit</span>
-            <span class="text-slate-100">$<%= Number(user.profit || 0).toFixed(2) %></span>
-          </div>
-
-          <div class="flex justify-between text-sm">
-            <span class="text-slate-300">Total deposit</span>
-            <span class="text-slate-100">$<%= Number(user.deposit || 0).toFixed(2) %></span>
-          </div>
-        </div>
-
-      </div>
-
     </div>
 
-    <!-- STOCK HOLDINGS -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div>
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 h-full">
+        <h3 class="text-lg font-semibold text-white mb-6">Trading Stats</h3>
 
-      <div class="md:col-span-2 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-lg">
+        <div class="space-y-4">
 
-        <p class="text-sm font-semibold text-slate-100 mb-3">Your Stock Holdings</p>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-slate-800/50 rounded-xl p-4">
+              <p class="text-sm text-slate-400 mb-2">Open Positions</p>
+              <p class="text-2xl font-bold text-white"><%= openTrades || 0 %></p>
+              <p class="text-xs text-slate-500 mt-1">Active trades</p>
+            </div>
 
-        <% if (!holdings || holdings.length === 0) { %>
+            <div class="bg-slate-800/50 rounded-xl p-4">
+              <p class="text-sm text-slate-400 mb-2">Win Rate</p>
+              <p class="text-2xl font-bold text-emerald-400"><%= winRate || 65 %>%</p>
+              <p class="text-xs text-slate-500 mt-1">Last 30 days</p>
+            </div>
+          </div>
 
-          <p class="text-xs text-slate-500">You have no stocks yet. Go to the Stocks page to buy.</p>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-slate-800/50 rounded-xl p-4">
+              <p class="text-sm text-slate-400 mb-2">Today's P&L</p>
+              <p class="text-2xl font-bold <%= (todayPL || 0) >= 0 ? 'text-emerald-400' : 'text-red-400' %>">
+                $<%= Math.abs(todayPL || 0).toFixed(2) %>
+              </p>
+              <p class="text-xs text-slate-500 mt-1">Realized profit</p>
+            </div>
 
-        <% } else { %>
+            <div class="bg-slate-800/50 rounded-xl p-4">
+              <p class="text-sm text-slate-400 mb-2">Risk Level</p>
 
-          <div class="space-y-3 text-xs">
-            <% holdings.forEach(h => { %>
+              <p class="text-2xl font-bold
+                <%= (riskLevel || 'medium') === 'low'
+                     ? 'text-emerald-400'
+                     : (riskLevel || 'medium') === 'medium'
+                     ? 'text-amber-400'
+                     : 'text-red-400' %>">
+                <%= (riskLevel || 'medium').toUpperCase() %>
+              </p>
 
-              <div class="border-b border-slate-800 pb-3">
-                <div class="flex justify-between">
-                  <span class="text-slate-200">
-                    <%= h.stockName %> (<%= h.symbol %>)
-                  </span>
+              <p class="text-xs text-slate-500 mt-1">Portfolio risk</p>
+            </div>
+          </div>
 
-                  <span class="text-slate-300">
-                    Qty: <%= h.quantity %>  
-                    Avg: $<%= h.avgPrice.toFixed(2) %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- OVERVIEW TAB -->
+  <div x-show="activeTab === 'overview'" class="space-y-6">
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- WATCHLIST -->
+      <div class="lg:col-span-2">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h3 class="text-lg font-semibold text-white">Market Watchlist</h3>
+              <p class="text-sm text-slate-400 mt-1">Real-time prices & changes</p>
+            </div>
+
+            <a href="/stocks" class="text-sm text-primary-400 hover:text-primary-300">View All →</a>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="border-b border-slate-800">
+                <tr>
+                  <th class="text-left py-3 px-4 text-sm text-slate-400">Symbol</th>
+                  <th class="text-right py-3 px-4 text-sm text-slate-400">Price</th>
+                  <th class="text-right py-3 px-4 text-sm text-slate-400">Change</th>
+                  <th class="text-right py-3 px-4 text-sm text-slate-400">24h Volume</th>
+                  <th class="text-right py-3 px-4 text-sm text-slate-400">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% const watchlist = [
+                  { symbol: 'BTC/USD', name: 'Bitcoin', price: 64532.45, change: 2.34, volume: '32.4B' },
+                  { symbol: 'ETH/USD', name: 'Ethereum', price: 3456.78, change: -1.23, volume: '18.7B' },
+                  { symbol: 'AAPL', name: 'Apple Inc', price: 178.45, change: 0.56, volume: '6.2B' },
+                  { symbol: 'TSLA', name: 'Tesla Inc', price: 245.67, change: -2.34, volume: '4.8B' },
+                  { symbol: 'GOOGL', name: 'Alphabet', price: 156.89, change: 1.23, volume: '3.9B' }
+                ]; %>
+
+                <% watchlist.forEach(item => { %>
+                  <tr class="border-b border-slate-800/50 hover:bg-slate-800/30 transition">
+
+                    <td class="py-4 px-4">
+                      <div class="flex items-center gap-3">
+                        <div class="h-10 w-10 rounded-lg bg-slate-800 flex items-center justify-center">
+                          <span class="text-lg font-bold text-slate-300"><%= item.symbol.slice(0,2) %></span>
+                        </div>
+                        <div>
+                          <p class="font-medium text-white"><%= item.name %></p>
+                          <p class="text-sm text-slate-400"><%= item.symbol %></p>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="py-4 px-4 text-right">
+                      <p class="font-medium text-white">
+                        $<%= item.price.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2}) %>
+                      </p>
+                    </td>
+
+                    <td class="py-4 px-4 text-right">
+                      <span class="px-2 py-1 rounded-full text-xs font-medium
+                        <%= item.change >= 0
+                              ? 'bg-emerald-500/10 text-emerald-300'
+                              : 'bg-red-500/10 text-red-300' %>">
+                        <%= item.change >= 0 ? '+' : '' %><%= item.change.toFixed(2) %>%
+                      </span>
+                    </td>
+
+                    <td class="py-4 px-4 text-right">
+                      <p class="text-sm text-slate-300"><%= item.volume %></p>
+                    </td>
+
+                    <td class="py-4 px-4 text-right">
+                      <div class="flex items-center gap-2 justify-end">
+
+                        <button @click="showTradeModal = true; quickTrade.symbol = '<%= item.symbol %>'; quickTrade.side = 'buy'"
+                                class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-300 text-sm hover:bg-emerald-500/20">
+                          Buy
+                        </button>
+
+                        <button @click="showTradeModal = true; quickTrade.symbol = '<%= item.symbol %>'; quickTrade.side = 'sell'"
+                                class="px-3 py-1.5 rounded-lg bg-red-500/10 text-red-300 text-sm hover:bg-red-500/20">
+                          Sell
+                        </button>
+
+                      </div>
+                    </td>
+
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RECENT TRADES -->
+      <div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 h-full">
+
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-white">Recent Trades</h3>
+            <a href="/trading-history" class="text-sm text-primary-400 hover:text-primary-300">View All</a>
+          </div>
+
+          <div class="space-y-4">
+            <% const recentTrades = [
+              { symbol: 'BTC/USD', side: 'buy', price: 64250, amount: 0.5, pnl: 1245.50, time: '2 min ago' },
+              { symbol: 'ETH/USD', side: 'sell', price: 3420, amount: 2, pnl: -234.75, time: '15 min ago' },
+              { symbol: 'AAPL', side: 'buy', price: 177.80, amount: 10, pnl: 65.00, time: '1 hour ago' },
+              { symbol: 'TSLA', side: 'sell', price: 247.20, amount: 5, pnl: -125.40, time: '3 hours ago' }
+            ]; %>
+
+            <% recentTrades.forEach(trade => { %>
+              <div class="<%= trade.side === 'buy' ? 'order-buy' : 'order-sell' %> p-3 rounded-lg">
+
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center gap-2">
+                    <span class="font-medium text-white"><%= trade.symbol %></span>
+
+                    <span class="px-2 py-0.5 rounded-full text-xs
+                      <%= trade.side === 'buy'
+                             ? 'bg-emerald-500/20 text-emerald-300'
+                             : 'bg-red-500/20 text-red-300' %>">
+                      <%= trade.side.toUpperCase() %>
+                    </span>
+                  </div>
+
+                  <span class="text-sm <%= trade.pnl >= 0 ? 'text-emerald-400' : 'text-red-400' %>">
+                    $<%= Math.abs(trade.pnl).toFixed(2) %>
                   </span>
                 </div>
 
-                <form action="/stocks/sell" method="POST" class="mt-2 flex gap-2">
-                  <input type="hidden" name="stockId" value="<%= h.stockId %>">
+                <div class="flex items-center justify-between text-sm text-slate-400">
+                  <span><%= trade.amount %> @ $<%= trade.price.toFixed(2) %></span>
+                  <span><%= trade.time %></span>
+                </div>
 
-                  <input type="number" name="quantity" min="1" max="<%= h.quantity %>" placeholder="Sell quantity" class="w-24 px-2 py-1 rounded-lg bg-slate-800 border border-slate-700 text-[11px]">
+              </div>
+            <% }) %>
 
-                  <button type="submit" class="px-3 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-semibold">
-                    Sell
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-slate-800">
+            <h4 class="text-sm font-semibold text-white mb-4">Trading Signals</h4>
+
+            <div class="space-y-3">
+
+              <div class="signal-buy p-3 rounded-lg">
+                <div class="flex items-center justify-between">
+                  <span class="font-medium text-white">BTC/USD</span>
+                  <span class="px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs">STRONG BUY</span>
+                </div>
+                <p class="text-sm text-slate-400 mt-1">Target: $68,000 | Stop: $62,500</p>
+              </div>
+
+              <div class="signal-sell p-3 rounded-lg">
+                <div class="flex items-center justify-between">
+                  <span class="font-medium text-white">TSLA</span>
+                  <span class="px-2 py-1 rounded-full bg-red-500/20 text-red-300 text-xs">SELL</span>
+                </div>
+                <p class="text-sm text-slate-400 mt-1">Target: $235 | Stop: $255</p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <!-- CHART SECTION -->
+    <div>
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="text-lg font-semibold text-white">BTC/USD Chart</h3>
+            <p class="text-sm text-slate-400 mt-1">Real-time technical analysis</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <select class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-sm">
+              <option value="BTCUSD">BTC/USD</option>
+              <option value="ETHUSD">ETH/USD</option>
+              <option value="AAPL">AAPL</option>
+              <option value="TSLA">TSLA</option>
+            </select>
+
+            <select class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-sm">
+              <option value="5">5M</option>
+              <option value="15">15M</option>
+              <option value="60">1H</option>
+              <option value="240">4H</option>
+              <option value="D">1D</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="tradingview-widget-container" style="height: 500px;">
+          <div id="tradingview_chart" style="height: 100%;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TRADING TAB -->
+  <div x-show="activeTab === 'trading'" class="space-y-6">
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <div class="lg:col-span-2">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <h3 class="text-lg font-semibold text-white mb-6">Trade Execution</h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- BUY SIDE -->
+            <div class="order-buy p-6 rounded-xl">
+              <div class="flex items-center gap-2 mb-4">
+                <i data-lucide="trending-up" class="w-5 h-5 text-emerald-400"></i>
+                <h4 class="text-lg font-semibold text-white">Buy/Long</h4>
+              </div>
+
+              <form action="/trade/execute" method="POST" class="space-y-4">
+                <input type="hidden" name="side" value="buy">
+
+                <div>
+                  <label class="block text-sm text-slate-400 mb-2">Symbol</label>
+                  <select name="symbol" class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg">
+                    <option value="BTC/USD">BTC/USD</option>
+                    <option value="ETH/USD">ETH/USD</option>
+                    <option value="AAPL">AAPL</option>
+                    <option value="TSLA">TSLA</option>
+                  </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm text-slate-400 mb-2">Amount ($)</label>
+                    <input type="number" name="amount" value="100" min="10" step="10"
+                      class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg">
+                  </div>
+
+                  <div>
+                    <label class="block text-sm text-slate-400 mb-2">Leverage</label>
+                    <select name="leverage"
+                      class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg">
+                      <option value="1">1x</option>
+                      <option value="2">2x</option>
+                      <option value="5">5x</option>
+                      <option value="10">10x</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm text-slate-400 mb-2">Order Type</label>
+                  <div class="flex gap-2">
+
+                    <label class="flex-1">
+                      <input type="radio" name="orderType" value="market" checked class="peer hidden">
+                      <div class="p-3 text-center rounded-lg bg-slate-800 border border-slate-700
+                        peer-checked:bg-emerald-500/20 peer-checked:border-emerald-500 cursor-pointer">
+                        <span class="text-sm text-white font-medium">Market</span>
+                      </div>
+                    </label>
+
+                    <label class="flex-1">
+                      <input type="radio" name="orderType" value="limit" class="peer hidden">
+                      <div class="p-3 text-center rounded-lg bg-slate-800 border border-slate-700
+                        peer-checked:bg-emerald-500/20 peer-checked:border-emerald-500 cursor-pointer">
+                        <span class="text-sm text-white font-medium">Limit</span>
+                      </div>
+                    </label>
+
+                  </div>
+                </div>
+
+                <button type="submit"
+                        class="w-full py-3 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700">
+                  Execute Buy Order
+                </button>
+
+              </form>
+            </div>
+
+            <!-- SELL SIDE -->
+            <div class="order-sell p-6 rounded-xl">
+              <div class="flex items-center gap-2 mb-4">
+                <i data-lucide="trending-down" class="w-5 h-5 text-red-400"></i>
+                <h4 class="text-lg font-semibold text-white">Sell/Short</h4>
+              </div>
+
+              <form action="/trade/execute" method="POST" class="space-y-4">
+                <input type="hidden" name="side" value="sell">
+
+                <div>
+                  <label class="block text-sm text-slate-400 mb-2">Symbol</label>
+                  <select name="symbol" class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg">
+                    <option value="BTC/USD">BTC/USD</option>
+                    <option value="ETH/USD">ETH/USD</option>
+                    <option value="AAPL">AAPL</option>
+                    <option value="TSLA">TSLA</option>
+                  </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+
+                  <div>
+                    <label class="block text-sm text-slate-400 mb-2">Amount ($)</label>
+                    <input type="number" name="amount" value="100" min="10" step="10"
+                      class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg">
+                  </div>
+
+                  <div>
+                    <label class="block text-sm text-slate-400 mb-2">Leverage</label>
+                    <select name="leverage"
+                      class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg">
+                      <option value="1">1x</option>
+                      <option value="2">2x</option>
+                      <option value="5">5x</option>
+                      <option value="10">10x</option>
+                    </select>
+                  </div>
+
+                </div>
+
+                <div>
+                  <label class="block text-sm text-slate-400 mb-2">Order Type</label>
+
+                  <div class="flex gap-2">
+
+                    <label class="flex-1">
+                      <input type="radio" name="orderType" value="market" checked class="peer hidden">
+                      <div class="p-3 text-center rounded-lg bg-slate-800 border border-slate-700
+                        peer-checked:bg-red-500/20 peer-checked:border-red-500 cursor-pointer">
+                        <span class="text-sm text-white font-medium">Market</span>
+                      </div>
+                    </label>
+
+                    <label class="flex-1">
+                      <input type="radio" name="orderType" value="limit" class="peer hidden">
+                      <div class="p-3 text-center rounded-lg bg-slate-800 border border-slate-700
+                        peer-checked:bg-red-500/20 peer-checked:border-red-500 cursor-pointer">
+                        <span class="text-sm text-white font-medium">Limit</span>
+                      </div>
+                    </label>
+
+                  </div>
+                </div>
+
+                <button type="submit"
+                        class="w-full py-3 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700">
+                  Execute Sell Order
+                </button>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- OPEN POSITIONS -->
+      <div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 h-full">
+
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-white">Open Positions</h3>
+            <span class="px-2 py-1 rounded-full bg-slate-800 text-xs text-slate-300">
+              <%= openTrades || 0 %> active
+            </span>
+          </div>
+
+          <div class="space-y-4">
+            <% const positions = (user.openPositions || []); %>
+
+            <% positions.forEach(pos => { %>
+
+              <div class="<%= pos.side === 'buy' ? 'order-buy' : 'order-sell' %> p-4 rounded-lg"
+                   data-trade-id="<%= pos.id %>"
+                   data-symbol="<%= pos.symbol %>"
+                   data-entry="<%= pos.entryPrice %>"
+                   data-amount="<%= pos.margin %>"
+                   data-leverage="<%= pos.leverage %>"
+                   data-side="<%= pos.side %>">
+
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-2">
+                    <span class="font-medium text-white"><%= pos.symbol %></span>
+                    <span class="px-2 py-0.5 rounded-full text-xs
+                      <%= pos.side === 'buy'
+                            ? 'bg-emerald-500/20 text-emerald-300'
+                            : 'bg-red-500/20 text-red-300' %>">
+                      <%= pos.side.toUpperCase() %> <%= pos.leverage %>x
+                    </span>
+                  </div>
+
+                  <span class="text-sm pnl-value <%= pos.pnl >= 0 ? 'text-emerald-400' : 'text-red-400' %>">
+$<%= Number(pos.pnl || 0).toFixed(2) %>
+</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-sm">
+
+                  <div>
+                    <p class="text-slate-400">Entry</p>
+                    <p class="text-white">$<%= Number(pos.entryPrice).toFixed(2) %></p>
+                  </div>
+
+                  <div>
+                    <p class="text-slate-400">Current</p>
+                    <p class="text-white current-price">$<%= Number(pos.entryPrice).toFixed(2) %></p>
+                  </div>
+
+                  <div>
+                    <p class="text-slate-400">Size</p>
+                    <p class="text-white">$<%= Number(pos.size).toFixed(2) %></p>
+                  </div>
+
+                  <div>
+                    <p class="text-slate-400">PnL%</p>
+                    <p class="pnl-percent text-slate-300">0.00%</p>
+                  </div>
+
+                </div>
+
+                <div class="mt-3 flex gap-2">
+
+                  <form action="/trade/close" method="POST" class="flex-1">
+                    <input type="hidden" name="tradeId" value="<%= pos.id %>">
+                    <button type="submit"
+                            class="w-full px-3 py-1.5 rounded-lg bg-slate-800 text-sm text-slate-300 hover:bg-slate-700">
+                      Close
+                    </button>
+                  </form>
+
+                  <button class="flex-1 px-3 py-1.5 rounded-lg bg-slate-800 text-sm text-slate-300 hover:bg-slate-700">
+                    Edit SL/TP
                   </button>
-                </form>
+
+                </div>
 
               </div>
 
             <% }) %>
           </div>
 
-        <% } %>
-
+        </div>
       </div>
 
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-lg">
-        <p class="text-sm font-semibold text-slate-100 mb-2">Account details</p>
-
-        <p class="text-xs text-slate-400 mb-1">
-          Name
-          <span class="text-slate-100"><%= user.name || '-' %></span>
-        </p>
-
-        <p class="text-xs text-slate-400 mb-1">
-          Username
-          <span class="text-slate-100"><%= user.username %></span>
-        </p>
-
-        <p class="text-xs text-slate-400">
-          Account type
-          <span class="text-slate-100">Standard</span>
-        </p>
-
-      </div>
-
-    </div>
-
-    <!-- TRADINGVIEW CHART ADDED HERE -->
-    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 mt-6 shadow-lg">
-      <p class="text-sm font-semibold text-slate-100 mb-3">Market Chart</p>
-
-      <div class="tradingview-widget-container" style="height: 500px;">
-        <div id="tradingview_chart" style="height: 100%;"></div>
-      </div>
     </div>
 
   </div>
+  <!-- PORTFOLIO TAB -->
+  <div x-show="activeTab === 'portfolio'" class="space-y-6">
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+      <!-- TOTAL VALUE -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="h-12 w-12 rounded-lg bg-slate-800 flex items-center justify-center">
+            <i data-lucide="dollar-sign" class="w-6 h-6 text-emerald-400"></i>
+          </div>
+          <div>
+            <p class="text-sm text-slate-400">Total Value</p>
+            <p class="text-2xl font-bold text-white">
+              $<%= Number(user.balance * 1.5).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TODAY GAIN -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="h-12 w-12 rounded-lg bg-slate-800 flex items-center justify-center">
+            <i data-lucide="trending-up" class="w-6 h-6 text-emerald-400"></i>
+          </div>
+          <div>
+            <p class="text-sm text-slate-400">Today's Gain</p>
+            <p class="text-2xl font-bold text-emerald-400">+$<%= (todayPL || 0).toFixed(2) %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ALL TIME PNL -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="h-12 w-12 rounded-lg bg-slate-800 flex items-center justify-center">
+            <i data-lucide="bar-chart-2" class="w-6 h-6 text-blue-400"></i>
+          </div>
+          <div>
+            <p class="text-sm text-slate-400">All Time P&L</p>
+            <p class="text-2xl font-bold <%= (totalPL || 0) >= 0 ? 'text-emerald-400' : 'text-red-400' %>">
+              $<%= Math.abs(totalPL || 0).toFixed(2) %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- WIN RATE -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="h-12 w-12 rounded-lg bg-slate-800 flex items-center justify-center">
+            <i data-lucide="target" class="w-6 h-6 text-purple-400"></i>
+          </div>
+          <div>
+            <p class="text-sm text-slate-400">Win Rate</p>
+            <p class="text-2xl font-bold text-emerald-400"><%= winRate || 65 %>%</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ALLOCATION + METRICS -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+  <h3 class="text-lg font-semibold text-white mb-4">Stock Holdings</h3>
+
+  <% if (!holdings || holdings.length === 0) { %>
+    <p class="text-slate-400">No stocks held.</p>
+  <% } else { %>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="border-b border-slate-800">
+          <tr>
+            <th class="text-left py-2">Stock</th>
+            <th class="text-right py-2">Quantity</th>
+            <th class="text-right py-2">Avg Price</th>
+            <th class="text-right py-2">Value</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% holdings.forEach(h => { %>
+            <tr class="border-b border-slate-800/50">
+              <td class="py-3 font-medium"><%= h.stockName %></td>
+              <td class="py-3 text-right"><%= h.quantity %></td>
+              <td class="py-3 text-right">$<%= Number(h.avgPrice).toFixed(2) %></td>
+              <td class="py-3 text-right">
+                $<%= (h.quantity * h.avgPrice).toFixed(2) %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+  <% } %>
+</div>
+
+      <!-- PORTFOLIO ALLOCATION -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <h3 class="text-lg font-semibold text-white mb-6">Portfolio Allocation</h3>
+
+        <div class="space-y-4">
+          <% const allocations = [
+            { asset: 'Cryptocurrency', value: 65, color: 'bg-emerald-500' },
+            { asset: 'Stocks', value: 25, color: 'bg-blue-500' },
+            { asset: 'Forex', value: 8, color: 'bg-purple-500' },
+            { asset: 'Commodities', value: 2, color: 'bg-amber-500' }
+          ]; %>
+
+          <% allocations.forEach(a => { %>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-300"><%= a.asset %></span>
+                <span class="text-sm font-medium text-white"><%= a.value %>%</span>
+              </div>
+
+              <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full <%= a.color %> rounded-full"
+                     style="width: <%= a.value %>%;"></div>
+              </div>
+            </div>
+
+          <% }) %>
+        </div>
+      </div>
+
+      <!-- PERFORMANCE METRICS -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <h3 class="text-lg font-semibold text-white mb-6">Performance Metrics</h3>
+
+        <div class="space-y-6">
+
+          <!-- SHARPE RATIO -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-slate-400">Sharpe Ratio</span>
+              <span class="text-sm font-medium text-emerald-400">1.85</span>
+            </div>
+            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+              <div class="h-full bg-emerald-500 rounded-full" style="width:65%"></div>
+            </div>
+          </div>
+
+          <!-- MAX DRAWDOWN -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-slate-400">Max Drawdown</span>
+              <span class="text-sm font-medium text-amber-400">-8.5%</span>
+            </div>
+            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+              <div class="h-full bg-amber-500 rounded-full" style="width:42%"></div>
+            </div>
+          </div>
+
+          <!-- VOLATILITY -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-slate-400">Volatility</span>
+              <span class="text-sm font-medium text-blue-400">Medium</span>
+            </div>
+            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+              <div class="h-full bg-blue-500 rounded-full" style="width:55%"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div> <!-- END PORTFOLIO TAB -->
+
+</div> <!-- end max-w-7xl -->
 </main>
 
-</div>
+<footer class="mt-8 py-6 border-t border-slate-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+
+      <div class="text-sm text-slate-500">
+        © 2015 Trader Panel. All rights reserved.
+      </div>
+
+      <div class="flex items-center gap-6 text-xs text-slate-500">
+        <a href="/support" class="hover:text-slate-300">Support</a>
+        <a href="/account" class="hover:text-slate-300">Privacy</a>
+        <a href="/account" class="hover:text-slate-300">Terms</a>
+        <a href="/account" class="hover:text-slate-300">Risk Disclosure</a>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+</div> <!-- end main-content -->
+</div> <!-- end full wrapper -->
+
+<!-- QUICK TRADE MODAL -->
+<div x-show="showTradeModal"
+     x-transition:enter="transition ease-out duration-300"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition ease-in duration-200"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0"
+     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+     style="display:none">
+
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6"
+       @click.outside="showTradeModal = false">
+
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-lg font-semibold text-white">Quick Trade</h3>
+      <button @click="showTradeModal = false" class="text-slate-400 hover:text-white">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <form action="/trade/execute" method="POST" class="space-y-4">
+
+      <div>
+        <label class="block text-sm text-slate-400 mb-2">Symbol</label>
+        <select x-model="quickTrade.symbol" name="symbol"
+                class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg">
+          <option value="BTC/USD">BTC/USD</option>
+          <option value="ETH/USD">ETH/USD</option>
+          <option value="AAPL">AAPL</option>
+          <option value="TSLA">TSLA</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm text-slate-400 mb-2">Trade Side</label>
+        <div class="flex gap-2">
+
+          <label class="flex-1">
+            <input type="radio" x-model="quickTrade.side" value="buy" name="side" class="peer hidden">
+            <div class="p-3 text-center rounded-lg bg-slate-800 border border-slate-700
+                        peer-checked:bg-emerald-500/20 peer-checked:border-emerald-500 cursor-pointer">
+              <span class="text-sm text-white font-medium">Buy/Long</span>
+            </div>
+          </label>
+
+          <label class="flex-1">
+            <input type="radio" x-model="quickTrade.side" value="sell" name="side" class="peer hidden">
+            <div class="p-3 text-center rounded-lg bg-slate-800 border border-slate-700
+                        peer-checked:bg-red-500/20 peer-checked:border-red-500 cursor-pointer">
+              <span class="text-sm text-white font-medium">Sell/Short</span>
+            </div>
+          </label>
+
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm text-slate-400 mb-2">Amount ($)</label>
+        <input type="number" x-model="quickTrade.amount" name="amount" min="10" step="10"
+               class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg">
+      </div>
+
+      <div>
+        <label class="block text-sm text-slate-400 mb-2">Order Type</label>
+
+        <div class="flex gap-2">
+
+          <label class="flex-1">
+            <input type="radio" x-model="quickTrade.type" value="market" name="orderType" class="peer hidden">
+            <div class="p-3 text-center rounded-lg bg-slate-800 border border-slate-700
+                        peer-checked:bg-primary-500/20 peer-checked:border-primary-500 cursor-pointer">
+              <span class="text-sm text-white font-medium">Market</span>
+            </div>
+          </label>
+
+          <label class="flex-1">
+            <input type="radio" x-model="quickTrade.type" value="limit" name="orderType" class="peer hidden">
+            <div class="p-3 text-center rounded-lg bg-slate-800 border border-slate-700
+                        peer-checked:bg-primary-500/20 peer-checked:border-primary-500 cursor-pointer">
+              <span class="text-sm text-white font-medium">Limit</span>
+            </div>
+          </label>
+
+        </div>
+      </div>
+
+      <button type="submit"
+              class="w-full py-3 rounded-lg font-semibold text-white"
+              :class="quickTrade.side === 'buy'
+                      ? 'bg-emerald-600 hover:bg-emerald-700'
+                      : 'bg-red-600 hover:bg-red-700'">
+
+        <span x-text="quickTrade.side === 'buy' ? 'Execute Buy Order' : 'Execute Sell Order'"></span>
+      </button>
+
+    </form>
+
+  </div>
 </div>
 
+<!-- ICONS INIT -->
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons()
-      setTimeout(() => lucide.createIcons(), 500)
-    }
-  })
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
 </script>
 
+<!-- SWEETALERT -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-  function toggleDW() {
-    const menu = document.getElementById('dwMenu')
-    const arrow = document.getElementById('dwArrow')
-    const open = menu.classList.contains('hidden')
-
-    if (open) {
-      menu.classList.remove('hidden')
-      arrow.style.transform = 'rotate(180deg)'
-    } else {
-      menu.classList.add('hidden')
-      arrow.style.transform = 'rotate(0deg)'
-    }
-  }
-</script>
 
 <% if (toast) { %>
 <script>
@@ -362,14 +1347,17 @@
     icon: '<%= toast.type %>',
     title: '<%= toast.message %>',
     toast: true,
-    position: 'top',
+    position: 'top-end',
     showConfirmButton: false,
-    timer: 2500
-  })
+    timer: 3000,
+    timerProgressBar: true,
+    background: '#0f172a',
+    color: '#f8fafc'
+  });
 </script>
 <% } %>
 
-<!-- TRADINGVIEW SCRIPT -->
+<!-- TRADINGVIEW WIDGET -->
 <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 <script>
   new TradingView.widget({
@@ -380,12 +1368,60 @@
     theme: "dark",
     style: "1",
     locale: "en",
-    toolbar_bg: "#1e293b",
+    toolbar_bg: "#0f172a",
     enable_publishing: false,
     hide_top_toolbar: false,
     hide_legend: false,
     container_id: "tradingview_chart"
   });
+</script>
+
+<!-- MARKET PRICE RANDOMIZER -->
+<script>
+function updatePrices() {
+  document.querySelectorAll('.market-row').forEach(row => {
+    const changeElement = row.querySelector('.px-2.py-1');
+    if (!changeElement) return;
+
+    const current = parseFloat(changeElement.textContent);
+    const randomMove = (Math.random() - 0.5) * 0.2;
+    const updated = current + randomMove;
+
+    changeElement.textContent = (updated >= 0 ? '+' : '') + updated.toFixed(2) + '%';
+    changeElement.className = `px-2 py-1 rounded-full text-xs font-medium ${
+      updated >= 0 ? 'price-up' : 'price-down'
+    }`;
+  });
+}
+
+setInterval(updatePrices, 5000);
+</script>
+
+<!-- ORDER CONFIRMATION POPUP -->
+<script>
+document.addEventListener('submit', e => {
+
+  if (
+    e.target.matches('form[action="/trade/execute"]') ||
+    e.target.matches('form[action="/trade/quick"]')
+  ) {
+    const data = new FormData(e.target);
+    const side = data.get('side');
+    const symbol = data.get('symbol');
+    const amount = data.get('amount');
+
+    Swal.fire({
+      title: 'Order Executed',
+      text: side.toUpperCase() + ' ' + amount + ' of ' + symbol + ' was placed',
+      icon: 'success',
+      confirmButtonText: 'OK',
+      background: '#0f172a',
+      color: '#f8fafc'
+    });
+  }
+});
+</script>
+
 </script>
 
 </body>

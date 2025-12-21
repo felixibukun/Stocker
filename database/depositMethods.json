@@ -1,8 +1,0 @@
-[
-{ "id": 1, "name": "Crypto", "enabled": true },
-{ "id": 2, "name": "CashApp", "enabled": true },
-{ "id": 3, "name": "Chime", "enabled": true },
-{ "id": 4, "name": "PayPal", "enabled": true },
-{ "id": 5, "name": "Giftcard", "enabled": true },
-{ "id": 6, "name": "Bank Transfer", "enabled": true }
-]

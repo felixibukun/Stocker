@@ -1,0 +1,21 @@
+# env
+.env
+
+# node
+node_modules/
+npm-debug.log*
+
+# database data
+database/*.json
+database/*.backup
+
+# uploads
+public/uploads/
+
+# temp scripts
+emergency-fix.js
+fix-database.js
+mailer.js
+
+# logs
+*.log

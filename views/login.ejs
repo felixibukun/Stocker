@@ -7,6 +7,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for eye icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <script>
     tailwind.config = {
@@ -28,6 +31,13 @@
 
   <style>
     body { overflow-x: hidden; }
+    .password-toggle {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .password-toggle:hover {
+      opacity: 0.8;
+    }
   </style>
 
 </head>
@@ -58,48 +68,115 @@
           type="text" 
           name="username"
           required
-          class="w-full mt-2 bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-primary-600 focus:border-primary-600"
+          class="w-full mt-2 bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-primary-600 focus:border-primary-600 focus:outline-none"
           placeholder="Enter your username">
       </div>
 
       <div>
         <label class="text-sm text-slate-300">Password</label>
-        <input 
-          type="password" 
-          name="password"
-          required
-          class="w-full mt-2 bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-primary-600 focus:border-primary-600"
-          placeholder="Enter your password">
+        <div class="relative mt-2">
+          <input 
+            type="password" 
+            name="password"
+            id="password"
+            required
+            class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-primary-600 focus:border-primary-600 focus:outline-none pr-12"
+            placeholder="Enter your password">
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <button 
+              type="button"
+              id="togglePassword"
+              class="password-toggle text-slate-400 hover:text-slate-300 focus:outline-none">
+              <i class="far fa-eye" id="eyeIcon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between text-sm">
+        <div class="flex items-center">
+          <input 
+            type="checkbox" 
+            id="remember"
+            name="remember"
+            class="h-4 w-4 rounded border-slate-600 bg-slate-800 text-primary-600 focus:ring-primary-600">
+          <label for="remember" class="ml-2 text-slate-300">Remember me</label>
+        </div>
+        <a href="#" class="text-primary-600 hover:text-primary-500 font-medium">Forgot password?</a>
       </div>
 
       <button 
         type="submit"
-        class="w-full py-3 bg-primary-600 rounded-xl font-semibold text-white mt-2 hover:bg-primary-600/90 transition">
+        class="w-full py-3 bg-primary-600 rounded-xl font-semibold text-white mt-2 hover:bg-primary-600/90 transition focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 focus:ring-offset-slate-900">
         Login
       </button>
 
     </form>
 
     <p class="text-center text-sm text-slate-400 mt-6">
-      Don’t have an account?
-      <a href="/signup" class="text-primary-600 font-semibold">Register</a>
+      Don't have an account?
+      <a href="/signup" class="text-primary-600 font-semibold hover:text-primary-500 transition">Register</a>
     </p>
 
   </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<% if (toast) { %>
-<script>
-  Swal.fire({
-    icon: '<%= toast.type %>',
-    title: '<%= toast.message %>',
-    toast: true,
-    position: 'top',
-    showConfirmButton: false,
-    timer: 2500
-  })
-</script>
-<% } %>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    // Password toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const togglePassword = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('eyeIcon');
+      
+      togglePassword.addEventListener('click', function() {
+        // Toggle the type attribute
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        // Toggle the eye icon
+        if (type === 'text') {
+          eyeIcon.classList.remove('fa-eye');
+          eyeIcon.classList.add('fa-eye-slash');
+          togglePassword.setAttribute('aria-label', 'Hide password');
+        } else {
+          eyeIcon.classList.remove('fa-eye-slash');
+          eyeIcon.classList.add('fa-eye');
+          togglePassword.setAttribute('aria-label', 'Show password');
+        }
+      });
+      
+      // Keyboard accessibility
+      togglePassword.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        }
+      });
+      
+      // Auto-focus on username field if empty
+      const usernameInput = document.querySelector('input[name="username"]');
+      if (usernameInput && !usernameInput.value) {
+        usernameInput.focus();
+      }
+    });
+  </script>
+
+  <% if (toast) { %>
+  <script>
+    Swal.fire({
+      icon: '<%= toast.type %>',
+      title: '<%= toast.message %>',
+      toast: true,
+      position: 'top',
+      showConfirmButton: false,
+      timer: 2500,
+      background: '#0f172a',
+      color: '#fff',
+      iconColor: '<%= toast.type === "success" ? "#10b981" : toast.type === "error" ? "#ef4444" : "#f59e0b" %>'
+    })
+  </script>
+  <% } %>
 
 </body>
 </html>
