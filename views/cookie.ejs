@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cookie Policy | Global Equinox Trade</title>
+  <link rel="icon" type="image/png" href="/temp/custom/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .cookie-card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.7) 100%);
+      border: 1px solid rgba(100, 116, 139, 0.3);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    .cookie-card:hover {
+      border-color: rgba(139, 92, 246, 0.5);
+      transform: translateY(-2px);
+    }
+    
+    .cookie-icon {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    }
+    
+    .cookie-crumb {
+      width: 6px;
+      height: 6px;
+      background: #f59e0b;
+      border-radius: 50%;
+      position: absolute;
+      animation: float 3s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(180deg); }
+    }
+    
+    .cookie-crumb:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
+    .cookie-crumb:nth-child(2) { top: 60%; left: 20%; animation-delay: 0.5s; }
+    .cookie-crumb:nth-child(3) { top: 40%; left: 70%; animation-delay: 1s; }
+    .cookie-crumb:nth-child(4) { top: 70%; left: 60%; animation-delay: 1.5s; }
+    .cookie-crumb:nth-child(5) { top: 30%; left: 50%; animation-delay: 2s; }
+    
+    .cookie-settings {
+      background: linear-gradient(145deg, rgba(124, 58, 237, 0.1) 0%, rgba(30, 41, 59, 0.7) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-200 font-sans min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3 group">
+      <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-8 transition-transform group-hover:scale-105">
+      <span class="font-semibold text-white group-hover:text-indigo-300 transition-colors">Global Equinox Trade</span>
+    </a>
+    
+    <div class="flex items-center gap-4">
+      <a href="/cookies" class="text-purple-400 font-medium text-sm hidden md:block">Cookie Policy</a>
+      <a href="/privacy-policy" class="text-slate-400 hover:text-white text-sm transition-colors hidden md:block">Privacy</a>
+      <a href="/login" class="px-4 py-2 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition-colors">Client Login</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="relative bg-gradient-to-br from-slate-900 via-slate-900 to-purple-950/50 border-b border-slate-800 overflow-hidden">
+  <!-- Animated cookie crumbs -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="cookie-crumb"></div>
+    <div class="cookie-crumb"></div>
+    <div class="cookie-crumb"></div>
+    <div class="cookie-crumb"></div>
+    <div class="cookie-crumb"></div>
+  </div>
+  
+  <div class="max-w-6xl mx-auto px-6 py-16 relative">
+    <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
+      <div class="lg:w-2/3">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-purple-900/30 rounded-full border border-purple-800/50 mb-6">
+          <svg class="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+          </svg>
+          <span class="text-sm text-purple-300">Cookie & Tracking Technologies</span>
+        </div>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 fade-in">Cookie Policy</h1>
+        <p class="text-lg text-slate-300 mb-6">How we use cookies and similar technologies to enhance your experience</p>
+        
+        <div class="flex flex-wrap gap-4">
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Effective Date</span>
+            <div class="text-sm font-medium">January 1, 2015</div>
+          </div>
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Last Updated</span>
+            <div class="text-sm font-medium" id="currentDate"></div>
+          </div>
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Version</span>
+            <div class="text-sm font-medium">1.3.2</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="lg:w-1/3">
+        <div class="cookie-settings rounded-xl p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="cookie-icon w-12 h-12 rounded-lg flex items-center justify-center">
+              <span class="text-2xl">🍪</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-white">Cookie Settings</h3>
+              <p class="text-sm text-purple-300">Manage your preferences</p>
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-slate-300">Essential Cookies</span>
+              <div class="relative">
+                <input type="checkbox" checked disabled class="sr-only">
+                <div class="block w-10 h-6 bg-purple-600 rounded-full"></div>
+                <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+              </div>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-slate-300">Analytics Cookies</span>
+              <label class="switch">
+                <input type="checkbox" checked class="sr-only" id="analyticsToggle">
+                <div class="slider block w-10 h-6 bg-slate-700 rounded-full relative">
+                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                </div>
+              </label>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-slate-300">Marketing Cookies</span>
+              <label class="switch">
+                <input type="checkbox" class="sr-only" id="marketingToggle">
+                <div class="slider block w-10 h-6 bg-slate-700 rounded-full relative">
+                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                </div>
+              </label>
+            </div>
+          </div>
+          
+          <div class="mt-6 pt-6 border-t border-purple-800/50">
+            <button onclick="saveCookiePreferences()" class="w-full px-4 py-2 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition-colors">
+              Save Preferences
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COOKIE CONSENT BANNER (Fixed at bottom) -->
+<div id="cookieConsent" class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-sm border-t border-slate-800 z-50 hidden">
+  <div class="max-w-7xl mx-auto px-6 py-4">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex-1">
+        <p class="text-sm text-slate-300">
+          We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By clicking "Accept All", you consent to our use of cookies. 
+          <a href="/cookies" class="text-purple-400 hover:text-purple-300 underline">Learn more</a>
+        </p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="manageCookies()" class="px-4 py-2 text-sm text-slate-300 hover:text-white transition-colors">
+          Customize
+        </button>
+        <button onclick="acceptAllCookies()" class="px-4 py-2 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition-colors">
+          Accept All
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<main class="max-w-6xl mx-auto px-6 py-12">
+  <div class="grid md:grid-cols-3 gap-8">
+    <!-- Sidebar -->
+    <div class="md:col-span-1">
+      <div class="sticky top-32">
+        <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-800 mb-6">
+          <h3 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Cookie Types</h3>
+          <nav class="space-y-2">
+            <a href="#essential" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Essential Cookies</a>
+            <a href="#analytics" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Analytics Cookies</a>
+            <a href="#marketing" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Marketing Cookies</a>
+            <a href="#thirdparty" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Third-Party Cookies</a>
+            <a href="#management" class="block text-sm text-purple-400 hover:text-purple-300 transition-colors py-2 px-3 rounded-lg hover:bg-purple-900/20">Manage Cookies</a>
+          </nav>
+        </div>
+        
+        <div class="bg-slate-900/30 rounded-xl p-5 border border-slate-800">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-medium text-white">Quick Facts</h4>
+              <p class="text-xs text-slate-400">About Cookies</p>
+            </div>
+          </div>
+          <ul class="space-y-2 text-sm text-slate-300 mt-3">
+            <li class="flex items-start gap-2">• Small text files stored on your device</li>
+            <li class="flex items-start gap-2">• Improve site functionality and security</li>
+            <li class="flex items-start gap-2">• Remember preferences and settings</li>
+            <li class="flex items-start gap-2">• Analyze site usage patterns</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="md:col-span-2 space-y-8">
+      <!-- Introduction -->
+      <div class="bg-gradient-to-r from-slate-900/50 to-purple-950/20 p-6 rounded-xl border border-slate-800 fade-in">
+        <p class="text-slate-300 leading-relaxed">
+          This Cookie Policy explains how Global Equinox Trade uses cookies and similar tracking technologies when you visit our website and use our trading platform. By understanding how we use these technologies, you can make informed choices about your privacy.
+        </p>
+      </div>
+
+      <!-- What Are Cookies -->
+      <div class="cookie-card p-6 fade-in">
+        <h2 class="text-2xl font-bold text-white mb-4">What Are Cookies?</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Definition</h3>
+            <p class="text-sm text-slate-300">
+              Cookies are small text files that are placed on your device (computer, tablet, or mobile) when you visit websites. They are widely used to make websites work efficiently and provide information to website owners.
+            </p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Purpose</h3>
+            <p class="text-sm text-slate-300">
+              Cookies help websites remember your preferences, login status, and browsing behavior. They enable features like staying logged in, remembering language preferences, and analyzing how users interact with our platform.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Essential Cookies -->
+      <section id="essential" class="cookie-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-green-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl">🔒</span>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Essential Cookies</h2>
+        </div>
+        
+        <div class="mb-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-green-900/30 rounded-full border border-green-800/50 mb-3">
+            <span class="text-xs text-green-300">Required for Operation</span>
+          </div>
+          <p class="text-slate-300 text-sm">
+            These cookies are strictly necessary for the website to function properly. They enable basic functions like page navigation, security, and access to secure areas. The website cannot function properly without these cookies.
+          </p>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-700">
+                <th class="text-left py-3 px-4 text-slate-400 font-medium">Cookie Name</th>
+                <th class="text-left py-3 px-4 text-slate-400 font-medium">Purpose</th>
+                <th class="text-left py-3 px-4 text-slate-400 font-medium">Duration</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800">
+              <tr>
+                <td class="py-3 px-4 font-mono text-sm text-white">session_id</td>
+                <td class="py-3 px-4 text-slate-300">Maintains your login session</td>
+                <td class="py-3 px-4 text-slate-300">Session</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-sm text-white">csrf_token</td>
+                <td class="py-3 px-4 text-slate-300">Protects against cross-site request forgery</td>
+                <td class="py-3 px-4 text-slate-300">Session</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-sm text-white">security_check</td>
+                <td class="py-3 px-4 text-slate-300">Enhances platform security</td>
+                <td class="py-3 px-4 text-slate-300">1 hour</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-sm text-white">cookie_consent</td>
+                <td class="py-3 px-4 text-slate-300">Remembers your cookie preferences</td>
+                <td class="py-3 px-4 text-slate-300">1 year</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="mt-4 p-4 bg-green-900/20 rounded-lg border border-green-800/30">
+          <p class="text-sm text-green-200">
+            These cookies cannot be disabled as they are essential for the secure operation of our trading platform. Disabling them would prevent you from logging in or using core platform features.
+          </p>
+        </div>
+      </section>
+
+      <!-- Analytics Cookies -->
+      <section id="analytics" class="cookie-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-blue-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl">📊</span>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Analytics Cookies</h2>
+        </div>
+        
+        <div class="mb-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-900/30 rounded-full border border-blue-800/50 mb-3">
+            <span class="text-xs text-blue-300">Performance & Analytics</span>
+          </div>
+          <p class="text-slate-300 text-sm">
+            These cookies collect information about how visitors use our website, which pages are visited most often, and if users encounter error messages. This helps us improve how our website works.
+          </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Google Analytics</h3>
+            <p class="text-sm text-slate-300 mb-2">Tracks website usage and performance metrics:</p>
+            <ul class="space-y-1 text-sm text-slate-400">
+              <li class="flex items-center gap-2">• Page views and session duration</li>
+              <li class="flex items-center gap-2">• Traffic sources and referrals</li>
+              <li class="flex items-center gap-2">• User demographics (anonymized)</li>
+              <li class="flex items-center gap-2">• Conversion tracking</li>
+            </ul>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Hotjar</h3>
+            <p class="text-sm text-slate-300 mb-2">Understands user behavior through:</p>
+            <ul class="space-y-1 text-sm text-slate-400">
+              <li class="flex items-center gap-2">• Heatmaps of user interactions</li>
+              <li class="flex items-center gap-2">• Session recordings (anonymized)</li>
+              <li class="flex items-center gap-2">• Feedback polls and surveys</li>
+              <li class="flex items-center gap-2">• Form analytics</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="mt-4 p-4 bg-blue-900/20 rounded-lg border border-blue-800/30">
+          <p class="text-sm text-blue-200">
+            Analytics cookies help us understand how users interact with our platform, allowing us to identify areas for improvement and enhance the overall user experience. These cookies can be disabled in your preferences.
+          </p>
+        </div>
+      </section>
+
+      <!-- Marketing Cookies -->
+      <section id="marketing" class="cookie-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-pink-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl">🎯</span>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Marketing Cookies</h2>
+        </div>
+        
+        <div class="mb-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-pink-900/30 rounded-full border border-pink-800/50 mb-3">
+            <span class="text-xs text-pink-300">Advertising & Personalization</span>
+          </div>
+          <p class="text-slate-300 text-sm">
+            These cookies track browsing activity to provide more relevant advertising. They may be set by advertising partners and may be used to build a profile of your interests.
+          </p>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-2">Facebook Pixel</h3>
+            <p class="text-sm text-slate-300">
+              Tracks conversions from Facebook ads, optimizes ads based on collected data, and builds targeted audiences for future ads.
+            </p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-2">LinkedIn Insight Tag</h3>
+            <p class="text-sm text-slate-300">
+              Collects data about visits to our website, including URL, referrer, IP address, device and browser characteristics, and timestamp.
+            </p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-2">Retargeting Cookies</h3>
+            <p class="text-sm text-slate-300">
+              Enables us to show relevant advertisements to users who have previously visited our website as they browse other sites.
+            </p>
+          </div>
+        </div>
+        
+        <div class="mt-4 p-4 bg-pink-900/20 rounded-lg border border-pink-800/30">
+          <p class="text-sm text-pink-200">
+            Marketing cookies are optional and require your explicit consent. You can disable these cookies while still using all platform features.
+          </p>
+        </div>
+      </section>
+
+      <!-- Third-Party Cookies -->
+      <section id="thirdparty" class="cookie-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-amber-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl">🔗</span>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Third-Party Cookies</h2>
+        </div>
+        
+        <div class="mb-4">
+          <p class="text-slate-300 text-sm">
+            Some cookies are placed by third-party services that appear on our pages. These third parties may set their own cookies to track the success of their applications or customize their services.
+          </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Payment Processors</h3>
+            <p class="text-sm text-slate-300">
+              Services like Stripe and PayPal may set cookies to ensure secure payment processing and fraud prevention.
+            </p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Social Media</h3>
+            <p class="text-sm text-slate-300">
+              Social media platforms may set cookies through share buttons or embedded content to track your activity across websites.
+            </p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Live Chat</h3>
+            <p class="text-sm text-slate-300">
+              Services like Intercom or Drift may set cookies to maintain chat sessions and personalize support interactions.
+            </p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Video Services</h3>
+            <p class="text-sm text-slate-300">
+              Embedded videos from YouTube or Vimeo may set cookies to track viewing behavior and preferences.
+            </p>
+          </div>
+        </div>
+        
+        <div class="mt-4 p-4 bg-amber-900/20 rounded-lg border border-amber-800/30">
+          <p class="text-sm text-amber-200">
+            We do not control the dissemination of third-party cookies. You should check the respective privacy policies of these third parties for information about their cookies.
+          </p>
+        </div>
+      </section>
+
+      <!-- Cookie Management -->
+      <section id="management" class="cookie-settings p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="cookie-icon w-10 h-10 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Managing Cookies</h2>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Browser Settings</h3>
+            <p class="text-sm text-slate-300 mb-3">
+              Most web browsers allow you to control cookies through their settings preferences. However, limiting cookies may impact your experience on our website.
+            </p>
+            <ul class="space-y-2 text-sm text-slate-400">
+              <li class="flex items-center gap-2">• <a href="#" class="text-purple-400 hover:text-purple-300">Chrome</a> - Settings → Privacy and Security → Cookies</li>
+              <li class="flex items-center gap-2">• <a href="#" class="text-purple-400 hover:text-purple-300">Firefox</a> - Options → Privacy & Security → Cookies</li>
+              <li class="flex items-center gap-2">• <a href="#" class="text-purple-400 hover:text-purple-300">Safari</a> - Preferences → Privacy → Cookies</li>
+              <li class="flex items-center gap-2">• <a href="#" class="text-purple-400 hover:text-purple-300">Edge</a> - Settings → Cookies and Site Permissions</li>
+            </ul>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Platform Controls</h3>
+            <p class="text-sm text-slate-300 mb-3">
+              Use our cookie preference center to manage your settings:
+            </p>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-300">Essential Cookies</span>
+                <span class="text-xs px-2 py-1 bg-green-900/30 text-green-300 rounded">Always Active</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-300">Analytics Cookies</span>
+                <button onclick="toggleAnalytics()" class="text-xs px-2 py-1 bg-purple-900/30 text-purple-300 rounded hover:bg-purple-800/50">
+                  Toggle
+                </button>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-300">Marketing Cookies</span>
+                <button onclick="toggleMarketing()" class="text-xs px-2 py-1 bg-purple-900/30 text-purple-300 rounded hover:bg-purple-800/50">
+                  Toggle
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-6 p-4 bg-slate-800/20 rounded-lg border border-slate-700">
+          <div class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <p class="text-sm text-slate-300">
+              <span class="font-semibold">Note:</span> If you disable cookies, some features of our trading platform may not function properly. Essential trading functions require certain cookies to operate securely.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Updates & Contact -->
+      <div class="p-6 bg-slate-900/50 rounded-xl border border-slate-800">
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-semibold text-white mb-3">Policy Updates</h3>
+            <p class="text-sm text-slate-300">
+              We may update this Cookie Policy periodically. We encourage you to review this page regularly for any changes. Continued use of our platform after updates constitutes acceptance of the revised policy.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-semibold text-white mb-3">Questions?</h3>
+            <p class="text-sm text-slate-300 mb-2">
+              If you have questions about our use of cookies, contact our privacy team:
+            </p>
+            <a href="mailto:globalequinoxtrade@gmail.com" class="text-purple-400 hover:text-purple-300 text-sm inline-flex items-center gap-2">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+              </svg>
+              globalequinoxtrade@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-800 bg-slate-950 mt-12">
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-3">
+        <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-6 opacity-80">
+        <span class="text-slate-400 text-sm">© 2015-2025 Global Equinox Trade</span>
+      </div>
+      
+      <div class="flex flex-wrap justify-center gap-6 text-sm">
+        <a href="/privacy-policy" class="text-indigo-400 font-medium">Privacy Policy</a>
+<a href="/terms" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a>
+<a href="/cookie-policy" class="text-slate-400 hover:text-white transition-colors">Cookie Policy</a>
+<a href="/risk-disclosure" class="text-slate-400 hover:text-white transition-colors">Risk Disclosure</a>
+<a href="/aml-policy" class="text-slate-400 hover:text-white transition-colors">AML Policy</a>
+
+      </div>
+    </div>
+    
+    <div class="mt-8 pt-8 border-t border-slate-800 text-center">
+      <p class="text-xs text-slate-600">
+        For information about cookies set by third parties and how to manage them, please visit the respective third-party websites.
+        Last cookie review: <span id="lastReviewDate"></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Set dates
+  document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  
+  // Set last review date (30 days ago)
+  const lastReview = new Date();
+  lastReview.setDate(lastReview.getDate() - 30);
+  document.getElementById('lastReviewDate').textContent = lastReview.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  // Cookie management functions
+  function saveCookiePreferences() {
+    const analytics = document.getElementById('analyticsToggle').checked;
+    const marketing = document.getElementById('marketingToggle').checked;
+    
+    // In a real implementation, this would save to localStorage or send to server
+    localStorage.setItem('cookiePreferences', JSON.stringify({
+      analytics,
+      marketing,
+      saved: new Date().toISOString()
+    }));
+    
+    // Show success message
+    alert('Cookie preferences saved!');
+  }
+
+  function toggleAnalytics() {
+    const toggle = document.getElementById('analyticsToggle');
+    toggle.checked = !toggle.checked;
+    toggle.parentElement.querySelector('.slider').classList.toggle('bg-purple-600', toggle.checked);
+    toggle.parentElement.querySelector('.slider').classList.toggle('bg-slate-700', !toggle.checked);
+    toggle.parentElement.querySelector('.dot').classList.toggle('left-5', toggle.checked);
+    toggle.parentElement.querySelector('.dot').classList.toggle('left-1', !toggle.checked);
+  }
+
+  function toggleMarketing() {
+    const toggle = document.getElementById('marketingToggle');
+    toggle.checked = !toggle.checked;
+    toggle.parentElement.querySelector('.slider').classList.toggle('bg-purple-600', toggle.checked);
+    toggle.parentElement.querySelector('.slider').classList.toggle('bg-slate-700', !toggle.checked);
+    toggle.parentElement.querySelector('.dot').classList.toggle('left-5', toggle.checked);
+    toggle.parentElement.querySelector('.dot').classList.toggle('left-1', !toggle.checked);
+  }
+
+  function manageCookies() {
+    // Scroll to management section
+    document.getElementById('management').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function acceptAllCookies() {
+    document.getElementById('analyticsToggle').checked = true;
+    document.getElementById('marketingToggle').checked = true;
+    saveCookiePreferences();
+    document.getElementById('cookieConsent').style.display = 'none';
+  }
+
+  // Show cookie consent banner if not already accepted
+  document.addEventListener('DOMContentLoaded', () => {
+    const hasAccepted = localStorage.getItem('cookieConsent');
+    if (!hasAccepted) {
+      setTimeout(() => {
+        document.getElementById('cookieConsent').style.display = 'block';
+      }, 1000);
+    }
+
+    // Load saved preferences
+    const saved = localStorage.getItem('cookiePreferences');
+    if (saved) {
+      const prefs = JSON.parse(saved);
+      document.getElementById('analyticsToggle').checked = prefs.analytics;
+      document.getElementById('marketingToggle').checked = prefs.marketing;
+      
+      // Update toggle positions
+      document.querySelectorAll('input[type="checkbox"]').forEach(toggle => {
+        const slider = toggle.parentElement.querySelector('.slider');
+        const dot = toggle.parentElement.querySelector('.dot');
+        if (slider && dot) {
+          slider.classList.toggle('bg-purple-600', toggle.checked);
+          slider.classList.toggle('bg-slate-700', !toggle.checked);
+          dot.classList.toggle('left-5', toggle.checked);
+          dot.classList.toggle('left-1', !toggle.checked);
+        }
+      });
+    }
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 120,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Add animation delays
+    document.querySelectorAll('.fade-in').forEach((el, index) => {
+      el.style.animationDelay = `${index * 0.1}s`;
+    });
+  });
+</script>
+</body>
+</html>

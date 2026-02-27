@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy | Global Equinox Trade</title>
+  <link rel="icon" type="image/png" href="/temp/custom/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    .section-card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.7) 100%);
+      border: 1px solid rgba(100, 116, 139, 0.3);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    .section-card:hover {
+      border-color: rgba(99, 102, 241, 0.5);
+      transform: translateY(-2px);
+    }
+    
+    .privacy-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .data-flow {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .data-flow::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+      animation: shimmer 3s infinite;
+    }
+    
+    @keyframes shimmer {
+      100% { left: 100%; }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-200 font-sans min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3 group">
+      <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-8 transition-transform group-hover:scale-105">
+      <span class="font-semibold text-white group-hover:text-indigo-300 transition-colors">Global Equinox Trade</span>
+    </a>
+    
+    <div class="flex items-center gap-4">
+      <a href="/terms" class="text-slate-400 hover:text-white text-sm transition-colors hidden md:block">Terms</a>
+      <a href="/privacy" class="text-indigo-400 font-medium text-sm hidden md:block">Privacy</a>
+      <a href="/login" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors">Client Login</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="relative bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/50 border-b border-slate-800 overflow-hidden">
+  <!-- Background pattern -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.3"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+  </div>
+  
+  <div class="max-w-6xl mx-auto px-6 py-16 relative">
+    <div class="flex flex-col md:flex-row justify-between items-start gap-8">
+      <div class="md:w-2/3">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-900/30 rounded-full border border-indigo-800/50 mb-6">
+          <svg class="w-4 h-4 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-sm text-indigo-300">Data Protection & Privacy</span>
+        </div>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 fade-in">Privacy Policy</h1>
+        <p class="text-lg text-slate-300 mb-6">How we collect, use, and protect your personal information</p>
+        
+        <div class="flex flex-wrap gap-4">
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Effective Date</span>
+            <div class="text-sm font-medium">January 1, 2015</div>
+          </div>
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Last Updated</span>
+            <div class="text-sm font-medium" id="currentDate"></div>
+          </div>
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Version</span>
+            <div class="text-sm font-medium">3.2.1</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="md:w-1/3">
+        <div class="bg-slate-900/50 rounded-xl p-6 border border-slate-800">
+          <h3 class="font-semibold text-white mb-4">Your Privacy Rights</h3>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-center gap-2 text-slate-300">
+              <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Right to access your data</span>
+            </li>
+            <li class="flex items-center gap-2 text-slate-300">
+              <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Right to data correction</span>
+            </li>
+            <li class="flex items-center gap-2 text-slate-300">
+              <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Right to data deletion</span>
+            </li>
+            <li class="flex items-center gap-2 text-slate-300">
+              <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Right to object processing</span>
+            </li>
+          </ul>
+          <div class="mt-6 pt-6 border-t border-slate-800">
+            <a href="#contact" class="text-indigo-400 hover:text-indigo-300 text-sm font-medium flex items-center gap-2">
+              Contact Privacy Officer
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<main class="max-w-6xl mx-auto px-6 py-12">
+  <div class="grid md:grid-cols-3 gap-8">
+    <!-- Sidebar -->
+    <div class="md:col-span-1">
+      <div class="sticky top-32">
+        <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-800 mb-6">
+          <h3 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Quick Links</h3>
+          <nav class="space-y-2">
+            <a href="#collection" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Data Collection</a>
+            <a href="#usage" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Data Usage</a>
+            <a href="#sharing" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Data Sharing</a>
+            <a href="#protection" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Data Protection</a>
+            <a href="#rights" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Your Rights</a>
+            <a href="#contact" class="block text-sm text-indigo-400 hover:text-indigo-300 transition-colors py-2 px-3 rounded-lg hover:bg-indigo-900/20">Contact Us</a>
+          </nav>
+        </div>
+        
+        <div class="bg-slate-900/30 rounded-xl p-5 border border-slate-800">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-indigo-600/20 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-medium text-white">Privacy Commitment</h4>
+              <p class="text-xs text-slate-400">GDPR & CCPA Compliant</p>
+            </div>
+          </div>
+          <p class="text-sm text-slate-300 mt-3">
+            We respect your privacy and are committed to protecting your personal data in compliance with global privacy regulations.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="md:col-span-2 space-y-8">
+      <!-- Introduction -->
+      <div class="bg-gradient-to-r from-slate-900/50 to-indigo-950/20 p-6 rounded-xl border border-slate-800 fade-in">
+        <p class="text-slate-300 leading-relaxed">
+          At Global Equinox Trade, we respect your privacy and are committed to protecting your personal data. This policy outlines how we collect, use, store, and safeguard your information when you use our trading platform and services.
+        </p>
+      </div>
+
+      <!-- Data Collection -->
+      <section id="collection" class="section-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="privacy-badge w-10 h-10 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+              <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Information We Collect</h2>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="data-flow p-4 bg-slate-800/30 rounded-lg border border-slate-700">
+            <h3 class="font-semibold text-white mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
+              Personal Information
+            </h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center gap-2">• Full name and contact details</li>
+              <li class="flex items-center gap-2">• Date of birth and nationality</li>
+              <li class="flex items-center gap-2">• Government-issued ID documents</li>
+              <li class="flex items-center gap-2">• Proof of address documents</li>
+            </ul>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg border border-slate-700">
+            <h3 class="font-semibold text-white mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+              Financial Information
+            </h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center gap-2">• Bank account details</li>
+              <li class="flex items-center gap-2">• Payment card information</li>
+              <li class="flex items-center gap-2">• Transaction history</li>
+              <li class="flex items-center gap-2">• Tax identification numbers</li>
+            </ul>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg border border-slate-700">
+            <h3 class="font-semibold text-white mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+              Trading Information
+            </h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center gap-2">• Trading positions and history</li>
+              <li class="flex items-center gap-2">• Account balances and equity</li>
+              <li class="flex items-center gap-2">• Risk parameters and settings</li>
+              <li class="flex items-center gap-2">• Market analysis preferences</li>
+            </ul>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg border border-slate-700">
+            <h3 class="font-semibold text-white mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+              Technical Information
+            </h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center gap-2">• IP address and device info</li>
+              <li class="flex items-center gap-2">• Browser type and version</li>
+              <li class="flex items-center gap-2">• Usage patterns and analytics</li>
+              <li class="flex items-center gap-2">• Cookie and tracking data</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Usage -->
+      <section id="usage" class="section-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="privacy-badge w-10 h-10 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Use of Information</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="p-4 bg-slate-800/20 rounded-lg">
+            <h3 class="font-semibold text-white mb-2">Account Operation</h3>
+            <p class="text-slate-300 text-sm">To open, maintain, and service your trading account, process transactions, and provide customer support.</p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/20 rounded-lg">
+            <h3 class="font-semibold text-white mb-2">Security & Compliance</h3>
+            <p class="text-slate-300 text-sm">To verify identity, prevent fraud, monitor for suspicious activity, and comply with legal obligations including AML regulations.</p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/20 rounded-lg">
+            <h3 class="font-semibold text-white mb-2">Service Improvement</h3>
+            <p class="text-slate-300 text-sm">To analyze usage patterns, improve platform functionality, develop new features, and personalize user experience.</p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/20 rounded-lg">
+            <h3 class="font-semibold text-white mb-2">Communication</h3>
+            <p class="text-slate-300 text-sm">To send important account notifications, trading updates, security alerts, and marketing communications (with consent).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Sharing -->
+      <section id="sharing" class="section-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="privacy-badge w-10 h-10 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Data Sharing</h2>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-6 mb-6">
+          <div class="p-5 bg-slate-800/30 rounded-lg border border-slate-700 text-center">
+            <div class="w-12 h-12 bg-indigo-600/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <svg class="w-6 h-6 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <h4 class="font-semibold text-white mb-2">Service Providers</h4>
+            <p class="text-sm text-slate-400">Payment processors, hosting services, and technical support partners.</p>
+          </div>
+          
+          <div class="p-5 bg-slate-800/30 rounded-lg border border-slate-700 text-center">
+            <div class="w-12 h-12 bg-amber-600/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <svg class="w-6 h-6 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <h4 class="font-semibold text-white mb-2">Regulatory Bodies</h4>
+            <p class="text-sm text-slate-400">Financial regulators and law enforcement when legally required.</p>
+          </div>
+          
+          <div class="p-5 bg-slate-800/30 rounded-lg border border-slate-700 text-center">
+            <div class="w-12 h-12 bg-green-600/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <h4 class="font-semibold text-white mb-2">Affiliated Companies</h4>
+            <p class="text-sm text-slate-400">Corporate affiliates for business operations and compliance.</p>
+          </div>
+        </div>
+        
+        <div class="p-4 bg-slate-800/20 rounded-lg border border-slate-700">
+          <p class="text-sm text-slate-300">
+            We never sell your personal data to third parties for marketing purposes. Data sharing occurs only for legitimate business purposes, compliance requirements, or with your explicit consent.
+          </p>
+        </div>
+      </section>
+
+      <!-- Data Protection -->
+      <section id="protection" class="section-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="privacy-badge w-10 h-10 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Data Protection</h2>
+        </div>
+        
+        <div class="space-y-6">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Encryption</h3>
+              <p class="text-sm text-slate-300">All sensitive data is encrypted using AES-256 encryption both in transit (TLS 1.3) and at rest.</p>
+            </div>
+            
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Access Controls</h3>
+              <p class="text-sm text-slate-300">Strict role-based access controls limit internal access to your data on a need-to-know basis.</p>
+            </div>
+            
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Monitoring</h3>
+              <p class="text-sm text-slate-300">24/7 security monitoring and intrusion detection systems protect against unauthorized access.</p>
+            </div>
+            
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Data Retention</h3>
+              <p class="text-sm text-slate-300">We retain data only as long as necessary for business and compliance purposes.</p>
+            </div>
+          </div>
+          
+          <div class="p-4 bg-slate-800/20 rounded-lg border border-slate-700">
+            <div class="flex items-center gap-3 mb-2">
+              <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <h4 class="font-semibold text-white">Security Certifications</h4>
+            </div>
+            <p class="text-sm text-slate-300">
+              Our platform undergoes regular security audits and penetration testing to maintain the highest security standards. We are ISO 27001 certified and comply with PCI DSS requirements for payment processing.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Your Rights -->
+      <section id="rights" class="section-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="privacy-badge w-10 h-10 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Your Privacy Rights</h2>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-700">
+                <th class="text-left py-3 px-4 text-slate-400 font-medium">Right</th>
+                <th class="text-left py-3 px-4 text-slate-400 font-medium">Description</th>
+                <th class="text-left py-3 px-4 text-slate-400 font-medium">How to Exercise</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800">
+              <tr>
+                <td class="py-3 px-4 font-medium text-white">Access</td>
+                <td class="py-3 px-4 text-slate-300">Request a copy of your personal data</td>
+                <td class="py-3 px-4 text-slate-300">Submit request via client portal</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-medium text-white">Correction</td>
+                <td class="py-3 px-4 text-slate-300">Request correction of inaccurate data</td>
+                <td class="py-3 px-4 text-slate-300">Update profile or contact support</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-medium text-white">Deletion</td>
+                <td class="py-3 px-4 text-slate-300">Request deletion of your data</td>
+                <td class="py-3 px-4 text-slate-300">Submit written request</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-medium text-white">Restriction</td>
+                <td class="py-3 px-4 text-slate-300">Request limitation of processing</td>
+                <td class="py-3 px-4 text-slate-300">Contact privacy officer</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-medium text-white">Portability</td>
+                <td class="py-3 px-4 text-slate-300">Receive your data in machine-readable format</td>
+                <td class="py-3 px-4 text-slate-300">Request via client portal</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-medium text-white">Objection</td>
+                <td class="py-3 px-4 text-slate-300">Object to certain processing activities</td>
+                <td class="py-3 px-4 text-slate-300">Update preferences or contact us</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="bg-gradient-to-r from-slate-900 to-indigo-950/30 p-6 rounded-xl border border-indigo-800/30 fade-in">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-indigo-600/20 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold text-white">Contact Information</h2>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-semibold text-white mb-3">Privacy Officer</h3>
+            <p class="text-slate-300 mb-2">For privacy-related inquiries and data subject requests:</p>
+            <a href="mailto:globalequinoxtrade@gmail.com" class="text-indigo-400 hover:text-indigo-300 transition-colors inline-flex items-center gap-2">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+              </svg>
+              globalequinoxtrade@gmail.com
+            </a>
+          </div>
+          
+          <div>
+            <h3 class="font-semibold text-white mb-3">Response Time</h3>
+            <p class="text-slate-300 mb-2">We aim to respond to privacy requests within 30 days.</p>
+            <p class="text-sm text-slate-400">For urgent matters, please include "URGENT: Privacy Request" in your subject line.</p>
+          </div>
+        </div>
+        
+        <div class="mt-6 pt-6 border-t border-slate-800">
+          <p class="text-sm text-slate-400">
+            If you are not satisfied with our response, you have the right to lodge a complaint with your local data protection authority.
+          </p>
+        </div>
+      </section>
+
+      <!-- Updates -->
+      <div class="p-6 bg-slate-900/50 rounded-xl border border-slate-800">
+        <div class="flex items-center gap-3 mb-4">
+          <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+          <h3 class="font-semibold text-white">Policy Updates</h3>
+        </div>
+        <p class="text-slate-300 text-sm">
+          We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements. We will notify you of significant changes via email or platform notification. The "Last Updated" date at the top indicates when this policy was last revised.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-800 bg-slate-950 mt-12">
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-3">
+        <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-6 opacity-80">
+        <span class="text-slate-400 text-sm">© 2015-2025 Global Equinox Trade • All Rights Reserved</span>
+      </div>
+      
+      <div class="flex flex-wrap justify-center gap-6 text-sm">
+        <a href="/privacy-policy" class="text-indigo-400 font-medium">Privacy Policy</a>
+<a href="/terms" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a>
+<a href="/cookie-policy" class="text-slate-400 hover:text-white transition-colors">Cookie Policy</a>
+<a href="/risk-disclosure" class="text-slate-400 hover:text-white transition-colors">Risk Disclosure</a>
+<a href="/aml-policy" class="text-slate-400 hover:text-white transition-colors">AML Policy</a>
+
+      </div>
+    </div>
+    
+    <div class="mt-8 pt-8 border-t border-slate-800 text-center">
+      <p class="text-xs text-slate-600">
+        This privacy policy complies with GDPR, CCPA, and other global data protection regulations.
+        Global Equinox Trade is committed to protecting your privacy and securing your personal data.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Set current date
+  document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  // Fade in animation
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.fade-in');
+    sections.forEach((section, index) => {
+      section.style.animationDelay = `${index * 0.1}s`;
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 120,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

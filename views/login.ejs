@@ -60,6 +60,14 @@
       <p class="text-slate-400 text-sm mt-1">Login to your trading dashboard</p>
     </div>
 
+    <!-- Password Changed Success Message -->
+    <% if (typeof passwordChanged !== 'undefined' && passwordChanged === 'true') { %>
+      <div class="mb-4 p-3 bg-emerald-500/20 border border-emerald-500/50 rounded-lg text-emerald-400 text-sm text-center">
+        <i class="fas fa-check-circle mr-1"></i>
+        Password changed successfully! Please login with your new password.
+      </div>
+    <% } %>
+
     <form action="/login" method="POST" class="space-y-6">
 
       <div>

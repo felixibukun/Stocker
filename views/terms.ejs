@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terms of Service | Global Equinox Trade</title>
+  <link rel="icon" type="image/png" href="/temp/custom/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    .section-highlight {
+      background: linear-gradient(90deg, rgba(99, 102, 241, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
+      border-left: 4px solid rgb(99, 102, 241);
+    }
+    
+    .warning-section {
+      background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+      border-left: 4px solid rgb(239, 68, 68);
+    }
+    
+    .hover-glow:hover {
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-200 font-sans min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3 group">
+      <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-8 transition-transform group-hover:scale-105">
+      <span class="font-semibold text-white group-hover:text-indigo-300 transition-colors">Global Equinox Trade</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-6 text-sm">
+      <a href="/" class="text-slate-400 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-slate-800">Home</a>
+      <a href="/login" class="text-slate-400 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-slate-800">Login</a>
+      <a href="/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors hover-glow">Sign Up</a>
+      <a href="/support" class="text-slate-400 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-slate-800">Support</a>
+    </nav>
+    
+    <!-- Mobile menu button -->
+    <button class="md:hidden text-slate-400 hover:text-white" onclick="toggleMobileMenu()">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="md:hidden hidden px-6 pb-4">
+    <div class="flex flex-col gap-3">
+      <a href="/" class="text-slate-400 hover:text-white transition-colors py-2">Home</a>
+      <a href="/login" class="text-slate-400 hover:text-white transition-colors py-2">Login</a>
+      <a href="/signup" class="text-slate-400 hover:text-white transition-colors py-2">Sign Up</a>
+      <a href="/support" class="text-slate-400 hover:text-white transition-colors py-2">Support</a>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="relative bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800">
+  <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+  
+  <div class="max-w-4xl mx-auto px-6 py-16 relative">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      <div>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-3 fade-in">Terms of Service</h1>
+        <p class="text-slate-400 text-lg">Effective Date: January 1, 2015 • Last Updated: <span id="currentDate"></span></p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+          <span class="text-xs text-slate-400">Version</span>
+          <div class="text-sm font-medium">2.1.4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK NAV -->
+<div class="sticky top-16 z-40 bg-slate-900/80 backdrop-blur-sm border-y border-slate-800">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="flex items-center justify-between py-3">
+      <span class="text-sm text-slate-400 hidden md:block">Quick Navigation</span>
+      <div class="flex flex-wrap gap-2">
+        <a href="#important" class="px-3 py-1.5 text-xs bg-red-600/20 text-red-300 rounded-full border border-red-700/50 hover:bg-red-600/30 transition-colors">
+          ⚠️ Important Notice
+        </a>
+        <a href="#withdrawal" class="px-3 py-1.5 text-xs bg-amber-600/20 text-amber-300 rounded-full border border-amber-700/50 hover:bg-amber-600/30 transition-colors">
+          💰 Withdrawal Policy
+        </a>
+        <a href="#contact" class="px-3 py-1.5 text-xs bg-indigo-600/20 text-indigo-300 rounded-full border border-indigo-700/50 hover:bg-indigo-600/30 transition-colors">
+          📞 Contact
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<main class="max-w-4xl mx-auto px-6 py-12 flex-grow">
+  <div class="grid md:grid-cols-4 gap-8">
+    <!-- Table of Contents -->
+    <div class="md:col-span-1">
+      <div class="sticky top-32">
+        <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-800">
+          <h3 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Contents</h3>
+          <nav class="space-y-2">
+            <a href="#eligibility" class="block text-sm text-slate-400 hover:text-white transition-colors py-1.5 pl-3 border-l border-slate-700 hover:border-indigo-500 hover:pl-4">Eligibility</a>
+            <a href="#services" class="block text-sm text-slate-400 hover:text-white transition-colors py-1.5 pl-3 border-l border-slate-700 hover:border-indigo-500 hover:pl-4">Services</a>
+            <a href="#responsibilities" class="block text-sm text-slate-400 hover:text-white transition-colors py-1.5 pl-3 border-l border-slate-700 hover:border-indigo-500 hover:pl-4">User Responsibilities</a>
+            <a href="#withdrawal" class="block text-sm text-red-300 hover:text-red-200 transition-colors py-1.5 pl-3 border-l border-red-700 hover:border-red-500 hover:pl-4">Withdrawal Charge</a>
+            <a href="#risk" class="block text-sm text-slate-400 hover:text-white transition-colors py-1.5 pl-3 border-l border-slate-700 hover:border-indigo-500 hover:pl-4">Trading Risk</a>
+            <a href="#suspension" class="block text-sm text-slate-400 hover:text-white transition-colors py-1.5 pl-3 border-l border-slate-700 hover:border-indigo-500 hover:pl-4">Account Suspension</a>
+            <a href="#liability" class="block text-sm text-slate-400 hover:text-white transition-colors py-1.5 pl-3 border-l border-slate-700 hover:border-indigo-500 hover:pl-4">Liability</a>
+            <a href="#updates" class="block text-sm text-slate-400 hover:text-white transition-colors py-1.5 pl-3 border-l border-slate-700 hover:border-indigo-500 hover:pl-4">Updates</a>
+          </nav>
+        </div>
+        
+        <div class="mt-6 bg-slate-900/30 rounded-xl p-5 border border-slate-800">
+          <h3 class="font-semibold text-white mb-3 text-sm uppercase tracking-wider">Important</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            By using our platform, you acknowledge and agree to all terms outlined here. Please read carefully.
+          </p>
+          <div class="mt-4 pt-4 border-t border-slate-800">
+            <div class="flex items-center gap-2 text-xs text-slate-500">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+              </svg>
+              <span>Reading time: ~5 minutes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="md:col-span-3 space-y-10">
+      <!-- Important Notice -->
+      <section id="important" class="warning-section p-6 rounded-xl fade-in">
+        <div class="flex items-start gap-3">
+          <div class="text-red-400 mt-1">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-white mb-2">Important Notice</h2>
+            <p class="text-slate-300">
+              By accessing or using Global Equinox Trade, you agree to these Terms of Service. If you disagree with any part of these terms, do not use our platform.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Eligibility -->
+      <section id="eligibility" class="section-highlight p-6 rounded-xl fade-in">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold">1</span>
+          </div>
+          <h2 class="text-xl font-bold text-white">Eligibility</h2>
+        </div>
+        <p class="text-slate-300 leading-relaxed">
+          You confirm that you are legally permitted to use trading platforms in your jurisdiction and are of legal age to enter into binding contracts. You agree to provide accurate, current, and complete information during registration and maintain the accuracy of such information.
+        </p>
+      </section>
+
+      <!-- Services -->
+      <section id="services" class="bg-slate-900/30 p-6 rounded-xl border border-slate-800 fade-in">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold">2</span>
+          </div>
+          <h2 class="text-xl font-bold text-white">Services</h2>
+        </div>
+        <p class="text-slate-300 leading-relaxed">
+          We provide trading tools, account management features, real-time market data, and trading execution services. Service availability depends on market conditions, system performance, and regulatory requirements. We reserve the right to modify or discontinue services without prior notice.
+        </p>
+      </section>
+
+      <!-- User Responsibilities -->
+      <section id="responsibilities" class="bg-slate-900/30 p-6 rounded-xl border border-slate-800 fade-in">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold">3</span>
+          </div>
+          <h2 class="text-xl font-bold text-white">User Responsibilities</h2>
+        </div>
+        <p class="text-slate-300 leading-relaxed mb-4">
+          You are solely responsible for all actions performed on your account. This includes trades executed, orders placed, and any associated financial outcomes.
+        </p>
+        <ul class="space-y-2 text-slate-300">
+          <li class="flex items-start gap-2">
+            <span class="text-indigo-400 mt-1">•</span>
+            <span>You must maintain the security and confidentiality of your login credentials</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-indigo-400 mt-1">•</span>
+            <span>You agree to notify us immediately of any unauthorized access or security breach</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-indigo-400 mt-1">•</span>
+            <span>You are responsible for all fees, taxes, and charges associated with your account activity</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Mandatory Withdrawal Charge -->
+      <section id="withdrawal" class="warning-section p-6 rounded-xl fade-in">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold">!</span>
+          </div>
+          <h2 class="text-xl font-bold text-white">Mandatory Withdrawal Charge</h2>
+        </div>
+        
+        <div class="mb-6 p-4 bg-red-900/20 border border-red-800/50 rounded-lg">
+          <div class="flex items-center gap-2 text-red-300 mb-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <span class="font-medium">Important Policy Notice</span>
+          </div>
+          <p class="text-sm text-red-200">
+            This section outlines mandatory charges that apply to all withdrawal requests. Please review carefully.
+          </p>
+        </div>
+        
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-red-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-red-400 text-sm font-bold">1</span>
+            </div>
+            <span class="text-slate-300">A compulsory fee of <span class="text-red-300 font-bold">2% to 5%</span> of the client's total profited amount applies before any withdrawal can be processed.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-red-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-red-400 text-sm font-bold">2</span>
+            </div>
+            <span class="text-slate-300">No withdrawal request is reviewed or processed until this charge is <span class="text-red-300 font-bold">fully settled</span>.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-red-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-red-400 text-sm font-bold">3</span>
+            </div>
+            <span class="text-slate-300">The platform determines the exact percentage based on account status, trading activity, and compliance review.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-red-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-red-400 text-sm font-bold">4</span>
+            </div>
+            <span class="text-slate-300">Failure to complete payment results in <span class="text-red-300 font-bold">automatic rejection</span> of the withdrawal request.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-red-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-red-400 text-sm font-bold">5</span>
+            </div>
+            <span class="text-slate-300">This charge is <span class="text-red-300 font-bold">final and non-refundable</span> once processed.</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Trading Risk -->
+      <section id="risk" class="bg-slate-900/30 p-6 rounded-xl border border-slate-800 fade-in">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold">⚠</span>
+          </div>
+          <h2 class="text-xl font-bold text-white">Trading Risk</h2>
+        </div>
+        <p class="text-slate-300 leading-relaxed">
+          Trading involves significant financial risk. Losses can and do occur. You accept full responsibility for all trading outcomes, including losses exceeding your initial deposit. Past performance is not indicative of future results.
+        </p>
+      </section>
+
+      <!-- Account Suspension -->
+      <section id="suspension" class="bg-slate-900/30 p-6 rounded-xl border border-slate-800 fade-in">
+        <h2 class="text-xl font-bold text-white mb-4">Account Suspension & Termination</h2>
+        <p class="text-slate-300 leading-relaxed">
+          We reserve the right to restrict, suspend, or terminate accounts that violate platform rules, engage in fraudulent activity, or fail to meet legal/compliance requirements. Suspension may occur without prior notice in cases of suspected illegal activity.
+        </p>
+      </section>
+
+      <!-- Limitation of Liability -->
+      <section id="liability" class="bg-slate-900/30 p-6 rounded-xl border border-slate-800 fade-in">
+        <h2 class="text-xl font-bold text-white mb-4">Limitation of Liability</h2>
+        <p class="text-slate-300 leading-relaxed">
+          We are not responsible for losses caused by market volatility, system delays, outages, third-party services, or force majeure events. Our total liability shall not exceed the fees paid by you in the preceding six months.
+        </p>
+      </section>
+
+      <!-- Updates to Terms -->
+      <section id="updates" class="bg-slate-900/30 p-6 rounded-xl border border-slate-800 fade-in">
+        <h2 class="text-xl font-bold text-white mb-4">Updates to Terms</h2>
+        <p class="text-slate-300 leading-relaxed">
+          These terms are updated periodically. We will notify users of material changes via email or platform notification. Continued use of our services following updates constitutes acceptance of the modified terms.
+        </p>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="bg-gradient-to-r from-slate-900 to-indigo-950/30 p-6 rounded-xl border border-indigo-800/30 fade-in">
+        <h2 class="text-xl font-bold text-white mb-4">Contact Information</h2>
+        <div class="flex items-center gap-3 text-slate-300">
+          <svg class="w-5 h-5 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+          </svg>
+          <a href="mailto:globalequinoxtrade@gmail.com" class="hover:text-indigo-300 transition-colors">
+            globalequinoxtrade@gmail.com
+          </a>
+        </div>
+      </section>
+
+      <!-- Acceptance -->
+      <div class="p-6 bg-slate-900/50 rounded-xl border border-slate-800">
+        <div class="flex items-center gap-3">
+          <input type="checkbox" id="termsAccept" class="w-5 h-5 text-indigo-600 bg-slate-800 border-slate-700 rounded">
+          <label for="termsAccept" class="text-sm text-slate-300">
+            I have read, understood, and agree to be bound by these Terms of Service
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-800 bg-slate-950 mt-12">
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-3">
+        <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-6 opacity-80">
+        <span class="text-slate-400 text-sm">© 2015-2025 Global Equinox Trade</span>
+      </div>
+      
+      <div class="flex flex-wrap justify-center gap-6 text-sm text-slate-500">
+        <a href="/privacy-policy" class="text-indigo-400 font-medium">Privacy Policy</a>
+<a href="/terms" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a>
+<a href="/cookie-policy" class="text-slate-400 hover:text-white transition-colors">Cookie Policy</a>
+<a href="/risk-disclosure" class="text-slate-400 hover:text-white transition-colors">Risk Disclosure</a>
+<a href="/aml-policy" class="text-slate-400 hover:text-white transition-colors">AML Policy</a>
+
+      </div>
+      
+      <div class="text-xs text-slate-600 text-center md:text-right">
+        <p>All trading involves risk. Only trade with money you can afford to lose.</p>
+        <p class="mt-1">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" class="text-slate-500 hover:text-slate-400">Privacy Policy</a> and <a href="https://policies.google.com/terms" class="text-slate-500 hover:text-slate-400">Terms of Service</a> apply.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Set current date
+  const baseDate = new Date('2015-01-01');
+const now = new Date();
+
+const monthsDiff =
+  (now.getFullYear() - baseDate.getFullYear()) * 12 +
+  (now.getMonth() - baseDate.getMonth());
+
+const completedCycles = Math.floor(monthsDiff / 2) - 1;
+const safeCycles = Math.max(completedCycles, 0);
+
+const lastUpdated = new Date(
+  baseDate.getFullYear(),
+  baseDate.getMonth() + safeCycles * 2,
+  1
+);
+
+document.getElementById('currentDate').textContent =
+  lastUpdated.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long'
+  });
+
+
+  // Mobile menu toggle
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('hidden');
+  }
+
+  // Fade in animation for sections
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    sections.forEach(section => {
+      section.style.opacity = '0';
+      section.style.transform = 'translateY(20px)';
+      section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(section);
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

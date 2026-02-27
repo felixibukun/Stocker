@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AML Policy | Global Equinox Trade</title>
+  <link rel="icon" type="image/png" href="/temp/custom/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .aml-card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.7) 100%);
+      border: 1px solid rgba(100, 116, 139, 0.3);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    .aml-card:hover {
+      border-color: rgba(34, 197, 94, 0.5);
+      transform: translateY(-2px);
+    }
+    
+    .compliance-badge {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    }
+    
+    .verification-step {
+      position: relative;
+      padding-left: 2.5rem;
+    }
+    
+    .verification-step::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: #10b981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.75rem;
+    }
+    
+    .verification-step:nth-child(1)::before { content: '1'; }
+    .verification-step:nth-child(2)::before { content: '2'; }
+    .verification-step:nth-child(3)::before { content: '3'; }
+    .verification-step:nth-child(4)::before { content: '4'; }
+    .verification-step:nth-child(5)::before { content: '5'; }
+    
+    .security-shield {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .security-shield::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+      animation: pulseShield 4s infinite;
+    }
+    
+    @keyframes pulseShield {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 0.2; }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-200 font-sans min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3 group">
+      <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-8 transition-transform group-hover:scale-105">
+      <span class="font-semibold text-white group-hover:text-indigo-300 transition-colors">Global Equinox Trade</span>
+    </a>
+    
+    <div class="flex items-center gap-4">
+      <a href="/aml" class="text-emerald-400 font-medium text-sm hidden md:block">AML Policy</a>
+      <a href="/terms" class="text-slate-400 hover:text-white text-sm transition-colors hidden md:block">Terms</a>
+      <a href="/login" class="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg hover:bg-emerald-700 transition-colors">Client Login</a>
+    </div>
+  </div>
+</header>
+
+<!-- SECURITY BANNER -->
+<div class="bg-gradient-to-r from-emerald-900/30 to-green-900/30 border-b border-emerald-800/30">
+  <div class="max-w-7xl mx-auto px-6 py-3">
+    <div class="flex items-center justify-center gap-3">
+      <svg class="w-5 h-5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+      </svg>
+      <span class="text-emerald-300 font-semibold text-sm text-center">
+        STRICT ANTI-MONEY LAUNDERING COMPLIANCE • VERIFIED & SECURE PLATFORM
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO SECTION -->
+<section class="relative bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/30 border-b border-slate-800 overflow-hidden">
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%2310b981" fill-opacity="0.2"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+  </div>
+  
+  <div class="max-w-6xl mx-auto px-6 py-16 relative">
+    <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
+      <div class="lg:w-2/3">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-900/30 rounded-full border border-emerald-800/50 mb-6">
+          <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-sm text-emerald-300">Financial Compliance & Security</span>
+        </div>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 fade-in">Anti-Money Laundering Policy</h1>
+        <p class="text-lg text-slate-300 mb-6">Our commitment to preventing financial crime and maintaining regulatory compliance</p>
+        
+        <div class="flex flex-wrap gap-4">
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Effective Date</span>
+            <div class="text-sm font-medium">January 1, 2015</div>
+          </div>
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Last Updated</span>
+            <div class="text-sm font-medium" id="currentDate"></div>
+          </div>
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Compliance Level</span>
+            <div class="text-sm font-medium text-emerald-400">Tier 1</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="lg:w-1/3">
+        <div class="security-shield aml-card p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="compliance-badge w-12 h-12 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-white">Verified Platform</h3>
+              <p class="text-sm text-emerald-300">AML/KYC Compliant</p>
+            </div>
+          </div>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-start gap-2 text-slate-300">
+              <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Full identity verification required</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-300">
+              <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Continuous transaction monitoring</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-300">
+              <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>Regulatory reporting compliance</span>
+            </li>
+          </ul>
+          <div class="mt-6 pt-6 border-t border-emerald-800/50">
+            <a href="#verification" class="text-emerald-400 hover:text-emerald-300 text-sm font-medium flex items-center gap-2">
+              Verification Process
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<main class="max-w-6xl mx-auto px-6 py-12">
+  <div class="grid md:grid-cols-3 gap-8">
+    <!-- Sidebar -->
+    <div class="md:col-span-1">
+      <div class="sticky top-32">
+        <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-800 mb-6">
+          <h3 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Policy Sections</h3>
+          <nav class="space-y-2">
+            <a href="#overview" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Overview</a>
+            <a href="#verification" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Verification</a>
+            <a href="#monitoring" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Monitoring</a>
+            <a href="#reporting" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Reporting</a>
+            <a href="#sanctions" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Sanctions</a>
+            <a href="#compliance" class="block text-sm text-emerald-400 hover:text-emerald-300 transition-colors py-2 px-3 rounded-lg hover:bg-emerald-900/20">Your Compliance</a>
+          </nav>
+        </div>
+        
+        <div class="bg-slate-900/30 rounded-xl p-5 border border-slate-800">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-emerald-600/20 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-medium text-white">AML Standards</h4>
+              <p class="text-xs text-slate-400">Global Compliance</p>
+            </div>
+          </div>
+          <ul class="space-y-2 text-sm text-slate-300 mt-3">
+            <li class="flex items-start gap-2">• FATF Recommendations</li>
+            <li class="flex items-start gap-2">• EU AML Directives</li>
+            <li class="flex items-start gap-2">• USA PATRIOT Act</li>
+            <li class="flex items-start gap-2">• Local Regulations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="md:col-span-2 space-y-8">
+      <!-- Overview -->
+      <section id="overview" class="aml-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-emerald-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl font-bold text-emerald-400">🏛️</span>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Policy Overview</h2>
+            <p class="text-sm text-slate-400">Our commitment to preventing financial crime</p>
+          </div>
+        </div>
+        
+        <div class="space-y-4">
+          <p class="text-slate-300 leading-relaxed">
+            Global Equinox Trade maintains a comprehensive Anti-Money Laundering (AML) and Counter-Terrorist Financing (CTF) program designed to prevent, detect, and report money laundering activities. Our program complies with international standards and local regulations in all jurisdictions where we operate.
+          </p>
+          
+          <div class="grid md:grid-cols-2 gap-6 mt-6">
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Our Commitment</h3>
+              <p class="text-sm text-slate-300">
+                We are committed to maintaining the highest standards of AML compliance to protect our platform, clients, and the financial system from abuse by criminals and terrorists.
+              </p>
+            </div>
+            
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Legal Framework</h3>
+              <p class="text-sm text-slate-300">
+                Our policies are based on FATF recommendations, EU AML directives, the USA PATRIOT Act, and local regulatory requirements in each operating jurisdiction.
+              </p>
+            </div>
+          </div>
+          
+          <div class="p-4 bg-emerald-900/20 rounded-lg border border-emerald-800/30 mt-4">
+            <div class="flex items-center gap-2 text-emerald-300 mb-2">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+              </svg>
+              <span class="font-medium">Zero Tolerance</span>
+            </div>
+            <p class="text-sm text-emerald-200">
+              We maintain a zero-tolerance policy towards money laundering, terrorist financing, and other financial crimes. Any suspected activity will result in immediate investigation and reporting to relevant authorities.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Customer Verification -->
+      <section id="verification" class="aml-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl font-bold text-blue-400">🆔</span>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Customer Verification (KYC)</h2>
+            <p class="text-sm text-slate-400">Know Your Customer requirements</p>
+          </div>
+        </div>
+        
+        <div class="mb-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-900/30 rounded-full border border-blue-800/50 mb-3">
+            <span class="text-xs text-blue-300">Mandatory Verification</span>
+          </div>
+          <p class="text-slate-300 text-sm">
+            All clients must complete our Know Your Customer (KYC) verification process before opening an account and conducting transactions. This process includes:
+          </p>
+        </div>
+        
+        <div class="space-y-4 mb-6">
+          <div class="verification-step">
+            <h3 class="font-semibold text-white mb-2">Identity Verification</h3>
+            <p class="text-sm text-slate-300">
+              Submit government-issued photo ID (passport, driver's license, or national ID card) with clear photograph and signature.
+            </p>
+          </div>
+          
+          <div class="verification-step">
+            <h3 class="font-semibold text-white mb-2">Address Verification</h3>
+            <p class="text-sm text-slate-300">
+              Provide recent utility bill, bank statement, or government document (less than 3 months old) showing your residential address.
+            </p>
+          </div>
+          
+          <div class="verification-step">
+            <h3 class="font-semibold text-white mb-2">Source of Funds</h3>
+            <p class="text-sm text-slate-300">
+              Declare the legitimate source of funds being deposited (employment income, business profits, investments, inheritance, etc.).
+            </p>
+          </div>
+          
+          <div class="verification-step">
+            <h3 class="font-semibold text-white mb-2">Trading Experience</h3>
+            <p class="text-sm text-slate-300">
+              Provide information about your trading experience, knowledge, and risk tolerance for suitability assessment.
+            </p>
+          </div>
+          
+          <div class="verification-step">
+            <h3 class="font-semibold text-white mb-2">PEP Screening</h3>
+            <p class="text-sm text-slate-300">
+              Screening against Politically Exposed Persons (PEP) databases and sanctions lists to identify high-risk individuals.
+            </p>
+          </div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Enhanced Due Diligence</h3>
+            <p class="text-sm text-slate-300">
+              High-risk clients (PEPs, high-volume traders, high-net-worth individuals) undergo enhanced verification with additional documentation requirements.
+            </p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Ongoing Monitoring</h3>
+            <p class="text-sm text-slate-300">
+              Client information is periodically reviewed and updated. Clients must notify us of any changes to personal or financial circumstances.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transaction Monitoring -->
+      <section id="monitoring" class="aml-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-purple-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl font-bold text-purple-400">👁️</span>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Transaction Monitoring</h2>
+            <p class="text-sm text-slate-400">Real-time surveillance and analysis</p>
+          </div>
+        </div>
+        
+        <div class="space-y-6">
+          <div class="p-4 bg-slate-800/20 rounded-lg">
+            <p class="text-slate-300 text-sm">
+              We employ automated transaction monitoring systems that analyze all account activity in real-time to detect suspicious patterns and behaviors indicative of money laundering or terrorist financing.
+            </p>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Detection Scenarios</h3>
+              <ul class="space-y-2 text-sm text-slate-400">
+                <li class="flex items-start gap-2">• Unusual deposit/withdrawal patterns</li>
+                <li class="flex items-start gap-2">• Rapid fund movement between accounts</li>
+                <li class="flex items-start gap-2">• Transactions just below reporting thresholds</li>
+                <li class="flex items-start gap-2">• Inconsistent trading behavior</li>
+              </ul>
+            </div>
+            
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Monitoring Parameters</h3>
+              <ul class="space-y-2 text-sm text-slate-400">
+                <li class="flex items-start gap-2">• Transaction frequency and size</li>
+                <li class="flex items-start gap-2">• Geographic patterns and jurisdiction risks</li>
+                <li class="flex items-start gap-2">• Counterparty relationships</li>
+                <li class="flex items-start gap-2">• Behavioral deviations from norms</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-slate-700">
+                  <th class="text-left py-3 px-4 text-slate-400 font-medium">Threshold</th>
+                  <th class="text-left py-3 px-4 text-slate-400 font-medium">Action Required</th>
+                  <th class="text-left py-3 px-4 text-slate-400 font-medium">Timeframe</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800">
+                <tr>
+                  <td class="py-3 px-4 font-medium text-white">$10,000+</td>
+                  <td class="py-3 px-4 text-slate-300">Enhanced verification</td>
+                  <td class="py-3 px-4 text-slate-300">Immediate</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-4 font-medium text-white">$50,000+</td>
+                  <td class="py-3 px-4 text-slate-300">Senior review required</td>
+                  <td class="py-3 px-4 text-slate-300">Within 24 hours</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-4 font-medium text-white">$100,000+</td>
+                  <td class="py-3 px-4 text-slate-300">Compliance officer review</td>
+                  <td class="py-3 px-4 text-slate-300">Immediate</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-4 font-medium text-white">Any suspicious</td>
+                  <td class="py-3 px-4 text-slate-300">Suspicious Activity Report</td>
+                  <td class="py-3 px-4 text-slate-300">30 days maximum</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reporting Obligations -->
+      <section id="reporting" class="aml-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-amber-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl font-bold text-amber-400">📋</span>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Reporting Obligations</h2>
+            <p class="text-sm text-slate-400">Regulatory filings and disclosures</p>
+          </div>
+        </div>
+        
+        <div class="space-y-6">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Suspicious Activity Reports (SARs)</h3>
+              <p class="text-sm text-slate-300">
+                We are legally required to file SARs with financial intelligence units when we detect transactions that appear to involve money laundering, terrorist financing, or other financial crimes.
+              </p>
+            </div>
+            
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Currency Transaction Reports (CTRs)</h3>
+              <p class="text-sm text-slate-300">
+                For transactions exceeding regulatory thresholds, we file CTRs to provide transparency about large currency movements through our platform.
+              </p>
+            </div>
+          </div>
+          
+          <div class="p-4 bg-amber-900/20 rounded-lg border border-amber-800/30">
+            <div class="flex items-center gap-2 text-amber-300 mb-2">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+              </svg>
+              <span class="font-medium">Tipping Off Prohibition</span>
+            </div>
+            <p class="text-sm text-amber-200">
+              We are prohibited by law from informing clients that a SAR has been filed or that their activities are under investigation. This "tipping off" prohibition is strictly enforced.
+            </p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/20 rounded-lg border border-slate-700">
+            <h3 class="font-semibold text-white mb-3">Record Retention</h3>
+            <p class="text-sm text-slate-300">
+              We maintain detailed records of all client identification documents, account files, business correspondence, and transaction data for a minimum of 5-7 years (depending on jurisdiction) after account closure.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sanctions Compliance -->
+      <section id="sanctions" class="aml-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl font-bold text-red-400">🚫</span>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Sanctions Compliance</h2>
+            <p class="text-sm text-slate-400">International sanctions enforcement</p>
+          </div>
+        </div>
+        
+        <div class="space-y-6">
+          <div class="p-4 bg-slate-800/20 rounded-lg">
+            <p class="text-slate-300 text-sm">
+              We screen all clients and transactions against global sanctions lists maintained by the United Nations, European Union, United States (OFAC), United Kingdom, and other relevant jurisdictions.
+            </p>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Prohibited Jurisdictions</h3>
+              <ul class="space-y-2 text-sm text-slate-400">
+                <li class="flex items-start gap-2">• Countries under comprehensive sanctions</li>
+                <li class="flex items-start gap-2">• High-risk jurisdictions (FATF black/grey lists)</li>
+                <li class="flex items-start gap-2">• Non-cooperative tax havens</li>
+                <li class="flex items-start gap-2">• Jurisdictions with weak AML frameworks</li>
+              </ul>
+            </div>
+            
+            <div class="p-4 bg-slate-800/30 rounded-lg">
+              <h3 class="font-semibold text-white mb-3">Prohibited Activities</h3>
+              <ul class="space-y-2 text-sm text-slate-400">
+                <li class="flex items-start gap-2">• Transactions with sanctioned individuals/entities</li>
+                <li class="flex items-start gap-2">• Business with shell banks or anonymous accounts</li>
+                <li class="flex items-start gap-2">• Unlicensed money transmission</li>
+                <li class="flex items-start gap-2">• Transactions involving illicit substances</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="p-4 bg-red-900/20 rounded-lg border border-red-800/30">
+            <p class="text-sm text-red-200">
+              <span class="font-semibold">Immediate Action:</span> Any match with sanctions lists results in immediate account freezing, fund seizure, and reporting to relevant authorities. No exceptions are made.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Your Compliance -->
+      <section id="compliance" class="aml-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="compliance-badge w-12 h-12 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Your Compliance Responsibilities</h2>
+            <p class="text-sm text-emerald-300">Client obligations and cooperation</p>
+          </div>
+        </div>
+        
+        <div class="space-y-6">
+          <div class="p-4 bg-emerald-900/20 rounded-lg border border-emerald-800/30">
+            <p class="text-emerald-200 text-sm">
+              As a client of Global Equinox Trade, you have certain responsibilities under our AML program. Your cooperation is essential for maintaining regulatory compliance.
+            </p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-start gap-3 p-4 bg-slate-800/30 rounded-lg">
+              <div class="w-6 h-6 bg-emerald-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-emerald-400 text-sm font-bold">1</span>
+              </div>
+              <span class="text-slate-300 text-sm">
+                Provide accurate, complete, and current identification information during account opening and when requested
+              </span>
+            </div>
+            
+            <div class="flex items-start gap-3 p-4 bg-slate-800/30 rounded-lg">
+              <div class="w-6 h-6 bg-emerald-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-emerald-400 text-sm font-bold">2</span>
+              </div>
+              <span class="text-slate-300 text-sm">
+                Promptly notify us of any changes to your personal information, financial circumstances, or source of funds
+              </span>
+            </div>
+            
+            <div class="flex items-start gap-3 p-4 bg-slate-800/30 rounded-lg">
+              <div class="w-6 h-6 bg-emerald-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-emerald-400 text-sm font-bold">3</span>
+              </div>
+              <span class="text-slate-300 text-sm">
+                Only use the platform for legitimate trading purposes with legally obtained funds
+              </span>
+            </div>
+            
+            <div class="flex items-start gap-3 p-4 bg-slate-800/30 rounded-lg">
+              <div class="w-6 h-6 bg-emerald-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-emerald-400 text-sm font-bold">4</span>
+              </div>
+              <span class="text-slate-300 text-sm">
+                Cooperate with any requests for additional information or documentation for compliance purposes
+              </span>
+            </div>
+            
+            <div class="flex items-start gap-3 p-4 bg-slate-800/30 rounded-lg">
+              <div class="w-6 h-6 bg-emerald-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-emerald-400 text-sm font-bold">5</span>
+              </div>
+              <span class="text-slate-300 text-sm">
+                Report any suspicious activity you observe on the platform to our compliance team immediately
+              </span>
+            </div>
+          </div>
+          
+          <div class="p-4 bg-red-900/20 rounded-lg border border-red-800/30">
+            <p class="text-sm text-red-200">
+              <span class="font-semibold">Non-Compliance Consequences:</span> Failure to comply with AML requirements may result in account restriction, transaction rejection, fund seizure, account termination, and reporting to law enforcement authorities.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <div class="p-6 bg-slate-900/50 rounded-xl border border-slate-800">
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-semibold text-white mb-3">Compliance Contact</h3>
+            <p class="text-sm text-slate-300 mb-2">
+              For AML/CTF compliance questions or to report suspicious activity:
+            </p>
+            <a href="mailto:globalequinoxtrade@gmail.com" class="text-emerald-400 hover:text-emerald-300 text-sm inline-flex items-center gap-2">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+              </svg>
+              globalequinoxtrade@gmail.com
+            </a>
+          </div>
+          
+          <div>
+            <h3 class="font-semibold text-white mb-3">Policy Updates</h3>
+            <p class="text-sm text-slate-300">
+              This AML Policy is reviewed annually and updated as needed to reflect changes in regulations, risks, and business operations. Clients are responsible for staying informed about policy updates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-800 bg-slate-950 mt-12">
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-3">
+        <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-6 opacity-80">
+        <span class="text-slate-400 text-sm">© 2015-2025 Global Equinox Trade • AML Compliance Department</span>
+      </div>
+      
+      <div class="flex flex-wrap justify-center gap-6 text-sm">
+        <a href="/privacy-policy" class="text-indigo-400 font-medium">Privacy Policy</a>
+<a href="/terms" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a>
+<a href="/cookie-policy" class="text-slate-400 hover:text-white transition-colors">Cookie Policy</a>
+<a href="/risk-disclosure" class="text-slate-400 hover:text-white transition-colors">Risk Disclosure</a>
+<a href="/aml-policy" class="text-slate-400 hover:text-white transition-colors">AML Policy</a>
+
+      </div>
+    </div>
+    
+    <div class="mt-8 pt-8 border-t border-slate-800 text-center">
+      <p class="text-xs text-slate-600">
+        This AML Policy is part of our comprehensive compliance program. We cooperate fully with law enforcement and regulatory authorities in the prevention and detection of financial crime.
+        Last AML audit: <span id="lastAuditDate"></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Set dates
+  document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  
+  // Set last audit date (90 days ago)
+  const lastAudit = new Date();
+  lastAudit.setDate(lastAudit.getDate() - 90);
+  document.getElementById('lastAuditDate').textContent = lastAudit.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  // Set dates
+  document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  
+  // Set last audit date (90 days ago)
+  const lastAudit = new Date();
+  lastAudit.setDate(lastAudit.getDate() - 90);
+  document.getElementById('lastAuditDate').textContent = lastAudit.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  // Smooth scroll for anchor links
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 120,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Add animation delays
+    document.querySelectorAll('.fade-in').forEach((el, index) => {
+      el.style.animationDelay = `${index * 0.1}s`;
+    });
+  });
+</script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en" class="dark h-full">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
   <title>Dashboard - <%= user.name || user.username %></title>
 
   <link rel="icon" type="image/png" href="/temp/custom/img/logo.png">
@@ -112,12 +112,229 @@
 
     .pulse-indicator { animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite; }
 
-    @media (max-width:480px) {
-      header h1 { font-size:14px; }
-      header p { font-size:11px; }
-      header .h-10.w-10 { height:34px; width:34px; }
-      header .px-2.py-1 { padding:1px 4px; font-size:10px; }
-      .flex.items-center.gap-4 { gap:8px; }
+    /* Scrollbar hide utility */
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Mobile Responsive Fixes */
+    @media (max-width: 640px) {
+      /* Header fixes */
+      header .flex.items-center.gap-4 {
+        gap: 0.5rem !important;
+      }
+      
+      header h1.text-lg {
+        font-size: 1rem !important;
+      }
+      
+      header .text-sm {
+        font-size: 0.75rem !important;
+      }
+      
+      header .h-10.w-10 {
+        height: 2.25rem !important;
+        width: 2.25rem !important;
+      }
+      
+      /* Tab navigation - make scrollable */
+      .flex.space-x-1.p-1 {
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        flex-wrap: nowrap !important;
+        -webkit-overflow-scrolling: touch;
+        gap: 0.25rem !important;
+        padding: 0.25rem !important;
+      }
+      
+      .flex.space-x-1.p-1 button {
+        display: inline-flex !important;
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.75rem !important;
+        flex-shrink: 0 !important;
+      }
+      
+      .flex.space-x-1.p-1 button i {
+        margin-right: 0.25rem !important;
+        width: 0.875rem !important;
+        height: 0.875rem !important;
+      }
+      
+      /* Balance cards */
+      .grid.grid-cols-1.sm\:grid-cols-3.gap-4 {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+      }
+      
+      /* Trading balance section */
+      .text-4xl.font-bold {
+        font-size: 1.75rem !important;
+      }
+      
+      .flex.items-start.justify-between.mb-6 {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.75rem !important;
+      }
+      
+      /* Action buttons */
+      .flex.flex-wrap.gap-3 {
+        flex-direction: column !important;
+      }
+      
+      .flex.flex-wrap.gap-3 button,
+      .flex.flex-wrap.gap-3 a {
+        min-width: 100% !important;
+        width: 100% !important;
+        padding: 0.75rem !important;
+        font-size: 0.875rem !important;
+      }
+      
+      /* Trading stats grid */
+      .grid.grid-cols-2.gap-4 {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+      }
+      
+      /* Market watchlist table */
+      .overflow-x-auto {
+        margin: 0 -1rem !important;
+        width: calc(100% + 2rem) !important;
+        padding: 0 1rem !important;
+      }
+      
+      table {
+        min-width: 600px !important;
+      }
+      
+      /* Trading execution forms */
+      .grid.grid-cols-1.md\:grid-cols-2.gap-6 {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+      }
+      
+      .order-buy.p-6, .order-sell.p-6 {
+        padding: 1rem !important;
+      }
+      
+      .grid.grid-cols-2.gap-4 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Portfolio section */
+      .grid.grid-cols-1.lg\:grid-cols-4.gap-6 {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+      }
+      
+      .grid.grid-cols-1.lg\:grid-cols-2.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Quick trade modal */
+      .fixed.inset-0.z-50 .bg-slate-900 {
+        margin: 1rem !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+      }
+      
+      /* Open positions */
+      .grid.grid-cols-2.gap-3.text-sm {
+        grid-template-columns: 1fr 1fr !important;
+      }
+      
+      /* Footer */
+      .flex.flex-col.md\:flex-row {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+      }
+      
+      .flex.items-center.gap-6 {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 0.75rem !important;
+      }
+      
+      /* Chart container */
+      .tradingview-widget-container {
+        height: 350px !important;
+      }
+      
+      /* User menu */
+      .hidden.sm\:block {
+        display: none !important;
+      }
+      
+      /* Quick trade button */
+      .hidden.sm\:flex {
+        display: none !important;
+      }
+      
+      /* Stats cards */
+      .bg-slate-800\/50.rounded-xl.p-4 {
+        padding: 0.75rem !important;
+      }
+      
+      .text-2xl.font-bold {
+        font-size: 1.25rem !important;
+      }
+      
+      /* KYC status icons */
+      .ml-auto i {
+        width: 1rem !important;
+        height: 1rem !important;
+      }
+      
+      /* Sidebar */
+      .sidebar {
+        width: 85% !important;
+      }
+      
+      /* Back to top button */
+      .fixed.bottom-6.left-6 {
+        bottom: 1rem !important;
+        left: 1rem !important;
+        height: 2.5rem !important;
+        width: 2.5rem !important;
+      }
+    }
+
+    @media (min-width: 641px) and (max-width: 768px) {
+      .grid.grid-cols-1.lg\:grid-cols-3.gap-6 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      
+      .lg\:col-span-2 {
+        grid-column: span 2 !important;
+      }
+      
+      .grid.grid-cols-1.lg\:grid-cols-4.gap-6 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      
+      .grid.grid-cols-1.lg\:grid-cols-2.gap-6 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+
+    /* Ensure buttons are tappable */
+    button, a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Better mobile scrolling */
+    .overflow-x-auto {
+      -webkit-overflow-scrolling: touch;
     }
   </style>
 </head>
@@ -411,31 +628,31 @@
 <main class="flex-1 p-4 sm:p-6 lg:p-8">
 <div class="max-w-7xl mx-auto space-y-6">
 
-  <div class="flex space-x-1 p-1 bg-slate-800/50 rounded-xl">
+  <div class="flex space-x-1 p-1 bg-slate-800/50 rounded-xl overflow-x-auto scrollbar-hide">
     <button @click="activeTab = 'overview'"
             :class="activeTab === 'overview' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'"
-            class="px-4 py-2 rounded-lg text-sm font-medium">
+            class="px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap">
       <i data-lucide="layout-dashboard" class="w-4 h-4 mr-2 inline"></i>
       Overview
     </button>
 
     <button @click="activeTab = 'trading'"
             :class="activeTab === 'trading' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'"
-            class="px-4 py-2 rounded-lg text-sm font-medium">
+            class="px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap">
       <i data-lucide="trending-up" class="w-4 h-4 mr-2 inline"></i>
       Trading
     </button>
 
     <button @click="activeTab = 'portfolio'"
             :class="activeTab === 'portfolio' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'"
-            class="px-4 py-2 rounded-lg text-sm font-medium">
+            class="px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap">
       <i data-lucide="pie-chart" class="w-4 h-4 mr-2 inline"></i>
       Portfolio
     </button>
 
     <button @click="activeTab = 'market'"
             :class="activeTab === 'market' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'"
-            class="px-4 py-2 rounded-lg text-sm font-medium">
+            class="px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap">
       <i data-lucide="bar-chart-2" class="w-4 h-4 mr-2 inline"></i>
       Market
     </button>
@@ -488,6 +705,28 @@
           </div>
 
         </div>
+
+        <div class="mb-6"> <p class="text-sm text-slate-400 mb-2">Broker Signal</p> <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden"> 
+         <div
+  class="<%=
+    user.signalLevel === 0
+      ? 'bg-red-500'
+      : user.signalLevel < 50
+      ? 'bg-amber-500'
+      : 'bg-emerald-500'
+  %> h-full rounded-full"
+  style="width:<%= user.signalLevel %>%">
+</div>
+
+</div> 
+<p class="text-xs mt-2 <%= user.signalLevel === 0 ? 'text-red-400' : 'text-emerald-400' %>">
+  <%= user.signalLevel === 0
+  ? 'No available signal.'
+  : 'Broker active.'
+%>
+
+</p>
+ </div>
 
         <div class="flex flex-wrap gap-3">
           <button @click="showTradeModal = true; quickTrade.side = 'buy'"
@@ -812,7 +1051,7 @@
                 <div class="grid grid-cols-2 gap-4">
                   <div>
                     <label class="block text-sm text-slate-400 mb-2">Amount ($)</label>
-                    <input type="number" name="amount" value="100" min="10" step="10"
+                    <input type="number" name="amount" value="200" min="200" step="10"
                       class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg">
                   </div>
 
@@ -883,7 +1122,7 @@
 
                   <div>
                     <label class="block text-sm text-slate-400 mb-2">Amount ($)</label>
-                    <input type="number" name="amount" value="100" min="10" step="10"
+                    <input type="number" name="amount" value="200" min="200" step="10"
                       class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg">
                   </div>
 
@@ -1420,8 +1659,6 @@ document.addEventListener('submit', e => {
     });
   }
 });
-</script>
-
 </script>
 
 </body>

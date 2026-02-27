@@ -309,6 +309,20 @@ function requireLogin(req, res, next) {
   next()
 }
 
+function requireSignalActive(req, res, next) {
+  const users = loadUsers()
+  const user = users.find(u => u.id === req.session.user.id)
+
+  if (!user) return res.redirect('/login')
+
+  if (user.signalLevel === 0) {
+    setToast(req, 'error', 'Trading locked. Deposit allowed.')
+    return res.redirect('/dashboard')
+  }
+
+  next()
+}
+
 // Enhanced JSON loading with recovery layer
 function loadJson(filePath, fallback) {
   try {
@@ -417,69 +431,39 @@ function saveJson(filePath, data) {
   }
 }
 
-// ADDED: Missing loadUsers function
+// Clean loadUsers function
 function loadUsers() {
-  const filePath = path.join(__dirname, 'database', 'users.json');
-  console.log("LOADING USERS FROM:", filePath);
-  
+  const filePath = path.join(__dirname, 'database', 'users.json')
+
   try {
-    // Check if file exists
     if (!fs.existsSync(filePath)) {
-      console.log("users.json does not exist, creating empty array");
-      fs.writeFileSync(filePath, JSON.stringify([], null, 2));
-      return [];
+      fs.writeFileSync(filePath, JSON.stringify([], null, 2))
+      return []
     }
-    
-    // Read file
-    const data = fs.readFileSync(filePath, 'utf8');
-    
-    // Check if file is empty
-    if (!data.trim()) {
-      console.log("users.json is empty, returning empty array");
-      return [];
-    }
-    
-    // Parse JSON
-    const users = JSON.parse(data);
-    
-    // Ensure it's an array
-    if (!Array.isArray(users)) {
-      console.error("ERROR: users.json does not contain an array!");
-      console.error("Current content type:", typeof users);
-      console.error("Content:", data.substring(0, 100));
-      
-      // Try to fix it
-      if (typeof users === 'object' && users !== null) {
-        console.log("Converting object to array...");
-        return Object.values(users);
-      }
-      
-      return [];
-    }
-    
-    console.log(`Loaded ${users.length} users`);
-    return users;
-    
-  } catch (error) {
-    console.error("ERROR LOADING USERS.JSON:", error.message);
-    
-    // Try to restore from backup
-    const backupPath = filePath + '.backup';
-    if (fs.existsSync(backupPath)) {
-      try {
-        const backupData = fs.readFileSync(backupPath, 'utf8');
-        const users = JSON.parse(backupData);
-        console.log("Restored users from backup");
-        // Restore the backup
-        fs.writeFileSync(filePath, backupData);
-        return Array.isArray(users) ? users : [];
-      } catch (backupError) {
-        console.error("Backup restore failed:", backupError);
-      }
-    }
-    
-    return [];
+
+    const data = fs.readFileSync(filePath, 'utf8')
+    if (!data.trim()) return []
+
+    const users = JSON.parse(data)
+    return Array.isArray(users) ? users : []
+  } catch (err) {
+    console.error('LOAD USERS ERROR:', err)
+    return []
   }
+}
+
+function ensureSignalLevel() {
+  const users = loadUsers()
+  let changed = false
+
+  users.forEach(u => {
+    if (typeof u.signalLevel !== 'number') {
+      u.signalLevel = 100
+      changed = true
+    }
+  })
+
+  if (changed) saveUsers(users)
 }
 
 // FIXED: Complete saveUsers function
@@ -659,6 +643,30 @@ return
   }
 }, 15000)
 
+/* ===========================
+LEGAL PAGES
+=========================== */
+
+app.get('/terms', (req, res) => {
+  res.render('terms')
+})
+
+app.get('/privacy-policy', (req, res) => {
+  res.render('privacy')
+})
+
+app.get('/risk-disclosure', (req, res) => {
+  res.render('risk')
+})
+
+app.get('/cookie-policy', (req, res) => {
+  res.render('cookie')
+})
+
+app.get('/aml-policy', (req, res) => {
+  res.render('aml')
+})
+
 
 /* ===========================
 AUTH
@@ -689,6 +697,7 @@ app.post('/signup', authLimit, async (req, res) => {
   profit: 0,
   bonus: 0,
   deposit: 0,
+  signalLevel: 100,
   verified: false,
   kycStatus: 'not_verified'
 }
@@ -724,7 +733,13 @@ app.post('/signup', authLimit, async (req, res) => {
 
 app.get('/login', (req, res) => {
   if (req.session.user) return res.redirect('/dashboard')
-  res.render('login')
+  
+  // Check if password was changed
+  const passwordChanged = req.query.passwordChanged === 'true'
+  
+  res.render('login', { 
+    passwordChanged 
+  })
 })
 
 app.post('/login', authLimit, async (req, res) => {
@@ -742,15 +757,22 @@ app.post('/login', authLimit, async (req, res) => {
       return failLogin()
     }
 
-    // Supports plain passwords and old bcrypt hashes
-if (user.password === password) {
-  // Plain text password matches
-} else {
-  const ok = await bcrypt.compare(password, user.password)
-  if (!ok) return failLogin()
-}
-
-
+    // Check password - supports both plain text and bcrypt
+    let passwordValid = false
+    
+    if (user.password === password) {
+      passwordValid = true
+    } else {
+      try {
+        passwordValid = await bcrypt.compare(password, user.password)
+      } catch (err) {
+        passwordValid = false
+      }
+    }
+    
+    if (!passwordValid) {
+      return failLogin()
+    }
 
     req.session.user = {
       id: user.id,
@@ -838,6 +860,7 @@ app.get('/dashboard', requireLogin, (req, res) => {
     deposit: user.deposit,
     profit: user.profit,
     bonus: user.bonus,
+    signalLevel: user.signalLevel,
     kycStatus: user.kycStatus || "Not Verified"
   },
   openPositions,
@@ -866,7 +889,7 @@ app.get('/copy-trader', requireLogin, (req, res) => {
   }
 })
 
-app.post('/copy-trader/follow', requireLogin, async (req, res) => {
+app.post('/copy-trader/follow', requireLogin, requireSignalActive, async (req, res) => {
 try {
 const { traderId, amount } = req.body
 const invest = Number(amount)
@@ -962,7 +985,7 @@ app.get('/subscription-trade', requireLogin, (req, res) => {
 /* ===========================
 BUY STOCK
 =========================== */
-app.post('/stocks/buy', requireLogin, async (req, res) => {
+app.post('/stocks/buy', requireLogin, requireSignalActive, async (req, res) => {
   try {
     const { stockId, quantity } = req.body
     const qty = Number(quantity)
@@ -1054,7 +1077,7 @@ app.post('/stocks/buy', requireLogin, async (req, res) => {
 /* ===========================
 SELL STOCK
 =========================== */
-app.post('/stocks/sell', requireLogin, async (req, res) => {
+app.post('/stocks/sell', requireLogin, requireSignalActive, async (req, res) => {
   try {
     const { stockId, quantity } = req.body
     const qty = Number(quantity)
@@ -1136,7 +1159,7 @@ app.post('/stocks/sell', requireLogin, async (req, res) => {
   }
 })
 
-app.post('/trade/execute', requireLogin, (req, res) => {
+app.post('/trade/execute', requireLogin, requireSignalActive, (req, res) => {
 const { side, symbol, amount, leverage } = req.body
 
 const users = loadUsers()
@@ -1206,7 +1229,7 @@ saveUsers(users)
 
 // Close trade route.
 
-app.post('/trade/close', requireLogin, (req, res) => {
+app.post('/trade/close', requireLogin, requireSignalActive, (req, res) => {
 const { tradeId } = req.body
 
 const users = loadUsers()
@@ -1360,11 +1383,18 @@ app.get('/withdraw', requireLogin, (req, res) => {
 })
 
 /* ===========================
-SUBMIT WITHDRAWAL
+SUBMIT WITHDRAWAL - FIXED
 =========================== */
-app.post('/withdraw', requireLogin, async (req, res) => {
+app.post('/withdraw', requireLogin, requireSignalActive, async (req, res) => {
   try {
-    const { amount, wallet, network } = req.body
+    const {
+      amount,
+      network, 
+      bankName,
+      accountName,
+      accountNumber,
+      routingNumber
+    } = req.body;
 
     const users = loadUsers()
     const withdrawals = loadJson('./database/withdrawals.json', [])
@@ -1372,30 +1402,28 @@ app.post('/withdraw', requireLogin, async (req, res) => {
 
     const amt = Number(amount)
 
-    if (amt <= 0 || amt > user.balance) {
+    if (amt <= 0) {
       setToast(req, 'error', 'Invalid amount')
       return res.redirect('/withdraw')
     }
 
-    let remaining = amt
-
-    if (user.deposit >= remaining) {
-      user.deposit -= remaining
-      remaining = 0
-    } else {
-      remaining -= user.deposit
-      user.deposit = 0
+    // Check if user has enough profit
+    if (user.profit < amt) {
+      setToast(req, 'error', 'Insufficient profit balance for withdrawal')
+      return res.redirect('/withdraw')
     }
 
-    if (remaining > 0 && user.profit >= remaining) {
-      user.profit -= remaining
-      remaining = 0
+    // ALL METHODS ARE NOW AVAILABLE - removed restriction
+    // Only require bank details for BANK method
+    if (network === 'BANK') {
+      if (!bankName || !accountName || !accountNumber || !routingNumber) {
+        setToast(req, 'error', 'Please enter complete bank details')
+        return res.redirect('/withdraw')
+      }
     }
 
-    if (remaining > 0 && user.bonus >= remaining) {
-      user.bonus -= remaining
-      remaining = 0
-    }
+    // Deduct from profit only (not deposit)
+    user.profit = Number(user.profit || 0) - amt
 
     recalcUserBalance(user)
 
@@ -1403,8 +1431,13 @@ app.post('/withdraw', requireLogin, async (req, res) => {
       id: Date.now(),
       userId: user.id,
       amount: amt,
-      wallet,
       network,
+      bankDetails: network === 'BANK' ? {
+        bankName,
+        accountName,
+        accountNumber,
+        routingNumber
+      } : {},
       status: 'pending',
       date: new Date().toISOString()
     })
@@ -1415,7 +1448,7 @@ app.post('/withdraw', requireLogin, async (req, res) => {
     await notify(
       user.email,
       "Withdrawal Submitted",
-      `Your withdrawal request of $${amt} is pending review.`
+      `Your withdrawal request of $${amt} via ${network} is pending review.`
     )
 
     setToast(req, 'success', 'Withdrawal submitted')
@@ -1533,21 +1566,226 @@ app.get('/account', requireLogin, (req, res) => {
   res.render('account', { user })
 })
 
+// UPDATED: Profile update route with better validation
 app.post('/account/update', requireLogin, (req, res) => {
   const { name, username, phone, country } = req.body
 
   const users = loadUsers()
   const user = users.find(u => u.id === req.session.user.id)
 
-  user.name = name
-  user.username = username
-  user.phone = phone
-  user.country = country
+  // Check if username is already taken (if it's being changed)
+  if (username !== user.username) {
+    const existingUser = users.find(u => u.username === username && u.id !== user.id)
+    if (existingUser) {
+      setToast(req, 'error', 'Username already taken')
+      return res.redirect('/account')
+    }
+  }
+
+  // Update user fields
+  user.name = name || user.name
+  user.username = username || user.username
+  user.phone = phone || user.phone
+  user.country = country || user.country
 
   saveUsers(users)
 
-  setToast(req, 'success', 'Profile updated')
+  // Update session with new data
+  req.session.user.name = user.name
+  req.session.user.username = user.username
+  req.session.user.email = user.email
+
+  setToast(req, 'success', 'Profile updated successfully')
   res.redirect('/account')
+})
+
+// ===========================
+// COMPLETE ACCOUNT MANAGEMENT FIX
+// ===========================
+
+// UPDATE EMAIL ONLY ROUTE
+app.post('/account/update-email', requireLogin, (req, res) => {
+  try {
+    const { newEmail, password } = req.body
+
+    // Validation
+    if (!newEmail || !password) {
+      setToast(req, 'error', 'Email and password are required')
+      return res.redirect('/account')
+    }
+
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(newEmail)) {
+      setToast(req, 'error', 'Please enter a valid email address')
+      return res.redirect('/account')
+    }
+
+    const users = loadUsers()
+    const user = users.find(u => u.id === req.session.user.id)
+
+    if (!user) {
+      setToast(req, 'error', 'User not found')
+      return res.redirect('/login')
+    }
+
+    // Verify password (supports both plain text and bcrypt)
+    let passwordValid = false
+    
+    if (user.password === password) {
+      passwordValid = true
+    } else {
+      try {
+        passwordValid = bcrypt.compareSync(password, user.password)
+      } catch (err) {
+        passwordValid = false
+      }
+    }
+
+    if (!passwordValid) {
+      setToast(req, 'error', 'Password is incorrect')
+      return res.redirect('/account')
+    }
+
+    // Check if email is already taken by another user
+    const existingUser = users.find(u => u.email === newEmail && u.id !== user.id)
+    if (existingUser) {
+      setToast(req, 'error', 'Email is already registered to another account')
+      return res.redirect('/account')
+    }
+
+    // Update email
+    const oldEmail = user.email
+    user.email = newEmail
+
+    // Save users
+    saveUsers(users)
+
+    // Update session with new email
+    req.session.user.email = newEmail
+
+    // Force session save
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err)
+      }
+
+      // Send notification to old email
+      try {
+        notify(
+          oldEmail,
+          "Email Address Changed",
+          `Your email address has been changed from ${oldEmail} to ${newEmail}. If you didn't make this change, please contact support immediately.`
+        )
+      } catch (emailErr) {
+        console.error('Failed to send email notification:', emailErr)
+      }
+
+      // Send notification to new email
+      try {
+        notify(
+          newEmail,
+          "Email Address Changed",
+          `Your email address has been successfully changed to ${newEmail}. This is now your login email.`
+        )
+      } catch (emailErr) {
+        console.error('Failed to send email notification:', emailErr)
+      }
+
+      setToast(req, 'success', 'Email updated successfully')
+      res.redirect('/account')
+    })
+
+  } catch (error) {
+    console.error('Email update error:', error)
+    setToast(req, 'error', 'Error updating email')
+    res.redirect('/account')
+  }
+})
+
+// FIXED PASSWORD CHANGE ROUTE - Supports both plain text and hashed passwords
+app.post('/account/change-password', requireLogin, async (req, res) => {
+  try {
+    const { currentPassword, newPassword, confirmPassword } = req.body
+
+    // Validation
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setToast(req, 'error', 'All password fields are required')
+      return res.redirect('/account')
+    }
+
+    if (newPassword !== confirmPassword) {
+      setToast(req, 'error', 'New passwords do not match')
+      return res.redirect('/account')
+    }
+
+    if (newPassword.length < 6) {
+      setToast(req, 'error', 'Password must be at least 6 characters')
+      return res.redirect('/account')
+    }
+
+    // Load users
+    const users = loadUsers()
+    const user = users.find(u => u.id === req.session.user.id)
+
+    if (!user) {
+      setToast(req, 'error', 'User not found')
+      return res.redirect('/login')
+    }
+
+    // VERIFY CURRENT PASSWORD - Check both plain text and bcrypt
+    let passwordValid = false
+    
+    // Check if it's plain text match
+    if (user.password === currentPassword) {
+      passwordValid = true
+    } else {
+      // Check if it's bcrypt hash
+      try {
+        passwordValid = await bcrypt.compare(currentPassword, user.password)
+      } catch (err) {
+        console.error('Bcrypt comparison error:', err)
+        passwordValid = false
+      }
+    }
+
+    if (!passwordValid) {
+      setToast(req, 'error', 'Current password is incorrect')
+      return res.redirect('/account')
+    }
+
+    // Update to new password (store as plain text since you don't want hashing)
+    user.password = newPassword
+
+    // Save updated user data
+    saveUsers(users)
+
+    // Send email notification
+    try {
+      await notify(
+        user.email,
+        "Password Changed",
+        "Your account password was successfully changed. If you didn't make this change, please contact support immediately."
+      )
+    } catch (emailErr) {
+      console.error('Failed to send password change email:', emailErr)
+    }
+
+    // DESTROY SESSION - Force logout so user must login with new password
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Session destruction error:', err)
+      }
+      
+      // Redirect to login with success message in query parameter
+      res.redirect('/login?passwordChanged=true')
+    })
+
+  } catch (error) {
+    console.error('Password change error:', error)
+    setToast(req, 'error', 'Error changing password')
+    res.redirect('/account')
+  }
 })
 
 /* ===========================
@@ -1715,7 +1953,7 @@ app.post('/admin-login', adminLimit, async (req, res) => {
       console.log("ADMIN HAS NO PASSWORD SET - FIRST TIME LOGIN")
       // First time login - set the password
       if (password) {
-        adminUser.password = await bcrypt.hash(password, 12)
+        adminUser.password = password // Plain text password
         saveUsers(users)
         console.log("Password set for admin:", username)
       } else {
@@ -1723,10 +1961,20 @@ app.post('/admin-login', adminLimit, async (req, res) => {
         return res.redirect('/admin-login')
       }
     } else {
-      // Verify existing password
-      const ok = await bcrypt.compare(password, adminUser.password)
+      // Verify existing password (supports both plain text and bcrypt)
+      let passwordValid = false
       
-      if (!ok) {
+      if (adminUser.password === password) {
+        passwordValid = true
+      } else {
+        try {
+          passwordValid = await bcrypt.compare(password, adminUser.password)
+        } catch (err) {
+          passwordValid = false
+        }
+      }
+      
+      if (!passwordValid) {
         console.log("PASSWORD WRONG FOR:", username)
         logAdminAction(req, 'failed_admin_login', { username, ip: getClientIp(req) })
         setToast(req, 'error', 'Invalid login')
@@ -1943,6 +2191,32 @@ app.post('/admin/user/:id/delete', requireAdmin, requireAdminIP, (req, res) => {
   }
 })
 
+app.post('/admin/user/:id/signal', requireAdmin, requireAdminIP, (req, res) => {
+  const users = loadUsers()
+  const user = users.find(u => u.id == req.params.id)
+
+  if (!user) {
+    setToast(req, 'error', 'User not found')
+    return res.redirect('/admin/users')
+  }
+
+ user.signalLevel = Number(user.signalLevel)
+if (isNaN(user.signalLevel)) user.signalLevel = 100
+
+if (req.body.action === 'increase') {
+  user.signalLevel = Math.min(100, user.signalLevel + 10)
+}
+
+if (req.body.action === 'decrease') {
+  user.signalLevel = Math.max(0, user.signalLevel - 10)
+}
+
+
+  saveUsers(users)
+  setToast(req, 'success', 'Signal updated')
+  res.redirect('/admin/users')
+})
+
 app.get('/admin/withdrawals', requireAdmin, requireAdminIP, (req, res) => {
   try {
     const withdrawals = loadJson('./database/withdrawals.json', [])
@@ -1997,6 +2271,9 @@ app.post('/admin/withdraw/approve', requireAdmin, requireAdminIP, (req, res) => 
   }
 })
 
+/* ===========================
+ADMIN WITHDRAW REJECT - FIXED
+=========================== */
 app.post('/admin/withdraw/reject', requireAdmin, requireAdminIP, (req, res) => {
   try {
     const { id } = req.body
@@ -2007,14 +2284,28 @@ app.post('/admin/withdraw/reject', requireAdmin, requireAdminIP, (req, res) => {
     const w = withdrawals.find(x => x.id == id)
     if (!w) return res.redirect('/admin/withdrawals')
 
-    w.status = 'rejected'
-
-    const user = users.find(u => u.id === w.userId)
-    if (user) {
-      user.deposit = Number(user.deposit || 0) + Number(w.amount)
-      recalcUserBalance(user)
+    // Don't process if already rejected
+    if (w.status === 'rejected') {
+      setToast(req, 'info', 'Withdrawal already rejected')
+      return res.redirect('/admin/withdrawals')
     }
 
+    const user = users.find(u => u.id === w.userId)
+    if (!user) {
+      setToast(req, 'error', 'User not found')
+      return res.redirect('/admin/withdrawals')
+    }
+
+    // Add the money back to profit (not deposit)
+    user.profit = Number(user.profit || 0) + Number(w.amount)
+    
+    // Recalculate balance
+    recalcUserBalance(user)
+
+    // Update withdrawal status
+    w.status = 'rejected'
+
+    // Save changes
     saveJson('./database/withdrawals.json', withdrawals)
     saveUsers(users)
 
@@ -2024,10 +2315,11 @@ app.post('/admin/withdraw/reject', requireAdmin, requireAdminIP, (req, res) => {
       amount: w.amount
     })
 
-    setToast(req, 'success', 'Withdrawal rejected')
+    setToast(req, 'success', 'Withdrawal rejected and funds returned to profit')
     res.redirect('/admin/withdrawals')
 
   } catch (error) {
+    console.error('Error rejecting withdrawal:', error)
     setToast(req, 'error', 'Error rejecting withdrawal')
     res.redirect('/admin/withdrawals')
   }
@@ -2199,11 +2491,11 @@ app.get('/admin/profile', requireAdmin, requireAdminIP, (req, res) => {
   }
 })
 
-// FIXED: Admin profile update route
+// FIXED: Admin profile update route - Supports both plain text and bcrypt
 app.post('/admin/profile', requireAdmin, requireAdminIP, async (req, res) => {
   try {
-    const { username, password, currentPassword } = req.body
-    console.log("ADMIN PROFILE UPDATE REQUEST:", { username, hasPassword: !!password, hasCurrentPassword: !!currentPassword })
+    const { username, currentPassword, newPassword } = req.body
+    console.log("ADMIN PROFILE UPDATE REQUEST:", { username, hasNewPassword: !!newPassword, hasCurrentPassword: !!currentPassword })
     
     const users = loadUsers()
 
@@ -2233,8 +2525,24 @@ app.post('/admin/profile', requireAdmin, requireAdminIP, async (req, res) => {
       hasPassword: !!adminUser.password
     })
 
-    // If password is being changed
-    if (password && password.trim()) {
+    // Update username if changed
+    if (username && username !== adminUser.username) {
+      // Check if username is already taken
+      const existingUser = users.find(u => u.username === username && u.id !== adminUser.id)
+      if (existingUser) {
+        setToast(req, 'error', 'Username already taken')
+        return res.redirect('/admin/profile')
+      }
+      
+      console.log(`Username changed from ${adminUser.username} to ${username}`)
+      adminUser.username = username
+      
+      // Update session
+      req.session.admin.username = username
+    }
+
+    // If new password is provided
+    if (newPassword && newPassword.trim()) {
       console.log("Password change requested")
       
       // Check if admin has an existing password
@@ -2245,8 +2553,23 @@ app.post('/admin/profile', requireAdmin, requireAdminIP, async (req, res) => {
           return res.redirect('/admin/profile')
         }
 
-        const validPassword = await bcrypt.compare(currentPassword, adminUser.password)
-        if (!validPassword) {
+        // Check password - supports both plain text and bcrypt
+        let passwordValid = false
+        
+        // Check plain text
+        if (adminUser.password === currentPassword) {
+          passwordValid = true
+        } else {
+          // Check bcrypt hash
+          try {
+            passwordValid = await bcrypt.compare(currentPassword, adminUser.password)
+          } catch (err) {
+            console.error('Bcrypt comparison error:', err)
+            passwordValid = false
+          }
+        }
+        
+        if (!passwordValid) {
           console.log("Current password incorrect")
           setToast(req, 'error', 'Current password is incorrect')
           return res.redirect('/admin/profile')
@@ -2258,22 +2581,24 @@ app.post('/admin/profile', requireAdmin, requireAdminIP, async (req, res) => {
         console.log("No existing password found (first-time setup)")
       }
 
-      // Hash and set new password
-      adminUser.password = await bcrypt.hash(password, 12)
-      console.log("Password hashed and set")
-    }
+      // Validate new password length
+      if (newPassword.length < 6) {
+        setToast(req, 'error', 'Password must be at least 6 characters')
+        return res.redirect('/admin/profile')
+      }
 
-    // Update username if changed
-    if (username && username !== adminUser.username) {
-      console.log(`Username changed from ${adminUser.username} to ${username}`)
-      adminUser.username = username
-      
-      // Update session
-      req.session.admin.username = username
+      // Set new password (store as plain text)
+      adminUser.password = newPassword
+      console.log("Password set")
     }
 
     // Save users
-    saveUsers(users)
+    const saveResult = saveUsers(users)
+    if (!saveResult) {
+      console.error("Failed to save users")
+      setToast(req, 'error', 'Failed to save changes')
+      return res.redirect('/admin/profile')
+    }
     
     // Force session save
     req.session.save((err) => {
@@ -2283,8 +2608,8 @@ app.post('/admin/profile', requireAdmin, requireAdminIP, async (req, res) => {
       
       logAdminAction(req, 'admin_profile_update', {
         adminId: adminUser.id,
-        usernameChanged: username !== adminUser.username,
-        passwordChanged: !!password
+        usernameChanged: username && username !== adminUser.username,
+        passwordChanged: !!(newPassword && newPassword.trim())
       })
 
       setToast(req, 'success', 'Admin profile updated successfully')
@@ -2602,11 +2927,15 @@ app.use((err, req, res, next) => {
   next(err)
 })
 
+
+
 //* ===========================
 //END OF SERVER
 //=========================== */
 
 const PORT = process.env.PORT || 3000
+ensureSignalLevel()
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`)
 

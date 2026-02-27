@@ -3,197 +3,784 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Deposit and Withdrawal</title>
+  <title>Deposit Funds</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+    .card-gradient {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+    }
+    .dropdown-gradient {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    }
+    .input-focus:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .status-approved {
+      background-color: rgba(34, 197, 94, 0.1);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .status-pending {
+      background-color: rgba(234, 179, 8, 0.1);
+      color: #eab308;
+      border: 1px solid rgba(234, 179, 8, 0.3);
+    }
+    .status-rejected {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .custom-select {
+      position: relative;
+    }
+    .custom-select-btn {
+      width: 100%;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid #374151;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .custom-select-btn:hover {
+      border-color: #4b5563;
+    }
+    .custom-select-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #1e293b;
+      border: 1px solid #374151;
+      border-radius: 0.75rem;
+      margin-top: 0.25rem;
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 50;
+      display: none;
+    }
+    .custom-select-dropdown.show {
+      display: block;
+    }
+    .custom-option {
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .custom-option:hover {
+      background-color: rgba(59, 130, 246, 0.1);
+    }
+    .custom-option.selected {
+      background-color: rgba(59, 130, 246, 0.2);
+    }
+    .method-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      font-size: 16px;
+    }
+    .payment-box {
+      animation: slideDown 0.3s ease-out;
+    }
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .file-upload {
+      border: 2px dashed #4b5563;
+      border-radius: 0.75rem;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .file-upload:hover {
+      border-color: #3b82f6;
+      background-color: rgba(59, 130, 246, 0.05);
+    }
+    .file-upload.dragover {
+      border-color: #3b82f6;
+      background-color: rgba(59, 130, 246, 0.1);
+    }
+  </style>
 </head>
 
-<body class="min-h-screen bg-slate-950 text-white">
-
-<header class="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl flex items-center">
-  <div class="w-full max-w-6xl mx-auto px-4 flex items-center justify-between">
-    <p class="text-sm font-semibold">Deposit and Withdrawal</p>
-    <a href="/dashboard" class="text-xs text-slate-300 hover:text-white">Back to dashboard</a>
-  </div>
-</header>
-
-<main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
-
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-  <!-- Deposit form -->
-  <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-lg">
-
-    <p class="text-sm font-semibold mb-3">Submit a deposit</p>
-
-    <form action="/deposit" method="POST" enctype="multipart/form-data" class="space-y-4">
-
-      <!-- Amount -->
-      <div>
-        <label class="block text-xs text-slate-400 mb-1">Amount</label>
-        <input type="number"
-               name="amount"
-               min="1"
-               required
-               class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm">
+<body class="min-h-screen gradient-bg text-white font-sans">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 h-16 border-b border-slate-800 bg-slate-950/90 backdrop-blur-xl flex items-center">
+    <div class="w-full max-w-6xl mx-auto px-4 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="/dashboard" class="flex items-center text-slate-300 hover:text-white transition-colors">
+          <i class="fas fa-arrow-left mr-2 text-sm"></i>
+          <span class="text-sm font-medium">Back to Dashboard</span>
+        </a>
+        <div class="h-6 w-px bg-slate-700"></div>
+        <h1 class="text-xl font-bold">Deposit Funds</h1>
       </div>
-
-      <!-- Method -->
-      <div>
-        <label class="block text-xs text-slate-400 mb-1">Method</label>
-
-<select id="methodSelect" name="method" required onchange="showDetails(this.value)" class="w-full bg-slate-800 px-3 py-2 rounded">
-
-<option value="">Select Method</option>
-
-<% depositMethods.forEach(m => { %>
-<option value="<%= m.name %>"><%= m.name %></option>
-<% }) %>
-</select>
-
-
-        <p class="text-[11px] text-slate-500 mt-1">
-          Bank Transfer is not available now.
-        </p>
+      <div class="hidden md:flex items-center space-x-2 text-sm">
+        <i class="fas fa-wallet text-slate-400"></i>
+        <span class="text-slate-300">Current Balance:</span>
+        <span class="font-bold text-white">$<%= Number(user.balance || 0).toFixed(2) %></span>
       </div>
+    </div>
+  </header>
 
-      <!-- Dynamic Payment Details -->
-<div id="paymentBox" class="hidden mt-4 bg-slate-900 p-4 rounded-lg border border-slate-700"> 
-  <p id="paymentText" class="text-sm break-all"></p>
-   <button onclick="copyDetails()" class="px-3 py-1 bg-blue-600 rounded text-sm font-semibold"> Copy </button>
-   </div>
-      <!-- Proof -->
-      <div>
-        <label class="block text-xs text-slate-400 mb-1">Proof of payment</label>
-        <input type="file" name="proof" accept="image/*" required class="text-xs text-slate-400 w-full">
-        <p class="text-[11px] text-slate-500 mt-1">Upload a screenshot or photo of your payment.</p>
-      </div>
-
-      <!-- Submit -->
-      <button class="w-full py-2.5 bg-blue-600 rounded text-sm font-semibold">
-        Submit deposit
-      </button>
-
-    </form>
-  </section>
-
-  <!-- History -->
-  <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-lg">
-    <p class="text-sm font-semibold mb-3">Your deposit history</p>
-
-    <% if (!deposits || deposits.length === 0) { %>
-
-      <p class="text-xs text-slate-500">No deposits yet.</p>
-
-    <% } else { %>
-
-      <div class="space-y-3 text-xs">
-
-        <% deposits.forEach(d => { %>
-          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3">
-
-            <div class="flex justify-between">
-              <span class="text-slate-300">Amount</span>
-              <span class="text-slate-100">$<%= Number(d.amount).toFixed(2) %></span>
-            </div>
-
-            <div class="flex justify-between mt-1">
-              <span class="text-slate-300">Method</span>
-              <span class="text-slate-100"><%= d.method %></span>
-            </div>
-
-            <div class="flex justify-between mt-1">
-              <span class="text-slate-300">Status</span>
-
-              <% if (d.status === 'approved') { %>
-                <span class="text-emerald-400 font-semibold">Approved</span>
-              <% } else if (d.status === 'rejected') { %>
-                <span class="text-red-400 font-semibold">Rejected</span>
-              <% } else { %>
-                <span class="text-amber-400 font-semibold">Pending</span>
-              <% } %>
-
-            </div>
-
-            <div class="flex justify-between mt-1">
-              <span class="text-slate-300">Date</span>
-              <span class="text-slate-400"><%= new Date(d.createdAt).toLocaleString() %></span>
-            </div>
-
-            <% if (d.proofUrl) { %>
-              <div class="mt-2">
-                <a href="<%= d.proofUrl %>" target="_blank" class="text-blue-400 underline">
-                  View proof
-                </a>
-              </div>
-            <% } %>
-
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Left Column - Deposit Form -->
+      <section class="space-y-6">
+        <!-- Quick Deposit Amounts -->
+        <div class="card-gradient border border-slate-800 rounded-2xl p-6">
+          <h2 class="text-lg font-bold mb-4">Quick Deposit</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <button type="button" class="quick-deposit-amount py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-medium transition-colors" data-amount="200">$200</button>
+            <button type="button" class="quick-deposit-amount py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-medium transition-colors" data-amount="500">$500</button>
+            <button type="button" class="quick-deposit-amount py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-medium transition-colors" data-amount="1000">$1000</button>
+            <button type="button" class="quick-deposit-amount py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-medium transition-colors" data-amount="5000">$5000</button>
           </div>
-        <% }) %>
+        </div>
 
-      </div>
+        <!-- Deposit Form -->
+        <div class="card-gradient border border-slate-800 rounded-2xl p-6">
+          <h2 class="text-lg font-bold mb-6">Deposit Request</h2>
 
-    <% } %>
+          <form id="depositForm" action="/deposit" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <!-- Amount Input -->
+            <div class="space-y-2">
+              <label class="text-sm font-medium">Deposit Amount</label>
+              <div class="relative">
+                <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400">$</div>
+                <input type="number" name="amount" id="amountInput" min="1" step="0.01" required
+                  class="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-sm input-focus focus:outline-none">
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Minimum deposit: $1.00</p>
+            </div>
 
-  </section>
+            <!-- Method Dropdown -->
+            <div class="space-y-2">
+              <label class="text-sm font-medium">Payment Method</label>
+              
+              <!-- Custom Select Dropdown -->
+              <div class="custom-select">
+                <div class="custom-select-btn" id="selectButton">
+                  <div class="flex items-center">
+                    <div class="method-icon bg-green-900/30 text-green-400" id="selectedIcon">
+                      <i class="fab fa-bitcoin"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium" id="selectedMethod">Select Method</div>
+                      <div class="text-xs text-slate-400" id="selectedDetails">Choose a payment method</div>
+                    </div>
+                  </div>
+                  <i class="fas fa-chevron-down text-slate-400"></i>
+                </div>
+                
+                <div class="custom-select-dropdown dropdown-gradient" id="selectDropdown">
+                  <% depositMethods.forEach((method, index) => { 
+                    let icon = 'money-bill-wave';
+                    let color = 'text-green-400';
+                    let bgColor = 'bg-green-900/30';
+                    
+                    if (method.name.includes('Bitcoin') || method.name.includes('BTC')) {
+                      icon = 'bitcoin';
+                      color = 'text-orange-400';
+                      bgColor = 'bg-orange-900/30';
+                    } else if (method.name.includes('Ethereum') || method.name.includes('ETH')) {
+                      icon = 'ethereum';
+                      color = 'text-indigo-400';
+                      bgColor = 'bg-indigo-900/30';
+                    } else if (method.name.includes('USDT')) {
+                      icon = 'coins';
+                      color = 'text-teal-400';
+                      bgColor = 'bg-teal-900/30';
+                    } else if (method.name.includes('PayPal')) {
+                      icon = 'paypal';
+                      color = 'text-blue-400';
+                      bgColor = 'bg-blue-900/30';
+                    } else if (method.name.includes('Cash App')) {
+                      icon = 'money-bill-wave';
+                      color = 'text-green-400';
+                      bgColor = 'bg-green-900/30';
+                    } else if (method.name.includes('Venmo')) {
+                      icon = 'vimeo';
+                      color = 'text-sky-400';
+                      bgColor = 'bg-sky-900/30';
+                    } else if (method.name.includes('Bank')) {
+                      icon = 'university';
+                      color = 'text-amber-400';
+                      bgColor = 'bg-amber-900/30';
+                    } else if (method.name.includes('Card')) {
+                      icon = 'credit-card';
+                      color = 'text-purple-400';
+                      bgColor = 'bg-purple-900/30';
+                    }
+                  %>
+                    <div class="custom-option <%= index === 0 ? 'selected' : '' %>" data-value="<%= method.name %>" data-details="<%= method.details %>" data-icon="<%= icon %>" data-color="<%= color %>" data-bgcolor="<%= bgColor %>">
+                      <div class="method-icon <%= bgColor %> <%= color %>">
+                        <i class="fab fa-<%= icon %>"></i>
+                      </div>
+                      <div>
+                        <div class="font-medium"><%= method.name %></div>
+                        <div class="text-xs text-slate-400">
+                          <% if (method.name.includes('Bank')) { %>
+                            Not available currently
+                          <% } else { %>
+                            Available for deposits
+                          <% } %>
+                        </div>
+                      </div>
+                    </div>
+                  <% }) %>
+                </div>
+              </div>
+              
+              <input type="hidden" name="method" id="methodInput" value="">
+            </div>
 
-</div>
-</main>
+            <!-- Payment Details Box -->
+            <div id="paymentBox" class="payment-box hidden bg-slate-800/50 border border-slate-700 rounded-xl p-5">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <h3 class="font-medium mb-1" id="paymentTitle">Payment Details</h3>
+                  <p class="text-xs text-slate-400">Send your payment to this address/account</p>
+                </div>
+                <button type="button" onclick="copyDetails()" class="flex items-center space-x-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors">
+                  <i class="fas fa-copy"></i>
+                  <span>Copy</span>
+                </button>
+              </div>
+              
+              <div class="bg-slate-900/50 rounded-lg p-4">
+                <div class="flex items-start">
+                  <i class="fas fa-info-circle text-blue-400 mt-0.5 mr-3"></i>
+                  <div>
+                    <p class="text-sm mb-2">Important Instructions:</p>
+                    <ol class="text-xs text-slate-400 space-y-1 list-decimal list-inside">
+                      <li>Send the exact amount specified above</li>
+                      <li>Include the reference/note if required by the method</li>
+                      <li>Upload proof of payment after completing the transaction</li>
+                      <li>Processing time: 10-30 minutes for crypto, 1-24 hours for other methods</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-4 p-3 bg-slate-900 rounded-lg">
+                <p class="text-xs text-slate-400 mb-1">Payment Address/Details:</p>
+                <div class="flex items-center">
+                  <code id="paymentText" class="text-sm break-all font-mono bg-slate-950 p-2 rounded flex-1"></code>
+                </div>
+              </div>
+              
+              <div class="mt-4 text-xs text-slate-400">
+                <i class="fas fa-exclamation-triangle text-amber-400 mr-1"></i>
+                Do not send from an exchange. Use your personal wallet for crypto payments.
+              </div>
+            </div>
 
-<script>
-  const methods = <%- JSON.stringify(depositMethods) %>;
+            <!-- File Upload -->
+            <div class="space-y-2">
+              <label class="text-sm font-medium">Proof of Payment</label>
+              <div class="file-upload" id="fileUploadArea">
+                <input type="file" name="proof" id="fileInput" accept="image/*,.pdf" class="hidden" required>
+                <div class="flex flex-col items-center">
+                  <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center mb-3">
+                    <i class="fas fa-cloud-upload-alt text-slate-400 text-xl"></i>
+                  </div>
+                  <p class="font-medium mb-1">Upload proof of payment</p>
+                  <p class="text-xs text-slate-400 mb-3">Drag & drop or click to browse</p>
+                  <button type="button" onclick="document.getElementById('fileInput').click()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium transition-colors">
+                    Choose File
+                  </button>
+                  <p class="text-xs text-slate-500 mt-3">Supports JPG, PNG, PDF (Max 5MB)</p>
+                </div>
+                <div id="fileName" class="hidden mt-3 p-3 bg-slate-800/50 rounded-lg">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <i class="fas fa-file text-blue-400 mr-2"></i>
+                      <span class="text-sm" id="fileNameText"></span>
+                    </div>
+                    <button type="button" onclick="clearFile()" class="text-red-400 hover:text-red-300">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-  function showDetails(name) {
-    const box = document.getElementById('paymentBox');
-    const text = document.getElementById('paymentText');
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn" class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              <i class="fas fa-paper-plane mr-2"></i>
+              Submit Deposit Request
+            </button>
 
-    box.classList.add('hidden');
-    text.innerHTML = '';
+            <!-- Important Notice -->
+            <div class="bg-slate-800/30 border border-slate-700 rounded-xl p-4">
+              <div class="flex items-start">
+                <i class="fas fa-shield-alt text-emerald-400 mt-0.5 mr-3"></i>
+                <div class="text-sm">
+                  <p class="font-medium mb-1">Security Notice</p>
+                  <p class="text-slate-400">All deposits are verified manually for security. Never share your payment details with anyone. Our support will never ask for your private keys or passwords.</p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
 
-    if (!name) return;
+      <!-- Right Column - History -->
+      <section>
+        <div class="card-gradient border border-slate-800 rounded-2xl p-6 h-full">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-lg font-bold">Deposit History</h2>
+            <% if (deposits && deposits.length > 0) { %>
+              <a href="/transactions-history" class="text-sm text-blue-400 hover:text-blue-300">View All</a>
+            <% } %>
+          </div>
 
-    const method = methods.find(m => m.name === name);
-    if (!method) return;
+          <% if (!deposits || deposits.length === 0) { %>
+            <div class="text-center py-10">
+              <div class="w-20 h-20 mx-auto rounded-full bg-slate-800 flex items-center justify-center mb-4">
+                <i class="fas fa-history text-slate-600 text-2xl"></i>
+              </div>
+              <p class="text-slate-400 font-medium">No deposit history</p>
+              <p class="text-slate-500 text-sm mt-1">Your deposits will appear here</p>
+            </div>
+          <% } else { %>
+            <div class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+              <% deposits.forEach(d => { 
+                let statusClass = 'status-pending';
+                let statusIcon = 'clock';
+                if (d.status === 'approved') {
+                  statusClass = 'status-approved';
+                  statusIcon = 'check-circle';
+                } else if (d.status === 'rejected') {
+                  statusClass = 'status-rejected';
+                  statusIcon = 'times-circle';
+                }
+                
+                let methodIcon = 'money-bill-wave';
+                let methodColor = 'text-green-400';
+                if (d.method.includes('Bitcoin') || d.method.includes('BTC')) {
+                  methodIcon = 'bitcoin';
+                  methodColor = 'text-orange-400';
+                } else if (d.method.includes('Ethereum') || d.method.includes('ETH')) {
+                  methodIcon = 'ethereum';
+                  methodColor = 'text-indigo-400';
+                } else if (d.method.includes('USDT')) {
+                  methodIcon = 'coins';
+                  methodColor = 'text-teal-400';
+                } else if (d.method.includes('PayPal')) {
+                  methodIcon = 'paypal';
+                  methodColor = 'text-blue-400';
+                } else if (d.method.includes('Cash App')) {
+                  methodIcon = 'money-bill-wave';
+                  methodColor = 'text-green-400';
+                } else if (d.method.includes('Venmo')) {
+                  methodIcon = 'vimeo';
+                  methodColor = 'text-sky-400';
+                } else if (d.method.includes('Bank')) {
+                  methodIcon = 'university';
+                  methodColor = 'text-amber-400';
+                } else if (d.method.includes('Card')) {
+                  methodIcon = 'credit-card';
+                  methodColor = 'text-purple-400';
+                }
+              %>
+                <div class="border border-slate-800 rounded-xl p-4 hover:bg-slate-800/30 transition-colors">
+                  <div class="flex justify-between items-start mb-2">
+                    <div class="flex items-center">
+                      <div class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center mr-3">
+                        <i class="fab fa-<%= methodIcon %> <%= methodColor %>"></i>
+                      </div>
+                      <div>
+                        <p class="font-bold">$<%= Number(d.amount).toFixed(2) %></p>
+                        <p class="text-slate-400 text-sm"><%= d.method %></p>
+                      </div>
+                    </div>
+                    <div class="status-badge <%= statusClass %> flex items-center">
+                      <i class="fas fa-<%= statusIcon %> mr-1 text-xs"></i>
+                      <span class="capitalize"><%= d.status %></span>
+                    </div>
+                  </div>
+                  
+                  <div class="text-xs text-slate-500 mb-3">
+                    <%= new Date(d.createdAt).toLocaleDateString() %> at <%= new Date(d.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %>
+                  </div>
+                  
+                  <% if (d.proofUrl) { %>
+                    <div class="flex items-center justify-between border-t border-slate-800/50 pt-3">
+                      <span class="text-xs text-slate-400">Proof:</span>
+                      <a href="<%= d.proofUrl %>" target="_blank" class="flex items-center space-x-1 text-blue-400 hover:text-blue-300 text-sm">
+                        <i class="fas fa-external-link-alt text-xs"></i>
+                        <span>View Proof</span>
+                      </a>
+                    </div>
+                  <% } %>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+          
+          <!-- Stats Summary -->
+          <% if (deposits && deposits.length > 0) { 
+            let totalDeposits = deposits.reduce((sum, d) => sum + Number(d.amount), 0);
+            let approvedDeposits = deposits.filter(d => d.status === 'approved').reduce((sum, d) => sum + Number(d.amount), 0);
+            let pendingDeposits = deposits.filter(d => d.status === 'pending').length;
+          %>
+            <div class="mt-6 pt-6 border-t border-slate-800/50">
+              <div class="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <p class="text-xs text-slate-400">Total Deposits</p>
+                  <p class="font-bold text-lg">$<%= totalDeposits.toFixed(2) %></p>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-400">Approved</p>
+                  <p class="font-bold text-lg text-emerald-400">$<%= approvedDeposits.toFixed(2) %></p>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-400">Pending</p>
+                  <p class="font-bold text-lg text-amber-400"><%= pendingDeposits %></p>
+                </div>
+              </div>
+            </div>
+          <% } %>
+        </div>
+      </section>
+    </div>
+  </main>
 
-    text.textContent = method.details;
-    box.classList.remove('hidden');
-  }
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  function copyDetails() {
-  const text = document.getElementById('paymentText').textContent;
-  navigator.clipboard.writeText(text);
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elements
+      const form = document.getElementById('depositForm');
+      const amountInput = document.getElementById('amountInput');
+      const methodInput = document.getElementById('methodInput');
+      const selectButton = document.getElementById('selectButton');
+      const selectDropdown = document.getElementById('selectDropdown');
+      const selectedMethod = document.getElementById('selectedMethod');
+      const selectedDetails = document.getElementById('selectedDetails');
+      const selectedIcon = document.getElementById('selectedIcon');
+      const paymentBox = document.getElementById('paymentBox');
+      const paymentText = document.getElementById('paymentText');
+      const submitBtn = document.getElementById('submitBtn');
+      const fileUploadArea = document.getElementById('fileUploadArea');
+      const fileInput = document.getElementById('fileInput');
+      const fileName = document.getElementById('fileName');
+      const fileNameText = document.getElementById('fileNameText');
+      
+      // Methods data from server
+      const depositMethods = <%- JSON.stringify(depositMethods) %>;
+      
+      // Quick deposit buttons
+      document.querySelectorAll('.quick-deposit-amount').forEach(btn => {
+        btn.addEventListener('click', function() {
+          amountInput.value = this.getAttribute('data-amount');
+          amountInput.focus();
+        });
+      });
+      
+      // Toggle dropdown
+      selectButton.addEventListener('click', function() {
+        selectDropdown.classList.toggle('show');
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(event) {
+        if (!selectButton.contains(event.target) && !selectDropdown.contains(event.target)) {
+          selectDropdown.classList.remove('show');
+        }
+      });
+      
+      // Method selection
+      document.querySelectorAll('.custom-option').forEach(option => {
+        option.addEventListener('click', function() {
+          const methodName = this.getAttribute('data-value');
+          const methodDetails = this.getAttribute('data-details');
+          const methodIcon = this.getAttribute('data-icon');
+          const methodColor = this.getAttribute('data-color');
+          const methodBgColor = this.getAttribute('data-bgcolor');
+          
+          // Update selected option
+          document.querySelectorAll('.custom-option').forEach(opt => {
+            opt.classList.remove('selected');
+          });
+          this.classList.add('selected');
+          
+          // Update dropdown button
+          selectedMethod.textContent = methodName;
+          selectedDetails.textContent = 'Click for payment details';
+          selectedIcon.className = `method-icon ${methodBgColor} ${methodColor}`;
+          selectedIcon.innerHTML = `<i class="fab fa-${methodIcon}"></i>`;
+          
+          // Update hidden input
+          methodInput.value = methodName;
+          
+          // Update payment box
+          updatePaymentBox(methodName, methodDetails);
+          
+          // Enable submit button if amount is valid
+          validateForm();
+          
+          // Close dropdown
+          selectDropdown.classList.remove('show');
+        });
+      });
+      
+      // Update payment details box
+      function updatePaymentBox(methodName, details) {
+        if (!methodName) {
+          paymentBox.classList.add('hidden');
+          return;
+        }
+        
+        // Check if it's a bank method (unavailable)
+        if (methodName.toLowerCase().includes('bank')) {
+          paymentBox.classList.remove('hidden');
+          paymentText.textContent = 'Bank transfers are currently unavailable. Please select another payment method.';
+          paymentText.classList.add('text-amber-400');
+          submitBtn.disabled = true;
+          submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+          paymentBox.classList.remove('hidden');
+          paymentText.textContent = details;
+          paymentText.classList.remove('text-amber-400');
+        }
+      }
+      
+      // Copy details function
+      window.copyDetails = function() {
+        const text = paymentText.textContent;
+        navigator.clipboard.writeText(text);
+        
+        // Show toast
+        Swal.fire({
+          icon: 'success',
+          title: 'Copied!',
+          text: 'Payment details copied to clipboard',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      };
+      
+      // File upload handling
+      fileUploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        fileUploadArea.classList.add('dragover');
+      });
+      
+      fileUploadArea.addEventListener('dragleave', function() {
+        fileUploadArea.classList.remove('dragover');
+      });
+      
+      fileUploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        fileUploadArea.classList.remove('dragover');
+        
+        if (e.dataTransfer.files.length) {
+          handleFileSelect(e.dataTransfer.files[0]);
+        }
+      });
+      
+      fileInput.addEventListener('change', function() {
+        if (this.files.length) {
+          handleFileSelect(this.files[0]);
+        }
+      });
+      
+      function handleFileSelect(file) {
+        // Check file size (5MB max)
+        if (file.size > 5 * 1024 * 1024) {
+          Swal.fire({
+            icon: 'error',
+            title: 'File too large',
+            text: 'Maximum file size is 5MB',
+            confirmButtonColor: '#3b82f6'
+          });
+          return;
+        }
+        
+        // Check file type
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'application/pdf'];
+        if (!validTypes.includes(file.type)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid file type',
+            text: 'Only images and PDF files are allowed',
+            confirmButtonColor: '#3b82f6'
+          });
+          return;
+        }
+        
+        fileNameText.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+        fileName.classList.remove('hidden');
+        validateForm();
+      }
+      
+      window.clearFile = function() {
+        fileInput.value = '';
+        fileName.classList.add('hidden');
+        validateForm();
+      };
+      
+      // Form validation
+      function validateForm() {
+        const amount = parseFloat(amountInput.value);
+        const method = methodInput.value;
+        const hasFile = fileInput.files.length > 0;
+        
+        let isValid = true;
+        
+        // Amount validation
+        if (isNaN(amount) || amount < 1) {
+          isValid = false;
+        }
+        
+        // Method validation
+        if (!method) {
+          isValid = false;
+        }
+        
+        // File validation
+        if (!hasFile) {
+          isValid = false;
+        }
+        
+        // Bank method check
+        if (method.toLowerCase().includes('bank')) {
+          isValid = false;
+        }
+        
+        // Update submit button
+        submitBtn.disabled = !isValid;
+        if (isValid) {
+          submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        } else {
+          submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+        
+        return isValid;
+      }
+      
+      // Real-time validation
+      amountInput.addEventListener('input', validateForm);
+      fileInput.addEventListener('change', validateForm);
+      
+      // Form submission
+      form.addEventListener('submit', function(e) {
+        if (!validateForm()) {
+          e.preventDefault();
+          Swal.fire({
+            icon: 'error',
+            title: 'Form Incomplete',
+            text: 'Please fill all required fields correctly',
+            confirmButtonColor: '#3b82f6'
+          });
+          return;
+        }
+        
+        const amount = parseFloat(amountInput.value);
+        const method = methodInput.value;
+        
+        // Confirmation modal
+        Swal.fire({
+          title: 'Confirm Deposit',
+          html: `
+            <div class="text-left text-sm">
+              <div class="bg-slate-800/30 rounded-xl p-4 mb-4">
+                <div class="flex items-center mb-3">
+                  <div class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center mr-3">
+                    <i class="${selectedIcon.querySelector('i').className}"></i>
+                  </div>
+                  <div>
+                    <p class="font-bold">${method}</p>
+                    <p class="text-slate-400">Payment Method</p>
+                  </div>
+                </div>
+                
+                <div class="space-y-2">
+                  <div class="flex justify-between">
+                    <span class="text-slate-400">Deposit Amount:</span>
+                    <span class="font-bold">$${amount.toFixed(2)}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-slate-400">Processing Time:</span>
+                    <span class="text-emerald-400">10-30 minutes</span>
+                  </div>
+                </div>
+              </div>
+              <p class="text-slate-400 text-xs">
+                <i class="fas fa-info-circle text-blue-400 mr-1"></i>
+                After submitting, please send the payment to the provided address and keep the transaction proof ready for verification.
+              </p>
+            </div>
+          `,
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3b82f6',
+          cancelButtonColor: '#64748b',
+          confirmButtonText: 'Confirm Deposit',
+          cancelButtonText: 'Cancel',
+          width: '500px'
+        }).then((result) => {
+          if (!result.isConfirmed) {
+            e.preventDefault();
+          }
+        });
+      });
+      
+      // Initialize with first method if available
+      if (depositMethods && depositMethods.length > 0) {
+        const firstMethod = depositMethods[0];
+        document.querySelector('.custom-option').click();
+      }
+    });
+  </script>
 
-  const toast = document.createElement('div');
-  toast.textContent = 'Copied';
-  toast.style.position = 'fixed';
-  toast.style.bottom = '20px';
-  toast.style.right = '20px';
-  toast.style.background = '#1e40af';
-  toast.style.color = 'white';
-  toast.style.padding = '8px 16px';
-  toast.style.borderRadius = '6px';
-  toast.style.zIndex = '9999';
-  document.body.appendChild(toast);
-
-  setTimeout(() => toast.remove(), 2000);
-}
-
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<% if (toast) { %>
-<script>
-  Swal.fire({
-    icon: '<%= toast.type %>',
-    title: '<%= toast.message %>',
-    toast: true,
-    position: 'top',
-    showConfirmButton: false,
-    timer: 2500
-  })
-</script>
-<% } %>
-
+  <% if (toast) { %>
+  <script>
+    Swal.fire({
+      icon: '<%= toast.type %>',
+      title: '<%= toast.message %>',
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+  </script>
+  <% } %>
 </body>
 </html>

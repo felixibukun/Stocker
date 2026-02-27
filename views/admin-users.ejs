@@ -1,84 +1,190 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Users</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes"> 
+  <title>Users | Admin</title> 
+  <script src="https://cdn.tailwindcss.com"></script> 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-</head>
+  <style>
+    /* Mobile Responsive Fixes */
+    @media (max-width: 640px) {
+      .sticky-header {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+      
+      h1.text-2xl {
+        font-size: 1.25rem !important;
+      }
+      
+      .grid-cols-1.sm\:grid-cols-2.xl\:grid-cols-3 {
+        gap: 1rem !important;
+      }
+      
+      .group.p-6 {
+        padding: 1rem !important;
+      }
+      
+      .text-lg.font-semibold {
+        font-size: 1rem !important;
+      }
+      
+      .flex.items-center.justify-between.mt-4 {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.75rem !important;
+      }
+      
+      .flex.gap-2 {
+        flex-wrap: wrap !important;
+        width: 100% !important;
+      }
+      
+      form.flex.items-center.gap-1 {
+        width: 100% !important;
+        justify-content: space-between !important;
+      }
+      
+      .px-3.py-1\.5 {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.75rem !important;
+      }
+      
+      .p-2 {
+        padding: 0.5rem !important;
+      }
+      
+      i[data-lucide] {
+        width: 1rem !important;
+        height: 1rem !important;
+      }
+    }
 
-<body class="bg-[#0b0f1a] text-slate-200 min-h-screen">
+    @media (min-width: 641px) and (max-width: 768px) {
+      .grid-cols-1.sm\:grid-cols-2.xl\:grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
 
-<div class="sticky top-0 z-10 backdrop-blur bg-[#0b0f1a]/80 border-b border-white/10 px-8 py-5 flex justify-between items-center">
-  <h1 class="text-2xl font-semibold tracking-tight">Users</h1>
-  <a href="/admin" class="text-sm px-4 py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 transition">
-    Back
-  </a>
-</div>
+    /* Ensure buttons are tappable */
+    button, a {
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-<div class="p-8">
-  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+    /* Better mobile scrolling */
+    body {
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-    <% users.forEach(u => { %>
-    <div class="group bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur transition hover:translate-y-[-2px] hover:bg-white/10">
+    /* Break long emails */
+    .break-all {
+      word-break: break-all;
+    }
+  </style>
+</head> 
+<body class="bg-[#0b0f1a] text-slate-200 min-h-screen"> 
+  <div class="sticky top-0 z-10 backdrop-blur bg-[#0b0f1a]/80 border-b border-white/10 px-4 sm:px-8 py-4 sm:py-5 flex justify-between items-center sticky-header"> 
+    <h1 class="text-xl sm:text-2xl font-semibold tracking-tight">Users</h1> 
+    <a href="/admin" class="text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 transition flex items-center gap-1">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      <span>Back</span>
+    </a> 
+  </div> 
+  
+  <div class="p-4 sm:p-8"> 
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+      
+      <% if (!users || users.length === 0) { %>
+        <div class="col-span-full text-center py-12">
+          <i data-lucide="users" class="w-12 h-12 mx-auto text-slate-600 mb-4"></i>
+          <p class="text-slate-400">No users found</p>
+        </div>
+      <% } %>
+      
+      <% users.forEach(u => { %>
+      <div class="group bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur transition hover:translate-y-[-2px] hover:bg-white/10">
 
-      <div class="mb-4">
-        <p class="text-lg font-semibold text-white"><%= u.name %></p>
-        <p class="text-sm text-slate-400">@<%= u.username %></p>
-        <p class="text-xs text-slate-500 break-all"><%= u.email %></p>
-      </div>
-
-      <div class="space-y-2 text-sm mb-4">
-        <p><span class="text-slate-400">Phone:</span> <%= u.phone || 'N/A' %></p>
-        <p><span class="text-slate-400">Country:</span> <%= u.country %></p>
-        <p class="font-mono text-xs break-all">
-          <span class="text-slate-400">Password:</span>
-          <span class="text-slate-300"><%= u.password %></span>
-        </p>
-      </div>
-
-      <div class="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
-        <div class="text-emerald-400 font-medium">
-          $<%= Number(u.balance || 0).toFixed(2) %>
+        <div class="mb-3 sm:mb-4">
+          <div class="flex items-center justify-between sm:justify-start sm:gap-3 mb-1">
+            <p class="text-base sm:text-lg font-semibold text-white truncate max-w-[150px] sm:max-w-full"><%= u.name %></p>
+            <span class="text-xs px-2 py-1 rounded-full bg-slate-800 text-slate-300 sm:hidden">
+              ID: <%= u.id %>
+            </span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400">@<%= u.username %></p>
+          <p class="text-xs text-slate-500 break-all mt-1"><%= u.email %></p>
         </div>
 
-        <div class="flex gap-2">
+        <div class="space-y-1 sm:space-y-2 text-xs sm:text-sm mb-3 sm:mb-4">
+          <p><span class="text-slate-400">Phone:</span> <%= u.phone || 'N/A' %></p>
+          <p><span class="text-slate-400">Country:</span> <%= u.country %></p>
+          <p class="sm:hidden"><span class="text-slate-400">Balance:</span> <span class="text-emerald-400 font-medium">$<%= Number(u.balance || 0).toFixed(2) %></span></p>
+        </div>
 
-  <form action="/admin/user/<%= u.id %>/login" method="POST">
-    <button
-      type="submit"
-      class="px-3 py-1.5 rounded-md text-xs bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 transition">
-      Open Dashboard
-    </button>
-  </form>
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-white/10 gap-3 sm:gap-0">
+          
+          <!-- Desktop balance -->
+          <div class="hidden sm:block text-emerald-400 font-medium">
+            $<%= Number(u.balance || 0).toFixed(2) %>
+          </div>
 
-  <a href="/admin/user/<%= u.id %>/balance"
-     class="px-3 py-1.5 rounded-md text-xs bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 transition">
-    Balance
-  </a>
+          <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+            
+            <!-- Open button -->
+            <form action="/admin/user/<%= u.id %>/login" method="POST" class="flex-1 sm:flex-none">
+              <button type="submit" class="w-full sm:w-auto px-3 py-2 sm:px-3 sm:py-1.5 rounded-md text-xs bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 transition flex items-center justify-center gap-1">
+                <i data-lucide="log-in" class="w-3 h-3 sm:hidden"></i>
+                <span>Open</span>
+              </button>
+            </form>
 
-  <form action="/admin/user/<%= u.id %>/delete"
-        method="POST"
-        onsubmit="return confirm('Delete this user and all related data?')">
-    <button class="p-2 rounded-md bg-red-500/20 hover:bg-red-500/30 transition">
-      <i data-lucide="trash-2" class="w-4 h-4 text-red-400"></i>
-    </button>
-  </form>
+            <!-- Balance button -->
+            <a href="/admin/user/<%= u.id %>/balance" class="flex-1 sm:flex-none px-3 py-2 sm:px-3 sm:py-1.5 rounded-md text-xs bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 transition flex items-center justify-center gap-1">
+              <i data-lucide="dollar-sign" class="w-3 h-3 sm:hidden"></i>
+              <span>Balance</span>
+            </a>
 
-</div>
+            <!-- SIGNAL CONTROL -->
+            <form action="/admin/user/<%= u.id %>/signal" method="POST" class="flex items-center gap-1 flex-1 sm:flex-none justify-between sm:justify-start">
+              <button name="action" value="decrease" class="px-2 py-2 sm:px-2 sm:py-1 text-xs rounded bg-red-500/20 text-red-300 hover:bg-red-500/30 flex items-center justify-center">
+                <i data-lucide="minus" class="w-3 h-3"></i>
+              </button>
+
+              <span class="px-2 py-2 sm:px-2 sm:py-1 text-xs rounded bg-slate-700 text-slate-300 min-w-[45px] text-center flex items-center justify-center">
+                <%= u.signalLevel %>%
+              </span>
+
+              <button name="action" value="increase" class="px-2 py-2 sm:px-2 sm:py-1 text-xs rounded bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 flex items-center justify-center">
+                <i data-lucide="plus" class="w-3 h-3"></i>
+              </button>
+            </form>
+
+            <!-- Delete button -->
+            <form action="/admin/user/<%= u.id %>/delete" method="POST" onsubmit="return confirm('Delete this user and all related data?')" class="flex-1 sm:flex-none">
+              <button class="w-full sm:w-auto p-2 rounded-md bg-red-500/20 hover:bg-red-500/30 transition flex items-center justify-center">
+                <i data-lucide="trash-2" class="w-4 h-4 text-red-400"></i>
+              </button>
+            </form>
+
+          </div>
+        </div>
       </div>
-    </div>
-    <% }) %>
+      <% }) %>
 
-  </div>
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    lucide.createIcons()
-  })
-</script>
-
-</body>
+    </div> 
+  </div> 
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () { 
+      if (typeof lucide !== 'undefined') lucide.createIcons(); 
+    });
+  </script> 
+</body> 
 </html>

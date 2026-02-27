@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Risk Disclosure | Global Equinox Trade</title>
+  <link rel="icon" type="image/png" href="/temp/custom/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .risk-card {
+      background: linear-gradient(145deg, rgba(120, 53, 15, 0.1) 0%, rgba(30, 41, 59, 0.7) 100%);
+      border: 1px solid rgba(251, 146, 60, 0.2);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    .risk-card:hover {
+      border-color: rgba(251, 146, 60, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .critical-card {
+      background: linear-gradient(145deg, rgba(185, 28, 28, 0.15) 0%, rgba(30, 41, 59, 0.7) 100%);
+      border: 2px solid rgba(239, 68, 68, 0.3);
+    }
+    
+    .warning-pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    .risk-meter {
+      height: 8px;
+      background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%);
+      border-radius: 4px;
+      position: relative;
+    }
+    
+    .risk-meter::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border: 2px solid #ef4444;
+      border-radius: 50%;
+      top: -4px;
+      right: 20%;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-200 font-sans min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3 group">
+      <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-8 transition-transform group-hover:scale-105">
+      <span class="font-semibold text-white group-hover:text-indigo-300 transition-colors">Global Equinox Trade</span>
+    </a>
+    
+    <div class="flex items-center gap-4">
+      <a href="/risk" class="text-amber-400 font-medium text-sm hidden md:block">Risk Disclosure</a>
+      <a href="/terms" class="text-slate-400 hover:text-white text-sm transition-colors hidden md:block">Terms</a>
+      <a href="/login" class="px-4 py-2 bg-amber-600 text-white text-sm rounded-lg hover:bg-amber-700 transition-colors">Client Login</a>
+    </div>
+  </div>
+</header>
+
+<!-- WARNING BANNER -->
+<div class="bg-gradient-to-r from-red-900/30 to-amber-900/30 border-b border-red-800/30">
+  <div class="max-w-7xl mx-auto px-6 py-4">
+    <div class="flex items-center justify-center gap-3">
+      <svg class="w-6 h-6 text-red-400 flex-shrink-0 warning-pulse" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+      </svg>
+      <span class="text-red-300 font-semibold text-center">
+        TRADING INVOLVES SIGNIFICANT RISK OF LOSS. READ THIS DISCLOSURE CAREFULLY.
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO SECTION -->
+<section class="relative bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/30 border-b border-slate-800 overflow-hidden">
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23f59e0b" fill-opacity="0.2"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+  </div>
+  
+  <div class="max-w-6xl mx-auto px-6 py-16 relative">
+    <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
+      <div class="lg:w-2/3">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-amber-900/30 rounded-full border border-amber-800/50 mb-6">
+          <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-sm text-amber-300">High-Risk Investment Warning</span>
+        </div>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 fade-in">Risk Disclosure</h1>
+        <p class="text-lg text-slate-300 mb-6">Understanding the risks associated with trading financial instruments</p>
+        
+        <!-- Risk Meter -->
+        <div class="mb-8">
+          <div class="flex justify-between text-sm mb-2">
+            <span class="text-green-400">Low Risk</span>
+            <span class="text-amber-400">Medium Risk</span>
+            <span class="text-red-400">High Risk</span>
+          </div>
+          <div class="risk-meter mb-2"></div>
+          <p class="text-xs text-slate-500">Trading positions shown on high-risk end of spectrum</p>
+        </div>
+        
+        <div class="flex flex-wrap gap-4">
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Applicable To</span>
+            <div class="text-sm font-medium">All Trading Accounts</div>
+          </div>
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Last Updated</span>
+            <div class="text-sm font-medium" id="currentDate"></div>
+          </div>
+          <div class="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+            <span class="text-xs text-slate-400">Version</span>
+            <div class="text-sm font-medium">2.0.4</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="lg:w-1/3">
+        <div class="critical-card rounded-xl p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 bg-red-600/20 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-white">Critical Warning</h3>
+              <p class="text-sm text-red-300">High Probability of Loss</p>
+            </div>
+          </div>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-start gap-2 text-slate-300">
+              <span class="text-red-400 mt-1">•</span>
+              <span><span class="font-semibold">74%</span> of retail traders lose money</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-300">
+              <span class="text-red-400 mt-1">•</span>
+              <span>Losses can exceed your deposit</span>
+            </li>
+            <li class="flex items-start gap-2 text-slate-300">
+              <span class="text-red-400 mt-1">•</span>
+              <span>No trading strategy guarantees profit</span>
+            </li>
+          </ul>
+          <div class="mt-6 pt-6 border-t border-red-800/50">
+            <a href="#acknowledgement" class="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-2">
+              Required Acknowledgment
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<main class="max-w-6xl mx-auto px-6 py-12">
+  <div class="grid md:grid-cols-3 gap-8">
+    <!-- Sidebar -->
+    <div class="md:col-span-1">
+      <div class="sticky top-32">
+        <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-800 mb-6">
+          <h3 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Risk Categories</h3>
+          <nav class="space-y-2">
+            <a href="#market" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Market Risk</a>
+            <a href="#leverage" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Leverage Risk</a>
+            <a href="#liquidity" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Liquidity Risk</a>
+            <a href="#systemic" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Systemic Risk</a>
+            <a href="#operational" class="block text-sm text-slate-400 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">Operational Risk</a>
+            <a href="#acknowledgement" class="block text-sm text-red-400 hover:text-red-300 transition-colors py-2 px-3 rounded-lg hover:bg-red-900/20">Your Acknowledgment</a>
+          </nav>
+        </div>
+        
+        <div class="bg-slate-900/30 rounded-xl p-5 border border-slate-800">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-amber-600/20 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-medium text-white">Before You Trade</h4>
+              <p class="text-xs text-slate-400">Essential Considerations</p>
+            </div>
+          </div>
+          <ul class="space-y-2 text-sm text-slate-300 mt-3">
+            <li class="flex items-start gap-2">• Assess your risk tolerance</li>
+            <li class="flex items-start gap-2">• Understand the products</li>
+            <li class="flex items-start gap-2">• Use risk management tools</li>
+            <li class="flex items-start gap-2">• Start with a demo account</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="md:col-span-2 space-y-8">
+      <!-- Introduction -->
+      <div class="bg-gradient-to-r from-slate-900/50 to-amber-950/20 p-6 rounded-xl border border-slate-800 fade-in">
+        <p class="text-slate-300 leading-relaxed">
+          This Risk Disclosure Statement outlines the significant risks associated with trading financial instruments. Trading on margin carries a high level of risk and may not be suitable for all investors. The possibility exists that you could sustain a loss of some or all of your initial investment. Therefore, you should not invest money that you cannot afford to lose.
+        </p>
+      </div>
+
+      <!-- Market Risk -->
+      <section id="market" class="risk-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl font-bold text-red-400">📉</span>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Market Risk</h2>
+            <p class="text-sm text-slate-400">Price volatility and market movements</p>
+          </div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Price Fluctuations</h3>
+            <p class="text-sm text-slate-300">
+              Financial markets are volatile. Prices can move rapidly in either direction due to economic data, political events, or market sentiment. These movements may result in significant losses.
+            </p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Gap Risk</h3>
+            <p class="text-sm text-slate-300">
+              Prices can "gap" over weekends or during market closures, opening at significantly different levels from where they closed. This can trigger stop-loss orders at unfavorable prices.
+            </p>
+          </div>
+        </div>
+        
+        <div class="mt-6 p-4 bg-red-900/20 rounded-lg border border-red-800/30">
+          <div class="flex items-center gap-2 text-red-300 mb-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <span class="font-medium">Important</span>
+          </div>
+          <p class="text-sm text-red-200">
+            Past performance is not indicative of future results. Historical data and back-testing do not guarantee future profitability.
+          </p>
+        </div>
+      </section>
+
+      <!-- Leverage Risk -->
+      <section id="leverage" class="risk-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-amber-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl font-bold text-amber-400">⚖️</span>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Leverage Risk</h2>
+            <p class="text-sm text-slate-400">Amplified gains and losses</p>
+          </div>
+        </div>
+        
+        <div class="space-y-6">
+          <div class="p-4 bg-slate-800/20 rounded-lg">
+            <h3 class="font-semibold text-white mb-2">Amplified Losses</h3>
+            <p class="text-slate-300 text-sm">
+              While leverage can amplify profits, it also amplifies losses. A small market movement against your position can result in significant losses, potentially exceeding your initial deposit.
+            </p>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-slate-700">
+                  <th class="text-left py-3 px-4 text-slate-400 font-medium">Leverage</th>
+                  <th class="text-left py-3 px-4 text-slate-400 font-medium">Effect on $1,000</th>
+                  <th class="text-left py-3 px-4 text-slate-400 font-medium">1% Move For</th>
+                  <th class="text-left py-3 px-4 text-slate-400 font-medium">1% Move Against</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800">
+                <tr>
+                  <td class="py-3 px-4 font-medium text-white">1:10</td>
+                  <td class="py-3 px-4 text-slate-300">Controls $10,000</td>
+                  <td class="py-3 px-4 text-green-400">+$100</td>
+                  <td class="py-3 px-4 text-red-400">-$100</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-4 font-medium text-white">1:50</td>
+                  <td class="py-3 px-4 text-slate-300">Controls $50,000</td>
+                  <td class="py-3 px-4 text-green-400">+$500</td>
+                  <td class="py-3 px-4 text-red-400">-$500</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-4 font-medium text-white">1:100</td>
+                  <td class="py-3 px-4 text-slate-300">Controls $100,000</td>
+                  <td class="py-3 px-4 text-green-400">+$1,000</td>
+                  <td class="py-3 px-4 text-red-400">-$1,000</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-4 font-medium text-white">1:200</td>
+                  <td class="py-3 px-4 text-slate-300">Controls $200,000</td>
+                  <td class="py-3 px-4 text-green-400">+$2,000</td>
+                  <td class="py-3 px-4 text-red-400">-$2,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="p-4 bg-amber-900/20 rounded-lg border border-amber-800/30">
+            <p class="text-sm text-amber-200">
+              <span class="font-semibold">Margin Calls:</span> If your account equity falls below required margin levels, you may receive a margin call and be required to deposit additional funds immediately. Failure to meet margin calls may result in automatic position liquidation.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Liquidity Risk -->
+      <section id="liquidity" class="risk-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl font-bold text-blue-400">💧</span>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Liquidity Risk</h2>
+            <p class="text-sm text-slate-400">Ability to enter/exit positions</p>
+          </div>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="p-4 bg-slate-800/20 rounded-lg">
+            <p class="text-slate-300 text-sm">
+              During periods of low liquidity or high volatility, you may be unable to execute trades at desired prices. This can result in:
+            </p>
+          </div>
+          
+          <ul class="space-y-3 text-slate-300">
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-blue-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-blue-400 text-sm font-bold">1</span>
+              </div>
+              <span>Slippage - orders filled at worse prices than expected</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-blue-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-blue-400 text-sm font-bold">2</span>
+              </div>
+              <span>Widened spreads - increased trading costs</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-blue-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-blue-400 text-sm font-bold">3</span>
+              </div>
+              <span>Rejected orders - inability to open or close positions</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-blue-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-blue-400 text-sm font-bold">4</span>
+              </div>
+              <span>Extended hold times - delays in order execution</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Systemic Risk -->
+      <section id="systemic" class="risk-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-purple-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl font-bold text-purple-400">🌐</span>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Systemic Risk</h2>
+            <p class="text-sm text-slate-400">Market-wide events and disruptions</p>
+          </div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Black Swan Events</h3>
+            <p class="text-sm text-slate-300">
+              Unpredictable, rare events that have severe consequences across financial markets (e.g., financial crises, geopolitical conflicts, pandemics).
+            </p>
+          </div>
+          
+          <div class="p-4 bg-slate-800/30 rounded-lg">
+            <h3 class="font-semibold text-white mb-3">Contagion Risk</h3>
+            <p class="text-sm text-slate-300">
+              Problems in one market or institution spreading to others, potentially affecting unrelated positions in your portfolio.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Operational Risk -->
+      <section id="operational" class="risk-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-slate-600/20 rounded-lg flex items-center justify-center">
+            <span class="text-2xl font-bold text-slate-400">🔧</span>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Operational Risk</h2>
+            <p class="text-sm text-slate-400">Technical and platform risks</p>
+          </div>
+        </div>
+        
+        <div class="space-y-4">
+          <ul class="space-y-3 text-slate-300">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+              </svg>
+              <span><span class="font-semibold">System failures:</span> Platform outages, connectivity issues, or software bugs</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+              </svg>
+              <span><span class="font-semibold">Execution delays:</span> Slow order processing during high volatility</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+              </svg>
+              <span><span class="font-semibold">Data inaccuracies:</span> Incorrect price feeds or delayed information</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+              </svg>
+              <span><span class="font-semibold">Third-party risks:</span> Issues with liquidity providers or payment processors</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Your Acknowledgment -->
+      <section id="acknowledgement" class="critical-card p-6 fade-in">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">Your Acknowledgment</h2>
+            <p class="text-sm text-red-300">Required confirmation of understanding</p>
+          </div>
+        </div>
+        
+        <div class="space-y-6">
+          <div class="p-4 bg-red-900/20 rounded-lg border border-red-800/30">
+            <p class="text-red-200 text-sm">
+              By opening a trading account with Global Equinox Trade, you acknowledge and confirm that:
+            </p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-start gap-3 p-4 bg-slate-800/30 rounded-lg">
+              <input type="checkbox" id="ack1" class="w-5 h-5 text-red-600 bg-slate-800 border-slate-700 rounded mt-1">
+              <label for="ack1" class="text-slate-300 text-sm">
+                I have read, understood, and accept all risks described in this disclosure
+              </label>
+            </div>
+            
+            <div class="flex items-start gap-3 p-4 bg-slate-800/30 rounded-lg">
+              <input type="checkbox" id="ack2" class="w-5 h-5 text-red-600 bg-slate-800 border-slate-700 rounded mt-1">
+              <label for="ack2" class="text-slate-300 text-sm">
+                I understand that trading involves significant risk of financial loss
+              </label>
+            </div>
+            
+            <div class="flex items-start gap-3 p-4 bg-slate-800/30 rounded-lg">
+              <input type="checkbox" id="ack3" class="w-5 h-5 text-red-600 bg-slate-800 border-slate-700 rounded mt-1">
+              <label for="ack3" class="text-slate-300 text-sm">
+                I am trading only with risk capital that I can afford to lose completely
+              </label>
+            </div>
+            
+            <div class="flex items-start gap-3 p-4 bg-slate-800/30 rounded-lg">
+              <input type="checkbox" id="ack4" class="w-5 h-5 text-red-600 bg-slate-800 border-slate-700 rounded mt-1">
+              <label for="ack4" class="text-slate-300 text-sm">
+                I understand that past performance does not guarantee future results
+              </label>
+            </div>
+            
+            <div class="flex items-start gap-3 p-4 bg-slate-800/30 rounded-lg">
+              <input type="checkbox" id="ack5" class="w-5 h-5 text-red-600 bg-slate-800 border-slate-700 rounded mt-1">
+              <label for="ack5" class="text-slate-300 text-sm">
+                I have sought independent financial advice if I was uncertain about any aspect of trading
+              </label>
+            </div>
+          </div>
+          
+          <div class="p-4 bg-red-900/20 rounded-lg border border-red-800/30">
+            <p class="text-sm text-red-200">
+              <span class="font-semibold">Final Warning:</span> If you do not fully understand these risks or cannot afford potential losses, DO NOT TRADE. Consider starting with a demo account to gain experience without financial risk.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <div class="p-6 bg-slate-900/50 rounded-xl border border-slate-800">
+        <p class="text-slate-300 text-sm">
+          If you have questions about these risks or need clarification on any aspect of trading, contact our support team before depositing funds or placing trades.
+        </p>
+        <div class="mt-4">
+          <a href="mailto:globalequinoxtrade@gmail.com" class="text-amber-400 hover:text-amber-300 text-sm font-medium inline-flex items-center gap-2">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+            Contact Support for Risk Questions
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-800 bg-slate-950 mt-12">
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-3">
+        <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-6 opacity-80">
+        <span class="text-slate-400 text-sm">© 2015-2025 Global Equinox Trade</span>
+      </div>
+      
+      <div class="flex flex-wrap justify-center gap-6 text-sm">
+        <a href="/privacy-policy" class="text-indigo-400 font-medium">Privacy Policy</a>
+<a href="/terms" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a>
+<a href="/cookie-policy" class="text-slate-400 hover:text-white transition-colors">Cookie Policy</a>
+<a href="/risk-disclosure" class="text-slate-400 hover:text-white transition-colors">Risk Disclosure</a>
+<a href="/aml-policy" class="text-slate-400 hover:text-white transition-colors">AML Policy</a>
+
+      </div>
+    </div>
+    
+    <div class="mt-8 pt-8 border-t border-slate-800 text-center">
+      <p class="text-xs text-slate-600">
+        Trading derivatives and leveraged products carries significant risk of loss. This risk disclosure is not exhaustive.
+        Consult with a qualified financial advisor before making any investment decisions.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Set current date
+  document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  // Smooth scroll for anchor links
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 120,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Add animation delay to fade-in elements
+    const fadeElements = document.querySelectorAll('.fade-in');
+    fadeElements.forEach((el, index) => {
+      el.style.animationDelay = `${index * 0.1}s`;
+    });
+  });
+</script>
+</body>
+</html>

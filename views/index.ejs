@@ -2,7 +2,7 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>Global Equinox Trade | Professional Forex, Crypto & Stocks Trading</title>
   <meta name="description" content="Trade global markets with confidence. Professional trading platform for Forex, Cryptocurrency, Stocks, and Indices with transparent pricing and real-time analytics.">
   <link rel="icon" type="image/png" href="/temp/custom/img/logo.png">
@@ -105,6 +105,637 @@
       }
     }
   </script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+  
+  <!-- Scrollbar hide utility -->
+  <style>
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+  
+  <style>
+    /* Custom Styles */
+    :root {
+      --header-height: 4rem;
+    }
+    
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: #0f172a;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(30, 41, 59, 0.4);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #4F46E5, #7c3aed);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #4338CA, #6d28d9);
+    }
+    
+    /* Lucide icons */
+    i[data-lucide] {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.7;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    
+    /* Hover effects */
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #4F46E5 0%, #7c3aed 50%, #34d399 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 3s ease infinite;
+    }
+    
+    /* Glow effects */
+    .glow-primary {
+      box-shadow: 0 0 40px rgba(79, 70, 229, 0.4);
+    }
+    
+    .glow-success {
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.4);
+    }
+    
+    /* Section animations */
+    .fade-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    
+    .fade-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Button animations */
+    .btn-pulse {
+      animation: pulseSubtle 2s infinite;
+    }
+    
+    /* Sticky header */
+    .sticky-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      background: rgba(15, 23, 42, 0.92);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .sticky-header.hidden {
+      transform: translateY(-100%);
+    }
+    
+    /* Mobile menu */
+    .mobile-menu {
+      position: fixed;
+      top: var(--header-height);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(20px);
+      z-index: 999;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+    
+    /* Market ticker */
+    .ticker-container {
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+    
+    /* Testimonial carousel */
+    .testimonial-track {
+      display: flex;
+      animation: scrollTestimonials 30s linear infinite;
+    }
+    
+    @keyframes scrollTestimonials {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(calc(-100% - 1rem));
+      }
+    }
+    
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s infinite;
+    }
+    
+    @keyframes skeleton-loading {
+      0% {
+        background-position: 200% 0;
+      }
+      100% {
+        background-position: -200% 0;
+      }
+    }
+    
+    /* Noise texture */
+    .noise-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+      opacity: 0.1;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+    
+    section {
+      padding-bottom: 40px;
+    }
+    
+    /* Chart styles */
+    .chart-container {
+      height: 200px;
+      background: linear-gradient(180deg, rgba(79, 70, 229, 0.1) 0%, transparent 100%);
+    }
+    
+    /* Trading terminal styles */
+    .order-book {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .order-book::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    .order-book::-webkit-scrollbar-thumb {
+      background: rgba(79, 70, 229, 0.5);
+      border-radius: 2px;
+    }
+    
+    /* TradingView widget wrapper */
+    .tradingview-widget {
+      min-height: 400px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    /* Trading pair badges */
+    .pair-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    /* Live price indicator */
+    .price-update {
+      animation: pricePulse 1s ease-in-out;
+    }
+    
+    @keyframes pricePulse {
+      0% { background-color: transparent; }
+      50% { background-color: rgba(16, 185, 129, 0.2); }
+      100% { background-color: transparent; }
+    }
+    
+    /* Trading levels */
+    .support-level {
+      border-left: 2px solid #10b981;
+      padding-left: 8px;
+    }
+    
+    .resistance-level {
+      border-left: 2px solid #ef4444;
+      padding-left: 8px;
+    }
+    
+    /* Trading tools grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    
+    /* Market sentiment indicator */
+    .sentiment-meter {
+      height: 6px;
+      background: linear-gradient(to right, #ef4444 0%, #f59e0b 50%, #10b981 100%);
+      border-radius: 3px;
+      position: relative;
+    }
+    
+    .sentiment-indicator {
+      position: absolute;
+      top: -4px;
+      width: 14px;
+      height: 14px;
+      background: white;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Partner logo styling */
+    .partner-logo {
+      filter: grayscale(100%) brightness(2);
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+    
+    .partner-logo:hover {
+      filter: grayscale(0%) brightness(1);
+      opacity: 1;
+    }
+    
+    /* Influencer card */
+    .influencer-card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.7));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Mobile Responsive Fixes */
+    @media (max-width: 640px) {
+      /* Header fixes */
+      .sticky-header .flex.items-center.gap-3 span.text-base {
+        display: none;
+      }
+      
+      .sticky-header .h-8 {
+        height: 2rem;
+      }
+      
+      /* Hero section */
+      h1.text-4xl {
+        font-size: 2rem !important;
+        line-height: 2.5rem !important;
+      }
+      
+      .text-lg {
+        font-size: 1rem !important;
+      }
+      
+      /* Stats grid */
+      .grid.grid-cols-3.gap-4.mb-6 {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+      }
+      
+      /* Trust badges */
+      .flex.items-center.gap-6 {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+      }
+      
+      .flex.items-center.gap-3 {
+        width: 100% !important;
+      }
+      
+      /* Hero visual cards */
+      .grid.grid-cols-3.gap-4 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Markets grid */
+      .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-5.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Pricing cards */
+      .grid.grid-cols-1.md\:grid-cols-3.gap-8 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .transform.scale-105 {
+        transform: none !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+      }
+      
+      .glow-primary {
+        box-shadow: none !important;
+      }
+      
+      /* Partner grid */
+      .grid.grid-cols-2.md\:grid-cols-3.lg\:grid-cols-5.gap-8 {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+      }
+      
+      .bg-slate-900\/50.p-6 {
+        padding: 1rem !important;
+      }
+      
+      .h-24 {
+        height: auto !important;
+        min-height: 6rem !important;
+      }
+      
+      /* Influencer cards */
+      .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .influencer-card .flex.items-center.gap-4 {
+        flex-wrap: wrap !important;
+      }
+      
+      /* Tools grid */
+      .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Trading terminal */
+      .grid.grid-cols-1.lg\:grid-cols-3.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .lg\:col-span-2, .lg\:col-span-1 {
+        grid-column: span 1 !important;
+      }
+      
+      .h-64 {
+        height: auto !important;
+        min-height: 12rem !important;
+      }
+      
+      /* Media coverage */
+      .grid.grid-cols-2.md\:grid-cols-4.gap-8 {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+      }
+      
+      .h-28 {
+        height: auto !important;
+        min-height: 6rem !important;
+      }
+      
+      /* Education grid */
+      .grid.grid-cols-1.md\:grid-cols-3.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Platforms section */
+      .grid.grid-cols-1.lg\:grid-cols-2.gap-12 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .grid.grid-cols-2.gap-4.mb-8 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .py-4 {
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+      }
+      
+      /* About section */
+      .grid.grid-cols-1.lg\:grid-cols-2.gap-12 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .grid.grid-cols-2.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Footer */
+      .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-5.gap-8 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* CTA buttons */
+      .flex.flex-col.sm\:flex-row.gap-4 {
+        flex-direction: column !important;
+      }
+      
+      .px-8.py-4 {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+      }
+      
+      /* Market sentiment */
+      .flex.items-center.gap-4 {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.5rem !important;
+      }
+      
+      .w-24 {
+        width: 100% !important;
+      }
+      
+      /* Testimonials */
+      .min-w-\[300px\] {
+        min-width: 260px !important;
+      }
+      
+      .testimonial-track {
+        animation: scrollTestimonials 20s linear infinite;
+      }
+      
+      /* Text sizing */
+      .text-4xl {
+        font-size: 2rem !important;
+      }
+      
+      .text-3xl {
+        font-size: 1.75rem !important;
+      }
+      
+      .text-2xl {
+        font-size: 1.5rem !important;
+      }
+      
+      .text-xl {
+        font-size: 1.25rem !important;
+      }
+      
+      /* Padding adjustments */
+      .p-8 {
+        padding: 1.5rem !important;
+      }
+      
+      .p-6 {
+        padding: 1.25rem !important;
+      }
+      
+      .px-4 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+      
+      /* Hero visual */
+      .h-16.flex.items-end.gap-1 {
+        height: 4rem !important;
+      }
+      
+      /* Space adjustments */
+      .mb-16 {
+        margin-bottom: 2rem !important;
+      }
+      
+      .mb-12 {
+        margin-bottom: 1.5rem !important;
+      }
+      
+      .gap-12 {
+        gap: 2rem !important;
+      }
+      
+      .py-20 {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+      }
+      
+      .py-16 {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+      }
+      
+      /* Header adjustments */
+      .sticky-header .px-4 {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+      }
+      
+      .sticky-header .h-16 {
+        height: 3.5rem !important;
+      }
+      
+      /* Active trades section */
+      .space-y-3.mb-6 .flex.items-center.justify-between {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.5rem !important;
+      }
+      
+      .flex.items-center.gap-3 {
+        width: 100% !important;
+      }
+      
+      .text-right {
+        text-align: left !important;
+        width: 100% !important;
+      }
+      
+      /* Back to top button */
+      .fixed.bottom-6.left-6 {
+        bottom: 1rem !important;
+        left: 1rem !important;
+        height: 2.5rem !important;
+        width: 2.5rem !important;
+      }
+    }
+
+    @media (min-width: 641px) and (max-width: 768px) {
+      .grid.grid-cols-1.md\:grid-cols-3.gap-8 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      
+      .grid.grid-cols-2.md\:grid-cols-3.lg\:grid-cols-5.gap-8 {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+      
+      .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4.gap-6 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      
+      .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3.gap-6 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      
+      .grid.grid-cols-2.md\:grid-cols-4.gap-8 {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+    }
+
+    /* Fix for mobile menu button */
+    @media (max-width: 1023px) {
+      .lg\:hidden {
+        display: flex !important;
+      }
+    }
+
+    /* Ensure buttons are tappable */
+    button, a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Better mobile scrolling */
+    .overflow-x-auto {
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Hide scrollbar but keep functionality on mobile */
+    @media (max-width: 640px) {
+      .overflow-x-auto::-webkit-scrollbar {
+        display: none;
+      }
+      
+      .overflow-x-auto {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    }
+  </style>
+</head>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
   <style>
     /* Custom Styles */
@@ -371,6 +1002,357 @@
       transform: translateX(-50%);
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
     }
+    
+    /* Partner logo styling */
+    .partner-logo {
+      filter: grayscale(100%) brightness(2);
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+    
+    .partner-logo:hover {
+      filter: grayscale(0%) brightness(1);
+      opacity: 1;
+    }
+    
+    /* Influencer card */
+    .influencer-card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.7));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Mobile Responsive Fixes */
+    @media (max-width: 640px) {
+      /* Header fixes */
+      .sticky-header .flex.items-center.gap-3 span.text-base {
+        display: none;
+      }
+      
+      .sticky-header .h-8 {
+        height: 2rem;
+      }
+      
+      /* Hero section */
+      h1.text-4xl {
+        font-size: 2rem !important;
+        line-height: 2.5rem !important;
+      }
+      
+      .text-lg {
+        font-size: 1rem !important;
+      }
+      
+      /* Stats grid */
+      .grid.grid-cols-3.gap-4.mb-6 {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+      }
+      
+      /* Trust badges */
+      .flex.items-center.gap-6 {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+      }
+      
+      .flex.items-center.gap-3 {
+        width: 100% !important;
+      }
+      
+      /* Hero visual cards */
+      .grid.grid-cols-3.gap-4 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Markets grid */
+      .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-5.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Pricing cards */
+      .grid.grid-cols-1.md\:grid-cols-3.gap-8 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .transform.scale-105 {
+        transform: none !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+      }
+      
+      .glow-primary {
+        box-shadow: none !important;
+      }
+      
+      /* Partner grid */
+      .grid.grid-cols-2.md\:grid-cols-3.lg\:grid-cols-5.gap-8 {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+      }
+      
+      .bg-slate-900\/50.p-6 {
+        padding: 1rem !important;
+      }
+      
+      .h-24 {
+        height: auto !important;
+        min-height: 6rem !important;
+      }
+      
+      /* Influencer cards */
+      .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .influencer-card .flex.items-center.gap-4 {
+        flex-wrap: wrap !important;
+      }
+      
+      /* Tools grid */
+      .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Trading terminal */
+      .grid.grid-cols-1.lg\:grid-cols-3.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .lg\:col-span-2, .lg\:col-span-1 {
+        grid-column: span 1 !important;
+      }
+      
+      .h-64 {
+        height: auto !important;
+        min-height: 12rem !important;
+      }
+      
+      /* Media coverage */
+      .grid.grid-cols-2.md\:grid-cols-4.gap-8 {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+      }
+      
+      .h-28 {
+        height: auto !important;
+        min-height: 6rem !important;
+      }
+      
+      /* Education grid */
+      .grid.grid-cols-1.md\:grid-cols-3.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Platforms section */
+      .grid.grid-cols-1.lg\:grid-cols-2.gap-12 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .grid.grid-cols-2.gap-4.mb-8 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .py-4 {
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+      }
+      
+      /* About section */
+      .grid.grid-cols-1.lg\:grid-cols-2.gap-12 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .grid.grid-cols-2.gap-6 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* Footer */
+      .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-5.gap-8 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      /* CTA buttons */
+      .flex.flex-col.sm\:flex-row.gap-4 {
+        flex-direction: column !important;
+      }
+      
+      .px-8.py-4 {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+      }
+      
+      /* Market sentiment */
+      .flex.items-center.gap-4 {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.5rem !important;
+      }
+      
+      .w-24 {
+        width: 100% !important;
+      }
+      
+      /* Testimonials */
+      .min-w-\[300px\] {
+        min-width: 260px !important;
+      }
+      
+      .testimonial-track {
+        animation: scrollTestimonials 20s linear infinite;
+      }
+      
+      /* Text sizing */
+      .text-4xl {
+        font-size: 2rem !important;
+      }
+      
+      .text-3xl {
+        font-size: 1.75rem !important;
+      }
+      
+      .text-2xl {
+        font-size: 1.5rem !important;
+      }
+      
+      .text-xl {
+        font-size: 1.25rem !important;
+      }
+      
+      /* Padding adjustments */
+      .p-8 {
+        padding: 1.5rem !important;
+      }
+      
+      .p-6 {
+        padding: 1.25rem !important;
+      }
+      
+      .px-4 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+      
+      /* Hero visual */
+      .h-16.flex.items-end.gap-1 {
+        height: 4rem !important;
+      }
+      
+      /* Space adjustments */
+      .mb-16 {
+        margin-bottom: 2rem !important;
+      }
+      
+      .mb-12 {
+        margin-bottom: 1.5rem !important;
+      }
+      
+      .gap-12 {
+        gap: 2rem !important;
+      }
+      
+      .py-20 {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+      }
+      
+      .py-16 {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+      }
+      
+      /* Header adjustments */
+      .sticky-header .px-4 {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+      }
+      
+      .sticky-header .h-16 {
+        height: 3.5rem !important;
+      }
+      
+      /* Active trades section */
+      .space-y-3.mb-6 .flex.items-center.justify-between {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.5rem !important;
+      }
+      
+      .flex.items-center.gap-3 {
+        width: 100% !important;
+      }
+      
+      .text-right {
+        text-align: left !important;
+        width: 100% !important;
+      }
+      
+      /* Back to top button */
+      .fixed.bottom-6.left-6 {
+        bottom: 1rem !important;
+        left: 1rem !important;
+        height: 2.5rem !important;
+        width: 2.5rem !important;
+      }
+    }
+
+    @media (min-width: 641px) and (max-width: 768px) {
+      .grid.grid-cols-1.md\:grid-cols-3.gap-8 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      
+      .grid.grid-cols-2.md\:grid-cols-3.lg\:grid-cols-5.gap-8 {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+      
+      .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4.gap-6 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      
+      .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3.gap-6 {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      
+      .grid.grid-cols-2.md\:grid-cols-4.gap-8 {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+    }
+
+    /* Fix for mobile menu button */
+    @media (max-width: 1023px) {
+      .lg\:hidden {
+        display: flex !important;
+      }
+    }
+
+    /* Ensure buttons are tappable */
+    button, a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Better mobile scrolling */
+    .overflow-x-auto {
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Hide scrollbar but keep functionality on mobile */
+    @media (max-width: 640px) {
+      .overflow-x-auto::-webkit-scrollbar {
+        display: none;
+      }
+      
+      .overflow-x-auto {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    }
   </style>
 </head>
 <body class="text-white font-sans relative">
@@ -392,7 +1374,6 @@
           <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-8 w-auto transition-transform group-hover:scale-105">
           <div class="flex flex-col">
             <span class="text-base font-bold tracking-tight text-white">Global Equinox Trade</span>
-            <!-- <span class="text-[10px] text-slate-400 tracking-wide">Since 2015</span> -->
           </div>
         </a>
 
@@ -492,21 +1473,6 @@
            class="block w-full px-6 py-3 rounded-xl bg-gradient-primary text-center font-semibold hover:shadow-lg hover:shadow-primary-500/30 transition-all">
           Create Account
         </a>
-      </div>
-      
-      <div class="pt-6 border-t border-slate-800">
-        <p class="text-sm text-slate-400 mb-4">Connect with us</p>
-        <div class="flex items-center gap-4">
-          <a href="#" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 transition-colors">
-            <i data-lucide="twitter" class="w-5 h-5"></i>
-          </a>
-          <a href="#" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 transition-colors">
-            <i data-lucide="linkedin" class="w-5 h-5"></i>
-          </a>
-          <a href="#" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 transition-colors">
-            <i data-lucide="youtube" class="w-5 h-5"></i>
-          </a>
-        </div>
       </div>
     </div>
   </div>
@@ -682,70 +1648,226 @@
       </div>
     </section>
 
-    <!-- Live Market Ticker -->
-    <section class="bg-slate-950/80 border-y border-slate-800/50 py-3 overflow-hidden">
-      <div class="ticker-container">
-        <div class="flex items-center gap-6 animate-marquee whitespace-nowrap">
-          <!-- Repeat ticker items -->
-          <div class="flex items-center gap-4 px-4">
-            <span class="text-xs font-semibold text-slate-300">EUR/USD</span>
-            <span class="text-sm font-bold text-white">1.0874</span>
-            <span class="text-xs text-emerald-400 flex items-center gap-1">
-              <i data-lucide="trending-up" class="w-3 h-3"></i>
-              +0.21%
-            </span>
+    <!-- Trusted By Section -->
+    <section class="py-16 bg-slate-950/30 fade-section">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <div class="inline-flex items-center gap-2 rounded-full bg-primary-500/10 border border-primary-500/20 px-4 py-1.5 mb-4">
+            <i data-lucide="shield-check" class="w-4 h-4 text-primary-400"></i>
+            <span class="text-sm font-medium text-primary-300">Industry Trusted</span>
           </div>
-          <div class="flex items-center gap-4 px-4">
-            <span class="text-xs font-semibold text-slate-300">BTC/USD</span>
-            <span class="text-sm font-bold text-white">65,240</span>
-            <span class="text-xs text-emerald-400 flex items-center gap-1">
-              <i data-lucide="trending-up" class="w-3 h-3"></i>
-              +1.8%
-            </span>
+          <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Trusted by Industry Leaders</h3>
+          <p class="text-slate-400 max-w-2xl mx-auto">
+            Backed by top financial institutions and supported by world-renowned trading influencers
+          </p>
+        </div>
+        
+        <!-- Corporate Partners Grid -->
+        <div class="mb-16">
+          <h4 class="text-lg font-semibold text-white mb-8 text-center">Corporate Backing & Partners</h4>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">
+            <!-- Partner 1 -->
+            <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 flex items-center justify-center h-24 w-full card-hover">
+              <div class="text-center">
+                <div class="h-12 w-12 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-2">
+                  <i data-lucide="briefcase" class="w-6 h-6 text-blue-400"></i>
+                </div>
+                <span class="text-sm font-semibold text-white">JPMorgan Chase</span>
+                <p class="text-xs text-slate-400 mt-1">Banking Partner</p>
+              </div>
+            </div>
+            
+            <!-- Partner 2 -->
+            <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 flex items-center justify-center h-24 w-full card-hover">
+              <div class="text-center">
+                <div class="h-12 w-12 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-2">
+                  <i data-lucide="building" class="w-6 h-6 text-emerald-400"></i>
+                </div>
+                <span class="text-sm font-semibold text-white">Bloomberg</span>
+                <p class="text-xs text-slate-400 mt-1">Data Provider</p>
+              </div>
+            </div>
+            
+            <!-- Partner 3 -->
+            <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 flex items-center justify-center h-24 w-full card-hover">
+              <div class="text-center">
+                <div class="h-12 w-12 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-2">
+                  <i data-lucide="shield" class="w-6 h-6 text-purple-400"></i>
+                </div>
+                <span class="text-sm font-semibold text-white">S&P Global</span>
+                <p class="text-xs text-slate-400 mt-1">Market Analytics</p>
+              </div>
+            </div>
+            
+            <!-- Partner 4 -->
+            <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 flex items-center justify-center h-24 w-full card-hover">
+              <div class="text-center">
+                <div class="h-12 w-12 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-2">
+                  <i data-lucide="database" class="w-6 h-6 text-amber-400"></i>
+                </div>
+                <span class="text-sm font-semibold text-white">Oracle</span>
+                <p class="text-xs text-slate-400 mt-1">Cloud Infrastructure</p>
+              </div>
+            </div>
+            
+            <!-- Partner 5 -->
+            <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 flex items-center justify-center h-24 w-full card-hover">
+              <div class="text-center">
+                <div class="h-12 w-12 rounded-full bg-rose-500/20 flex items-center justify-center mx-auto mb-2">
+                  <i data-lucide="credit-card" class="w-6 h-6 text-rose-400"></i>
+                </div>
+                <span class="text-sm font-semibold text-white">Visa</span>
+                <p class="text-xs text-slate-400 mt-1">Payment Partner</p>
+              </div>
+            </div>
           </div>
-          <div class="flex items-center gap-4 px-4">
-            <span class="text-xs font-semibold text-slate-300">XAU/USD</span>
-            <span class="text-sm font-bold text-white">2,345</span>
-            <span class="text-xs text-rose-400 flex items-center gap-1">
-              <i data-lucide="trending-down" class="w-3 h-3"></i>
-              -0.4%
-            </span>
-          </div>
-          <div class="flex items-center gap-4 px-4">
-            <span class="text-xs font-semibold text-slate-300">NAS100</span>
-            <span class="text-sm font-bold text-white">18,420</span>
-            <span class="text-xs text-emerald-400 flex items-center gap-1">
-              <i data-lucide="trending-up" class="w-3 h-3"></i>
-              +0.9%
-            </span>
-          </div>
-          <div class="flex items-center gap-4 px-4">
-            <span class="text-xs font-semibold text-slate-300">TSLA</span>
-            <span class="text-sm font-bold text-white">245.60</span>
-            <span class="text-xs text-emerald-400 flex items-center gap-1">
-              <i data-lucide="trending-up" class="w-3 h-3"></i>
-              +2.3%
-            </span>
-          </div>
-          <div class="flex items-center gap-4 px-4">
-            <span class="text-xs font-semibold text-slate-300">ETH/USD</span>
-            <span class="text-sm font-bold text-white">3,420</span>
-            <span class="text-xs text-emerald-400 flex items-center gap-1">
-              <i data-lucide="trending-up" class="w-3 h-3"></i>
-              +1.2%
-            </span>
-          </div>
-          <div class="flex items-center gap-4 px-4">
-            <span class="text-xs font-semibold text-slate-300">OIL/USD</span>
-            <span class="text-sm font-bold text-white">78.45</span>
-            <span class="text-xs text-rose-400 flex items-center gap-1">
-              <i data-lucide="trending-down" class="w-3 h-3"></i>
-              -0.8%
-            </span>
+        </div>
+        
+        <!-- Influencer Endorsements -->
+        <div>
+          <h4 class="text-lg font-semibold text-white mb-8 text-center">Featured by Top Trading Influencers</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Influencer 1 -->
+            <div class="influencer-card rounded-2xl p-6 card-hover">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="h-16 w-16 rounded-full bg-gradient-to-br from-primary-600 to-purple-600 flex items-center justify-center">
+                  <span class="text-white font-bold text-xl">MP</span>
+                </div>
+                <div>
+                  <h5 class="text-lg font-bold text-white">Michael Peterson</h5>
+                  <p class="text-sm text-primary-300">@TradeWithMike • 2.4M followers</p>
+                </div>
+              </div>
+              <p class="text-slate-300 mb-4 italic">
+                "Global Equinox Trade's execution speed is unmatched. The institutional-grade tools have transformed my trading approach."
+              </p>
+              <div class="flex items-center gap-2">
+                <i data-lucide="youtube" class="w-4 h-4 text-rose-400"></i>
+                <span class="text-sm text-slate-400">Featured in 3+ videos</span>
+              </div>
+            </div>
+            
+            <!-- Influencer 2 -->
+            <div class="influencer-card rounded-2xl p-6 card-hover">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="h-16 w-16 rounded-full bg-gradient-to-br from-emerald-600 to-blue-600 flex items-center justify-center">
+                  <span class="text-white font-bold text-xl">SC</span>
+                </div>
+                <div>
+                  <h5 class="text-lg font-bold text-white">Sarah Chen</h5>
+                  <p class="text-sm text-emerald-300">@CryptoQueen • 1.8M followers</p>
+                </div>
+              </div>
+              <p class="text-slate-300 mb-4 italic">
+                "The crypto trading experience here is exceptional. Tight spreads and 24/7 support make it my go-to platform."
+              </p>
+              <div class="flex items-center gap-2">
+                <i data-lucide="twitter" class="w-4 h-4 text-blue-400"></i>
+                <span class="text-sm text-slate-400">Official partner since 2022</span>
+              </div>
+            </div>
+            
+            <!-- Influencer 3 -->
+            <div class="influencer-card rounded-2xl p-6 card-hover">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="h-16 w-16 rounded-full bg-gradient-to-br from-amber-600 to-orange-600 flex items-center justify-center">
+                  <span class="text-white font-bold text-xl">DR</span>
+                </div>
+                <div>
+                  <h5 class="text-lg font-bold text-white">David Reynolds</h5>
+                  <p class="text-sm text-amber-300">@ForexMaster • 3.1M followers</p>
+                </div>
+              </div>
+              <p class="text-slate-300 mb-4 italic">
+                "After testing 20+ platforms, Global Equinox Trade stands out for its transparency and professional tools."
+              </p>
+              <div class="flex items-center gap-2">
+                <i data-lucide="instagram" class="w-4 h-4 text-pink-400"></i>
+                <span class="text-sm text-slate-400">Sponsored content creator</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Live Market Ticker - Fixed for Mobile -->
+<section class="bg-slate-950/80 border-y border-slate-800/50 py-2 overflow-hidden">
+  <div class="w-full overflow-x-auto whitespace-nowrap scrollbar-hide" style="-webkit-overflow-scrolling: touch;">
+    <div class="inline-flex items-center gap-2 sm:gap-6 px-2">
+      <!-- EUR/USD -->
+      <div class="flex items-center gap-1 sm:gap-4 px-1 sm:px-4 flex-shrink-0">
+        <span class="text-[0.6rem] sm:text-xs font-semibold text-slate-300">EUR/USD</span>
+        <span class="text-[0.65rem] sm:text-sm font-bold text-white">1.0874</span>
+        <span class="text-[0.55rem] sm:text-xs text-emerald-400 flex items-center gap-0.5">
+          <i data-lucide="trending-up" class="w-2 h-2 sm:w-3 sm:h-3"></i>
+          +0.21%
+        </span>
+      </div>
+      
+      <!-- BTC/USD -->
+      <div class="flex items-center gap-1 sm:gap-4 px-1 sm:px-4 flex-shrink-0">
+        <span class="text-[0.6rem] sm:text-xs font-semibold text-slate-300">BTC/USD</span>
+        <span class="text-[0.65rem] sm:text-sm font-bold text-white">65,240</span>
+        <span class="text-[0.55rem] sm:text-xs text-emerald-400 flex items-center gap-0.5">
+          <i data-lucide="trending-up" class="w-2 h-2 sm:w-3 sm:h-3"></i>
+          +1.8%
+        </span>
+      </div>
+      
+      <!-- XAU/USD -->
+      <div class="flex items-center gap-1 sm:gap-4 px-1 sm:px-4 flex-shrink-0">
+        <span class="text-[0.6rem] sm:text-xs font-semibold text-slate-300">XAU/USD</span>
+        <span class="text-[0.65rem] sm:text-sm font-bold text-white">2,345</span>
+        <span class="text-[0.55rem] sm:text-xs text-rose-400 flex items-center gap-0.5">
+          <i data-lucide="trending-down" class="w-2 h-2 sm:w-3 sm:h-3"></i>
+          -0.4%
+        </span>
+      </div>
+      
+      <!-- NAS100 -->
+      <div class="flex items-center gap-1 sm:gap-4 px-1 sm:px-4 flex-shrink-0">
+        <span class="text-[0.6rem] sm:text-xs font-semibold text-slate-300">NAS100</span>
+        <span class="text-[0.65rem] sm:text-sm font-bold text-white">18,420</span>
+        <span class="text-[0.55rem] sm:text-xs text-emerald-400 flex items-center gap-0.5">
+          <i data-lucide="trending-up" class="w-2 h-2 sm:w-3 sm:h-3"></i>
+          +0.9%
+        </span>
+      </div>
+      
+      <!-- TSLA -->
+      <div class="flex items-center gap-1 sm:gap-4 px-1 sm:px-4 flex-shrink-0">
+        <span class="text-[0.6rem] sm:text-xs font-semibold text-slate-300">TSLA</span>
+        <span class="text-[0.65rem] sm:text-sm font-bold text-white">245.60</span>
+        <span class="text-[0.55rem] sm:text-xs text-emerald-400 flex items-center gap-0.5">
+          <i data-lucide="trending-up" class="w-2 h-2 sm:w-3 sm:h-3"></i>
+          +2.3%
+        </span>
+      </div>
+      
+      <!-- ETH/USD -->
+      <div class="flex items-center gap-1 sm:gap-4 px-1 sm:px-4 flex-shrink-0">
+        <span class="text-[0.6rem] sm:text-xs font-semibold text-slate-300">ETH/USD</span>
+        <span class="text-[0.65rem] sm:text-sm font-bold text-white">3,420</span>
+        <span class="text-[0.55rem] sm:text-xs text-emerald-400 flex items-center gap-0.5">
+          <i data-lucide="trending-up" class="w-2 h-2 sm:w-3 sm:h-3"></i>
+          +1.2%
+        </span>
+      </div>
+      
+      <!-- OIL/USD -->
+      <div class="flex items-center gap-1 sm:gap-4 px-1 sm:px-4 flex-shrink-0">
+        <span class="text-[0.6rem] sm:text-xs font-semibold text-slate-300">OIL/USD</span>
+        <span class="text-[0.65rem] sm:text-sm font-bold text-white">78.45</span>
+        <span class="text-[0.55rem] sm:text-xs text-rose-400 flex items-center gap-0.5">
+          <i data-lucide="trending-down" class="w-2 h-2 sm:w-3 sm:h-3"></i>
+          -0.8%
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
 
     <!-- Advanced Trading Tools -->
     <section id="advanced-tools" class="py-20 fade-section">
@@ -1123,6 +2245,87 @@
                 </div>
                 <div class="sentiment-meter">
                   <div class="sentiment-indicator" style="left: 42%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Media Coverage Section -->
+    <section class="py-16 bg-gradient-to-b from-slate-950 to-slate-900 fade-section">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <div class="inline-flex items-center gap-2 rounded-full bg-blue-500/10 border border-blue-500/20 px-4 py-1.5 mb-4">
+            <i data-lucide="tv" class="w-4 h-4 text-blue-400"></i>
+            <span class="text-sm font-medium text-blue-300">Featured In</span>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Featured in Leading Financial Media</h3>
+          <p class="text-slate-400 max-w-2xl mx-auto">
+            Recognized by top financial publications and media outlets worldwide
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
+          <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 flex items-center justify-center h-28 w-full">
+            <div class="text-center">
+              <div class="h-10 w-10 rounded-full bg-red-500/20 flex items-center justify-center mx-auto mb-2">
+                <i data-lucide="tv" class="w-5 h-5 text-red-400"></i>
+              </div>
+              <span class="text-sm font-semibold text-white">CNBC</span>
+              <p class="text-xs text-slate-400 mt-1">Market Watch 2024</p>
+            </div>
+          </div>
+          
+          <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 flex items-center justify-center h-28 w-full">
+            <div class="text-center">
+              <div class="h-10 w-10 rounded-full bg-yellow-500/20 flex items-center justify-center mx-auto mb-2">
+                <i data-lucide="newspaper" class="w-5 h-5 text-yellow-400"></i>
+              </div>
+              <span class="text-sm font-semibold text-white">Financial Times</span>
+              <p class="text-xs text-slate-400 mt-1">Innovation Award</p>
+            </div>
+          </div>
+          
+          <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 flex items-center justify-center h-28 w-full">
+            <div class="text-center">
+              <div class="h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-2">
+                <i data-lucide="globe" class="w-5 h-5 text-green-400"></i>
+              </div>
+              <span class="text-sm font-semibold text-white">Bloomberg</span>
+              <p class="text-xs text-slate-400 mt-1">Tech Review</p>
+            </div>
+          </div>
+          
+          <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 flex items-center justify-center h-28 w-full">
+            <div class="text-center">
+              <div class="h-10 w-10 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-2">
+                <i data-lucide="radio" class="w-5 h-5 text-purple-400"></i>
+              </div>
+              <span class="text-sm font-semibold text-white">Forbes</span>
+              <p class="text-xs text-slate-400 mt-1">Top 10 Platforms</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Quote from Media -->
+        <div class="mt-12 bg-gradient-to-r from-primary-600/20 to-blue-600/20 border border-primary-500/30 rounded-2xl p-8">
+          <div class="flex items-start gap-4">
+            <div class="h-12 w-12 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="quote" class="w-6 h-6 text-white"></i>
+            </div>
+            <div>
+              <p class="text-lg italic text-white mb-4">
+                "Global Equinox Trade represents the next generation of trading platforms, combining institutional-grade tools with consumer-friendly interfaces. Their commitment to transparency sets a new industry standard."
+              </p>
+              <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
+                  <span class="text-white font-bold">JR</span>
+                </div>
+                <div>
+                  <p class="font-semibold text-white">James Richardson</p>
+                  <p class="text-sm text-slate-300">Senior Editor, Financial Times</p>
                 </div>
               </div>
             </div>
@@ -1717,20 +2920,7 @@
           <p class="text-slate-400 mb-6 max-w-md">
             A modern trading platform providing access to global markets with transparent pricing and professional tools.
           </p>
-          <div class="flex items-center gap-4">
-            <a href="#" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 transition-colors">
-              <i data-lucide="twitter" class="w-5 h-5 text-slate-300"></i>
-            </a>
-            <a href="#" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 transition-colors">
-              <i data-lucide="linkedin" class="w-5 h-5 text-slate-300"></i>
-            </a>
-            <a href="#" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 transition-colors">
-              <i data-lucide="youtube" class="w-5 h-5 text-slate-300"></i>
-            </a>
-            <a href="#" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 transition-colors">
-              <i data-lucide="instagram" class="w-5 h-5 text-slate-300"></i>
-            </a>
-          </div>
+          
         </div>
         
         <!-- Quick Links -->
@@ -1760,13 +2950,34 @@
         <!-- Legal -->
         <div>
           <h4 class="text-lg font-semibold text-white mb-4">Legal</h4>
-          <ul class="space-y-3">
-            <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a></li>
-            <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Privacy Policy</a></li>
-            <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Risk Disclosure</a></li>
-            <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Cookie Policy</a></li>
-            <li><a href="#" class="text-slate-400 hover:text-white transition-colors">AML Policy</a></li>
-          </ul>
+<ul class="space-y-3">
+  <li>
+    <a href="/terms" class="text-slate-400 hover:text-white transition-colors">
+      Terms of Service
+    </a>
+  </li>
+  <li>
+    <a href="/privacy-policy" class="text-slate-400 hover:text-white transition-colors">
+      Privacy Policy
+    </a>
+  </li>
+  <li>
+    <a href="/risk-disclosure" class="text-slate-400 hover:text-white transition-colors">
+      Risk Disclosure
+    </a>
+  </li>
+  <li>
+    <a href="/cookie-policy" class="text-slate-400 hover:text-white transition-colors">
+      Cookie Policy
+    </a>
+  </li>
+  <li>
+    <a href="/aml-policy" class="text-slate-400 hover:text-white transition-colors">
+      AML Policy
+    </a>
+  </li>
+</ul>
+
         </div>
       </div>
       
@@ -1783,13 +2994,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- Floating Support Button -->
-  <a href="/support" 
-     class="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-primary text-white font-semibold shadow-2xl hover:shadow-primary-500/40 transition-all duration-300 transform hover:-translate-y-0.5">
-    <i data-lucide="headset" class="w-5 h-5"></i>
-    <span>Support</span>
-  </a>
 
   <!-- Back to Top -->
   <button id="backToTop" 
@@ -2004,6 +3208,21 @@
         const randomPosition = Math.random() * 100;
         indicator.style.left = `${randomPosition}%`;
       });
+      
+      // Add animation to influencer cards
+      document.querySelectorAll('.influencer-card').forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+      
+      // Simulate partner logo interactions
+      document.querySelectorAll('.partner-logo').forEach(logo => {
+        logo.addEventListener('mouseenter', function() {
+          this.style.transform = 'scale(1.1)';
+        });
+        logo.addEventListener('mouseleave', function() {
+          this.style.transform = 'scale(1)';
+        });
+      });
     });
     
     // Keyboard shortcuts
@@ -2020,25 +3239,22 @@
       }
     });
   </script>
-  <!-- Tawk.to -->
-  <script type="text/javascript">
-    var Tawk_API = Tawk_API || {};
-    Tawk_API.onLoad = function() {
-      try {
-        // You can set attributes here if you have user data
-        // Example: Tawk_API.setAttributes({ name: "John Doe", email: "john@example.com" });
-      } catch(e) {}
-    };
-    
-    (function() {
-      var s1 = document.createElement("script");
-      var s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/692dddd0e038f8197ec1138d/1jbdiktoe';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      s0.parentNode.insertBefore(s1, s0);
-    })();
-  </script>
+  <!-- Smartsupp Live Chat -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = "fb9686b2c414dc4e535f3ee4893b830b3c02230b";
+window.smartsupp || (function(d) {
+  var s, c, o = smartsupp = function() { o._.push(arguments) };
+  o._ = [];
+  s = d.getElementsByTagName("script")[0];
+  c = d.createElement("script");
+  c.type = "text/javascript";
+  c.charset = "utf-8";
+  c.async = true;
+  c.src = "https://www.smartsuppchat.com/loader.js?";
+  s.parentNode.insertBefore(c, s);
+})(document);
+</script>
+
 </body>
 </html>
