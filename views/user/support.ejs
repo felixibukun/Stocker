@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Support</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background: radial-gradient(circle at top, #0f172a, #020617);
+    }
+  </style>
+</head>
+
+<body class="text-white font-sans">
+
+<header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl">
+  <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="text-lg">💬</span>
+      <p class="text-sm font-semibold">Live Support</p>
+    </div>
+    <a href="/dashboard" class="text-xs text-slate-300 hover:text-white">Back</a>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-4 py-16">
+  <div class="bg-slate-900/70 border border-slate-800 rounded-2xl shadow-xl p-8 text-center">
+
+    <p class="text-2xl font-semibold text-white mb-3">
+      Chat with Support
+    </p>
+
+    <p class="text-sm text-slate-400 max-w-md mx-auto mb-8">
+      Our support team is online. The chat window will open automatically.
+    </p>
+
+    <div class="flex justify-center">
+      <button
+        onclick="if (window.smartsupp) smartsupp('chat:open')"
+        class="px-6 py-3 rounded-xl bg-primary-600 text-sm font-semibold hover:bg-primary-500 transition">
+        Open Chat
+      </button>
+    </div>
+
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<% if (toast) { %>
+<script>
+Swal.fire({
+  icon: '<%= toast.type %>',
+  title: '<%= toast.message %>',
+  toast: true,
+  position: 'top',
+  showConfirmButton: false,
+  timer: 2500
+});
+</script>
+<% } %>
+
+<!-- Smartsupp Live Chat -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = "fb9686b2c414dc4e535f3ee4893b830b3c02230b";
+window.smartsupp || (function(d) {
+  var s, c, o = smartsupp = function() { o._.push(arguments) };
+  o._ = [];
+  s = d.getElementsByTagName("script")[0];
+  c = d.createElement("script");
+  c.type = "text/javascript";
+  c.charset = "utf-8";
+  c.async = true;
+  c.src = "https://www.smartsuppchat.com/loader.js?";
+  s.parentNode.insertBefore(c, s);
+})(document);
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(function () {
+    if (window.smartsupp) {
+      smartsupp("chat:open");
+    }
+  }, 800);
+});
+</script>
+
+</body>
+</html>

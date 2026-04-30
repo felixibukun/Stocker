@@ -1,0 +1,307 @@
+<!DOCTYPE html> 
+<html lang="en" class="dark"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <title>Account Settings</title> 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> 
+  <script src="https://cdn.tailwindcss.com"></script> 
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .password-toggle {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .password-toggle:hover {
+      opacity: 0.8;
+    }
+  </style>
+  <script> 
+    tailwind.config = { 
+      darkMode: 'class', 
+      theme: { 
+        extend: { 
+          colors: { 
+            primary: { 600: '#4F46E5' } 
+          }, 
+          fontFamily: { 
+            sans: ['Inter', 'sans-serif'] 
+          } 
+        } 
+      } 
+    } 
+  </script> 
+</head> 
+<body class="bg-slate-950 text-white font-sans"> 
+
+<header class="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl flex items-center"> 
+  <div class="w-full max-w-6xl mx-auto px-4 flex items-center justify-between"> 
+    <div class="flex items-center gap-3"> 
+      <button onclick="history.back()" class="h-8 w-8 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center"> 
+        <i data-lucide="arrow-left" class="w-4 h-4"></i> 
+      </button> 
+      <div> 
+        <p class="text-xs text-slate-400">Account</p> 
+        <p class="text-sm font-semibold text-slate-100">Profile and settings</p> 
+      </div> 
+    </div>
+    <a href="/dashboard" class="text-xs text-slate-300 hover:text-white">
+      Back to dashboard
+    </a>
+  </div>
+</header> 
+
+<main class="max-w-4xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- PROFILE SUMMARY CARD -->
+  <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl">
+    <div class="flex items-center gap-4">
+      <div class="h-16 w-16 rounded-full bg-primary-600/10 border border-primary-600/40 flex items-center justify-center text-lg font-semibold">
+        <%= (user.name || user.username || '?').charAt(0).toUpperCase() %>
+      </div>
+      <div>
+        <h2 class="text-xl font-semibold"><%= user.name || user.username %></h2>
+        <p class="text-sm text-slate-400">@<%= user.username %></p>
+      </div>
+      <div class="ml-auto">
+        <span class="px-3 py-1 text-xs rounded-full bg-slate-800 text-slate-300">
+          ID: <%= user.id %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT PROFILE FORM -->
+  <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl">
+    <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+      <i class="fas fa-user-edit text-primary-500"></i>
+      Edit Profile
+    </h3>
+    <p class="text-xs text-slate-400 mb-6">Update your personal information below</p>
+
+    <form action="/account/update" method="POST" class="space-y-4">
+    <%- csrfField() %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="text-xs text-slate-400 mb-1 block">Full name</label>
+          <input
+            type="text"
+            name="name"
+            value="<%= user.name || '' %>"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 mb-1 block">Username</label>
+          <input
+            type="text"
+            name="username"
+            value="<%= user.username %>"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 mb-1 block">Phone</label>
+          <input
+            type="text"
+            name="phone"
+            value="<%= user.phone || '' %>"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 mb-1 block">Country</label>
+          <input
+            type="text"
+            name="country"
+            value="<%= user.country || '' %>"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600">
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-800 mt-4">
+        <button
+          type="submit"
+          class="px-6 py-2.5 rounded-xl bg-primary-600 text-sm font-semibold hover:bg-primary-700 transition">
+          Save Profile Changes
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- CHANGE EMAIL SECTION -->
+  <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl">
+    <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+      <i class="fas fa-envelope text-primary-500"></i>
+      Change Email Address
+    </h3>
+    <p class="text-xs text-slate-400 mb-4">Current email: <span class="text-white"><%= user.email || 'Not set' %></span></p>
+
+    <form action="/account/update-email" method="POST" class="space-y-4 max-w-md">
+    <%- csrfField() %>
+      <div>
+        <label class="text-xs text-slate-400 mb-1 block">New Email Address</label>
+        <input
+          type="email"
+          name="newEmail"
+          required
+          placeholder="Enter new email"
+          class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600">
+      </div>
+      <div>
+        <label class="text-xs text-slate-400 mb-1 block">Confirm with Password</label>
+        <div class="relative">
+          <input
+            type="password"
+            name="password"
+            id="emailPassword"
+            required
+            placeholder="Enter your current password"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600 pr-12">
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <button 
+              type="button"
+              onclick="togglePassword('emailPassword', 'emailPasswordIcon')"
+              class="password-toggle text-slate-400 hover:text-slate-300 focus:outline-none">
+              <i class="far fa-eye" id="emailPasswordIcon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button
+          type="submit"
+          class="px-6 py-2.5 rounded-xl bg-primary-600 text-sm font-semibold hover:bg-primary-700 transition">
+          Update Email
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- CHANGE PASSWORD SECTION -->
+  <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl">
+    <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+      <i class="fas fa-lock text-primary-500"></i>
+      Change Password
+    </h3>
+    <p class="text-xs text-slate-400 mb-4">After changing your password, you'll be logged out and need to login again</p>
+
+    <form action="/account/change-password" method="POST" class="space-y-4 max-w-md">
+    <%- csrfField() %>
+      <div>
+        <label class="text-xs text-slate-400 mb-1 block">Current Password</label>
+        <div class="relative">
+          <input
+            type="password"
+            name="currentPassword"
+            id="currentPassword"
+            required
+            placeholder="Enter current password"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600 pr-12">
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <button 
+              type="button"
+              onclick="togglePassword('currentPassword', 'currentPasswordIcon')"
+              class="password-toggle text-slate-400 hover:text-slate-300 focus:outline-none">
+              <i class="far fa-eye" id="currentPasswordIcon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <label class="text-xs text-slate-400 mb-1 block">New Password</label>
+        <div class="relative">
+          <input
+            type="password"
+            name="newPassword"
+            id="newPassword"
+            required
+            minlength="6"
+            placeholder="Enter new password (min 6 characters)"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600 pr-12">
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <button 
+              type="button"
+              onclick="togglePassword('newPassword', 'newPasswordIcon')"
+              class="password-toggle text-slate-400 hover:text-slate-300 focus:outline-none">
+              <i class="far fa-eye" id="newPasswordIcon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <label class="text-xs text-slate-400 mb-1 block">Confirm New Password</label>
+        <div class="relative">
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            required
+            placeholder="Confirm new password"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm focus:outline-none focus:border-primary-600 focus:ring-1 focus:ring-primary-600 pr-12">
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <button 
+              type="button"
+              onclick="togglePassword('confirmPassword', 'confirmPasswordIcon')"
+              class="password-toggle text-slate-400 hover:text-slate-300 focus:outline-none">
+              <i class="far fa-eye" id="confirmPasswordIcon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <button
+          type="submit"
+          class="px-6 py-2.5 rounded-xl bg-primary-600 text-sm font-semibold hover:bg-primary-700 transition">
+          Change Password
+        </button>
+      </div>
+    </form>
+  </div>
+
+</main> 
+
+<script>
+  // Password toggle function
+  function togglePassword(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      input.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  }
+
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') { 
+    lucide.createIcons() 
+  } 
+</script> 
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<% if (toast) { %>
+<script> 
+  Swal.fire({ 
+    icon: '<%= toast.type %>', 
+    title: '<%= toast.message %>', 
+    toast: true, 
+    position: 'top', 
+    showConfirmButton: false, 
+    timer: 2500,
+    background: '#0f172a',
+    color: '#fff'
+  }) 
+</script>
+<% } %>
+
+</body> 
+</html>

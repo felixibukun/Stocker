@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Database Recovery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-white">
+  <div class="flex min-h-screen">
+    <%- include('sidebar') %>
+
+    <main class="flex-1 p-6 lg:p-10">
+      <div class="flex items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-2xl font-semibold">Database Recovery</h1>
+          <p class="text-sm text-slate-400">Check JSON database status and restore from available backups.</p>
+        </div>
+        <a href="/admin" class="px-4 py-2 rounded bg-slate-800 text-sm hover:bg-slate-700">Back</a>
+      </div>
+
+      <div class="overflow-x-auto border border-slate-800 rounded-lg">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-900 text-slate-400">
+            <tr>
+              <th class="text-left px-4 py-3">Database</th>
+              <th class="text-left px-4 py-3">Status</th>
+              <th class="text-right px-4 py-3">Size</th>
+              <th class="text-left px-4 py-3">Backup</th>
+              <th class="text-right px-4 py-3">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800">
+            <% databases.forEach(db => { %>
+              <tr class="bg-slate-950">
+                <td class="px-4 py-3 font-medium"><%= db.name %></td>
+                <td class="px-4 py-3"><%= db.status %></td>
+                <td class="px-4 py-3 text-right"><%= db.size ? db.size + ' bytes' : '-' %></td>
+                <td class="px-4 py-3"><%= db.backupExists ? 'Available' : 'Missing' %></td>
+                <td class="px-4 py-3 text-right">
+                  <% if (db.backupExists) { %>
+                    <form action="/admin/database/restore" method="POST" onsubmit="return confirm('Restore <%= db.name %> from backup?')">
+                      <%- csrfField() %>
+                      <input type="hidden" name="database" value="<%= db.name %>">
+                      <button class="px-3 py-2 rounded bg-amber-600 text-xs font-semibold hover:bg-amber-700">Restore</button>
+                    </form>
+                  <% } else { %>
+                    <span class="text-xs text-slate-500">No backup</span>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

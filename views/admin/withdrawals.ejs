@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Withdrawals</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen">
+
+  <!-- Top Bar -->
+  <div class="w-full bg-gray-800 p-4 flex items-center justify-between shadow">
+    <h1 class="text-xl font-semibold">Withdrawal Requests</h1>
+    <a href="/admin" class="bg-blue-600 px-4 py-2 rounded">Back</a>
+  </div>
+
+  <div class="p-6">
+    <h2 class="text-2xl font-semibold mb-6">All Requests</h2>
+
+    <div class="overflow-x-auto rounded-xl border border-gray-800 shadow-lg">
+
+      <table class="w-full text-left bg-gray-800 rounded-lg overflow-hidden">
+        <thead class="bg-gray-700">
+          <tr>
+            <th class="px-4 py-3">User</th>
+            <th class="px-4 py-3">Amount</th>
+            <th class="px-4 py-3">Status</th>
+            <th class="px-4 py-3">Date</th>
+            <th class="px-4 py-3">Payout Details</th>
+            <th class="px-4 py-3">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+<% withdrawals.forEach(w => { %>
+
+<tr class="border-b border-gray-700 hover:bg-gray-750 transition">
+
+<td class="px-4 py-3 font-medium text-slate-200">
+<%= w.username %>
+</td>
+
+<td class="px-4 py-3">
+$<%= Number(w.amount || 0).toFixed(2) %>
+</td>
+
+<td class="px-4 py-3">
+<% if (w.status === 'pending') { %>
+<span class="text-yellow-400 font-semibold">Pending</span>
+<% } else if (w.status === 'approved') { %>
+<span class="text-emerald-400 font-semibold">Approved</span>
+<% } else { %>
+<span class="text-red-400 font-semibold">Rejected</span>
+<% } %>
+</td>
+
+<td class="px-4 py-3 text-slate-300">
+<%= new Date(w.date).toLocaleString() %>
+</td>
+
+<td class="px-4 py-3 text-xs text-slate-300">
+<% if (w.network === 'BANK' && w.bankDetails) { %>
+<div>Bank: <%= w.bankDetails.bankName %></div>
+<div>Name: <%= w.bankDetails.accountName %></div>
+<div>Account: <%= w.bankDetails.accountNumber %></div>
+<% if (w.bankDetails.routingNumber) { %>
+<div>Routing: <%= w.bankDetails.routingNumber %></div>
+<% } %>
+<% } else { %>
+<span class="text-slate-500">N/A</span>
+<% } %>
+</td>
+
+<td class="px-4 py-3">
+<% if (w.status === 'pending') { %>
+<div class="flex gap-2">
+
+<form action="/admin/withdraw/approve" method="POST">
+    <%- csrfField() %>
+<input type="hidden" name="id" value="<%= w.id %>">
+<button class="px-3 py-2 bg-emerald-600 rounded-lg text-sm">
+Approve
+</button>
+</form>
+
+<form action="/admin/withdraw/reject" method="POST">
+    <%- csrfField() %>
+<input type="hidden" name="id" value="<%= w.id %>">
+<button class="px-3 py-2 bg-red-600 rounded-lg text-sm">
+Reject
+</button>
+</form>
+
+</div>
+<% } else { %>
+<span class="text-xs text-slate-500">No action</span>
+<% } %>
+</td>
+
+</tr>
+
+<% }) %>
+</tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <% if (toast) { %>
+    <script>
+      Swal.fire({
+        icon: '<%= toast.type %>',
+        title: '<%= toast.message %>',
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 2500
+      })
+    </script>
+  <% } %>
+
+</body>
+</html>

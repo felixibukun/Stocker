@@ -84,6 +84,7 @@
 
         <!-- Form -->
         <form action="/signup" method="POST" class="space-y-6">
+    <%- csrfField() %>
 
           <!-- STEP 1 -->
           <div x-show="currentStep === 0" x-transition>

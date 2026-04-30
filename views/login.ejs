@@ -69,6 +69,7 @@
     <% } %>
 
     <form action="/login" method="POST" class="space-y-6">
+    <%- csrfField() %>
 
       <div>
         <label class="text-sm text-slate-300">Username</label>
