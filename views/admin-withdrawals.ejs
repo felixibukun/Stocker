@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Withdrawals</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -19,6 +20,7 @@
     <h2 class="text-2xl font-semibold mb-6">All Requests</h2>
 
     <div class="overflow-x-auto rounded-xl border border-gray-800 shadow-lg">
+
       <table class="w-full text-left bg-gray-800 rounded-lg overflow-hidden">
         <thead class="bg-gray-700">
           <tr>
@@ -32,77 +34,75 @@
         </thead>
 
         <tbody>
-          <% withdrawals.forEach(w => { %>
-            <tr class="border-b border-gray-700 hover:bg-gray-750 transition">
-              
-              <!-- Username -->
-              <td class="px-4 py-3 font-medium text-slate-200">
-                <%= w.userName %>
-              </td>
+<% withdrawals.forEach(w => { %>
 
-              <!-- Amount -->
-              <td class="px-4 py-3">
-                $<%= Number(w.amount || 0).toFixed(2) %>
-              </td>
+<tr class="border-b border-gray-700 hover:bg-gray-750 transition">
 
-              <!-- Status -->
-              <td class="px-4 py-3">
-                <% if (w.status === 'pending') { %>
-                  <span class="text-yellow-400 font-semibold">Pending</span>
-                <% } else if (w.status === 'approved') { %>
-                  <span class="text-emerald-400 font-semibold">Approved</span>
-                <% } else { %>
-                  <span class="text-red-400 font-semibold">Rejected</span>
-                <% } %>
-              </td>
+<td class="px-4 py-3 font-medium text-slate-200">
+<%= w.username %>
+</td>
 
-              <!-- Date -->
-              <td class="px-4 py-3 text-slate-300">
-                <%= new Date(w.date).toLocaleString() %>
-              </td>
+<td class="px-4 py-3">
+$<%= Number(w.amount || 0).toFixed(2) %>
+</td>
 
-              <!-- Payout Details -->
-              <td class="px-4 py-3 text-xs text-slate-300">
-                <% if (w.network === 'BANK' && w.bankDetails) { %>
-                  <div>Bank: <%= w.bankDetails.bankName %></div>
-                  <div>Name: <%= w.bankDetails.accountName %></div>
-                  <div>Account: <%= w.bankDetails.accountNumber %></div>
-                  <% if (w.bankDetails.routingNumber) { %>
-                    <div>Routing: <%= w.bankDetails.routingNumber %></div>
-                  <% } %>
-                <% } else { %>
-                  <span class="text-slate-500">N/A</span>
-                <% } %>
-              </td>
+<td class="px-4 py-3">
+<% if (w.status === 'pending') { %>
+<span class="text-yellow-400 font-semibold">Pending</span>
+<% } else if (w.status === 'approved') { %>
+<span class="text-emerald-400 font-semibold">Approved</span>
+<% } else { %>
+<span class="text-red-400 font-semibold">Rejected</span>
+<% } %>
+</td>
 
-              <!-- Action Buttons -->
-              <td class="px-4 py-3">
-                <% if (w.status === 'pending') { %>
-                  <div class="flex gap-2">
-                    <!-- Approve -->
-                    <form action="/admin/withdraw/approve" method="POST" class="inline">
-                      <input type="hidden" name="id" value="<%= w.id %>">
-                      <button class="px-3 py-2 bg-emerald-600 rounded-lg text-sm hover:bg-emerald-700 transition">
-                        Approve
-                      </button>
-                    </form>
+<td class="px-4 py-3 text-slate-300">
+<%= new Date(w.date).toLocaleString() %>
+</td>
 
-                    <!-- Reject -->
-                    <form action="/admin/withdraw/reject" method="POST" class="inline">
-                      <input type="hidden" name="id" value="<%= w.id %>">
-                      <button class="px-3 py-2 bg-red-600 rounded-lg text-sm hover:bg-red-700 transition">
-                        Reject
-                      </button>
-                    </form>
-                  </div>
-                <% } else { %>
-                  <span class="text-xs text-slate-500">No action</span>
-                <% } %>
-              </td>
-            </tr>
-          <% }) %>
-        </tbody>
+<td class="px-4 py-3 text-xs text-slate-300">
+<% if (w.network === 'BANK' && w.bankDetails) { %>
+<div>Bank: <%= w.bankDetails.bankName %></div>
+<div>Name: <%= w.bankDetails.accountName %></div>
+<div>Account: <%= w.bankDetails.accountNumber %></div>
+<% if (w.bankDetails.routingNumber) { %>
+<div>Routing: <%= w.bankDetails.routingNumber %></div>
+<% } %>
+<% } else { %>
+<span class="text-slate-500">N/A</span>
+<% } %>
+</td>
+
+<td class="px-4 py-3">
+<% if (w.status === 'pending') { %>
+<div class="flex gap-2">
+
+<form action="/admin/withdraw/approve" method="POST">
+<input type="hidden" name="id" value="<%= w.id %>">
+<button class="px-3 py-2 bg-emerald-600 rounded-lg text-sm">
+Approve
+</button>
+</form>
+
+<form action="/admin/withdraw/reject" method="POST">
+<input type="hidden" name="id" value="<%= w.id %>">
+<button class="px-3 py-2 bg-red-600 rounded-lg text-sm">
+Reject
+</button>
+</form>
+
+</div>
+<% } else { %>
+<span class="text-xs text-slate-500">No action</span>
+<% } %>
+</td>
+
+</tr>
+
+<% }) %>
+</tbody>
       </table>
+
     </div>
   </div>
 

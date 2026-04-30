@@ -1383,6 +1383,10 @@
             Home
             <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300"></span>
           </a>
+          <a href="/FAQ" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
+            FAQ
+            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300"></span>
+          </a>
           <a href="#markets" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
             Markets
             <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300"></span>
@@ -1403,7 +1407,7 @@
             Education
             <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300"></span>
           </a>
-          <a href="#about" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
+          <a href="/about" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
             About
             <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300"></span>
           </a>
@@ -1438,6 +1442,10 @@
           <i data-lucide="home" class="w-5 h-5"></i>
           Home
         </a>
+        <a href="/about" class="flex items-center gap-3 text-lg font-medium text-white py-2">
+          <i data-lucide="info" class="w-5 h-5"></i>
+          About
+        </a>
         <a href="#markets" class="flex items-center gap-3 text-lg font-medium text-white py-2">
           <i data-lucide="trending-up" class="w-5 h-5"></i>
           Markets
@@ -1458,9 +1466,9 @@
           <i data-lucide="graduation-cap" class="w-5 h-5"></i>
           Education
         </a>
-        <a href="#about" class="flex items-center gap-3 text-lg font-medium text-white py-2">
+        <a href="/FAQ" class="flex items-center gap-3 text-lg font-medium text-white py-2">
           <i data-lucide="info" class="w-5 h-5"></i>
-          About
+          FAQ
         </a>
       </div>
       
@@ -3044,7 +3052,7 @@
           menuIcon.setAttribute('data-lucide', 'menu');
           lucide.createIcons();
         });
-      });
+      })
       
       // Sticky header behavior
       const header = document.getElementById('mainHeader');

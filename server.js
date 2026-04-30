@@ -601,6 +601,14 @@ app.get('/api/stocks', (req, res) => {
   }
 })
 
+app.get('/about', (req, res) => {
+res.render('about');
+});
+
+app.get('/FAQ', (req, res) => {
+res.render('FAQ');
+});
+
 /* ===========================
 COPY TRADER AUTO PROFIT
 =========================== */
@@ -1428,19 +1436,21 @@ app.post('/withdraw', requireLogin, requireSignalActive, async (req, res) => {
     recalcUserBalance(user)
 
     withdrawals.push({
-      id: Date.now(),
-      userId: user.id,
-      amount: amt,
-      network,
-      bankDetails: network === 'BANK' ? {
-        bankName,
-        accountName,
-        accountNumber,
-        routingNumber
-      } : {},
-      status: 'pending',
-      date: new Date().toISOString()
-    })
+  id: Date.now(),
+  userId: user.id,
+  username: user.username,
+  name: user.name,
+  amount: amt,
+  network,
+  bankDetails: network === 'BANK' ? {
+    bankName,
+    accountName,
+    accountNumber,
+    routingNumber
+  } : {},
+  status: 'pending',
+  date: new Date().toISOString()
+})
 
     saveUsers(users)
     saveJson('./database/withdrawals.json', withdrawals)

@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>FAQ | Global Equinox Trade - Professional Trading Platform</title>
+  <meta name="description" content="Frequently Asked Questions about Global Equinox Trade trading platform. Get answers about accounts, trading, deposits, withdrawals, and security.">
+  <meta name="keywords" content="trading FAQ, forex trading questions, crypto trading FAQ, account setup, deposit methods, withdrawal process">
+  <link rel="icon" type="image/png" href="/temp/custom/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          },
+          colors: {
+            primary: {
+              50: '#f0f2ff',
+              100: '#e0e7ff',
+              400: '#818cf8',
+              500: '#6366F1',
+              600: '#4F46E5',
+              700: '#4338CA',
+              800: '#3730a3'
+            },
+            success: {
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669'
+            },
+            warning: {
+              400: '#fbbf24',
+              500: '#f59e0b'
+            },
+            danger: {
+              400: '#f87171',
+              500: '#ef4444'
+            }
+          },
+          backgroundImage: {
+            'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+            'grid-slate': 'radial-gradient(circle at 1px 1px, rgba(148,163,184,0.15) 1px, transparent 0)',
+            'gradient-primary': 'linear-gradient(135deg, #4F46E5 0%, #7c3aed 100%)',
+            'gradient-success': 'linear-gradient(135deg, #10b981 0%, #34d399 100%)'
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.8s ease-out',
+            'slide-up': 'slideUp 0.6s ease-out',
+            'slide-in-left': 'slideInLeft 0.7s ease-out',
+            'slide-in-right': 'slideInRight 0.7s ease-out',
+            'pulse-subtle': 'pulseSubtle 2s ease-in-out infinite',
+            'float': 'float 3s ease-in-out infinite',
+            'gradient-shift': 'gradientShift 3s ease infinite'
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' }
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(30px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' }
+            },
+            slideInLeft: {
+              '0%': { transform: 'translateX(-30px)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' }
+            },
+            slideInRight: {
+              '0%': { transform: 'translateX(30px)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' }
+            },
+            pulseSubtle: {
+              '0%, 100%': { opacity: '1' },
+              '50%': { opacity: '0.8' }
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' }
+            },
+            gradientShift: {
+              '0%, 100%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    /* Custom Styles */
+    :root {
+      --header-height: 4rem;
+    }
+    
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: #0f172a;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(30, 41, 59, 0.4);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #4F46E5, #7c3aed);
+      border-radius: 4px;
+    }
+    
+    /* Lucide icons */
+    i[data-lucide] {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.7;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #4F46E5 0%, #7c3aed 50%, #34d399 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 3s ease infinite;
+    }
+    
+    /* Sticky header */
+    .sticky-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      background: rgba(15, 23, 42, 0.92);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .sticky-header.hidden {
+      transform: translateY(-100%);
+    }
+    
+    /* Mobile menu */
+    .mobile-menu {
+      position: fixed;
+      top: var(--header-height);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(20px);
+      z-index: 999;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+    
+    /* FAQ Accordion Styles */
+    .faq-item {
+      background: rgba(30, 41, 59, 0.5);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-item:hover {
+      border-color: rgba(99, 102, 241, 0.5);
+    }
+    
+    .faq-question {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-question:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .faq-question h5 {
+      margin: 0;
+      flex: 1;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: white;
+    }
+    
+    .faq-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #4F46E5, #7c3aed);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      margin-left: 16px;
+    }
+    
+    .faq-icon i {
+      color: white;
+      font-size: 14px;
+      transition: transform 0.3s ease;
+    }
+    
+    .faq-item.active .faq-icon i {
+      transform: rotate(180deg);
+    }
+    
+    .faq-answer {
+      padding: 0 24px;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-item.active .faq-answer {
+      padding: 0 24px 24px;
+      max-height: 800px;
+    }
+    
+    .faq-answer p, .faq-answer li, .faq-answer ul, .faq-answer ol {
+      color: #94a3b8 !important;
+    }
+    
+    .faq-answer strong {
+      color: white !important;
+    }
+    
+    /* Category tabs */
+    .category-tab {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    
+    .category-tab:hover {
+      border-color: #4F46E5;
+      background: rgba(79, 70, 229, 0.1);
+      color: white;
+    }
+    
+    .category-tab.active {
+      background: linear-gradient(135deg, #4F46E5, #7c3aed);
+      border-color: transparent;
+      color: white;
+    }
+    
+    /* Search input */
+    .faq-search input {
+      width: 100%;
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 16px 20px 16px 48px;
+      color: white;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-search input:focus {
+      outline: none;
+      border-color: #4F46E5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    }
+    
+    .faq-search input::placeholder {
+      color: #64748b;
+    }
+    
+    /* Quick link cards */
+    .quick-link-card {
+      background: rgba(30, 41, 59, 0.5);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .quick-link-card:hover {
+      transform: translateY(-5px);
+      border-color: #4F46E5;
+      box-shadow: 0 20px 40px -15px rgba(79, 70, 229, 0.3);
+    }
+    
+    .quick-link-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #4F46E5, #7c3aed);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    
+    .quick-link-icon i {
+      font-size: 24px;
+      color: white;
+    }
+    
+    /* Contact card */
+    .contact-card {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(124, 58, 237, 0.2));
+      border: 1px solid rgba(79, 70, 229, 0.3);
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+    }
+    
+    /* Highlight search matches */
+    .search-highlight {
+      background: #fbbf24;
+      color: #0f172a !important;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .faq-question {
+        padding: 16px 20px;
+      }
+      .faq-question h5 {
+        font-size: 1rem;
+      }
+      .faq-item.active .faq-answer {
+        padding: 0 20px 20px;
+      }
+      .category-tab {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+      .quick-links {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .quick-links {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Fade animations */
+    .fade-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    
+    .fade-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Background effects */
+    .noise-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+      opacity: 0.1;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+  </style>
+</head>
+<body class="text-white font-sans relative">
+  
+  <!-- Background Effects -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-50">
+    <div class="absolute inset-0 bg-slate-950 bg-grid-slate bg-[size:24px_24px]"></div>
+    <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gradient-radial from-primary-600/20 via-transparent to-transparent blur-3xl"></div>
+    <div class="absolute top-1/3 right-0 w-[400px] h-[400px] bg-gradient-radial from-emerald-500/15 via-transparent to-transparent blur-3xl"></div>
+    <div class="absolute -bottom-40 left-0 w-[600px] h-[600px] bg-gradient-radial from-indigo-500/10 via-transparent to-transparent blur-3xl"></div>
+    <div class="noise-overlay"></div>
+  </div>
+
+  <!-- Sticky Header -->
+  <header class="sticky-header" id="mainHeader">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3 group">
+          <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-8 w-auto transition-transform group-hover:scale-105">
+          <div class="flex flex-col">
+            <span class="text-base font-bold tracking-tight text-white">Global Equinox Trade</span>
+          </div>
+        </a>
+
+        <nav class="hidden lg:flex items-center gap-8">
+          <a href="/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
+            Home
+            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300"></span>
+          </a>
+          <a href="/FAQ" class="text-sm font-medium text-white transition-colors relative group">
+            FAQ
+            <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-primary"></span>
+          </a>
+          <a href="/about" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group">
+            About
+            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300"></span>
+          </a>
+        </nav>
+
+        <div class="hidden lg:flex items-center gap-3">
+          <a href="/login" class="px-5 py-2 rounded-xl bg-slate-900/50 border border-slate-700 text-sm font-medium hover:bg-slate-800 transition-all duration-200">
+            Login
+          </a>
+          <a href="/signup" class="px-5 py-2 rounded-xl bg-gradient-primary text-sm font-semibold text-white hover:shadow-lg hover:shadow-primary-500/30 transition-all duration-200">
+            Start Trading
+          </a>
+        </div>
+
+        <button id="mobileMenuButton" class="lg:hidden h-10 w-10 rounded-xl bg-slate-900/50 border border-slate-700 flex items-center justify-center hover:bg-slate-800 transition-colors">
+          <i data-lucide="menu" id="menuIcon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu lg:hidden" id="mobileMenu">
+    <div class="p-6 space-y-8">
+      <div class="space-y-6">
+        <a href="/" class="flex items-center gap-3 text-lg font-medium text-white py-2">
+          <i data-lucide="home" class="w-5 h-5"></i>
+          Home
+        </a>
+        <a href="/FAQ" class="flex items-center gap-3 text-lg font-medium text-white py-2">
+          <i data-lucide="help-circle" class="w-5 h-5"></i>
+          FAQ
+        </a>
+        <a href="/about" class="flex items-center gap-3 text-lg font-medium text-white py-2">
+          <i data-lucide="info" class="w-5 h-5"></i>
+          About
+        </a>
+      </div>
+      <div class="pt-6 border-t border-slate-800 space-y-4">
+        <a href="/login" class="block w-full px-6 py-3 rounded-xl bg-slate-900 border border-slate-700 text-center font-medium hover:bg-slate-800 transition-colors">
+          Login to Account
+        </a>
+        <a href="/signup" class="block w-full px-6 py-3 rounded-xl bg-gradient-primary text-center font-semibold hover:shadow-lg hover:shadow-primary-500/30 transition-all">
+          Create Account
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="relative">
+    <!-- FAQ Hero Section -->
+    <section class="relative pt-28 pb-16 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto">
+          <div class="inline-flex items-center gap-2 rounded-full bg-primary-500/10 border border-primary-500/20 px-4 py-1.5 mb-6">
+            <i data-lucide="help-circle" class="w-4 h-4 text-primary-400"></i>
+            <span class="text-sm font-medium text-primary-300">Help Center</span>
+          </div>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+            Frequently Asked <span class="gradient-text">Questions</span>
+          </h1>
+          <p class="text-lg text-slate-400 mb-8 max-w-2xl mx-auto">
+            Find quick answers to common questions about trading, accounts, deposits, withdrawals, and more.
+          </p>
+          
+          <!-- Search Bar -->
+          <div class="faq-search relative max-w-2xl mx-auto mb-8">
+            <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+            <input type="text" placeholder="Search for answers..." id="faqSearch">
+          </div>
+          
+          <!-- Quick Stats -->
+          <div class="flex flex-wrap justify-center gap-6">
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+              <span class="text-slate-300">150+ Questions Answered</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="clock" class="w-5 h-5 text-primary-400"></i>
+              <span class="text-slate-300">Updated Daily</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="headphones" class="w-5 h-5 text-slate-400"></i>
+              <span class="text-slate-300">24/7 Support Available</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Categories & Content -->
+    <section class="py-12 fade-section">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Category Tabs -->
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+          <div class="category-tab active" data-category="all">All Questions</div>
+          <div class="category-tab" data-category="account">Account & Registration</div>
+          <div class="category-tab" data-category="deposit">Deposits & Withdrawals</div>
+          <div class="category-tab" data-category="trading">Trading Questions</div>
+          <div class="category-tab" data-category="security">Security & Regulation</div>
+          <div class="category-tab" data-category="technical">Technical Support</div>
+        </div>
+        
+        <!-- FAQ Accordion -->
+        <div class="faq-accordion" id="faqAccordion">
+          
+          <!-- Account & Registration -->
+          <div class="faq-category" data-category="account">
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>How do I open a trading account with Global Equinox Trade?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>Opening an account is quick and easy:</p>
+                <ol class="list-decimal pl-5 space-y-1 mb-3">
+                  <li>Click "Start Trading" in the top navigation</li>
+                  <li>Fill in your personal details (name, email, phone)</li>
+                  <li>Complete the trading experience questionnaire</li>
+                  <li>Verify your email address</li>
+                  <li>Upload required identification documents</li>
+                  <li>Make your first deposit</li>
+                  <li>Start trading!</li>
+                </ol>
+                <p>The entire process typically takes 10-15 minutes. Account verification is usually completed within 24 hours.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>What documents do I need to verify my account?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>For account verification, we require:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li><strong>Proof of Identity:</strong> Valid passport, driver's license, or national ID card</li>
+                  <li><strong>Proof of Address:</strong> Recent utility bill, bank statement, or government letter (not older than 3 months)</li>
+                  <li><strong>Proof of Payment:</strong> Copy of your credit/debit card (first 6 and last 4 digits visible) or bank account statement</li>
+                </ul>
+                <p>All documents must be clear, colored copies showing all four corners. For security reasons, we cannot accept screenshots of documents.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>What is the minimum deposit required to start trading?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>The minimum deposit depends on your chosen account plan:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li><strong>Starter Plan:</strong> $500 minimum deposit</li>
+                  <li><strong>Advanced Plan:</strong> $5,000 minimum deposit</li>
+                  <li><strong>Elite Plan:</strong> $50,000 minimum deposit</li>
+                </ul>
+                <p>We recommend starting with an amount you're comfortable with. You can always upgrade your account later as your trading grows.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>Do you offer demo accounts for practice?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>Yes! We offer free demo accounts with $10,000 in virtual funds. The demo account:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li>Mirrors real market conditions</li>
+                  <li>Includes all trading instruments</li>
+                  <li>Provides access to all platform features</li>
+                  <li>Is available for 30 days (can be extended)</li>
+                  <li>Requires no deposit or commitment</li>
+                </ul>
+                <p>To get a demo account, simply register on our platform and select "Demo Account" during the setup process.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Deposits & Withdrawals -->
+          <div class="faq-category" data-category="deposit">
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>What payment methods do you accept for deposits?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>We accept multiple payment methods for your convenience:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li><strong>Credit/Debit Cards:</strong> Visa, Mastercard, Maestro</li>
+                  <li><strong>Bank Wire Transfer:</strong> Domestic and international transfers</li>
+                  <li><strong>E-Wallets:</strong> Skrill, Neteller, PayPal, WebMoney</li>
+                  <li><strong>Crypto Payments:</strong> Bitcoin, Ethereum, USDT, USDC</li>
+                  <li><strong>Local Payment Methods:</strong> Available based on your region</li>
+                </ul>
+                <p>Most deposits are processed instantly (except bank wires which take 1-3 business days).</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>How long do withdrawals take to process?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>Withdrawal processing times vary by method:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li><strong>E-Wallets:</strong> 0-24 hours</li>
+                  <li><strong>Crypto Withdrawals:</strong> 0-12 hours (depends on blockchain confirmation)</li>
+                  <li><strong>Credit/Debit Cards:</strong> 1-3 business days</li>
+                  <li><strong>Bank Wire Transfer:</strong> 2-5 business days</li>
+                </ul>
+                <p><strong>Important:</strong> First-time withdrawals may take longer due to additional security checks. All withdrawals are processed during business hours.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>Are there any fees for deposits or withdrawals?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>Our fee structure is transparent:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li><strong>Deposits:</strong> No fees from Global Equinox Trade (third-party fees may apply)</li>
+                  <li><strong>Withdrawals:</strong> One free withdrawal per month, then $25 per withdrawal</li>
+                  <li><strong>Inactivity Fee:</strong> $15 per month after 12 months of inactivity</li>
+                  <li><strong>Currency Conversion:</strong> 0.5% fee for transactions in non-USD currencies</li>
+                </ul>
+                <p>Elite account holders enjoy unlimited free withdrawals and no inactivity fees.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Trading Questions -->
+          <div class="faq-category" data-category="trading">
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>What's your average trade execution speed?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>Our average execution speed is <strong>less than 50 milliseconds</strong>. This includes:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li>Order transmission to liquidity providers</li>
+                  <li>Price validation</li>
+                  <li>Trade execution</li>
+                  <li>Confirmation back to your platform</li>
+                </ul>
+                <p>We maintain 99.99% uptime with redundant servers globally to ensure minimal latency regardless of your location.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>What trading platforms are available?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>We offer multiple trading platforms:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li><strong>Web Platform:</strong> Full-featured browser-based platform</li>
+                  <li><strong>Mobile App:</strong> iOS and Android apps with full functionality</li>
+                  <li><strong>Desktop Terminal:</strong> Downloadable application for Windows/Mac</li>
+                  <li><strong>MetaTrader 5:</strong> Connect via MT5 with full support</li>
+                  <li><strong>API Trading:</strong> REST and WebSocket APIs for algorithmic trading</li>
+                </ul>
+                <p>All platforms offer real-time charts, technical indicators, one-click trading, and risk management tools.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>What markets can I trade on Global Equinox Trade?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>We offer 1000+ trading instruments across multiple markets:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li><strong>Forex:</strong> 60+ currency pairs including majors, minors, and exotics</li>
+                  <li><strong>Cryptocurrencies:</strong> 50+ coins including Bitcoin, Ethereum, and altcoins</li>
+                  <li><strong>Indices:</strong> 30+ global stock indices (S&P 500, NASDAQ, FTSE, etc.)</li>
+                  <li><strong>Commodities:</strong> 15+ commodities (Gold, Silver, Oil, Natural Gas)</li>
+                  <li><strong>Stocks:</strong> 100+ individual stocks (Apple, Tesla, Amazon, etc.)</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>What leverage do you offer?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>Leverage varies by account type and instrument:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li><strong>Forex Major Pairs:</strong> Up to 1:500 (depends on account type)</li>
+                  <li><strong>Forex Minor/Exotic Pairs:</strong> Up to 1:200</li>
+                  <li><strong>Cryptocurrencies:</strong> Up to 1:20 (due to high volatility)</li>
+                  <li><strong>Indices:</strong> Up to 1:100</li>
+                  <li><strong>Commodities:</strong> Up to 1:50</li>
+                  <li><strong>Stocks:</strong> Up to 1:10</li>
+                </ul>
+                <p class="text-warning-400"><strong>Risk Warning:</strong> Higher leverage increases both potential profits and losses. Please trade responsibly.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Security & Regulation -->
+          <div class="faq-category" data-category="security">
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>Is my money safe with Global Equinox Trade?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>Yes, client funds are protected through multiple measures:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li><strong>Segregated Accounts:</strong> Client funds are held in separate accounts at top-tier banks</li>
+                  <li><strong>Regulation:</strong> Fully compliant with international financial regulations</li>
+                  <li><strong>Encryption:</strong> 256-bit SSL encryption for all transactions</li>
+                  <li><strong>2FA:</strong> Two-factor authentication for account access</li>
+                  <li><strong>Audits:</strong> Regular external audits by independent firms</li>
+                </ul>
+                <p>We never use client funds for operational expenses or trading activities.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>What security measures protect my account?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>We implement multiple security layers:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li><strong>Two-Factor Authentication (2FA):</strong> Required for login and withdrawals</li>
+                  <li><strong>IP Monitoring:</strong> Automatic detection of suspicious login attempts</li>
+                  <li><strong>Device Authorization:</strong> New devices require email confirmation</li>
+                  <li><strong>Withdrawal Whitelisting:</strong> Pre-approved withdrawal addresses only</li>
+                  <li><strong>Session Timeout:</strong> Automatic logout after 15 minutes of inactivity</li>
+                  <li><strong>DDoS Protection:</strong> Enterprise-level protection against attacks</li>
+                </ul>
+                <p>We recommend enabling all available security features in your account settings.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Technical Support -->
+          <div class="faq-category" data-category="technical">
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>How do I reset my password?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>To reset your password:</p>
+                <ol class="list-decimal pl-5 space-y-1 mb-3">
+                  <li>Go to the login page</li>
+                  <li>Click "Forgot Password?"</li>
+                  <li>Enter the email address associated with your account</li>
+                  <li>Check your email for the reset link (check spam folder)</li>
+                  <li>Click the link and create a new strong password</li>
+                  <li>Log in with your new password</li>
+                </ol>
+                <p><strong>Security Tip:</strong> Use a unique password containing uppercase, lowercase, numbers, and special characters. Never share your password with anyone.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>The platform is not loading. What should I do?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>Try these troubleshooting steps:</p>
+                <ol class="list-decimal pl-5 space-y-1 mb-3">
+                  <li><strong>Refresh the page:</strong> Press Ctrl+F5 (Cmd+Shift+R on Mac) for a hard refresh</li>
+                  <li><strong>Clear cache:</strong> Clear your browser cache and cookies</li>
+                  <li><strong>Try another browser:</strong> Test on Chrome, Firefox, or Safari</li>
+                  <li><strong>Check internet connection:</strong> Ensure stable internet connection</li>
+                  <li><strong>Disable extensions:</strong> Temporarily disable ad blockers or VPN</li>
+                  <li><strong>Contact support:</strong> If problem persists, contact our 24/7 support</li>
+                </ol>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question">
+                <h5>How can I contact customer support?</h5>
+                <div class="faq-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p>We offer multiple support channels:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                  <li><strong>Live Chat:</strong> 24/7 available on our website (fastest response)</li>
+                  <li><strong>Email:</strong> support@globalequinox.com (response within 2 hours)</li>
+                  <li><strong>Phone:</strong> Available for Elite account holders</li>
+                  <li><strong>Ticket System:</strong> Submit via your account dashboard</li>
+                </ul>
+                <p>For account-specific issues, please use Live Chat or the Ticket System for faster resolution.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- No Results Message -->
+        <div id="noResultsMessage" class="text-center py-12 hidden">
+          <i data-lucide="search-x" class="w-16 h-16 text-slate-600 mx-auto mb-4"></i>
+          <h4 class="text-xl font-semibold text-white mb-2">No results found</h4>
+          <p class="text-slate-400">Try different keywords or browse by category above.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Links Section -->
+    <section class="py-16 fade-section">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Quick <span class="gradient-text">Links</span></h2>
+          <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+            Can't find what you're looking for? Try these resources.
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <a href="/contact" class="quick-link-card">
+            <div class="quick-link-icon">
+              <i class="fas fa-headset"></i>
+            </div>
+            <h5 class="text-lg font-semibold text-white mb-2">Contact Support</h5>
+            <p class="text-slate-400 text-sm">Get direct help from our support team 24/7</p>
+          </a>
+          
+          <a href="/signup" class="quick-link-card">
+            <div class="quick-link-icon">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <h5 class="text-lg font-semibold text-white mb-2">Open Account</h5>
+            <p class="text-slate-400 text-sm">Start trading in minutes with our easy registration</p>
+          </a>
+          
+          <a href="/dashboard" class="quick-link-card">
+            <div class="quick-link-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h5 class="text-lg font-semibold text-white mb-2">Trading Platform</h5>
+            <p class="text-slate-400 text-sm">Access our advanced trading platform</p>
+          </a>
+          
+          <a href="/about" class="quick-link-card">
+            <div class="quick-link-icon">
+              <i class="fas fa-info-circle"></i>
+            </div>
+            <h5 class="text-lg font-semibold text-white mb-2">About Us</h5>
+            <p class="text-slate-400 text-sm">Learn more about our company and values</p>
+          </a>
+        </div>
+        
+        <!-- Still Need Help Card -->
+        <div class="mt-12 contact-card">
+          <h3 class="text-2xl font-bold text-white mb-3">Still Need Help?</h3>
+          <p class="text-slate-300 mb-6 max-w-lg mx-auto">
+            Our support team is available 24/7 to assist you with any questions or issues.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="/contact" class="px-6 py-3 rounded-xl bg-gradient-primary text-white font-semibold hover:shadow-lg hover:shadow-primary-500/30 transition-all">
+              <i class="fas fa-envelope me-2"></i> Contact Support
+            </a>
+            <a href="tel:+18001234567" class="px-6 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold hover:bg-slate-800 transition-all">
+              <i class="fas fa-phone me-2"></i> Call Us Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 border-t border-slate-800 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-10 w-auto">
+            <span class="text-xl font-bold text-white">Global Equinox Trade</span>
+          </div>
+          <p class="text-slate-400 mb-4 max-w-md">
+            A modern trading platform providing access to global markets with transparent pricing and professional tools.
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="/" class="text-slate-400 hover:text-white transition-colors">Home</a></li>
+            <li><a href="/FAQ" class="text-slate-400 hover:text-white transition-colors">FAQ</a></li>
+            <li><a href="/about" class="text-slate-400 hover:text-white transition-colors">About</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-semibold text-white mb-4">Legal</h4>
+          <ul class="space-y-2">
+            <li><a href="/terms" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a></li>
+            <li><a href="/privacy-policy" class="text-slate-400 hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="/risk-disclosure" class="text-slate-400 hover:text-white transition-colors">Risk Disclosure</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-slate-800 mt-8 pt-8 text-center">
+        <p class="text-sm text-slate-400">
+          © 2015-<span id="currentYear"></span> Global Equinox Trade. All rights reserved.
+        </p>
+        <p class="text-xs text-slate-500 mt-2 max-w-2xl mx-auto">
+          Trading involves risk. Past performance is not indicative of future results. 
+          Only trade with capital you can afford to lose.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize Lucide icons
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+      
+      // Set current year
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+      
+      // Mobile menu toggle
+      const mobileMenuButton = document.getElementById('mobileMenuButton');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const menuIcon = document.getElementById('menuIcon');
+      
+      if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+          mobileMenu.classList.toggle('open');
+          if (mobileMenu.classList.contains('open')) {
+            menuIcon.setAttribute('data-lucide', 'x');
+          } else {
+            menuIcon.setAttribute('data-lucide', 'menu');
+          }
+          lucide.createIcons();
+        });
+      }
+      
+      // Close mobile menu on link click
+      document.querySelectorAll('.mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          menuIcon.setAttribute('data-lucide', 'menu');
+          lucide.createIcons();
+        });
+      });
+      
+      // Sticky header
+      const header = document.getElementById('mainHeader');
+      let lastScrollTop = 0;
+      
+      window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop > 100) {
+          if (scrollTop > lastScrollTop) {
+            header.classList.add('hidden');
+          } else {
+            header.classList.remove('hidden');
+          }
+        } else {
+          header.classList.remove('hidden');
+        }
+        lastScrollTop = scrollTop;
+      });
+      
+      // FAQ Accordion
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+          const faqItem = this.closest('.faq-item');
+          const isActive = faqItem.classList.contains('active');
+          
+          // Close all other FAQ items
+          document.querySelectorAll('.faq-item.active').forEach(item => {
+            if (item !== faqItem) {
+              item.classList.remove('active');
+            }
+          });
+          
+          // Toggle current item
+          if (!isActive) {
+            faqItem.classList.add('active');
+          } else {
+            faqItem.classList.remove('active');
+          }
+        });
+      });
+      
+      // Auto-expand first FAQ item in each category
+      document.querySelectorAll('.faq-category').forEach(category => {
+        const firstItem = category.querySelector('.faq-item');
+        if (firstItem && !firstItem.classList.contains('active')) {
+          firstItem.classList.add('active');
+        }
+      });
+      
+      // Category Filtering
+      const categoryTabs = document.querySelectorAll('.category-tab');
+      const faqCategories = document.querySelectorAll('.faq-category');
+      const faqItems = document.querySelectorAll('.faq-item');
+      
+      categoryTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const category = this.getAttribute('data-category');
+          
+          categoryTabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          if (category === 'all') {
+            faqCategories.forEach(cat => cat.style.display = 'block');
+          } else {
+            faqCategories.forEach(cat => {
+              if (cat.getAttribute('data-category') === category) {
+                cat.style.display = 'block';
+              } else {
+                cat.style.display = 'none';
+              }
+            });
+          }
+        });
+      });
+      
+      // FAQ Search Functionality
+      const searchInput = document.getElementById('faqSearch');
+      const noResultsMessage = document.getElementById('noResultsMessage');
+      
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        
+        if (searchTerm.length === 0) {
+          faqItems.forEach(item => {
+            item.style.display = 'block';
+            item.closest('.faq-category').style.display = 'block';
+          });
+          noResultsMessage.classList.add('hidden');
+          return;
+        }
+        
+        let hasResults = false;
+        
+        faqCategories.forEach(category => {
+          let categoryHasResults = false;
+          const itemsInCategory = category.querySelectorAll('.faq-item');
+          
+          itemsInCategory.forEach(item => {
+            const question = item.querySelector('.faq-question h5').textContent.toLowerCase();
+            const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+            
+            if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+              item.style.display = 'block';
+              categoryHasResults = true;
+              hasResults = true;
+              item.classList.add('active');
+            } else {
+              item.style.display = 'none';
+            }
+          });
+          
+          category.style.display = categoryHasResults ? 'block' : 'none';
+        });
+        
+        if (!hasResults) {
+          noResultsMessage.classList.remove('hidden');
+        } else {
+          noResultsMessage.classList.add('hidden');
+        }
+      });
+      
+      // Intersection Observer for fade animations
+      const fadeSections = document.querySelectorAll('.fade-section');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      fadeSections.forEach(section => observer.observe(section));
+    });
+  </script>
+</body>
+</html>
