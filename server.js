@@ -83,7 +83,7 @@ app.use(
   })
 )
 
-app.use(createCsrfProtection(setToast))
+// app.use(createCsrfProtection(setToast))
 
 app.use((req, res, next) => {
   res.locals.toast = req.session.toast || null

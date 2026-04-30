@@ -119,7 +119,6 @@ class="h-9 w-9 rounded-full bg-slate-800 border border-slate-700">
 </div>
 
 <form action="/stocks/buy" method="POST" class="space-y-3 relative z-10">
-    <%- csrfField() %>
 <input type="hidden" name="stockId" value="<%= stock.id %>">
 
 <div class="flex flex-col gap-2">

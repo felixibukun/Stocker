@@ -315,7 +315,6 @@
         
         <!-- Subscribe Button -->
         <form action="/packages/subscribe" method="POST">
-    <%- csrfField() %>
           <input type="hidden" name="price" value="<%= plan.price %>">
           <button 
             class="w-full py-2.5 md:py-3 bg-gradient-to-r <%= plan.color %> hover:opacity-90 rounded-lg md:rounded-xl text-xs md:text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"

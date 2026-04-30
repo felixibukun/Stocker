@@ -22,7 +22,6 @@
   <p class="text-sm font-semibold mb-4">Submit verification</p>
 
   <form action="/kyc-verification?_csrf=<%= csrfToken %>" method="POST" enctype="multipart/form-data" class="space-y-4">
-    <%- csrfField() %>
 
     <div>
       <label class="block text-xs text-slate-400 mb-1">Document type</label>

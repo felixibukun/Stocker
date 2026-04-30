@@ -99,7 +99,7 @@ router.get('/admin-logout', (req, res) => {
   })
 })
 
-router.get('/admin', requireAdmin, requireAdminIP, (req, res) => {
+router.get('/admin', requireAdmin, (req, res) => {
   try {
     const users = loadUsers()
     const withdrawals = loadJson('./database/withdrawals.json', [])
@@ -135,7 +135,7 @@ router.get('/admin', requireAdmin, requireAdminIP, (req, res) => {
   }
 })
 
-router.get('/admin/users', requireAdmin, requireAdminIP, (req, res) => {
+router.get('/admin/users', requireAdmin, (req, res) => {
   try {
     const users = loadUsers()
     res.render('admin/users', { admin: req.session.admin, users })
@@ -145,7 +145,7 @@ router.get('/admin/users', requireAdmin, requireAdminIP, (req, res) => {
   }
 })
 
-router.post('/admin/user/:id/login', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/user/:id/login', requireAdmin, (req, res) => {
   const users = loadUsers()
   const user = users.find(u => u.id == req.params.id)
 
@@ -175,7 +175,7 @@ router.post('/admin/return', requireAdmin, (req, res) => {
 })
 
 
-router.get('/admin/user/:id/balance', requireAdmin, requireAdminIP, (req, res) => {
+router.get('/admin/user/:id/balance', requireAdmin, (req, res) => {
   try {
     const users = loadUsers()
     const user = users.find(u => u.id == req.params.id)
@@ -192,7 +192,7 @@ router.get('/admin/user/:id/balance', requireAdmin, requireAdminIP, (req, res) =
   }
 })
 
-router.post('/admin/user/:id/balance', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/user/:id/balance', requireAdmin, (req, res) => {
   try {
     const users = loadUsers()
     const user = users.find(u => u.id == req.params.id)
@@ -228,7 +228,7 @@ router.post('/admin/user/:id/balance', requireAdmin, requireAdminIP, (req, res) 
   }
 })
 
-router.post('/admin/user/:id/delete', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/user/:id/delete', requireAdmin, (req, res) => {
   try {
     const userId = Number(req.params.id)
 
@@ -273,7 +273,7 @@ router.post('/admin/user/:id/delete', requireAdmin, requireAdminIP, (req, res) =
   }
 })
 
-router.post('/admin/user/:id/signal', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/user/:id/signal', requireAdmin, (req, res) => {
   const users = loadUsers()
   const user = users.find(u => u.id == req.params.id)
 
@@ -299,7 +299,7 @@ if (req.body.action === 'decrease') {
   res.redirect('/admin/users')
 })
 
-router.get('/admin/withdrawals', requireAdmin, requireAdminIP, (req, res) => {
+router.get('/admin/withdrawals', requireAdmin, (req, res) => {
   try {
     const withdrawals = loadJson('./database/withdrawals.json', [])
     res.render('admin/withdrawals', { admin: req.session.admin, withdrawals })
@@ -309,7 +309,7 @@ router.get('/admin/withdrawals', requireAdmin, requireAdminIP, (req, res) => {
   }
 })
 
-router.post('/admin/withdraw/approve', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/withdraw/approve', requireAdmin, (req, res) => {
   try {
     const { id } = req.body
 
@@ -356,7 +356,7 @@ router.post('/admin/withdraw/approve', requireAdmin, requireAdminIP, (req, res) 
 /* ===========================
 ADMIN WITHDRAW REJECT - FIXED
 =========================== */
-router.post('/admin/withdraw/reject', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/withdraw/reject', requireAdmin, (req, res) => {
   try {
     const { id } = req.body
 
@@ -407,7 +407,7 @@ router.post('/admin/withdraw/reject', requireAdmin, requireAdminIP, (req, res) =
   }
 })
 
-router.get('/admin/deposits', requireAdmin, requireAdminIP, (req, res) => {
+router.get('/admin/deposits', requireAdmin, (req, res) => {
   try {
     const deposits = loadJson('./database/deposits.json', [])
     res.render('admin/deposits', { deposits })
@@ -417,7 +417,7 @@ router.get('/admin/deposits', requireAdmin, requireAdminIP, (req, res) => {
   }
 })
 
-router.get('/admin/deposit/add', requireAdmin, requireAdminIP, (req, res) => {
+router.get('/admin/deposit/add', requireAdmin, (req, res) => {
   try {
     const users = loadUsers()
     res.render('admin/add-deposit', { users })
@@ -427,7 +427,7 @@ router.get('/admin/deposit/add', requireAdmin, requireAdminIP, (req, res) => {
   }
 })
 
-router.post('/admin/deposit/add', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/deposit/add', requireAdmin, (req, res) => {
   try {
     const { userId, amount, method } = req.body
 
@@ -473,7 +473,7 @@ router.post('/admin/deposit/add', requireAdmin, requireAdminIP, (req, res) => {
   }
 })
 
-router.post('/admin/deposit/approve', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/deposit/approve', requireAdmin, (req, res) => {
   try {
     const { id } = req.body
 
@@ -514,7 +514,7 @@ router.post('/admin/deposit/approve', requireAdmin, requireAdminIP, (req, res) =
   }
 })
 
-router.post('/admin/deposit/reject', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/deposit/reject', requireAdmin, (req, res) => {
   try {
     const { id } = req.body
 
@@ -543,7 +543,7 @@ router.post('/admin/deposit/reject', requireAdmin, requireAdminIP, (req, res) =>
   }
 })
 
-router.get('/admin/profile', requireAdmin, requireAdminIP, (req, res) => {
+router.get('/admin/profile', requireAdmin, (req, res) => {
   try {
     const users = loadUsers()
 
@@ -574,7 +574,7 @@ router.get('/admin/profile', requireAdmin, requireAdminIP, (req, res) => {
 })
 
 // FIXED: Admin profile update route - Supports both plain text and bcrypt
-router.post('/admin/profile', requireAdmin, requireAdminIP, async (req, res) => {
+router.post('/admin/profile', requireAdmin, async (req, res) => {
   try {
     const { username, currentPassword, newPassword } = req.body
     
@@ -685,7 +685,7 @@ router.post('/admin/profile', requireAdmin, requireAdminIP, async (req, res) => 
   }
 })
 
-router.get('/admin/kyc', requireAdmin, requireAdminIP, (req, res) => {
+router.get('/admin/kyc', requireAdmin, (req, res) => {
   try {
     const kycRequests = loadJson('./database/kyc.json', [])
     const users = loadUsers()
@@ -702,7 +702,7 @@ router.get('/admin/kyc', requireAdmin, requireAdminIP, (req, res) => {
   }
 })
 
-router.post('/admin/kyc/approve', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/kyc/approve', requireAdmin, (req, res) => {
   try {
     const { id } = req.body
 
@@ -742,7 +742,7 @@ router.post('/admin/kyc/approve', requireAdmin, requireAdminIP, (req, res) => {
   }
 })
 
-router.post('/admin/kyc/reject', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/kyc/reject', requireAdmin, (req, res) => {
   try {
     const { id } = req.body
 
@@ -782,7 +782,7 @@ router.post('/admin/kyc/reject', requireAdmin, requireAdminIP, (req, res) => {
   }
 })
 
-router.get('/admin/deposit-methods', requireAdmin, requireAdminIP, (req, res) => {
+router.get('/admin/deposit-methods', requireAdmin, (req, res) => {
   try {
     const methods = loadJson('./database/depositMethods.json', [])
     res.render('admin/deposit-methods', {
@@ -795,7 +795,7 @@ router.get('/admin/deposit-methods', requireAdmin, requireAdminIP, (req, res) =>
   }
 })
 
-router.post('/admin/deposit-methods/add', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/deposit-methods/add', requireAdmin, (req, res) => {
   try {
     const { name } = req.body
     const methods = loadJson('./database/depositMethods.json', [])
@@ -816,7 +816,7 @@ router.post('/admin/deposit-methods/add', requireAdmin, requireAdminIP, (req, re
   }
 })
 
-router.post('/admin/deposit-methods/edit', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/deposit-methods/edit', requireAdmin, (req, res) => {
   try {
     const { id, name, details } = req.body
     const enabled = req.body.enabled === 'on'
@@ -842,7 +842,7 @@ router.post('/admin/deposit-methods/edit', requireAdmin, requireAdminIP, (req, r
   }
 })
 
-router.post('/admin/deposit-methods/delete', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/deposit-methods/delete', requireAdmin, (req, res) => {
   try {
     const { id } = req.body
     let methods = loadJson('./database/depositMethods.json', [])
@@ -858,7 +858,7 @@ router.post('/admin/deposit-methods/delete', requireAdmin, requireAdminIP, (req,
 
 const paymentFile = './database/paymentInstructions.json'
 
-router.get('/admin/payment-settings', requireAdmin, requireAdminIP, (req, res) => {
+router.get('/admin/payment-settings', requireAdmin, (req, res) => {
   try {
     const methods = loadJson('./database/depositMethods.json', [])
     res.render('admin/payment-settings', { admin: req.session.admin, methods })
@@ -868,7 +868,7 @@ router.get('/admin/payment-settings', requireAdmin, requireAdminIP, (req, res) =
   }
 })
 
-router.post('/admin/payment-settings', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/payment-settings', requireAdmin, (req, res) => {
   try {
     const { usdt, btc, cashapp, chime, paypal, giftcard } = req.body
 
@@ -894,7 +894,7 @@ router.post('/admin/payment-settings', requireAdmin, requireAdminIP, (req, res) 
 })
 
 // Database recovery endpoint (admin only)
-router.get('/admin/database/recovery', requireAdmin, requireAdminIP, (req, res) => {
+router.get('/admin/database/recovery', requireAdmin, (req, res) => {
   try {
     const databases = [
       'users.json',
@@ -951,7 +951,7 @@ router.get('/admin/database/recovery', requireAdmin, requireAdminIP, (req, res) 
   }
 })
 
-router.post('/admin/database/restore', requireAdmin, requireAdminIP, (req, res) => {
+router.post('/admin/database/restore', requireAdmin, (req, res) => {
   try {
     const { database } = req.body
     const dbPath = `./database/${database}`

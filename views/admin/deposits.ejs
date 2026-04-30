@@ -81,7 +81,6 @@
                 <% if (d.status === 'pending') { %>
 
                   <form action="/admin/deposit/approve" method="POST">
-    <%- csrfField() %>
                     <input type="hidden" name="id" value="<%= d.id %>">
                     <button class="px-3 py-1 bg-emerald-600 rounded text-xs">
                       Approve
@@ -89,7 +88,6 @@
                   </form>
 
                   <form action="/admin/deposit/reject" method="POST">
-    <%- csrfField() %>
                     <input type="hidden" name="id" value="<%= d.id %>">
                     <button class="px-3 py-1 bg-red-600 rounded text-xs">
                       Reject
