@@ -442,11 +442,13 @@ router.post('/admin/deposit/add', requireAdmin, (req, res) => {
 
     const entry = {
       id: Date.now(),
-      userId,
+      userId: user.id,
+      username: user.username,
       userName: user.username,
       amount: Number(amount),
       method,
       status: 'approved',
+      createdAt: new Date().toISOString(),
       date: new Date().toISOString()
     }
 
@@ -486,6 +488,16 @@ router.post('/admin/deposit/approve', requireAdmin, (req, res) => {
       return res.redirect('/admin/deposits')
     }
 
+    if (dep.status === 'approved') {
+      setToast(req, 'info', 'Deposit already approved')
+      return res.redirect('/admin/deposits')
+    }
+
+    if (dep.status === 'rejected') {
+      setToast(req, 'error', 'Rejected deposits cannot be approved')
+      return res.redirect('/admin/deposits')
+    }
+
     const user = users.find(u => u.id == dep.userId)
     if (!user) {
       setToast(req, 'error', 'User not found')
@@ -522,6 +534,16 @@ router.post('/admin/deposit/reject', requireAdmin, (req, res) => {
     const dep = deposits.find(d => d.id == id)
     if (!dep) {
       setToast(req, 'error', 'Deposit not found')
+      return res.redirect('/admin/deposits')
+    }
+
+    if (dep.status === 'approved') {
+      setToast(req, 'error', 'Approved deposits cannot be rejected')
+      return res.redirect('/admin/deposits')
+    }
+
+    if (dep.status === 'rejected') {
+      setToast(req, 'info', 'Deposit already rejected')
       return res.redirect('/admin/deposits')
     }
 
@@ -715,6 +737,16 @@ router.post('/admin/kyc/approve', requireAdmin, (req, res) => {
       return res.redirect('/admin/kyc')
     }
 
+    if (request.status === 'approved') {
+      setToast(req, 'info', 'KYC already approved')
+      return res.redirect('/admin/kyc')
+    }
+
+    if (request.status === 'rejected') {
+      setToast(req, 'error', 'Rejected KYC requests cannot be approved')
+      return res.redirect('/admin/kyc')
+    }
+
     const user = users.find(u => u.id == request.userId)
     if (!user) {
       setToast(req, 'error', 'User not found')
@@ -752,6 +784,16 @@ router.post('/admin/kyc/reject', requireAdmin, (req, res) => {
     const request = kycRequests.find(k => k.id == id)
     if (!request) {
       setToast(req, 'error', 'Request not found')
+      return res.redirect('/admin/kyc')
+    }
+
+    if (request.status === 'approved') {
+      setToast(req, 'error', 'Approved KYC requests cannot be rejected')
+      return res.redirect('/admin/kyc')
+    }
+
+    if (request.status === 'rejected') {
+      setToast(req, 'info', 'KYC already rejected')
       return res.redirect('/admin/kyc')
     }
 
@@ -856,8 +898,6 @@ router.post('/admin/deposit-methods/delete', requireAdmin, (req, res) => {
   }
 })
 
-const paymentFile = './database/paymentInstructions.json'
-
 router.get('/admin/payment-settings', requireAdmin, (req, res) => {
   try {
     const methods = loadJson('./database/depositMethods.json', [])
@@ -870,20 +910,16 @@ router.get('/admin/payment-settings', requireAdmin, (req, res) => {
 
 router.post('/admin/payment-settings', requireAdmin, (req, res) => {
   try {
-    const { usdt, btc, cashapp, chime, paypal, giftcard } = req.body
+    const methods = loadJson('./database/depositMethods.json', [])
+    const details = req.body.details || {}
+    const enabled = req.body.enabled || {}
 
-    const data = {
-      Crypto: {
-        usdt,
-        btc
-      },
-      CashApp: cashapp,
-      Chime: chime,
-      PayPal: paypal,
-      Giftcard: giftcard
-    }
+    methods.forEach(method => {
+      method.details = details[String(method.id)] || ''
+      method.enabled = enabled[String(method.id)] === 'on'
+    })
 
-    saveJson(paymentFile, data)
+    saveJson('./database/depositMethods.json', methods)
     setToast(req, 'success', 'Payment instructions updated')
     res.redirect('/admin/payment-settings')
 

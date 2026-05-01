@@ -33,7 +33,12 @@
           </tr>
         </thead>
 
-        <tbody>
+<tbody>
+<% if (!withdrawals || withdrawals.length === 0) { %>
+<tr>
+<td colspan="6" class="px-4 py-8 text-center text-slate-500">No withdrawal requests found.</td>
+</tr>
+<% } else { %>
 <% withdrawals.forEach(w => { %>
 
 <tr class="border-b border-gray-700 hover:bg-gray-750 transition">
@@ -57,7 +62,7 @@ $<%= Number(w.amount || 0).toFixed(2) %>
 </td>
 
 <td class="px-4 py-3 text-slate-300">
-<%= new Date(w.date).toLocaleString() %>
+<%= (w.date || w.createdAt) ? new Date(w.date || w.createdAt).toLocaleString() : 'N/A' %>
 </td>
 
 <td class="px-4 py-3 text-xs text-slate-300">
@@ -100,6 +105,7 @@ Reject
 </tr>
 
 <% }) %>
+<% } %>
 </tbody>
       </table>
 

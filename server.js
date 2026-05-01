@@ -83,6 +83,7 @@ app.use(
 )
 
 app.use((req, res, next) => {
+  res.locals.currentPath = req.path
   res.locals.toast = req.session.toast || null
   delete req.session.toast
   next()
@@ -211,7 +212,7 @@ return
 /* ===========================
 DASHBOARD
 =========================== */
-app.use(createPublicRoutes({ loadJson }))
+app.use(createPublicRoutes({ loadJson, saveJson, setToast }))
 app.use(createAuthRoutes({ BCRYPT_ROUNDS, authLimit, bcrypt, loadUsers, saveUsers, setToast }))
 app.use(createUserRoutes({ bcrypt, getMarketPrice, loadJson, loadUsers, notify, recalcUserBalance, requireLogin, requireSignalActive, saveJson, saveUsers, setToast, upload }))
 app.use(createAdminRoutes({ BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, saveJson, saveUsers, setToast }))
@@ -257,6 +258,7 @@ app.listen(PORT, '0.0.0.0', () => {
     './database/depositMethods.json',
     './database/paymentInstructions.json',
     './database/emailVerify.json',
+    './database/contactMessages.json',
     './database/adminLogs.json'
   ]
 

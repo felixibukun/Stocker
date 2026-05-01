@@ -678,10 +678,8 @@
         });
       }
       
-      // Pagination (simplified for demo)
+      // Pagination controls are disabled while all records are shown together.
       if (prevBtn && nextBtn) {
-        // In a real implementation, this would handle actual pagination
-        // For now, we'll just disable them since we're showing all
         prevBtn.disabled = true;
         nextBtn.disabled = true;
       }
@@ -702,5 +700,6 @@
       });
     <% } %>
   </script>
+<%- include('partials/mobile-bankbar') %>
 </body>
 </html>

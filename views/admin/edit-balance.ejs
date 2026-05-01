@@ -1,67 +1,91 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <title>Edit User</title> <script src="https://cdn.tailwindcss.com"></script>
- </head> <body class="bg-gray-900 text-white min-h-screen"> <div class="w-full bg-gray-800 p-4 flex items-center justify-between shadow"> <h1 class="text-xl font-semibold">Edit User Wallet</h1> <a href="/admin/users" class="bg-blue-600 px-4 py-2 rounded">Back</a> </div> <div class="p-6 max-w-lg mx-auto bg-gray-800 rounded-xl shadow">
-<h2 class="text-xl font-semibold mb-6">User: <%= user.name %></h2>
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edit User Wallet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-<form action="/admin/user/<%= user.id %>/balance" method="POST">
+<body class="min-h-screen bg-slate-950 text-white">
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur-xl">
+    <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div>
+        <p class="text-sm font-semibold">Edit user wallet</p>
+        <p class="text-xs text-slate-400"><%= user.username %> - <%= user.email || 'No email' %></p>
+      </div>
+      <a href="/admin/users" class="px-4 py-2 rounded-lg bg-slate-800 text-sm hover:bg-slate-700">
+        Back
+      </a>
+    </div>
+  </header>
 
-  
+  <main class="max-w-3xl mx-auto px-4 py-8">
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+      <div class="mb-6">
+        <p class="text-lg font-semibold"><%= user.name || user.username %></p>
+        <p class="text-sm text-slate-400">Current total balance: $<%= Number(user.balance || 0).toFixed(2) %></p>
+      </div>
 
-  <div class="mb-4">
-    <label class="block mb-1">Profit</label>
-    <input 
-      type="number"
-      step="0.01"
-      name="profit"
-      value="<%= Number(user.profit || 0) %>"
-      class="w-full p-3 bg-gray-700 rounded outline-none"
-      required
-    >
-  </div>
+      <form action="/admin/user/<%= user.id %>/balance" method="POST" class="space-y-5">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-2">Profit balance</label>
+          <input
+            type="number"
+            step="0.01"
+            name="profit"
+            value="<%= Number(user.profit || 0) %>"
+            class="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm outline-none focus:border-blue-500"
+            required>
+        </div>
 
-  <div class="mb-4">
-    <label class="block mb-1">Bonus</label>
-    <input 
-      type="number"
-      step="0.01"
-      name="bonus"
-      value="<%= Number(user.bonus || 0) %>"
-      class="w-full p-3 bg-gray-700 rounded outline-none"
-      required
-    >
-  </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-2">Bonus balance</label>
+          <input
+            type="number"
+            step="0.01"
+            name="bonus"
+            value="<%= Number(user.bonus || 0) %>"
+            class="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm outline-none focus:border-blue-500"
+            required>
+        </div>
 
-  <div class="mb-6">
-  <label class="block mb-1">Total Deposit</label>
-  <input 
-    type="number"
-    step="0.01"
-    name="deposit"
-    value="<%= Number(user.deposit || 0) %>"
-    class="w-full p-3 bg-gray-700 rounded outline-none"
-    required
-  >
-</div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-2">Deposit balance</label>
+          <input
+            type="number"
+            step="0.01"
+            name="deposit"
+            value="<%= Number(user.deposit || 0) %>"
+            class="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm outline-none focus:border-blue-500"
+            required>
+        </div>
 
+        <div class="rounded-xl border border-blue-500/30 bg-blue-500/10 p-4 text-sm text-blue-100">
+          Saving recalculates the user's total balance from profit, bonus, and deposit.
+        </div>
 
-  <button class="w-full bg-green-600 p-3 rounded font-semibold">
-    Save Changes
-  </button>
+        <button class="w-full px-5 py-3 rounded-xl bg-emerald-600 text-sm font-semibold hover:bg-emerald-700">
+          Save wallet changes
+        </button>
+      </form>
+    </section>
+  </main>
 
-</form>
-
-</div> 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<% if (toast) { %>
-<script>
-  Swal.fire({
-    icon: '<%= toast.type %>',
-    title: '<%= toast.message %>',
-    toast: true,
-    position: 'top',
-    showConfirmButton: false,
-    timer: 2500
-  })
-</script>
-<% } %>
-</body> </html>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <% if (toast) { %>
+    <script>
+      Swal.fire({
+        icon: '<%= toast.type %>',
+        title: '<%= toast.message %>',
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 2500,
+        background: '#0f172a',
+        color: '#fff'
+      })
+    </script>
+  <% } %>
+</body>
+</html>

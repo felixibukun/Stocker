@@ -1,0 +1,160 @@
+<style>
+  .mobile-bankbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 45;
+    padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom));
+    background: rgba(2, 6, 23, 0.94);
+    border-top: 1px solid rgba(51, 65, 85, 0.9);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 -18px 45px rgba(0, 0, 0, 0.34);
+  }
+
+  .mobile-bankbar-inner {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: end;
+    gap: 0.25rem;
+    max-width: 34rem;
+    margin: 0 auto;
+  }
+
+  .mobile-bankbar-link,
+  .mobile-bankbar-action {
+    min-width: 0;
+    min-height: 3.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    border-radius: 1rem;
+    color: #94a3b8;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+  }
+
+  .mobile-bankbar-link.active {
+    color: #ffffff;
+    background: rgba(79, 70, 229, 0.18);
+  }
+
+  .mobile-bankbar-link:active,
+  .mobile-bankbar-action:active {
+    transform: translateY(1px) scale(0.98);
+  }
+
+  .mobile-bankbar-link i[data-lucide] {
+    width: 1.2rem;
+    height: 1.2rem;
+    stroke-width: 2;
+  }
+
+  .mobile-bankbar-action {
+    min-height: 4rem;
+    color: #ffffff;
+    transform: translateY(-0.6rem);
+  }
+
+  .mobile-bankbar-action .action-icon {
+    height: 3.35rem;
+    width: 3.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #10b981, #4F46E5);
+    border: 4px solid #020617;
+    box-shadow: 0 12px 30px rgba(16, 185, 129, 0.26);
+  }
+
+  .mobile-bankbar-action i[data-lucide] {
+    width: 1.45rem;
+    height: 1.45rem;
+    stroke-width: 2.3;
+  }
+
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+    }
+  }
+
+  @media (min-width: 768px) {
+    .mobile-bankbar {
+      display: none;
+    }
+  }
+</style>
+
+<%
+  const activePath = typeof currentPath !== 'undefined' ? currentPath : ''
+  const isActive = (paths) => paths.includes(activePath)
+%>
+
+<nav class="mobile-bankbar" aria-label="Mobile account navigation">
+  <div class="mobile-bankbar-inner">
+    <a href="/dashboard"
+       class="mobile-bankbar-link <%= isActive(['/dashboard']) ? 'active' : '' %>"
+       aria-label="Dashboard">
+      <i data-lucide="home"></i>
+      <span>Home</span>
+    </a>
+
+    <a href="/deposit-withdrawal"
+       class="mobile-bankbar-link <%= isActive(['/deposit-withdrawal']) ? 'active' : '' %>"
+       aria-label="Deposit">
+      <i data-lucide="arrow-down-to-line"></i>
+      <span>Deposit</span>
+    </a>
+
+    <a href="/dashboard"
+       class="mobile-bankbar-action"
+       aria-label="Trade">
+      <span class="action-icon">
+        <i data-lucide="zap"></i>
+      </span>
+      <span>Trade</span>
+    </a>
+
+    <a href="/withdraw"
+       class="mobile-bankbar-link <%= isActive(['/withdraw', '/withdraw-history']) ? 'active' : '' %>"
+       aria-label="Withdraw">
+      <i data-lucide="arrow-up-from-line"></i>
+      <span>Withdraw</span>
+    </a>
+
+    <a href="/account"
+       class="mobile-bankbar-link <%= isActive(['/account']) ? 'active' : '' %>"
+       aria-label="Account">
+      <i data-lucide="user-round"></i>
+      <span>Account</span>
+    </a>
+  </div>
+</nav>
+
+<script>
+  (function loadMobileBankbarIcons() {
+    function renderIcons() {
+      if (window.lucide) window.lucide.createIcons()
+    }
+
+    if (window.lucide) {
+      renderIcons()
+      return
+    }
+
+    if (!document.querySelector('script[data-mobile-bankbar-lucide]')) {
+      const script = document.createElement('script')
+      script.src = 'https://unpkg.com/lucide@latest/dist/umd/lucide.js'
+      script.defer = true
+      script.dataset.mobileBankbarLucide = 'true'
+      script.onload = renderIcons
+      document.head.appendChild(script)
+    }
+  })()
+</script>
