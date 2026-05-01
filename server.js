@@ -7,9 +7,8 @@ const rateLimit = require('express-rate-limit')
 const bcrypt = require('bcryptjs')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser')
-const { ALLOWED_IPS, BCRYPT_ROUNDS, sessionSecret } = require('./config/security')
+const { BCRYPT_ROUNDS, sessionSecret } = require('./config/security')
 const { createAuthMiddleware } = require('./middleware/auth')
-const { createCsrfProtection } = require('./middleware/csrf')
 const { upload } = require('./middleware/upload')
 const { loadJson, saveJson } = require('./services/jsonStore')
 const { notify } = require('./services/notifications')
@@ -83,8 +82,6 @@ app.use(
   })
 )
 
-// app.use(createCsrfProtection(setToast))
-
 app.use((req, res, next) => {
   res.locals.toast = req.session.toast || null
   delete req.session.toast
@@ -116,11 +113,9 @@ function setToast(req, type, message) {
 
 const {
   getClientIp,
-  requireAdminIP,
   requireLogin,
   requireSignalActive
 } = createAuthMiddleware({
-  allowedIps: ALLOWED_IPS,
   loadUsers,
   setToast
 })
@@ -219,7 +214,7 @@ DASHBOARD
 app.use(createPublicRoutes({ loadJson }))
 app.use(createAuthRoutes({ BCRYPT_ROUNDS, authLimit, bcrypt, loadUsers, saveUsers, setToast }))
 app.use(createUserRoutes({ bcrypt, getMarketPrice, loadJson, loadUsers, notify, recalcUserBalance, requireLogin, requireSignalActive, saveJson, saveUsers, setToast, upload }))
-app.use(createAdminRoutes({ BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, requireAdminIP, saveJson, saveUsers, setToast }))
+app.use(createAdminRoutes({ BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, saveJson, saveUsers, setToast }))
 
 app.use((err, req, res, next) => {
   if (err && (err.message === 'Invalid file type' || err.code === 'LIMIT_FILE_SIZE')) {

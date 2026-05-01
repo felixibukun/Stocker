@@ -6,7 +6,7 @@ function getClientIp(req) {
   return req.ip || req.connection.remoteAddress
 }
 
-function createAuthMiddleware({ allowedIps, loadUsers, setToast }) {
+function createAuthMiddleware({ loadUsers, setToast }) {
   function requireLogin(req, res, next) {
     if (!req.session.user) {
       return res.redirect('/login')
@@ -28,19 +28,8 @@ function createAuthMiddleware({ allowedIps, loadUsers, setToast }) {
     next()
   }
 
-  function requireAdminIP(req, res, next) {
-    const clientIp = getClientIp(req)
-    if (allowedIps.includes(clientIp) || allowedIps.includes(clientIp.replace('::ffff:', ''))) {
-      return next()
-    }
-
-    setToast(req, 'error', 'Admin access is restricted from this IP.')
-    return res.redirect('/admin-login')
-  }
-
   return {
     getClientIp,
-    requireAdminIP,
     requireLogin,
     requireSignalActive
   }

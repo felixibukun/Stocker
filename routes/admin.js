@@ -2,7 +2,7 @@ const express = require('express')
 
 module.exports = function createRoutes(deps) {
   const router = express.Router()
-  const { BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, requireAdminIP, saveJson, saveUsers, setToast } = deps
+  const { BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, saveJson, saveUsers, setToast } = deps
 
 /* ===========================
 ADMIN SECTION

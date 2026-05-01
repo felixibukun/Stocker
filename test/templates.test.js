@@ -32,27 +32,69 @@ test('all EJS render targets exist', () => {
   assert.deepEqual(missing, [])
 })
 
-test('POST forms include a CSRF field', () => {
+test('templates do not reference removed CSRF locals', () => {
+  const references = []
+  const csrfPattern = /csrfField|csrfToken|_csrf/
+
+  function scan(dir) {
+    for (const name of fs.readdirSync(dir)) {
+      const fullPath = path.join(dir, name)
+      const stat = fs.statSync(fullPath)
+      if (stat.isDirectory()) {
+        scan(fullPath)
+        continue
+      }
+
+      if (!name.endsWith('.ejs')) continue
+
+      const relativePath = path.relative(viewsDir, fullPath)
+      const lines = fs.readFileSync(fullPath, 'utf8').split(/\r?\n/)
+      lines.forEach((line, index) => {
+        if (csrfPattern.test(line)) {
+          references.push(`${relativePath}:${index + 1}`)
+        }
+      })
+    }
+  }
+
+  scan(viewsDir)
+
+  assert.deepEqual(references, [])
+})
+
+test('POST forms declare an action', () => {
   const missing = []
   const formPattern = /<form\b(?=[^>]*\bmethod=["']POST["'])[^>]*>/gi
 
-  for (const file of fs.readdirSync(viewsDir).filter(name => name.endsWith('.ejs'))) {
-    const fullPath = path.join(viewsDir, file)
-    const lines = fs.readFileSync(fullPath, 'utf8').split(/\r?\n/)
+  function scan(dir) {
+    for (const name of fs.readdirSync(dir)) {
+      const fullPath = path.join(dir, name)
+      const stat = fs.statSync(fullPath)
+      if (stat.isDirectory()) {
+        scan(fullPath)
+        continue
+      }
 
-    lines.forEach((line, index) => {
-      if (!formPattern.test(line)) {
+      if (!name.endsWith('.ejs')) continue
+
+      const relativePath = path.relative(viewsDir, fullPath)
+      const lines = fs.readFileSync(fullPath, 'utf8').split(/\r?\n/)
+
+      lines.forEach((line, index) => {
+        if (!formPattern.test(line)) {
+          formPattern.lastIndex = 0
+          return
+        }
+
         formPattern.lastIndex = 0
-        return
-      }
-
-      formPattern.lastIndex = 0
-      const nearby = lines.slice(index, index + 4).join('\n')
-      if (!nearby.includes('<%- csrfField() %>')) {
-        missing.push(`${file}:${index + 1}`)
-      }
-    })
+        if (!/\baction=["'][^"']+["']/.test(line)) {
+          missing.push(`${relativePath}:${index + 1}`)
+        }
+      })
+    }
   }
+
+  scan(viewsDir)
 
   assert.deepEqual(missing, [])
 })

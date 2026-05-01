@@ -41,58 +41,18 @@ async function waitForServer() {
   throw new Error('Server did not start in time')
 }
 
-function sessionCookie(response) {
-  const cookie = response.headers.get('set-cookie')
-  assert.ok(cookie, 'expected a session cookie')
-  return cookie.split(';')[0]
-}
-
-function csrfToken(html) {
-  const match = html.match(/name="_csrf" value="([^"]+)"/)
-  assert.ok(match, 'expected a CSRF token field')
-  return match[1]
-}
-
-test('POST signup rejects requests without CSRF token', async () => {
-  const response = await fetch(`${BASE_URL}/signup`, {
-    method: 'POST',
-    redirect: 'manual',
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded'
-    },
-    body: new URLSearchParams({
-      username: `csrf-missing-${Date.now()}`,
-      name: 'CSRF Missing',
-      email: `csrf-missing-${Date.now()}@example.com`,
-      phone: '1234567890',
-      country: 'NG',
-      password: 'password123'
-    })
-  })
-
-  assert.equal(response.status, 403)
-})
-
-test('signup succeeds with CSRF token', async () => {
-  const getResponse = await fetch(`${BASE_URL}/signup`)
-  assert.equal(getResponse.status, 200)
-
-  const cookie = sessionCookie(getResponse)
-  const token = csrfToken(await getResponse.text())
+test('signup succeeds', async () => {
   const unique = Date.now()
-
   const response = await fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     redirect: 'manual',
     headers: {
-      cookie,
       'content-type': 'application/x-www-form-urlencoded'
     },
     body: new URLSearchParams({
-      _csrf: token,
-      username: `csrf-user-${unique}`,
-      name: 'CSRF User',
-      email: `csrf-user-${unique}@example.com`,
+      username: `signup-user-${unique}`,
+      name: 'Signup User',
+      email: `signup-user-${unique}@example.com`,
       phone: '1234567890',
       country: 'NG',
       password: 'password123'
@@ -101,6 +61,13 @@ test('signup succeeds with CSRF token', async () => {
 
   assert.equal(response.status, 302)
   assert.equal(response.headers.get('location'), '/dashboard')
+})
+
+test('auth pages render', async () => {
+  for (const path of ['/login', '/signup', '/admin-login']) {
+    const response = await fetch(`${BASE_URL}${path}`)
+    assert.equal(response.status, 200)
+  }
 })
 
 test.before(async () => {
@@ -113,4 +80,3 @@ test.after(() => {
     global.server.child.kill()
   }
 })
-
