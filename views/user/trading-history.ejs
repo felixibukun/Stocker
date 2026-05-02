@@ -4,47 +4,200 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Trading History</title>
+
+  <link rel="icon" type="image/png" href="/temp/custom/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
 </head>
 
-<body class="bg-slate-950 text-white">
+<body class="min-h-screen bg-slate-950 text-white font-sans pb-28">
 
-<header class="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl flex items-center">
-  <div class="max-w-5xl mx-auto w-full px-4 flex justify-between">
-    <p class="text-sm font-semibold">Trading History</p>
-    <a href="/dashboard" class="text-xs text-slate-300 hover:text-white">Back</a>
+<header class="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-xl">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <div class="h-11 w-11 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center">
+        <img src="/temp/custom/img/logo.png" class="h-7 w-auto" alt="Logo">
+      </div>
+
+      <div>
+        <p class="text-xl font-bold tracking-tight">Trading History</p>
+        <p class="text-sm text-slate-400">Review your manual and copy trades</p>
+      </div>
+    </div>
+
+    <a href="/dashboard"
+       class="inline-flex items-center justify-center h-11 px-5 rounded-xl bg-slate-900 border border-slate-800 text-sm font-semibold text-slate-200 hover:bg-slate-800">
+      Back
+    </a>
   </div>
 </header>
 
-<main class="max-w-5xl mx-auto px-4 py-8">
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-  <div class="bg-slate-900/80 rounded-2xl border border-slate-800 p-6">
-    <p class="text-sm font-semibold mb-4 text-slate-100">Your Trades</p>
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+      <p class="text-sm text-slate-400">Total Trades</p>
+      <p class="mt-2 text-3xl font-bold"><%= trades ? trades.length : 0 %></p>
+    </div>
+
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+      <p class="text-sm text-slate-400">Closed Profit</p>
+      <p class="mt-2 text-3xl font-bold text-emerald-400">
+        $<%= (trades || []).filter(t => t.status === 'closed').reduce((sum, t) => sum + Number(t.pnl || t.profit || 0), 0).toFixed(2) %>
+      </p>
+    </div>
+
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+      <p class="text-sm text-slate-400">Open Trades</p>
+      <p class="mt-2 text-3xl font-bold text-amber-300">
+        <%= (trades || []).filter(t => t.status === 'open').length %>
+      </p>
+    </div>
+  </section>
+
+  <section class="rounded-3xl border border-slate-800 bg-slate-900/80 shadow-2xl shadow-black/30 overflow-hidden">
+    <div class="p-6 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <h1 class="text-lg font-bold">Your Trades</h1>
+        <p class="text-sm text-slate-400 mt-1">Live trade entries, copy trades, and closed P/L.</p>
+      </div>
+
+      <div class="h-10 px-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm font-semibold flex items-center">
+        Live Records
+      </div>
+    </div>
 
     <% if (!trades || trades.length === 0) { %>
-      <p class="text-xs text-slate-500">No trades found</p>
+      <div class="p-10 text-center">
+        <div class="mx-auto h-14 w-14 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center mb-4">
+          <span class="text-2xl">↗</span>
+        </div>
+        <p class="font-semibold text-white">No trades found</p>
+        <p class="text-sm text-slate-400 mt-2">Your trade activity will appear here after you execute a trade.</p>
+      </div>
     <% } else { %>
-      <div class="space-y-2 text-xs">
 
-        <% trades.forEach(t => { %>
-          <div class="flex justify-between border-b border-slate-800 pb-1">
+      <div class="hidden md:block overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-950/60 text-slate-400 border-b border-slate-800">
+            <tr>
+              <th class="text-left font-semibold px-6 py-4">Market</th>
+              <th class="text-left font-semibold px-6 py-4">Side</th>
+              <th class="text-right font-semibold px-6 py-4">Amount</th>
+              <th class="text-right font-semibold px-6 py-4">Entry Price</th>
+              <th class="text-right font-semibold px-6 py-4">Status</th>
+              <th class="text-right font-semibold px-6 py-4">P/L</th>
+            </tr>
+          </thead>
 
-            <span>
-              <%= t.side %> <%= t.stockName %> (<%= t.symbol %>)
-              · Qty <%= t.quantity %> @ $<%= t.price %>
-            </span>
+          <tbody class="divide-y divide-slate-800">
+            <% trades.slice().reverse().forEach(t => { %>
+              <tr class="hover:bg-slate-800/30 transition">
+                <td class="px-6 py-5">
+                  <p class="font-semibold text-white"><%= t.symbol || t.stockName || 'N/A' %></p>
+                  <p class="text-xs text-slate-500 mt-1">
+                    <%= t.type === 'copy-trade' ? 'Copy Trade' : 'Manual Trade' %>
+                  </p>
+                </td>
 
-            <span>
-              P L $<%= (t.profit || 0).toFixed(2) %>
-            </span>
+                <td class="px-6 py-5">
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold
+                    <%= String(t.side || '').toLowerCase() === 'buy'
+                      ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
+                      : String(t.side || '').toLowerCase() === 'sell'
+                      ? 'bg-red-500/10 text-red-300 border border-red-500/20'
+                      : 'bg-blue-500/10 text-blue-300 border border-blue-500/20' %>">
+                    <%= String(t.side || 'TRADE').toUpperCase() %>
+                  </span>
+                </td>
 
+                <td class="px-6 py-5 text-right text-slate-200">
+                  $<%= Number(t.margin || t.amount || t.total || 0).toFixed(2) %>
+                </td>
+
+                <td class="px-6 py-5 text-right text-slate-200">
+                  $<%= Number(t.price || t.entryPrice || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                </td>
+
+                <td class="px-6 py-5 text-right">
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold
+                    <%= t.status === 'closed'
+                      ? 'bg-slate-700 text-slate-200'
+                      : 'bg-amber-500/10 text-amber-300 border border-amber-500/20' %>">
+                    <%= String(t.status || 'open').toUpperCase() %>
+                  </span>
+                </td>
+
+                <td class="px-6 py-5 text-right font-bold <%= Number(t.pnl || t.profit || 0) >= 0 ? 'text-emerald-400' : 'text-red-400' %>">
+                  $<%= Number(t.pnl || t.profit || 0).toFixed(2) %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="md:hidden divide-y divide-slate-800">
+        <% trades.slice().reverse().forEach(t => { %>
+          <div class="p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="font-bold text-white"><%= t.symbol || t.stockName || 'N/A' %></p>
+                <p class="text-xs text-slate-500 mt-1">
+                  <%= t.type === 'copy-trade' ? 'Copy Trade' : 'Manual Trade' %>
+                </p>
+              </div>
+
+              <span class="px-3 py-1 rounded-full text-xs font-bold
+                <%= String(t.side || '').toLowerCase() === 'buy'
+                  ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
+                  : String(t.side || '').toLowerCase() === 'sell'
+                  ? 'bg-red-500/10 text-red-300 border border-red-500/20'
+                  : 'bg-blue-500/10 text-blue-300 border border-blue-500/20' %>">
+                <%= String(t.side || 'TRADE').toUpperCase() %>
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-5 text-sm">
+              <div>
+                <p class="text-slate-500">Amount</p>
+                <p class="font-semibold mt-1">$<%= Number(t.margin || t.amount || t.total || 0).toFixed(2) %></p>
+              </div>
+
+              <div>
+                <p class="text-slate-500">Entry</p>
+                <p class="font-semibold mt-1">$<%= Number(t.price || t.entryPrice || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></p>
+              </div>
+
+              <div>
+                <p class="text-slate-500">Status</p>
+                <p class="font-semibold mt-1"><%= String(t.status || 'open').toUpperCase() %></p>
+              </div>
+
+              <div>
+                <p class="text-slate-500">P/L</p>
+                <p class="font-bold mt-1 <%= Number(t.pnl || t.profit || 0) >= 0 ? 'text-emerald-400' : 'text-red-400' %>">
+                  $<%= Number(t.pnl || t.profit || 0).toFixed(2) %>
+                </p>
+              </div>
+            </div>
           </div>
         <% }) %>
-
       </div>
-    <% } %>
 
-  </div>
+    <% } %>
+  </section>
 
 </main>
 
@@ -58,7 +211,9 @@
     toast: true,
     position: 'top',
     showConfirmButton: false,
-    timer: 2500
+    timer: 2500,
+    background: '#0f172a',
+    color: '#f8fafc'
   })
 </script>
 <% } %>

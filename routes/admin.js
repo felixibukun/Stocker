@@ -102,9 +102,16 @@ router.get('/admin-logout', (req, res) => {
 router.get('/admin', requireAdmin, (req, res) => {
   try {
     const users = loadUsers()
-    const withdrawals = loadJson('./database/withdrawals.json', [])
-    const deposits = loadJson('./database/deposits.json', [])
-    const kycRequests = loadJson('./database/kyc.json', [])
+  .sort((a, b) => Number(b.id || 0) - Number(a.id || 0))
+
+const withdrawals = loadJson('./database/withdrawals.json', [])
+  .sort((a, b) => new Date(b.date || b.createdAt || 0) - new Date(a.date || a.createdAt || 0))
+
+const deposits = loadJson('./database/deposits.json', [])
+  .sort((a, b) => new Date(b.createdAt || b.date || 0) - new Date(a.createdAt || a.date || 0))
+
+const kycRequests = loadJson('./database/kyc.json', [])
+  .sort((a, b) => new Date(b.createdAt || b.reviewedAt || 0) - new Date(a.createdAt || a.reviewedAt || 0))
 
     // Calculate stats
     const totalUsers = users.length
@@ -196,6 +203,7 @@ router.post('/admin/user/:id/balance', requireAdmin, (req, res) => {
   try {
     const users = loadUsers()
     const user = users.find(u => u.id == req.params.id)
+
     if (!user) {
       setToast(req, 'error', 'User not found')
       return res.redirect('/admin/users')
@@ -203,12 +211,21 @@ router.post('/admin/user/:id/balance', requireAdmin, (req, res) => {
 
     const { balance, profit, bonus, deposit } = req.body
 
-    user.deposit = Number(deposit)
-    user.profit = Number(profit)
-    user.bonus = Number(bonus)
+    // If admin enters TOTAL balance, convert it properly
+    if (balance && !deposit && !profit && !bonus) {
+      const newBalance = Number(balance || 0)
+
+      user.deposit = newBalance
+      user.profit = 0
+      user.bonus = 0
+    } else {
+      // Normal manual edit
+      user.deposit = Number(deposit || 0)
+      user.profit = Number(profit || 0)
+      user.bonus = Number(bonus || 0)
+    }
 
     recalcUserBalance(user)
-
     saveUsers(users)
 
     logAdminAction(req, 'edit_balance', {
@@ -275,6 +292,7 @@ router.post('/admin/user/:id/delete', requireAdmin, (req, res) => {
 
 router.post('/admin/user/:id/signal', requireAdmin, (req, res) => {
   const users = loadUsers()
+  .sort((a, b) => Number(b.id || 0) - Number(a.id || 0))
   const user = users.find(u => u.id == req.params.id)
 
   if (!user) {
@@ -302,6 +320,7 @@ if (req.body.action === 'decrease') {
 router.get('/admin/withdrawals', requireAdmin, (req, res) => {
   try {
     const withdrawals = loadJson('./database/withdrawals.json', [])
+      .sort((a, b) => new Date(b.date || b.createdAt || 0) - new Date(a.date || a.createdAt || 0))
     res.render('admin/withdrawals', { admin: req.session.admin, withdrawals })
   } catch (error) {
     setToast(req, 'error', 'Error loading withdrawals')
@@ -410,6 +429,7 @@ router.post('/admin/withdraw/reject', requireAdmin, (req, res) => {
 router.get('/admin/deposits', requireAdmin, (req, res) => {
   try {
     const deposits = loadJson('./database/deposits.json', [])
+      .sort((a, b) => new Date(b.createdAt || b.date || 0) - new Date(a.createdAt || a.date || 0))
     res.render('admin/deposits', { deposits })
   } catch (error) {
     setToast(req, 'error', 'Error loading deposits')
@@ -420,6 +440,8 @@ router.get('/admin/deposits', requireAdmin, (req, res) => {
 router.get('/admin/deposit/add', requireAdmin, (req, res) => {
   try {
     const users = loadUsers()
+      .filter(u => u.role !== 'admin')
+      .sort((a, b) => Number(b.id || 0) - Number(a.id || 0))
     res.render('admin/add-deposit', { users })
   } catch (error) {
     setToast(req, 'error', 'Error loading add deposit page')
@@ -710,6 +732,8 @@ router.post('/admin/profile', requireAdmin, async (req, res) => {
 router.get('/admin/kyc', requireAdmin, (req, res) => {
   try {
     const kycRequests = loadJson('./database/kyc.json', [])
+      .sort((a, b) => new Date(b.createdAt || b.reviewedAt || 0) - new Date(a.createdAt || a.reviewedAt || 0))
+
     const users = loadUsers()
 
     res.render('admin/kyc', {

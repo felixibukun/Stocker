@@ -134,8 +134,8 @@
       </div>
       <div class="hidden md:flex items-center space-x-2 text-sm">
         <i class="fas fa-wallet text-slate-400"></i>
-        <span class="text-slate-300">Balance:</span>
-        <span class="font-bold text-white">$<%= Number(user.balance || 0).toFixed(2) %></span>
+        <span class="text-slate-300">Profit:</span>
+        <span class="font-bold text-white">$<%= Number(user.profit || 0).toFixed(2) %></span>
       </div>
     </div>
   </header>
@@ -148,8 +148,8 @@
         <div class="card-gradient border border-slate-800 rounded-2xl p-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between">
             <div>
-              <p class="text-slate-300 text-sm mb-1">Available Balance</p>
-              <p class="text-3xl font-bold">$<%= Number(user.balance || 0).toFixed(2) %></p>
+              <p class="text-slate-300 text-sm mb-1">Withdrawable Profit</p>
+              <p class="text-3xl font-bold">$<%= Number(user.profit || 0).toFixed(2) %></p>
               <p class="text-slate-400 text-sm mt-2">Minimum withdrawal: $10.00</p>
             </div>
             <button id="withdrawAllBtn" class="mt-4 sm:mt-0 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-colors">
@@ -591,7 +591,7 @@
       const quickAmounts = document.querySelectorAll('.quick-amount');
       
       // User balance
-      const userBalance = <%= Number(user.balance || 0) %>;
+      const userBalance = <%= Number(user.profit || 0) %>;
       const availableMethods = ['CashApp', 'PayPal', 'Venmo', 'BANK', 'BTC', 'USDT TRC20', 'USDT ERC20', 'ETH', 'DOGE', 'LTC', 'ApplePay', 'GooglePay', 'Zelle', 'Skrill', 'Wise', 'Revolut', 'Chime', 'Wire'];
       const cryptoMethods = ['BTC', 'USDT TRC20', 'USDT ERC20', 'ETH', 'DOGE', 'LTC'];
       const otherMethods = ['ApplePay', 'GooglePay', 'Zelle', 'Skrill', 'Wise', 'Revolut', 'Chime', 'Wire'];
@@ -893,7 +893,7 @@
           Swal.fire({
             icon: 'error',
             title: 'Insufficient Balance',
-            text: `You cannot withdraw more than your available balance of $${userBalance.toFixed(2)}`,
+            text: `You cannot withdraw more than your Withdrawable Profit of $${userBalance.toFixed(2)}`,
             confirmButtonColor: '#3b82f6'
           });
           return;
@@ -912,17 +912,8 @@
         
         // Calculate fees
         let fee = 0;
-        let feeType = '';
-        
-        if (method === 'BANK') {
-          fee = Math.max(3, amount * 0.02);
-          feeType = 'Bank Transfer Fee';
-        } else {
-          fee = Math.max(1.5, amount * 0.015);
-          feeType = 'Digital Wallet Fee';
-        }
-        
-        const netAmount = amount - fee;
+let feeType = 'Withdrawal Fee';
+const netAmount = amount;
         
         // Confirmation modal
         Swal.fire({
@@ -947,7 +938,7 @@
                   </div>
                   <div class="flex justify-between">
                     <span class="text-slate-400">${feeType}:</span>
-                    <span class="text-amber-400">-$${fee.toFixed(2)}</span>
+                    <span class="text-green-400">$0.00</span>
                   </div>
                   <div class="border-t border-slate-700 pt-2 mt-2">
                     <div class="flex justify-between font-bold">

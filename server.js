@@ -1,4 +1,5 @@
 require('dotenv').config()
+const axios = require('axios')
 const express = require('express')
 const path = require('path')
 const session = require('express-session')
@@ -89,14 +90,32 @@ app.use((req, res, next) => {
   next()
 })
 
-function getMarketPrice(symbol) {
-  const prices = {
-    'BTC/USD': 65000,
-    'ETH/USD': 3500,
-    'AAPL': 180,
-    'TSLA': 250
-  };
-  return prices[symbol] || 100;
+async function getMarketPrice(symbol) {
+  try {
+    const map = {
+      'BTC/USD': 'BTCUSDT',
+      'ETH/USD': 'ETHUSDT',
+      'BNB/USD': 'BNBUSDT',
+      'SOL/USD': 'SOLUSDT',
+      'XRP/USD': 'XRPUSDT'
+    }
+
+    const binanceSymbol = map[symbol]
+
+    if (!binanceSymbol) {
+      return 0
+    }
+
+    const response = await axios.get(
+      `https://api.binance.com/api/v3/ticker/price?symbol=${binanceSymbol}`,
+      { timeout: 7000 }
+    )
+
+    return Number(response.data.price || 0)
+  } catch (error) {
+    console.error('Live price error:', error.message)
+    return 0
+  }
 }
 
 
@@ -226,7 +245,49 @@ app.use((err, req, res, next) => {
 })
 
 
+function updateCopyTradersWeekly() {
+  const meta = loadJson('./database/copytraderMeta.json', {})
+  const lastUpdate = meta.lastUpdate ? new Date(meta.lastUpdate) : null
+  const now = new Date()
+  const sevenDays = 1000 * 60 * 60 * 24 * 7
 
+  if (lastUpdate && now - lastUpdate < sevenDays) return
+
+  const traderNames = [
+    'Alpha Trader',
+    'Signal King',
+    'Smart FX',
+    'Pro Scalper',
+    'Golden Strategy',
+    'Sharp Trader',
+    'Crypto Master',
+    'FX Legend',
+    'Swing Pro',
+    'Market Genius',
+    'Risk Manager',
+    'Precision Trader',
+    'Trend Master',
+    'Profit Maker',
+    'Steady Signal'
+  ]
+
+  const updated = traderNames.map((name, index) => ({
+    id: index + 1,
+    name,
+    winrate: Math.floor(73 + Math.random() * 18),
+    profit: Math.floor(400000 + Math.random() * 9500000),
+    minAmount: 300,
+    updatedAt: now.toISOString()
+  }))
+
+  saveJson('./database/copytraders.json', updated)
+  saveJson('./database/copytraderMeta.json', {
+    lastUpdate: now.toISOString()
+  })
+}
+
+setInterval(updateCopyTradersWeekly, 1000 * 60 * 60 * 24)
+updateCopyTradersWeekly()
 //* ===========================
 //END OF SERVER
 //=========================== */
@@ -254,6 +315,7 @@ app.listen(PORT, '0.0.0.0', () => {
     './database/subscriptions.json',
     './database/stocks.json',
     './database/copytraders.json',
+    './database/copytraderMeta.json',
     './database/following.json',
     './database/depositMethods.json',
     './database/paymentInstructions.json',

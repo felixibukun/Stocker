@@ -12,26 +12,73 @@ router.get('/dashboard', requireLogin, (req, res) => {
   const stocks = loadJson('./database/stocks.json', [])
 
   const user = users.find(u => u.id === req.session.user.id)
-  const openPositions = user.openPositions || []
 
-  if (!user) return res.redirect('/login')
+if (!user) return res.redirect('/login')
 
-  user.deposit = Number(user.deposit) || 0
-  user.balance = Number(user.balance) || 0
-  user.profit = Number(user.profit) || 0
+const openPositions = Array.isArray(user.openPositions)
+  ? user.openPositions
+      .filter(p => p && p.status !== 'closed')
+      .map(p => ({
+        ...p,
+        entryPrice: Number(p.entryPrice || p.price || 0),
+        margin: Number(p.margin || p.amount || 0),
+        leverage: Number(p.leverage || 1),
+        size: Number(p.size || p.margin || p.amount || 0),
+        pnl: Number(p.pnl || p.profit || 0),
+        side: p.side || 'buy',
+        symbol: p.symbol || 'N/A'
+      }))
+  : []
+
+user.deposit = Number(user.deposit || 0)
+user.profit = Number(user.profit || 0)
+user.bonus = Number(user.bonus || 0)
+
+recalcUserBalance(user)
+saveUsers(users)
 
   const userHoldings = holdings.filter(h => h.userId === user.id)
   const userTrades = trades.filter(t => t.userId === user.id)
   const userSubscriptions = subscriptions.filter(s => s.userId === user.id)
 
-  const wins = userTrades.filter(t => t.profit > 0).length
-  const total = userTrades.length
-  const winRate = total > 0 ? Math.round((wins / total) * 100) : 0
+  // const wins = userTrades.filter(t => t.profit > 0).length
+  // const total = userTrades.length
+  // const winRate = total > 0 ? Math.round((wins / total) * 100) : 0
 
-  const todayPL = 0
-  const riskLevel = 'low'
+  const today = new Date().toISOString().slice(0, 10)
 
-  let openTrades = userHoldings.length
+const manualTrades = userTrades.filter(t => t.type === 'manual-trade' || t.type === 'copy-trade')
+
+const closedTrades = manualTrades.filter(t => t.status === 'closed')
+const openManualTrades = manualTrades.filter(t => t.status === 'open')
+
+const winningTrades = closedTrades.filter(t => Number(t.profit || t.pnl || 0) > 0)
+
+const winRate = closedTrades.length > 0
+  ? Math.round((winningTrades.length / closedTrades.length) * 100)
+  : 0
+
+const todayPL = closedTrades
+  .filter(t => String(t.closedAt || t.timestamp || '').slice(0, 10) === today)
+  .reduce((sum, t) => sum + Number(t.profit || t.pnl || 0), 0)
+
+const liveFloatingPL = openPositions.reduce((sum, p) => {
+  return sum + Number(p.pnl || 0)
+}, 0)
+
+const totalExposure = openPositions.reduce((sum, p) => {
+  return sum + Number(p.size || p.margin || 0)
+}, 0)
+
+const availableMargin = Number(user.deposit || 0)
+
+const riskLevel = openPositions.length >= 10 || totalExposure > availableMargin * 5
+  ? 'high'
+  : openPositions.length >= 4 || totalExposure > availableMargin * 2
+  ? 'medium'
+  : 'low'
+
+  let openTrades = openPositions.length
   let totalPL = 0
 
   userHoldings.forEach(h => {
@@ -43,26 +90,34 @@ router.get('/dashboard', requireLogin, (req, res) => {
 
   res.render('user/dashboard', {
   user: {
-    id: user.id,
-    username: user.username,
-    name: user.name,
-    email: user.email,
-    balance: user.balance,
-    deposit: user.deposit,
-    profit: user.profit,
-    bonus: user.bonus,
-    signalLevel: user.signalLevel,
-    kycStatus: user.kycStatus || "Not Verified"
-  },
+  id: user.id,
+  username: user.username,
+  name: user.name,
+  email: user.email,
+  balance: user.balance,
+  deposit: user.deposit,
+  profit: user.profit,
+  bonus: user.bonus,
+  signalLevel: user.signalLevel,
+  kycStatus: user.kycStatus || "Not Verified",
+  openPositions,
+  trades: userTrades.filter(t => t.type === 'manual-trade' || t.type === 'copy-trade')
+},
   openPositions,
   openTrades,
   totalPL,
   subscriptions: userSubscriptions,
   holdings: userHoldings,
   trades: userTrades,
+  stocks,   // IMPORTANT FIX
   winRate,
-  todayPL,
-  riskLevel,
+todayPL,
+liveFloatingPL,
+totalExposure,
+availableMargin,
+closedTradesCount: closedTrades.length,
+openTradesCount: openManualTrades.length,
+riskLevel,
   admin: req.session.admin
 })
 })
@@ -114,13 +169,32 @@ if (!trader) {
 }
 
 const following = loadJson('./database/following.json', [])
-const exists = following.find(f => f.userId === user.id && f.traderId === trader.id)
-if (exists) {
-  setToast(req, 'info', 'Already following this trader')
-  return res.redirect('/copy-trader')
-}
+// const exists = following.find(f => f.userId === user.id && f.traderId === trader.id)
+// if (exists) {
+//   setToast(req, 'info', 'Already following this trader')
+//   return res.redirect('/copy-trader')
+// }
+
 
 user.deposit -= invest
+const trades = loadJson('./database/trades.json', [])
+
+trades.push({
+  id: Date.now(),
+  userId: user.id,
+  type: 'copy-trade',
+  symbol: trader.name,
+  side: 'COPY',
+  margin: invest,
+  leverage: 1,
+  size: invest,
+  price: 0,
+  profit: 0,
+  status: 'open',
+  timestamp: new Date().toISOString()
+})
+
+saveJson('./database/trades.json', trades)
 
 recalcUserBalance(user)
 
@@ -350,97 +424,161 @@ router.post('/stocks/sell', requireLogin, requireSignalActive, async (req, res) 
   }
 })
 
-router.post('/trade/execute', requireLogin, requireSignalActive, (req, res) => {
-const { side, symbol, amount, leverage } = req.body
+router.post('/trade/execute', requireLogin, requireSignalActive, async (req, res) => {
+  const { side, symbol, amount, leverage } = req.body
 
-const users = loadUsers()
-const user = users.find(u => u.id === req.session.user.id)
-if (!user) return res.redirect('/login')
+  const users = loadUsers()
+  const trades = loadJson('./database/trades.json', [])
 
-const margin = Number(amount)
-const lev = Number(leverage || 1)
+  const user = users.find(u => u.id === req.session.user.id)
+  if (!user) return res.redirect('/login')
 
-if (margin <= 0 || lev <= 0) {
-setToast(req, 'error', 'Invalid trade values')
-return res.redirect('/dashboard')
+  const margin = Number(amount)
+  const lev = Number(leverage || 1)
+
+  if (margin <= 0 || lev <= 0) {
+    setToast(req, 'error', 'Invalid trade values')
+    return res.redirect('/dashboard')
+  }
+
+  if (user.deposit < margin) {
+    setToast(req, 'error', 'Insufficient funds')
+    return res.redirect('/dashboard')
+  }
+
+  const entry = await getMarketPrice(symbol)
+
+if (!entry || entry <= 0) {
+  setToast(req, 'error', 'Live market price unavailable. Try again.')
+  return res.redirect('/dashboard')
 }
+  const size = margin * lev
 
-if (user.deposit < margin) {
-setToast(req, 'error', 'Insufficient funds')
-return res.redirect('/dashboard')
-}
+  const tradeId = Date.now()
 
-const entry = getMarketPrice(symbol)
-const size = margin * lev
+  // SAVE TRADE TO DATABASE
+  trades.push({
+    id: tradeId,
+    userId: user.id,
+    type: 'manual-trade',
+    symbol,
+    side,
+    margin,
+    leverage: lev,
+    size,
+    price: entry,
+    profit: 0,
+    status: 'open',
+    timestamp: new Date().toISOString()
+  })
 
-user.deposit -= margin
-if (!user.openPositions) user.openPositions = []
+  // KEEP OPEN POSITION
+  if (!user.openPositions) user.openPositions = []
 
-user.openPositions.push({
-id: Date.now(),
-symbol,
-side,
-margin,
-leverage: lev,
-size,
-entryPrice: entry,
-pnl: 0,
-status: 'open',
-openedAt: Date.now()
-})
+  user.openPositions.push({
+    id: tradeId,
+    symbol,
+    side,
+    margin,
+    leverage: lev,
+    size,
+    entryPrice: entry,
+    pnl: 0,
+    status: 'open',
+    openedAt: Date.now()
+  })
 
-recalcUserBalance(user)
-saveUsers(users)
-req.session.user = user
+  user.deposit -= margin
+  recalcUserBalance(user)
 
-setToast(req, 'success', 'Order executed')
-res.redirect('/dashboard')
+  saveUsers(users)
+  saveJson('./database/trades.json', trades)
+
+  req.session.user = user
+
+  setToast(req, 'success', 'Order executed')
+  res.redirect('/dashboard')
 })
 
 // Add price update loop for unrealized PnL.
+setInterval(async () => {
+  try {
+    const users = loadUsers()
 
-setInterval(() => {
-const users = loadUsers()
+    for (const u of users) {
+      if (!Array.isArray(u.openPositions)) continue
 
-users.forEach(u => {
-if (!Array.isArray(u.openPositions) || u.openPositions.length === 0) return
+      for (const p of u.openPositions) {
+        const price = await getMarketPrice(p.symbol)
+        if (!price || price <= 0) continue
 
-u.openPositions.forEach(p => {
-  const price = getMarketPrice(p.symbol)
+        p.currentPrice = price
 
-  if (p.side === 'buy') {
-p.pnl = Number((((price - p.entryPrice) / p.entryPrice) * p.margin * p.leverage).toFixed(2))
-} else {
-p.pnl = Number((((p.entryPrice - price) / p.entryPrice) * p.margin * p.leverage).toFixed(2))
-}
-})
-})
-saveUsers(users)
+        const entryPrice = Number(p.entryPrice || p.price || 0)
+        const margin = Number(p.margin || 0)
+        const leverage = Number(p.leverage || 1)
+
+        if (!entryPrice || !margin) continue
+
+        if (String(p.side).toLowerCase() === 'buy') {
+          p.pnl = ((price - entryPrice) / entryPrice) * margin * leverage
+        } else {
+          p.pnl = ((entryPrice - price) / entryPrice) * margin * leverage
+        }
+
+        // 🔥 THIS IS THE FIX
+        const trades = loadJson('./database/trades.json', [])
+        const trade = trades.find(t => t.id == p.id)
+
+        if (trade && trade.status === 'open') {
+          trade.pnl = p.pnl
+        }
+
+        saveJson('./database/trades.json', trades)
+      }
+    }
+
+    // saveUsers(users)
+  } catch (err) {
+    console.error('Live PnL update error:', err.message)
+  }
 }, 5000)
 
 // Close trade route.
-
 router.post('/trade/close', requireLogin, requireSignalActive, (req, res) => {
-const { tradeId } = req.body
+  const { tradeId } = req.body
 
-const users = loadUsers()
-const user = users.find(u => u.id === req.session.user.id)
-if (!user || !user.openPositions) return res.redirect('/dashboard')
+  const users = loadUsers()
+  const trades = loadJson('./database/trades.json', [])
 
-const pos = user.openPositions.find(p => p.id == tradeId)
-if (!pos) return res.redirect('/dashboard')
+  const user = users.find(u => u.id === req.session.user.id)
+  if (!user || !user.openPositions) return res.redirect('/dashboard')
 
-user.deposit += pos.margin
-user.profit = Number(user.profit || 0) + pos.pnl
+  const pos = user.openPositions.find(p => p.id == tradeId)
+  if (!pos) return res.redirect('/dashboard')
 
-user.openPositions = user.openPositions.filter(p => p.id != tradeId)
+  user.deposit += pos.margin
+  user.profit = Number(user.profit || 0) + pos.pnl
 
-recalcUserBalance(user)
-saveUsers(users)
-req.session.user = user
+  // UPDATE TRADE IN DATABASE
+  const trade = trades.find(t => t.id == tradeId)
+  if (trade) {
+    trade.profit = pos.pnl
+    trade.status = 'closed'
+    trade.closedAt = new Date().toISOString()
+  }
 
-setToast(req, 'success', 'Trade closed')
-res.redirect('/dashboard')
+  user.openPositions = user.openPositions.filter(p => p.id != tradeId)
+
+  recalcUserBalance(user)
+
+  saveUsers(users)
+  saveJson('./database/trades.json', trades)
+
+  req.session.user = user
+
+  setToast(req, 'success', 'Trade closed')
+  res.redirect('/dashboard')
 })
 
 /* ===========================
@@ -558,9 +696,9 @@ router.get('/withdraw', requireLogin, (req, res) => {
     const users = loadUsers()
     const user = users.find(u => u.id === req.session.user.id)
 
-    const withdrawals = loadJson('./database/withdrawals.json', []).filter(
-      w => w.userId === req.session.user.id
-    )
+    const withdrawals = loadJson('./database/withdrawals.json', [])
+  .filter(w => w.userId === req.session.user.id)
+  .sort((a, b) => new Date(b.date || b.createdAt || 0) - new Date(a.date || a.createdAt || 0))
 
     res.render('user/withdraw', {
       user,
@@ -660,9 +798,9 @@ router.get('/withdraw-history', requireLogin, (req, res) => {
   try {
     const userId = req.session.user.id
 
-    const withdrawals = loadJson('./database/withdrawals.json', []).filter(
-      w => w.userId === userId
-    )
+    const withdrawals = loadJson('./database/withdrawals.json', [])
+  .filter(w => w.userId === req.session.user.id)
+  .sort((a, b) => new Date(b.date || b.createdAt || 0) - new Date(a.date || a.createdAt || 0))
 
     const users = loadUsers()
     const user = users.find(u => u.id === userId)
@@ -1082,7 +1220,10 @@ router.get('/pl-record', requireLogin, (req, res) => {
 
 router.get('/trading-history', requireLogin, (req, res) => {
   const trades = loadJson('./database/trades.json', [])
-    .filter(t => t.userId === req.session.user.id)
+    .filter(t =>
+      t.userId === req.session.user.id &&
+      (t.type === 'manual-trade' || t.type === 'copy-trade')
+    )
 
   res.render('user/trading-history', {
     user: req.session.user,
@@ -1097,7 +1238,9 @@ router.get('/transactions-history', requireLogin, (req, res) => {
   const withdrawals = loadJson('./database/withdrawals.json', [])
     .filter(x => x.userId === req.session.user.id)
 
-  const transactions = [...deposits, ...withdrawals]
+  const transactions = [...deposits, ...withdrawals].sort((a, b) => {
+  return new Date(b.createdAt || b.date || 0) - new Date(a.createdAt || a.date || 0)
+})
 
   res.render('user/transactions-history', {
     user: req.session.user,
