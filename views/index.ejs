@@ -402,6 +402,55 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+
+
+    /* Internet media enhancements */
+    .media-cover {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .media-card-img {
+      width: 100%;
+      height: 11rem;
+      object-fit: cover;
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      margin-bottom: 1.25rem;
+      opacity: 0.9;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+    .group:hover .media-card-img {
+      transform: scale(1.04);
+      opacity: 1;
+    }
+
+    .video-frame {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .video-frame video,
+    .video-frame iframe,
+    .video-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-media-overlay {
+      background:
+        radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.30), transparent 32%),
+        linear-gradient(90deg, rgba(2, 6, 23, 0.92), rgba(15, 23, 42, 0.72), rgba(2, 6, 23, 0.88));
+    }
+
     /* Mobile Responsive Fixes */
     @media (max-width: 640px) {
       /* Header fixes */
@@ -1488,6 +1537,13 @@
   <main class="relative">
     <!-- Hero Section -->
     <section id="hero" class="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
+      <!-- Internet Hero Background Video -->
+      <div class="absolute inset-0 -z-10 overflow-hidden">
+        <!-- <video autoplay muted loop playsinline preload="metadata" poster="https://images.unsplash.com/photo-1642790551116-18e150f248e3?auto=format&fit=crop&w=1920&q=80" class="media-cover opacity-35">
+          <source src="https://cdn.coverr.co/videos/coverr-stock-market-display-9205/1080p.mp4" type="video/mp4">
+        </video> -->
+        <div class="absolute inset-0 hero-media-overlay"></div>
+      </div>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <!-- Hero Content -->
@@ -1560,6 +1616,14 @@
           <div class="relative animate-fade-in">
             <div class="absolute -inset-8 bg-gradient-primary/10 blur-3xl rounded-full"></div>
             <div class="relative bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-3xl p-6 card-hover">
+              <div class="video-frame h-48 mb-6">
+                <img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=1200&q=80" alt="Live trading dashboard preview" class="media-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/25 to-transparent"></div>
+                <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                  <span class="text-xs font-semibold text-white bg-slate-950/70 border border-white/10 rounded-full px-3 py-1">Live Market Workspace</span>
+                  <span class="text-xs text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1">Online</span>
+                </div>
+              </div>
               <!-- Account Header -->
               <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center gap-3">
@@ -1874,6 +1938,46 @@
 </section>
 
 
+    <!-- Internet Platform Video Section -->
+    <section class="py-20 fade-section">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 mb-4">
+              <i data-lucide="play-circle" class="w-4 h-4 text-emerald-400"></i>
+              <span class="text-sm font-medium text-emerald-300">Platform Preview</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">A Visual Trading Experience</h2>
+            <p class="text-lg text-slate-400 mb-6">
+              Give visitors an immediate feel of active markets, live charts, and professional account tools before they sign up.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="rounded-2xl bg-slate-900/60 border border-slate-800 p-4">
+                <i data-lucide="candlestick-chart" class="w-6 h-6 text-primary-400 mb-3"></i>
+                <p class="text-sm font-semibold text-white">Live charts</p>
+                <p class="text-xs text-slate-400 mt-1">Market movement view</p>
+              </div>
+              <div class="rounded-2xl bg-slate-900/60 border border-slate-800 p-4">
+                <i data-lucide="smartphone" class="w-6 h-6 text-emerald-400 mb-3"></i>
+                <p class="text-sm font-semibold text-white">Mobile ready</p>
+                <p class="text-xs text-slate-400 mt-1">Responsive layout</p>
+              </div>
+              <div class="rounded-2xl bg-slate-900/60 border border-slate-800 p-4">
+                <i data-lucide="shield-check" class="w-6 h-6 text-amber-400 mb-3"></i>
+                <p class="text-sm font-semibold text-white">Trust focused</p>
+                <p class="text-xs text-slate-400 mt-1">Clear user flow</p>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="video-frame h-[320px] md:h-[430px] shadow-2xl shadow-primary-950/40">
+            <video autoplay muted loop playsinline controls preload="metadata" poster="https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=1600&q=80">
+              <source src="https://cdn.coverr.co/videos/coverr-stock-market-display-9205/1080p.mp4" type="video/mp4">
+            </video>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
     <!-- Advanced Trading Tools -->
     <section id="advanced-tools" class="py-20 fade-section">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -2027,17 +2131,16 @@
                       <p class="text-xs text-emerald-400">+1.8% (24h)</p>
                     </div>
                   </div>
-                  <div class="chart-container">
-                    <!-- Simulated chart -->
-                    <div class="h-full flex items-end gap-1">
-                      <div class="flex-1 h-20 rounded-t-lg bg-gradient-to-t from-primary-600 to-primary-500/60"></div>
-                      <div class="flex-1 h-16 rounded-t-lg bg-gradient-to-t from-primary-600 to-primary-500/60"></div>
-                      <div class="flex-1 h-24 rounded-t-lg bg-gradient-to-t from-emerald-500 to-emerald-400/60"></div>
-                      <div class="flex-1 h-18 rounded-t-lg bg-gradient-to-t from-primary-600 to-primary-500/60"></div>
-                      <div class="flex-1 h-22 rounded-t-lg bg-gradient-to-t from-emerald-500 to-emerald-400/60"></div>
-                      <div class="flex-1 h-14 rounded-t-lg bg-gradient-to-t from-primary-600 to-primary-500/60"></div>
-                      <div class="flex-1 h-20 rounded-t-lg bg-gradient-to-t from-emerald-500 to-emerald-400/60"></div>
-                    </div>
+                  <div class="video-frame h-full min-h-[180px]">
+                    <iframe
+                      title="BTC/USD live TradingView chart"
+                      src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_btc_home&symbol=BINANCE%3ABTCUSDT&interval=60&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=111827&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC&withdateranges=1&hideideas=1"
+                      width="100%"
+                      height="100%"
+                      frameborder="0"
+                      allowtransparency="true"
+                      scrolling="no">
+                    </iframe>
                   </div>
                 </div>
               </div>
@@ -2066,6 +2169,7 @@
           <div class="group relative overflow-hidden bg-slate-900/50 border border-slate-800 rounded-2xl p-6 card-hover">
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-emerald-500/10 blur-3xl"></div>
             <div class="relative z-10">
+              <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80" alt="Forex trading workspace" class="media-card-img" loading="lazy">
               <div class="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4">
                 <i data-lucide="globe" class="w-6 h-6 text-emerald-400"></i>
               </div>
@@ -2092,6 +2196,7 @@
           <div class="group relative overflow-hidden bg-slate-900/50 border border-slate-800 rounded-2xl p-6 card-hover">
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-primary-500/10 blur-3xl"></div>
             <div class="relative z-10">
+              <img src="https://images.unsplash.com/photo-1621504450181-5d356f61d307?auto=format&fit=crop&w=900&q=80" alt="Cryptocurrency market visual" class="media-card-img" loading="lazy">
               <div class="h-12 w-12 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center mb-4">
                 <i data-lucide="bitcoin" class="w-6 h-6 text-primary-400"></i>
               </div>
@@ -2118,6 +2223,7 @@
           <div class="group relative overflow-hidden bg-slate-900/50 border border-slate-800 rounded-2xl p-6 card-hover">
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/10 blur-3xl"></div>
             <div class="relative z-10">
+              <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80" alt="Stock market chart visual" class="media-card-img" loading="lazy">
               <div class="h-12 w-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4">
                 <i data-lucide="chart-line" class="w-6 h-6 text-blue-400"></i>
               </div>
@@ -2144,6 +2250,7 @@
           <div class="group relative overflow-hidden bg-slate-900/50 border border-slate-800 rounded-2xl p-6 card-hover">
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-purple-500/10 blur-3xl"></div>
             <div class="relative z-10">
+              <img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80" alt="Global indices trading screen" class="media-card-img" loading="lazy">
               <div class="h-12 w-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-4">
                 <i data-lucide="bar-chart-3" class="w-6 h-6 text-purple-400"></i>
               </div>
@@ -2170,6 +2277,7 @@
           <div class="group relative overflow-hidden bg-slate-900/50 border border-slate-800 rounded-2xl p-6 card-hover">
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/10 blur-3xl"></div>
             <div class="relative z-10">
+              <img src="https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=900&q=80" alt="Gold commodity market visual" class="media-card-img" loading="lazy">
               <div class="h-12 w-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-4">
                 <i data-lucide="gem" class="w-6 h-6 text-amber-400"></i>
               </div>
@@ -2356,6 +2464,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Beginner Course -->
           <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 card-hover">
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=900&q=80" alt="Beginner trading education" class="media-card-img" loading="lazy">
             <div class="h-12 w-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4">
               <i data-lucide="book-open" class="w-6 h-6 text-blue-400"></i>
             </div>
@@ -2385,6 +2494,7 @@
           
           <!-- Advanced Strategies -->
           <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 card-hover">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80" alt="Advanced trading analytics" class="media-card-img" loading="lazy">
             <div class="h-12 w-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-4">
               <i data-lucide="brain" class="w-6 h-6 text-purple-400"></i>
             </div>
@@ -2414,6 +2524,7 @@
           
           <!-- Webinars -->
           <div class="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 card-hover">
+            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=900&q=80" alt="Live trading webinar" class="media-card-img" loading="lazy">
             <div class="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4">
               <i data-lucide="video" class="w-6 h-6 text-emerald-400"></i>
             </div>
@@ -2616,9 +2727,7 @@
             <!-- Testimonial 1 -->
             <div class="min-w-[300px] md:min-w-[400px] bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 mr-6">
               <div class="flex items-center gap-3 mb-4">
-                <div class="h-12 w-12 rounded-full bg-gradient-primary flex items-center justify-center">
-                  <span class="text-white font-bold">S</span>
-                </div>
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Samuel Chen" class="h-12 w-12 rounded-full object-cover border border-slate-700">
                 <div>
                   <h4 class="font-semibold text-white">Samuel Chen</h4>
                   <p class="text-sm text-slate-400">Forex Trader • 2 years</p>
@@ -2640,9 +2749,7 @@
             <!-- Testimonial 2 -->
             <div class="min-w-[300px] md:min-w-[400px] bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 mr-6">
               <div class="flex items-center gap-3 mb-4">
-                <div class="h-12 w-12 rounded-full bg-gradient-success flex items-center justify-center">
-                  <span class="text-white font-bold">R</span>
-                </div>
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Rita Martinez" class="h-12 w-12 rounded-full object-cover border border-slate-700">
                 <div>
                   <h4 class="font-semibold text-white">Rita Martinez</h4>
                   <p class="text-sm text-slate-400">Crypto Investor • 1 year</p>
@@ -2664,9 +2771,7 @@
             <!-- Testimonial 3 -->
             <div class="min-w-[300px] md:min-w-[400px] bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 mr-6">
               <div class="flex items-center gap-3 mb-4">
-                <div class="h-12 w-12 rounded-full bg-gradient-to-br from-primary-600 to-indigo-500 flex items-center justify-center">
-                  <span class="text-white font-bold">M</span>
-                </div>
+                <img src="https://randomuser.me/api/portraits/men/46.jpg" alt="Michael Johnson" class="h-12 w-12 rounded-full object-cover border border-slate-700">
                 <div>
                   <h4 class="font-semibold text-white">Michael Johnson</h4>
                   <p class="text-sm text-slate-400">Copy Trading • 8 months</p>
@@ -2688,9 +2793,7 @@
             <!-- Testimonial 4 -->
             <div class="min-w-[300px] md:min-w-[400px] bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 mr-6">
               <div class="flex items-center gap-3 mb-4">
-                <div class="h-12 w-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
-                  <span class="text-white font-bold">A</span>
-                </div>
+                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Alex Thompson" class="h-12 w-12 rounded-full object-cover border border-slate-700">
                 <div>
                   <h4 class="font-semibold text-white">Alex Thompson</h4>
                   <p class="text-sm text-slate-400">Stocks Trader • 3 years</p>
@@ -2763,6 +2866,14 @@
           <div class="relative">
             <div class="absolute -inset-8 bg-gradient-primary/10 blur-3xl rounded-3xl"></div>
             <div class="relative bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-3xl p-8">
+              <div class="video-frame h-64 mb-6">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80" alt="Trading platform on laptop and mobile" class="media-cover" loading="lazy">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                <div class="absolute bottom-4 left-4">
+                  <p class="text-sm font-semibold text-white">Web, mobile, and desktop access</p>
+                  <p class="text-xs text-slate-300 mt-1">One account across all devices</p>
+                </div>
+              </div>
               <div class="grid grid-cols-2 gap-4 mb-8">
                 <a href="/login" class="flex items-center justify-center gap-3 py-4 rounded-xl bg-slate-900 border border-slate-700 hover:bg-slate-800 transition-colors">
                   <i data-lucide="windows" class="w-6 h-6"></i>
@@ -2801,6 +2912,8 @@
     <section class="py-20 fade-section">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary-600 via-indigo-600 to-blue-600 p-8 md:p-12">
+          <img src="https://images.unsplash.com/photo-1642790551116-18e150f248e3?auto=format&fit=crop&w=1600&q=80" alt="Trading market background" class="absolute inset-0 w-full h-full object-cover opacity-20">
+          <div class="absolute inset-0 bg-gradient-to-r from-primary-950/80 via-indigo-950/70 to-blue-950/80"></div>
           <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
           <div class="absolute bottom-0 right-0 w-64 h-64 bg-white/10 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
           
@@ -2840,6 +2953,10 @@
               <span class="text-sm font-medium text-slate-300">About Us</span>
             </div>
             <h2 class="text-3xl font-bold text-white mb-6">Professional Trading Platform</h2>
+            <div class="video-frame h-64 mb-6">
+              <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80" alt="Professional finance team" class="media-cover" loading="lazy">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 to-transparent"></div>
+            </div>
             <p class="text-slate-400 mb-6">
               Global Equinox Trade has been providing professional trading services since 2015. 
               We've built our reputation on transparency, reliability, and innovation in the trading industry.

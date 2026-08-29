@@ -1773,5 +1773,57 @@ document.addEventListener('submit', e => {
 });
 </script>
 
+<!-- Dashboard Support Chat Icon Only -->
+<style>
+  #dashboardSupportBtn {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 9999;
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 18px 45px rgba(79,70,229,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  #dashboardSupportBtn:hover {
+    transform: translateY(-2px);
+  }
+</style>
+
+<button id="dashboardSupportBtn" type="button" aria-label="Open support chat">
+  💬
+</button>
+
+<script type="text/javascript">
+  var _smartsupp = _smartsupp || {};
+  _smartsupp.key = "fb9686b2c414dc4e535f3ee4893b830b3c02230b";
+
+  window.smartsupp || (function(d) {
+    var s, c, o = smartsupp = function() { o._.push(arguments) };
+    o._ = [];
+    s = d.getElementsByTagName("script")[0];
+    c = d.createElement("script");
+    c.type = "text/javascript";
+    c.charset = "utf-8";
+    c.async = true;
+    c.src = "https://www.smartsuppchat.com/loader.js?";
+    s.parentNode.insertBefore(c, s);
+  })(document);
+
+  document.getElementById("dashboardSupportBtn").addEventListener("click", function () {
+    if (typeof smartsupp === "function") {
+      smartsupp("chat:open");
+    }
+  });
+</script>
+
 </body>
 </html>

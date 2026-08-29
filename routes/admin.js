@@ -145,6 +145,7 @@ const kycRequests = loadJson('./database/kyc.json', [])
 router.get('/admin/users', requireAdmin, (req, res) => {
   try {
     const users = loadUsers()
+      .sort((a, b) => Number(b.id || 0) - Number(a.id || 0))
     res.render('admin/users', { admin: req.session.admin, users })
   } catch (error) {
     setToast(req, 'error', 'Error loading users')
