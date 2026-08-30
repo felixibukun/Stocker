@@ -85,6 +85,11 @@ try {
 const { traderId, amount } = req.body
 const invest = Number(amount)
 
+if (req.body.confirmCopy !== 'yes') {
+  setToast(req, 'error', 'Please confirm copy trading before continuing')
+  return res.redirect('/copy-trader')
+}
+
 if (!invest || invest <= 0) {
   setToast(req, 'error', 'Invalid investment amount')
   return res.redirect('/copy-trader')

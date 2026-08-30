@@ -200,7 +200,7 @@
 
             <!-- Copy Form -->
             <div class="p-6">
-              <form action="/copy-trader/follow" method="POST" class="space-y-4">
+              <form action="/copy-trader/follow" method="POST" class="copy-trader-form space-y-4">
                 <input type="hidden" name="traderId" value="<%= trader.id %>">
                 
                 <div>
@@ -223,8 +223,9 @@
 
                 <div class="space-y-3">
                   <button
-                    type="submit"
-                    class="w-full py-3 rounded-xl bg-gradient-to-r from-primary-600 to-purple-600 hover:from-primary-700 hover:to-purple-700 text-white font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary-600/25 flex items-center justify-center space-x-2"
+                    type="button"
+                    class="copy-trader-button w-full py-3 rounded-xl bg-gradient-to-r from-primary-600 to-purple-600 hover:from-primary-700 hover:to-purple-700 text-white font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary-600/25 flex items-center justify-center space-x-2"
+                    data-trader-name="<%= trader.name %>"
                   >
                     <i data-lucide="copy" class="w-4 h-4"></i>
                     <span>Copy This Trader</span>
@@ -285,6 +286,40 @@
       // Add trader card animations
       document.querySelectorAll('.card-glow').forEach((card, index) => {
         card.style.animationDelay = `${index * 100}ms`;
+      });
+
+      document.querySelectorAll('.copy-trader-button').forEach(button => {
+        button.addEventListener('click', async function () {
+          const form = this.closest('.copy-trader-form');
+          const amountInput = form.querySelector('input[name="amount"]');
+
+          if (!amountInput.reportValidity()) return;
+
+          const result = await Swal.fire({
+            icon: 'warning',
+            title: 'Confirm copy trading',
+            text: `Start copying ${this.dataset.traderName} with $${amountInput.value}?`,
+            showCancelButton: true,
+            confirmButtonText: 'Confirm Copy Trading',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#4f46e5',
+            cancelButtonColor: '#475569',
+            background: '#1e293b',
+            color: '#f8fafc'
+          });
+
+          if (!result.isConfirmed) return;
+
+          let confirmedInput = form.querySelector('input[name="confirmCopy"]');
+          if (!confirmedInput) {
+            confirmedInput = document.createElement('input');
+            confirmedInput.type = 'hidden';
+            confirmedInput.name = 'confirmCopy';
+            form.appendChild(confirmedInput);
+          }
+          confirmedInput.value = 'yes';
+          form.submit();
+        });
       });
     });
   </script>

@@ -2,7 +2,7 @@ const express = require('express')
 
 module.exports = function createRoutes(deps) {
   const router = express.Router()
-  const { BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, saveJson, saveUsers, setToast } = deps
+  const { BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, saveJson, saveUsers, setToast, sortUsersNewestFirst } = deps
 
 /* ===========================
 ADMIN SECTION
@@ -137,7 +137,7 @@ router.get('/admin', requireAdmin, (req, res) => {
 
 router.get('/admin/users', requireAdmin, (req, res) => {
   try {
-    const users = loadUsers()
+    const users = sortUsersNewestFirst(loadUsers())
     res.render('admin/users', { admin: req.session.admin, users })
   } catch (error) {
     setToast(req, 'error', 'Error loading users')

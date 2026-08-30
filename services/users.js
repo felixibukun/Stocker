@@ -62,9 +62,22 @@ function recalcUserBalance(user) {
   user.balance = user.deposit + user.profit + user.bonus
 }
 
+function userCreatedTime(user) {
+  const createdAtTime = Date.parse(user?.createdAt)
+  if (!Number.isNaN(createdAtTime)) return createdAtTime
+
+  const idTime = Number(user?.id)
+  return Number.isFinite(idTime) ? idTime : 0
+}
+
+function sortUsersNewestFirst(users) {
+  return [...users].sort((a, b) => userCreatedTime(b) - userCreatedTime(a))
+}
+
 module.exports = {
   ensureSignalLevel,
   loadUsers,
   recalcUserBalance,
-  saveUsers
+  saveUsers,
+  sortUsersNewestFirst
 }
