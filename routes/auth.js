@@ -28,6 +28,7 @@ router.post('/signup', authLimit, async (req, res) => {
       phone,
       country,
       password: hashedPassword,
+      createdAt: new Date().toISOString(),
       balance: 0,
       profit: 0,
       bonus: 0,

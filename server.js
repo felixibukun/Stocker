@@ -13,7 +13,7 @@ const { createAuthMiddleware } = require('./middleware/auth')
 const { upload } = require('./middleware/upload')
 const { loadJson, saveJson } = require('./services/jsonStore')
 const { notify } = require('./services/notifications')
-const { ensureSignalLevel, loadUsers, recalcUserBalance, saveUsers } = require('./services/users')
+const { ensureSignalLevel, loadUsers, recalcUserBalance, saveUsers, sortUsersNewestFirst } = require('./services/users')
 const createPublicRoutes = require('./routes/public')
 const createAuthRoutes = require('./routes/auth')
 const createUserRoutes = require('./routes/user')
@@ -234,7 +234,7 @@ DASHBOARD
 app.use(createPublicRoutes({ loadJson, saveJson, setToast }))
 app.use(createAuthRoutes({ BCRYPT_ROUNDS, authLimit, bcrypt, loadUsers, saveUsers, setToast }))
 app.use(createUserRoutes({ bcrypt, getMarketPrice, loadJson, loadUsers, notify, recalcUserBalance, requireLogin, requireSignalActive, saveJson, saveUsers, setToast, upload }))
-app.use(createAdminRoutes({ BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, saveJson, saveUsers, setToast }))
+app.use(createAdminRoutes({ BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, saveJson, saveUsers, setToast, sortUsersNewestFirst }))
 
 app.use((err, req, res, next) => {
   if (err && (err.message === 'Invalid file type' || err.code === 'LIMIT_FILE_SIZE')) {
