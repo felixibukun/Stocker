@@ -111,7 +111,8 @@
   const money = (n) => Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const btcPrice = Number((cryptoPrices && cryptoPrices.btc) || 67432.15);
   const btcEq = (Number(user.balance || 0) / btcPrice).toFixed(6);
-  const verified = user.kycStatus === 'Verified';
+  const verified = String(user.kycStatus || '').trim().toLowerCase() === 'verified';
+  const kycPending = String(user.kycStatus || '').trim().toLowerCase() === 'pending';
   const initial = (user.name || user.username).slice(0, 1).toUpperCase();
   const signalSource = typeof accountSignal !== 'undefined' && accountSignal !== null
     ? accountSignal
@@ -177,6 +178,8 @@
           <span class="text-xs text-slate-500">Standard</span>
           <% if (verified) { %>
             <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-medium">Verified</span>
+          <% } else if (kycPending) { %>
+            <span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 font-medium">Pending review</span>
           <% } else { %>
             <span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 font-medium">Unverified</span>
           <% } %>
@@ -208,6 +211,7 @@
       <i data-lucide="shield" class="w-5 h-5"></i><span>KYC</span>
       <% if (!verified) { %><i data-lucide="clock" class="w-4 h-4 text-amber-500 ml-auto"></i><% } %>
     </a>
+    <a href="/support" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors"><i data-lucide="message-circle" class="w-5 h-5"></i><span>Support</span></a>
     <a href="/packages" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors"><i data-lucide="sun" class="w-5 h-5"></i><span>Packages</span></a>
     <a href="/package-history" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors"><i data-lucide="package" class="w-5 h-5"></i><span>Package History</span></a>
 
@@ -346,6 +350,8 @@
             </span>
             <% if (verified) { %>
               <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold"><i data-lucide="badge-check" class="w-3.5 h-3.5"></i> Verified</span>
+            <% } else if (kycPending) { %>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold"><i data-lucide="clock" class="w-3.5 h-3.5"></i> Pending review</span>
             <% } else { %>
               <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-50 text-red-600 text-xs font-semibold"><i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Unverified</span>
             <% } %>
@@ -364,29 +370,29 @@
           <div class="grid grid-cols-2 gap-4">
             <div class="card card-hover p-5">
               <div class="flex items-center justify-between">
-                <span class="text-sm text-slate-500">Total Profit</span>
+                <span class="text-sm text-slate-500">Profit Available</span>
                 <span class="h-8 w-8 rounded-full bg-emerald-50 flex items-center justify-center"><i data-lucide="dollar-sign" class="w-4 h-4 text-emerald-600"></i></span>
               </div>
               <p class="text-2xl font-bold font-display mt-3 <%= (user.totalProfit || 0) >= 0 ? 'text-emerald-600' : 'text-red-600' %>">$<%= money(user.totalProfit) %></p>
-              <p class="text-xs text-slate-400 mt-2 flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> Last period</p>
+              <p class="text-xs text-slate-400 mt-2">After requested withdrawals</p>
             </div>
 
             <div class="card card-hover p-5">
               <div class="flex items-center justify-between">
-                <span class="text-sm text-slate-500">Total Deposit</span>
+                <span class="text-sm text-slate-500">Deposit</span>
                 <span class="h-8 w-8 rounded-full bg-brand-50 flex items-center justify-center"><i data-lucide="arrow-down" class="w-4 h-4 text-brand-600"></i></span>
               </div>
-              <p class="text-2xl font-bold font-display mt-3">$<%= money(user.totalDeposit) %></p>
-              <p class="text-xs text-slate-400 mt-2 flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> All time</p>
+              <p class="text-2xl font-bold font-display mt-3">$<%= money(user.depositBalance) %></p>
+              <p class="text-xs text-slate-400 mt-2">Current funds available for trading</p>
             </div>
 
             <div class="card card-hover p-5">
               <div class="flex items-center justify-between">
-                <span class="text-sm text-slate-500">Total Withdrawal</span>
+                <span class="text-sm text-slate-500">Withdrawals Paid</span>
                 <span class="h-8 w-8 rounded-full bg-rose-50 flex items-center justify-center"><i data-lucide="arrow-up" class="w-4 h-4 text-rose-600"></i></span>
               </div>
               <p class="text-2xl font-bold font-display mt-3">$<%= money(user.totalWithdrawal) %></p>
-              <p class="text-xs text-slate-400 mt-2 flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> All time</p>
+              <p class="text-xs text-slate-400 mt-2">$<%= money(user.pendingWithdrawal) %> pending</p>
             </div>
 
             <div class="card card-hover p-5">
@@ -422,9 +428,9 @@
       <% if (!verified) { %>
       <div class="card p-6 sm:p-8 text-center">
         <span class="mx-auto h-14 w-14 rounded-2xl bg-brand-50 flex items-center justify-center"><i data-lucide="shield-check" class="w-7 h-7 text-brand-600"></i></span>
-        <h3 class="text-xl font-semibold font-display mt-4">Identity Verification</h3>
-        <p class="text-sm text-slate-500 mt-2 max-w-md mx-auto">Verify your identity to unlock withdrawals, higher limits and full account protection.</p>
-        <a href="/kyc-verification" class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold mt-5"><i data-lucide="shield" class="w-4 h-4"></i> Verify Now</a>
+        <h3 class="text-xl font-semibold font-display mt-4"><%= kycPending ? 'Verification in review' : 'Identity Verification' %></h3>
+        <p class="text-sm text-slate-500 mt-2 max-w-md mx-auto"><%= kycPending ? 'Your documents were submitted and are waiting for admin review.' : 'Verify your identity to unlock withdrawals, higher limits and full account protection.' %></p>
+        <% if (!kycPending) { %><a href="/kyc-verification" class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold mt-5"><i data-lucide="shield" class="w-4 h-4"></i> Verify Now</a><% } %>
       </div>
       <% } %>
 
@@ -536,7 +542,7 @@
         <a href="/kyc-verification" class="card card-hover p-5">
           <span class="h-11 w-11 rounded-xl bg-brand-50 flex items-center justify-center mb-4"><i data-lucide="shield-check" class="w-5 h-5 text-brand-600"></i></span>
           <h4 class="font-semibold mb-1">KYC</h4>
-          <p class="text-xs text-slate-500"><%= verified ? 'Verified ✓' : 'Complete now' %></p>
+          <p class="text-xs text-slate-500"><%= verified ? 'Verified ✓' : (kycPending ? 'Pending review' : 'Complete now') %></p>
         </a>
         <a href="/copy-trader" class="card card-hover p-5">
           <span class="h-11 w-11 rounded-xl bg-purple-50 flex items-center justify-center mb-4"><i data-lucide="users" class="w-5 h-5 text-purple-600"></i></span>
@@ -547,6 +553,11 @@
           <span class="h-11 w-11 rounded-xl bg-amber-50 flex items-center justify-center mb-4"><i data-lucide="sun" class="w-5 h-5 text-amber-600"></i></span>
           <h4 class="font-semibold mb-1">Packages</h4>
           <p class="text-xs text-slate-500">Upgrade plan</p>
+        </a>
+        <a href="/support" class="card card-hover p-5">
+          <span class="h-11 w-11 rounded-xl bg-cyan-50 flex items-center justify-center mb-4"><i data-lucide="message-circle" class="w-5 h-5 text-cyan-600"></i></span>
+          <h4 class="font-semibold mb-1">Support</h4>
+          <p class="text-xs text-slate-500">Chat with our support team</p>
         </a>
       </div>
     </div>

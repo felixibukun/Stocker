@@ -52,8 +52,12 @@ saveUsers(users)
   })
   const userTrades = trades.filter(t => t.userId === user.id)
   const userSubscriptions = subscriptions.filter(s => s.userId === user.id)
-  const totalWithdrawal = withdrawals
-    .filter(w => w.userId === user.id && w.status === 'approved')
+  const userWithdrawals = withdrawals.filter(w => String(w.userId) === String(user.id))
+  const totalWithdrawal = userWithdrawals
+    .filter(w => w.status === 'approved')
+    .reduce((sum, withdrawal) => sum + Number(withdrawal.amount || 0), 0)
+  const pendingWithdrawal = userWithdrawals
+    .filter(w => w.status === 'pending')
     .reduce((sum, withdrawal) => sum + Number(withdrawal.amount || 0), 0)
 
   // const wins = userTrades.filter(t => t.profit > 0).length
@@ -138,8 +142,9 @@ const riskLevel = openPositions.length >= 10 || totalExposure > availableMargin 
   deposit: user.deposit,
   profit: user.profit,
   totalProfit: user.profit,
-  totalDeposit: user.deposit,
+  depositBalance: user.deposit,
   totalWithdrawal,
+  pendingWithdrawal,
   bonus: user.bonus,
   signal: user.signalLevel ?? 100,
   signalLevel: user.signalLevel,
@@ -303,9 +308,8 @@ router.get('/subscription-trade', requireLogin, (req, res) => {
 })
 
 router.get('/quick-trade', requireLogin, (req, res) => {
-  const stocks = loadJson('./database/stocks.json', [])
   const user = loadUsers().find(u => u.id === req.session.user.id) || req.session.user
-  res.render('user/stocks', { user, stocks, pageTitle: 'Quick Trade', currentPath: '/quick-trade' })
+  res.render('user/quick-trade', { user, currentPath: '/quick-trade' })
 })
 
 /* ===========================
@@ -497,22 +501,23 @@ router.post('/trade/execute', requireLogin, requireSignalActive, async (req, res
 
   const margin = Number(amount)
   const lev = Number(leverage || 1)
+  const supportedSymbols = ['BTC/USD', 'ETH/USD', 'BNB/USD', 'SOL/USD', 'XRP/USD']
 
-  if (margin <= 0 || lev <= 0) {
+  if (!['buy', 'sell'].includes(String(side).toLowerCase()) || !supportedSymbols.includes(symbol) || !Number.isFinite(margin) || margin <= 0 || !Number.isFinite(lev) || lev < 1 || lev > 20) {
     setToast(req, 'error', 'Invalid trade values')
-    return res.redirect('/dashboard')
+    return res.redirect('/quick-trade')
   }
 
   if (user.deposit < margin) {
     setToast(req, 'error', 'Insufficient funds')
-    return res.redirect('/dashboard')
+    return res.redirect('/quick-trade')
   }
 
   const entry = await getMarketPrice(symbol)
 
 if (!entry || entry <= 0) {
   setToast(req, 'error', 'Live market price unavailable. Try again.')
-  return res.redirect('/dashboard')
+  return res.redirect('/quick-trade')
 }
   const size = margin * lev
 
@@ -559,7 +564,7 @@ if (!entry || entry <= 0) {
   req.session.user = user
 
   setToast(req, 'success', 'Order executed')
-  res.redirect('/dashboard')
+  res.redirect('/quick-trade')
 })
 
 // Add price update loop for unrealized PnL.
@@ -695,6 +700,9 @@ createdAt: new Date().toISOString()
 
     kycRequests.push(entry)
     saveJson('./database/kyc.json', kycRequests)
+    user.kycStatus = 'pending'
+    saveUsers(users)
+    req.session.user = user
 
     await notify(
       user.email,
@@ -793,8 +801,13 @@ router.post('/withdraw', requireLogin, requireSignalActive, async (req, res) => 
 
     const amt = Number(amount)
 
-    if (amt <= 0) {
+    if (!Number.isFinite(amt) || amt <= 0) {
       setToast(req, 'error', 'Invalid amount')
+      return res.redirect('/withdraw')
+    }
+
+    if (!user) {
+      setToast(req, 'error', 'User not found')
       return res.redirect('/withdraw')
     }
 

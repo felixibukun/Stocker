@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Quick Trade • Stocker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background: #030712; }
+    @media (max-width: 767px) { body { padding-bottom: 110px; } }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 font-sans">
+  <header class="border-b border-white/10 bg-slate-950/90">
+    <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
+      <div>
+        <p class="text-xs text-cyan-300">STOCKER • TRADING</p>
+        <h1 class="mt-1 text-xl font-bold">Quick Trade</h1>
+      </div>
+      <a href="/dashboard" class="rounded-lg border border-white/10 px-3 py-2 text-sm text-slate-300 hover:text-white">Dashboard</a>
+    </div>
+  </header>
+
+  <main class="mx-auto grid max-w-5xl gap-5 px-4 py-8 md:grid-cols-[1.2fr_.8fr]">
+    <section class="rounded-2xl border border-white/10 bg-slate-900/70 p-5 sm:p-7">
+      <div class="mb-6">
+        <p class="text-sm font-semibold">Open a crypto trade</p>
+        <p class="mt-1 text-sm text-slate-400">Choose a market, direction, margin, and leverage.</p>
+      </div>
+      <form action="/trade/execute" method="POST" class="space-y-5">
+        <label class="block text-sm text-slate-300">Market
+          <select name="symbol" required class="mt-2 w-full rounded-xl border border-white/10 bg-slate-950 px-4 py-3 text-white focus:border-cyan-400 focus:outline-none">
+            <option value="BTC/USD">Bitcoin · BTC/USD</option>
+            <option value="ETH/USD">Ethereum · ETH/USD</option>
+            <option value="BNB/USD">BNB · BNB/USD</option>
+            <option value="SOL/USD">Solana · SOL/USD</option>
+            <option value="XRP/USD">XRP · XRP/USD</option>
+          </select>
+        </label>
+        <fieldset>
+          <legend class="mb-2 text-sm text-slate-300">Trade direction</legend>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="cursor-pointer"><input class="peer sr-only" type="radio" name="side" value="buy" checked><span class="block rounded-xl border border-white/10 bg-slate-950 py-3 text-center font-semibold text-slate-300 peer-checked:border-emerald-400 peer-checked:bg-emerald-400/10 peer-checked:text-emerald-300">Buy / Long</span></label>
+            <label class="cursor-pointer"><input class="peer sr-only" type="radio" name="side" value="sell"><span class="block rounded-xl border border-white/10 bg-slate-950 py-3 text-center font-semibold text-slate-300 peer-checked:border-rose-400 peer-checked:bg-rose-400/10 peer-checked:text-rose-300">Sell / Short</span></label>
+          </div>
+        </fieldset>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="block text-sm text-slate-300">Margin (USD)
+            <input name="amount" type="number" min="1" step="0.01" required inputmode="decimal" placeholder="e.g. 25" class="mt-2 w-full rounded-xl border border-white/10 bg-slate-950 px-4 py-3 text-white focus:border-cyan-400 focus:outline-none">
+          </label>
+          <label class="block text-sm text-slate-300">Leverage
+            <select name="leverage" class="mt-2 w-full rounded-xl border border-white/10 bg-slate-950 px-4 py-3 text-white focus:border-cyan-400 focus:outline-none">
+              <% [1, 2, 3, 5, 10, 20].forEach(value => { %><option value="<%= value %>"><%= value %>×</option><% }) %>
+            </select>
+          </label>
+        </div>
+        <div class="rounded-xl border border-white/5 bg-slate-950/70 p-4 text-sm text-slate-400">
+          Available funds: <span class="font-semibold text-white">$<%= Number(user.deposit || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span>
+        </div>
+        <button type="submit" class="w-full rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 px-4 py-3.5 font-bold text-slate-950 hover:brightness-110">Place trade</button>
+      </form>
+    </section>
+
+    <aside class="space-y-4">
+      <div class="rounded-2xl border border-cyan-400/15 bg-cyan-400/5 p-5">
+        <div class="flex items-center gap-3"><span class="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-300"><i data-lucide="zap"></i></span><h2 class="font-semibold">Live crypto markets</h2></div>
+        <p class="mt-3 text-sm leading-6 text-slate-400">Quick Trade opens a leveraged crypto position using the live market price. Your open positions and profit or loss are available on the dashboard.</p>
+      </div>
+      <a href="/trading-history" class="flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/70 p-5 hover:border-cyan-400/30"><span><span class="block font-semibold">Trade history</span><span class="mt-1 block text-sm text-slate-400">Review your open and closed trades</span></span><i data-lucide="arrow-right" class="text-cyan-300"></i></a>
+      <a href="/stocks" class="flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/70 p-5 hover:border-cyan-400/30"><span><span class="block font-semibold">Stock marketplace</span><span class="mt-1 block text-sm text-slate-400">Browse and buy stock holdings</span></span><i data-lucide="arrow-right" class="text-cyan-300"></i></a>
+    </aside>
+  </main>
+
+  <% if (typeof toast !== 'undefined' && toast && toast.message) { %>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>Swal.fire({ icon: '<%= toast.type || "info" %>', title: '<%= toast.message %>', toast: true, position: 'top-end', showConfirmButton: false, timer: 3000 })</script>
+  <% } %>
+  <script>if (window.lucide) lucide.createIcons();</script>
+  <%- include('mobile-downbar') %>
+</body>
+</html>

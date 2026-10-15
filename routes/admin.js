@@ -341,8 +341,8 @@ router.post('/admin/withdraw/approve', requireAdmin, (req, res) => {
       return res.redirect('/admin/withdrawals')
     }
 
-    if (wd.status === 'approved') {
-      setToast(req, 'info', 'Already approved')
+    if (wd.status !== 'pending') {
+      setToast(req, 'info', `Withdrawal is already ${wd.status}`)
       return res.redirect('/admin/withdrawals')
     }
 
@@ -386,8 +386,8 @@ router.post('/admin/withdraw/reject', requireAdmin, (req, res) => {
     if (!w) return res.redirect('/admin/withdrawals')
 
     // Don't process if already rejected
-    if (w.status === 'rejected') {
-      setToast(req, 'info', 'Withdrawal already rejected')
+    if (w.status !== 'pending') {
+      setToast(req, 'info', `Withdrawal is already ${w.status}`)
       return res.redirect('/admin/withdrawals')
     }
 

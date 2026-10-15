@@ -34,14 +34,14 @@
       Chat with Support
     </p>
 
-    <p class="text-sm text-slate-400 max-w-md mx-auto mb-8">
+    <p id="support-chat-status" class="text-sm text-slate-400 max-w-md mx-auto mb-8">
       Our support team is online. The chat window will open automatically.
     </p>
 
     <div class="flex justify-center">
       <button
-        onclick="if (window.smartsupp) smartsupp('chat:open')"
-        class="px-6 py-3 rounded-xl bg-primary-600 text-sm font-semibold hover:bg-primary-500 transition">
+        onclick="openSupportChat()"
+        class="px-6 py-3 rounded-xl bg-cyan-500 text-sm font-semibold text-slate-950 hover:bg-cyan-400 transition">
         Open Chat
       </button>
     </div>
@@ -79,15 +79,16 @@ window.smartsupp || (function(d) {
   c.src = "https://www.smartsuppchat.com/loader.js?";
   s.parentNode.insertBefore(c, s);
 })(document);
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  setTimeout(function () {
-    if (window.smartsupp) {
-      smartsupp("chat:open");
-    }
-  }, 800);
+function openSupportChat() {
+  if (typeof window.smartsupp === 'function') {
+    window.smartsupp('chat:open');
+    return;
+  }
+  const status = document.getElementById('support-chat-status');
+  if (status) status.textContent = 'Live chat is still loading. Please wait a moment and try again.';
+}
+window.addEventListener('load', function () {
+  window.setTimeout(openSupportChat, 1200);
 });
 </script>
 
