@@ -291,7 +291,7 @@ STOCKS
 router.get('/stocks', requireLogin, (req, res) => {
   try {
     const stocks = loadJson('./database/stocks.json', [])
-    res.render('user/stocks', { user: req.session.user, stocks })
+    res.render('user/stocks', { user: req.session.user, stocks, pageTitle: 'Stocks Marketplace', currentPath: '/stocks' })
   } catch {
     setToast(req, 'error', 'Error loading stocks')
     res.redirect('/dashboard')
@@ -299,21 +299,27 @@ router.get('/stocks', requireLogin, (req, res) => {
 })
 
 router.get('/subscription-trade', requireLogin, (req, res) => {
+  return res.redirect('/quick-trade')
+})
+
+router.get('/quick-trade', requireLogin, (req, res) => {
   const stocks = loadJson('./database/stocks.json', [])
-  res.render('user/stocks', { user: req.session.user, stocks })
+  const user = loadUsers().find(u => u.id === req.session.user.id) || req.session.user
+  res.render('user/stocks', { user, stocks, pageTitle: 'Quick Trade', currentPath: '/quick-trade' })
 })
 
 /* ===========================
 BUY STOCK
 =========================== */
 router.post('/stocks/buy', requireLogin, requireSignalActive, async (req, res) => {
+  const returnPath = req.body.returnTo === '/quick-trade' ? '/quick-trade' : '/stocks'
   try {
     const { stockId, quantity } = req.body
     const qty = Number(quantity)
 
     if (!qty || qty <= 0) {
       setToast(req, 'error', 'Invalid quantity')
-      return res.redirect('/stocks')
+      return res.redirect(returnPath)
     }
 
     const stocks = loadJson('./database/stocks.json', [])
@@ -328,14 +334,14 @@ router.post('/stocks/buy', requireLogin, requireSignalActive, async (req, res) =
 
     if (!stock) {
       setToast(req, 'error', 'Stock not found')
-      return res.redirect('/stocks')
+      return res.redirect(returnPath)
     }
 
     const totalCost = stock.price * qty
 
     if (user.deposit < totalCost) {
       setToast(req, 'error', 'Insufficient deposit funds')
-      return res.redirect('/stocks')
+      return res.redirect(returnPath)
     }
 
     let holding = holdings.find(h => h.userId === user.id && h.stockId === stock.id)
@@ -387,11 +393,11 @@ router.post('/stocks/buy', requireLogin, requireSignalActive, async (req, res) =
     )
 
     setToast(req, 'success', 'Stock bought successfully')
-    res.redirect('/stocks')
+    res.redirect(returnPath)
 
   } catch {
     setToast(req, 'error', 'Error buying stock')
-    res.redirect('/stocks')
+    res.redirect(returnPath)
   }
 })
 

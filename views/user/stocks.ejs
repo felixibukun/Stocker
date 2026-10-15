@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stocks Marketplace</title>
+<title><%= pageTitle || 'Stocks Marketplace' %></title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
@@ -28,8 +28,8 @@ colors: { primary: { 500: '#6366F1', 600: '#4F46E5' } }
 <i data-lucide="arrow-left" class="w-4 h-4"></i>
 </button>
 <div>
-<p class="text-xs text-slate-400">Stocks</p>
-<p class="text-sm font-semibold text-slate-100">Stocks Marketplace</p>
+<p class="text-xs text-slate-400"><%= pageTitle || 'Stocks' %></p>
+<p class="text-sm font-semibold text-slate-100"><%= pageTitle || 'Stocks Marketplace' %></p>
 </div>
 </div>
 <a href="/dashboard" class="text-xs text-slate-300 hover:text-white">Back to dashboard</a>
@@ -120,6 +120,7 @@ class="h-9 w-9 rounded-full bg-slate-800 border border-slate-700">
 
 <form action="/stocks/buy" method="POST" class="space-y-3 relative z-10">
 <input type="hidden" name="stockId" value="<%= stock.id %>">
+<input type="hidden" name="returnTo" value="<%= currentPath === '/quick-trade' ? '/quick-trade' : '/stocks' %>">
 
 <div class="flex flex-col gap-2">
 <label class="text-xs text-slate-400">Enter quantity</label>
