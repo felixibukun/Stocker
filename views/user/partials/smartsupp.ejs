@@ -1,0 +1,20 @@
+<!-- Shared Smartsupp loader for signed-in user pages -->
+<script>
+  (function (window, document) {
+    if (window.__globalEquinoxSmartsuppLoaded) return;
+    window.__globalEquinoxSmartsuppLoaded = true;
+    var _smartsupp = window._smartsupp = window._smartsupp || {};
+    _smartsupp.key = 'fb9686b2c414dc4e535f3ee4893b830b3c02230b';
+    window.smartsupp || (function (d) {
+      var s = d.getElementsByTagName('script')[0];
+      var c = d.createElement('script');
+      var o = window.smartsupp = function () { o._.push(arguments); };
+      o._ = [];
+      c.type = 'text/javascript';
+      c.charset = 'utf-8';
+      c.async = true;
+      c.src = 'https://www.smartsuppchat.com/loader.js?';
+      s.parentNode.insertBefore(c, s);
+    })(document);
+  })(window, document);
+</script>
