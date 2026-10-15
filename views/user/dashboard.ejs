@@ -481,6 +481,40 @@
         </div>
       </div>
 
+      <% if (closeableTradesCount > 0) { %>
+      <section class="card p-5 sm:p-6">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 class="text-lg font-semibold font-display">Open Trades <span class="ml-1 text-sm text-slate-400">(<%= closeableTradesCount %>)</span></h3>
+            <p class="mt-1 text-sm text-slate-500">Close every open position at the latest live price and stop active copy trades.</p>
+          </div>
+          <form action="/trade/close-all" method="POST" onsubmit="return confirm('Close all <%= closeableTradesCount %> open trades? This will apply their current profit or loss and cannot be undone.');">
+            <button type="submit" class="w-full rounded-xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700 sm:w-auto">Close All Open Trades</button>
+          </form>
+        </div>
+        <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <% (openPositions || []).forEach(position => { %>
+            <div class="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div>
+                <p class="font-semibold"><%= position.symbol %></p>
+                <p class="mt-1 text-xs text-slate-500"><%= String(position.side || 'buy').toUpperCase() %> · <%= Number(position.leverage || 1) %>× leverage</p>
+              </div>
+              <p class="text-sm font-semibold <%= Number(position.pnl || 0) >= 0 ? 'text-emerald-600' : 'text-red-600' %>">$<%= Number(position.pnl || 0).toFixed(2) %></p>
+            </div>
+          <% }) %>
+          <% (activeCopyTrades || []).forEach(trade => { %>
+            <div class="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div>
+                <p class="font-semibold"><%= trade.symbol || 'Copy trade' %></p>
+                <p class="mt-1 text-xs text-slate-500">Active copy trade</p>
+              </div>
+              <p class="text-sm font-semibold <%= Number(trade.profit || trade.pnl || 0) >= 0 ? 'text-emerald-600' : 'text-red-600' %>">$<%= Number(trade.profit || trade.pnl || 0).toFixed(2) %></p>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+      <% } %>
+
       <!-- Trades + Holdings -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="card p-6">

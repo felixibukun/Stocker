@@ -51,6 +51,7 @@ saveUsers(users)
     }
   })
   const userTrades = trades.filter(t => t.userId === user.id)
+  const activeCopyTrades = userTrades.filter(t => t.type === 'copy-trade' && t.status === 'open')
   const userSubscriptions = subscriptions.filter(s => s.userId === user.id)
   const userWithdrawals = withdrawals.filter(w => String(w.userId) === String(user.id))
   const totalWithdrawal = userWithdrawals
@@ -154,6 +155,8 @@ const riskLevel = openPositions.length >= 10 || totalExposure > availableMargin 
   trades: userTrades.filter(t => t.type === 'manual-trade' || t.type === 'copy-trade')
 },
   openPositions,
+  activeCopyTrades,
+  closeableTradesCount: openPositions.length + activeCopyTrades.length,
   openTrades,
   totalPL,
   subscriptions: userSubscriptions,
@@ -645,6 +648,109 @@ router.post('/trade/close', requireLogin, requireSignalActive, (req, res) => {
   req.session.user = user
 
   setToast(req, 'success', 'Trade closed')
+  res.redirect('/dashboard')
+})
+
+router.post('/trade/close-all', requireLogin, async (req, res) => {
+  const users = loadUsers()
+  const user = users.find(u => u.id === req.session.user.id)
+  if (!user) return res.redirect('/login')
+
+  const positions = (Array.isArray(user.openPositions) ? user.openPositions : [])
+    .filter(position => position && position.status !== 'closed')
+  const trades = loadJson('./database/trades.json', [])
+  const copyTrades = trades.filter(trade =>
+    String(trade.userId) === String(user.id) && trade.type === 'copy-trade' && trade.status === 'open'
+  )
+
+  if (!positions.length && !copyTrades.length) {
+    setToast(req, 'info', 'There are no open trades to close')
+    return res.redirect('/dashboard')
+  }
+
+  const symbols = [...new Set(positions.map(position => position.symbol).filter(Boolean))]
+  const prices = new Map(await Promise.all(symbols.map(async symbol => [symbol, await getMarketPrice(symbol)])))
+  const pricedPositions = positions.map(position => {
+    const entryPrice = Number(position.entryPrice || position.price || 0)
+    const currentPrice = Number(prices.get(position.symbol) || 0)
+    const margin = Number(position.margin || position.amount || 0)
+    const leverage = Number(position.leverage || 1)
+    if (!entryPrice || !currentPrice || !margin) return null
+
+    const priceChange = String(position.side || 'buy').toLowerCase() === 'sell'
+      ? (entryPrice - currentPrice) / entryPrice
+      : (currentPrice - entryPrice) / entryPrice
+
+    return { position, entryPrice, currentPrice, margin, pnl: priceChange * margin * leverage }
+  })
+
+  if (pricedPositions.some(item => !item)) {
+    setToast(req, 'error', 'Could not get live prices for every open position. No trades were closed; please try again.')
+    return res.redirect('/dashboard')
+  }
+
+  const currentUsers = loadUsers()
+  const currentUser = currentUsers.find(u => u.id === user.id)
+  if (!currentUser) return res.redirect('/login')
+
+  const currentTrades = loadJson('./database/trades.json', [])
+  const openIds = new Set(pricedPositions.map(item => String(item.position.id)))
+  const closablePositions = (Array.isArray(currentUser.openPositions) ? currentUser.openPositions : [])
+    .filter(position => position && position.status !== 'closed' && openIds.has(String(position.id)))
+  const currentCopyTrades = currentTrades.filter(trade =>
+    String(trade.userId) === String(currentUser.id) && trade.type === 'copy-trade' && trade.status === 'open'
+  )
+  const following = loadJson('./database/following.json', [])
+  let closedCount = 0
+
+  currentUser.deposit = Number(currentUser.deposit || 0)
+  currentUser.profit = Number(currentUser.profit || 0)
+
+  for (const position of closablePositions) {
+    const priced = pricedPositions.find(item => String(item.position.id) === String(position.id))
+    if (!priced) continue
+
+    currentUser.deposit += priced.margin
+    currentUser.profit += priced.pnl
+    const trade = currentTrades.find(item =>
+      String(item.userId) === String(currentUser.id) && String(item.id) === String(position.id) && item.status === 'open'
+    )
+    if (trade) {
+      trade.profit = priced.pnl
+      trade.pnl = priced.pnl
+      trade.status = 'closed'
+      trade.closedAt = new Date().toISOString()
+      trade.closePrice = priced.currentPrice
+    }
+    closedCount += 1
+  }
+
+  const closedPositionIds = new Set(closablePositions.map(position => String(position.id)))
+  currentUser.openPositions = (Array.isArray(currentUser.openPositions) ? currentUser.openPositions : [])
+    .filter(position => !closedPositionIds.has(String(position.id)))
+
+  for (const trade of currentCopyTrades) {
+    currentUser.deposit += Number(trade.margin || 0)
+    currentUser.profit += Number(trade.profit || trade.pnl || 0)
+    trade.status = 'closed'
+    trade.closedAt = new Date().toISOString()
+    const matchingFollows = following.filter(item =>
+      String(item.userId) === String(currentUser.id) && String(item.traderName) === String(trade.symbol) && item.status === 'active'
+    )
+    for (const followed of matchingFollows) {
+      followed.status = 'stopped'
+      followed.stoppedAt = new Date().toISOString()
+    }
+    closedCount += 1
+  }
+
+  recalcUserBalance(currentUser)
+  saveUsers(currentUsers)
+  saveJson('./database/trades.json', currentTrades)
+  saveJson('./database/following.json', following)
+  req.session.user = currentUser
+
+  setToast(req, 'success', `Closed ${closedCount} open trade${closedCount === 1 ? '' : 's'}`)
   res.redirect('/dashboard')
 })
 
