@@ -673,19 +673,29 @@ router.post('/trade/close-all', requireLogin, async (req, res) => {
   const pricedPositions = positions.map(position => {
     const entryPrice = Number(position.entryPrice || position.price || 0)
     const currentPrice = Number(prices.get(position.symbol) || 0)
-    const margin = Number(position.margin || position.amount || 0)
+    const existingTrade = trades.find(trade =>
+      String(trade.userId) === String(user.id) && String(trade.id) === String(position.id) && trade.status === 'open'
+    )
+    const margin = Number(position.margin || position.amount || existingTrade?.margin || 0)
     const leverage = Number(position.leverage || 1)
-    if (!entryPrice || !currentPrice || !margin) return null
+    if (!margin) return null
 
-    const priceChange = String(position.side || 'buy').toLowerCase() === 'sell'
-      ? (entryPrice - currentPrice) / entryPrice
-      : (currentPrice - entryPrice) / entryPrice
+    if (entryPrice > 0 && currentPrice > 0) {
+      const priceChange = String(position.side || 'buy').toLowerCase() === 'sell'
+        ? (entryPrice - currentPrice) / entryPrice
+        : (currentPrice - entryPrice) / entryPrice
 
-    return { position, entryPrice, currentPrice, margin, pnl: priceChange * margin * leverage }
+      return { position, currentPrice, margin, pnl: priceChange * margin * leverage, usedStoredPnl: false }
+    }
+
+    const storedPnl = [existingTrade?.pnl, position.pnl, existingTrade?.profit, position.profit]
+      .find(value => value !== undefined && value !== null && Number.isFinite(Number(value)))
+    if (storedPnl === undefined) return null
+    return { position, currentPrice: 0, margin, pnl: Number(storedPnl), usedStoredPnl: true }
   })
 
   if (pricedPositions.some(item => !item)) {
-    setToast(req, 'error', 'Could not get live prices for every open position. No trades were closed; please try again.')
+    setToast(req, 'error', 'Some open positions have neither a live price nor a recorded P/L. No trades were closed.')
     return res.redirect('/dashboard')
   }
 
@@ -720,7 +730,8 @@ router.post('/trade/close-all', requireLogin, async (req, res) => {
       trade.pnl = priced.pnl
       trade.status = 'closed'
       trade.closedAt = new Date().toISOString()
-      trade.closePrice = priced.currentPrice
+      if (priced.currentPrice > 0) trade.closePrice = priced.currentPrice
+      if (priced.usedStoredPnl) trade.closeMethod = 'last-recorded-pnl'
     }
     closedCount += 1
   }
@@ -750,7 +761,11 @@ router.post('/trade/close-all', requireLogin, async (req, res) => {
   saveJson('./database/following.json', following)
   req.session.user = currentUser
 
-  setToast(req, 'success', `Closed ${closedCount} open trade${closedCount === 1 ? '' : 's'}`)
+  const storedPnlCount = pricedPositions.filter(item => item.usedStoredPnl).length
+  const closeMessage = `Closed ${closedCount} open trade${closedCount === 1 ? '' : 's'}`
+  setToast(req, 'success', storedPnlCount
+    ? `${closeMessage}; ${storedPnlCount} used the last recorded P/L because live prices were unavailable`
+    : closeMessage)
   res.redirect('/dashboard')
 })
 
