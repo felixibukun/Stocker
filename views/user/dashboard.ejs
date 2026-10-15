@@ -90,6 +90,18 @@
     .nav-link { color: #a7b4c4; }
     .nav-link:hover { background: rgba(255,255,255,.05); color: #fff; }
     .nav-link.active { background: rgba(0,144,255,.13); color: var(--blue2); font-weight: 600; }
+    /* Continuous live-price ticker */
+    .live-prices-viewport { overflow:hidden; }
+    .live-prices-track { display:flex; width:max-content; gap:1rem; animation:live-prices-scroll 24s linear infinite; will-change:transform; }
+    .live-prices-group { display:flex; flex:none; gap:1rem; }
+    .live-prices-track:hover, .live-prices-track:focus-within { animation-play-state:paused; }
+    @keyframes live-prices-scroll { to { transform:translateX(-50%); } }
+    @media(prefers-reduced-motion:reduce) {
+      .live-prices-track { animation:none; width:100%; flex-wrap:wrap; }
+      .live-prices-group[aria-hidden="true"] { display:none; }
+      .live-prices-group { flex-wrap:wrap; width:100%; }
+      .live-prices-group > * { flex:1 1 190px; }
+    }
     .mobile-downbar { padding-bottom: calc(8px + var(--safe-bottom)); box-shadow: 0 -10px 30px rgba(0,0,0,.45); }
     @media (max-width: 767px) { body { padding-bottom: calc(88px + var(--safe-bottom)); } }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -456,22 +468,21 @@
           <h3 class="text-lg font-semibold font-display">Live Prices</h3>
           <a href="/stocks" class="text-sm text-brand-600 hover:text-brand-700 font-medium">View All →</a>
         </div>
-        <div class="flex overflow-x-auto gap-4 pb-2">
-          <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 min-w-[190px]">
-            <span class="h-10 w-10 rounded-full bg-orange-50 flex items-center justify-center"><i data-lucide="bitcoin" class="w-5 h-5 text-orange-500"></i></span>
-            <div><p class="text-xs text-slate-500">BTC/USD</p><span class="text-lg font-bold font-display" x-text="'$' + cryptoPrices.btc.toLocaleString('en-US', {minimumFractionDigits: 0})"></span></div>
-          </div>
-          <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 min-w-[190px]">
-            <span class="h-10 w-10 rounded-full bg-brand-50 flex items-center justify-center"><i data-lucide="hexagon" class="w-5 h-5 text-brand-600"></i></span>
-            <div><p class="text-xs text-slate-500">ETH/USD</p><span class="text-lg font-bold font-display" x-text="'$' + cryptoPrices.eth.toLocaleString('en-US', {minimumFractionDigits: 2})"></span></div>
-          </div>
-          <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 min-w-[190px]">
-            <span class="h-10 w-10 rounded-full bg-purple-50 flex items-center justify-center"><i data-lucide="sun" class="w-5 h-5 text-purple-600"></i></span>
-            <div><p class="text-xs text-slate-500">SOL/USD</p><span class="text-lg font-bold font-display" x-text="'$' + cryptoPrices.sol.toLocaleString('en-US', {minimumFractionDigits: 2})"></span></div>
+        <div class="live-prices-viewport" aria-label="Moving live cryptocurrency prices">
+          <div class="live-prices-track" tabindex="0">
+            <div class="live-prices-group">
+              <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 min-w-[190px]"><span class="h-10 w-10 rounded-full bg-orange-50 flex items-center justify-center"><i data-lucide="bitcoin" class="w-5 h-5 text-orange-500"></i></span><div><p class="text-xs text-slate-500">BTC/USD</p><span class="text-lg font-bold font-display" x-text="'$' + cryptoPrices.btc.toLocaleString('en-US', {minimumFractionDigits: 0})"></span></div></div>
+              <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 min-w-[190px]"><span class="h-10 w-10 rounded-full bg-brand-50 flex items-center justify-center"><i data-lucide="hexagon" class="w-5 h-5 text-brand-600"></i></span><div><p class="text-xs text-slate-500">ETH/USD</p><span class="text-lg font-bold font-display" x-text="'$' + cryptoPrices.eth.toLocaleString('en-US', {minimumFractionDigits: 2})"></span></div></div>
+              <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 min-w-[190px]"><span class="h-10 w-10 rounded-full bg-purple-50 flex items-center justify-center"><i data-lucide="sun" class="w-5 h-5 text-purple-600"></i></span><div><p class="text-xs text-slate-500">SOL/USD</p><span class="text-lg font-bold font-display" x-text="'$' + cryptoPrices.sol.toLocaleString('en-US', {minimumFractionDigits: 2})"></span></div></div>
+            </div>
+            <div class="live-prices-group" aria-hidden="true">
+              <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 min-w-[190px]"><span class="h-10 w-10 rounded-full bg-orange-50 flex items-center justify-center"><i data-lucide="bitcoin" class="w-5 h-5 text-orange-500"></i></span><div><p class="text-xs text-slate-500">BTC/USD</p><span class="text-lg font-bold font-display" x-text="'$' + cryptoPrices.btc.toLocaleString('en-US', {minimumFractionDigits: 0})"></span></div></div>
+              <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 min-w-[190px]"><span class="h-10 w-10 rounded-full bg-brand-50 flex items-center justify-center"><i data-lucide="hexagon" class="w-5 h-5 text-brand-600"></i></span><div><p class="text-xs text-slate-500">ETH/USD</p><span class="text-lg font-bold font-display" x-text="'$' + cryptoPrices.eth.toLocaleString('en-US', {minimumFractionDigits: 2})"></span></div></div>
+              <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 min-w-[190px]"><span class="h-10 w-10 rounded-full bg-purple-50 flex items-center justify-center"><i data-lucide="sun" class="w-5 h-5 text-purple-600"></i></span><div><p class="text-xs text-slate-500">SOL/USD</p><span class="text-lg font-bold font-display" x-text="'$' + cryptoPrices.sol.toLocaleString('en-US', {minimumFractionDigits: 2})"></span></div></div>
+            </div>
           </div>
         </div>
       </div>
-
       <!-- Charts -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="card p-5">
