@@ -1,0 +1,35 @@
+<style>
+  @media (max-width: 767px) {
+    body { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+    .user-mobile-downbar { padding-bottom: max(10px, env(safe-area-inset-bottom)); box-shadow: 0 -16px 40px rgba(0,0,0,.45); }
+    .user-mobile-downbar svg { display: block; width: 20px; height: 20px; flex: 0 0 auto; }
+    .user-mobile-downbar .trade-button svg { width: 28px; height: 28px; }
+  }
+</style>
+
+<nav class="user-mobile-downbar md:hidden fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-slate-950/95 backdrop-blur-xl">
+  <div class="grid grid-cols-5 px-2 pt-2 text-[11px] font-medium">
+    <a href="/dashboard" class="flex flex-col items-center gap-1 rounded-xl px-1 py-2 <%= currentPath === '/dashboard' ? 'text-cyan-300 bg-blue-500/10' : 'text-slate-400 hover:text-white' %>">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      <span class="truncate">Home</span>
+    </a>
+    <a href="/stocks" class="flex flex-col items-center gap-1 rounded-xl px-1 py-2 <%= currentPath === '/stocks' ? 'text-cyan-300 bg-blue-500/10' : 'text-slate-400 hover:text-white' %>">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
+      <span class="truncate">Market</span>
+    </a>
+    <a href="/copy-trader" class="trade-button relative -mt-6 flex flex-col items-center gap-1 px-1 py-2 text-white">
+      <span class="flex h-16 w-16 -translate-y-1 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-cyan-400 ring-4 ring-slate-950 shadow-lg shadow-blue-500/30">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-3 8h7l-6 12 1-9H5l8-11z"></path></svg>
+      </span>
+      <span class="truncate text-slate-200">Trade</span>
+    </a>
+    <a href="/deposit-withdrawal" class="flex flex-col items-center gap-1 rounded-xl px-1 py-2 <%= currentPath === '/deposit-withdrawal' ? 'text-cyan-300 bg-blue-500/10' : 'text-slate-400 hover:text-white' %>">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18"></path><path d="M16 15h.01"></path></svg>
+      <span class="truncate">Deposit</span>
+    </a>
+    <a href="/account" class="flex flex-col items-center gap-1 rounded-xl px-1 py-2 <%= currentPath === '/account' ? 'text-cyan-300 bg-blue-500/10' : 'text-slate-400 hover:text-white' %>">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      <span class="truncate">Profile</span>
+    </a>
+  </div>
+</nav>

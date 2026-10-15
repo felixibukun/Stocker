@@ -10,6 +10,7 @@ router.get('/dashboard', requireLogin, (req, res) => {
   const trades = loadJson('./database/trades.json', [])
   const subscriptions = loadJson('./database/subscriptions.json', [])
   const stocks = loadJson('./database/stocks.json', [])
+  const withdrawals = loadJson('./database/withdrawals.json', [])
 
   const user = users.find(u => u.id === req.session.user.id)
 
@@ -37,9 +38,23 @@ user.bonus = Number(user.bonus || 0)
 recalcUserBalance(user)
 saveUsers(users)
 
-  const userHoldings = holdings.filter(h => h.userId === user.id)
+  const userHoldings = holdings.filter(h => h.userId === user.id).map(h => {
+    const stock = stocks.find(s => s.id == h.stockId)
+    const currentPrice = stock ? Number(stock.price) : Number(h.avgPrice || 0)
+    const averagePrice = Number(h.avgPrice || 0)
+    return {
+      ...h,
+      currentPrice,
+      plPercent: averagePrice > 0 ? Number(((currentPrice - averagePrice) / averagePrice * 100).toFixed(1)) : 0,
+      stockName: h.stockName || stock?.name || 'Unknown',
+      symbol: h.symbol || stock?.symbol || 'N/A'
+    }
+  })
   const userTrades = trades.filter(t => t.userId === user.id)
   const userSubscriptions = subscriptions.filter(s => s.userId === user.id)
+  const totalWithdrawal = withdrawals
+    .filter(w => w.userId === user.id && w.status === 'approved')
+    .reduce((sum, withdrawal) => sum + Number(withdrawal.amount || 0), 0)
 
   // const wins = userTrades.filter(t => t.profit > 0).length
   // const total = userTrades.length
@@ -62,6 +77,15 @@ const todayPL = closedTrades
   .filter(t => String(t.closedAt || t.timestamp || '').slice(0, 10) === today)
   .reduce((sum, t) => sum + Number(t.profit || t.pnl || 0), 0)
 
+const performanceData = closedTrades
+  .slice()
+  .sort((a, b) => new Date(a.closedAt || a.timestamp || 0) - new Date(b.closedAt || b.timestamp || 0))
+  .reduce((series, trade) => {
+    series.push(series[series.length - 1] + Number(trade.profit || trade.pnl || 0))
+    return series
+  }, [Math.max(0, Number(user.balance || 0) - Number(user.profit || 0))])
+if (performanceData.length < 2) performanceData.push(Number(user.balance || 0))
+
 const liveFloatingPL = openPositions.reduce((sum, p) => {
   return sum + Number(p.pnl || 0)
 }, 0)
@@ -81,6 +105,22 @@ const riskLevel = openPositions.length >= 10 || totalExposure > availableMargin 
   let openTrades = openPositions.length
   let totalPL = 0
 
+  const marketTime = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+  }).formatToParts(new Date())
+  const marketParts = Object.fromEntries(marketTime.map(part => [part.type, part.value]))
+  const marketMinutes = Number(marketParts.hour) * 60 + Number(marketParts.minute)
+  const marketOpen = !['Sat', 'Sun'].includes(marketParts.weekday) && marketMinutes >= 570 && marketMinutes < 960
+  const stockPrice = (symbol, fallback) => {
+    const stock = stocks.find(item => String(item.symbol || '').toUpperCase().replace(/[^A-Z]/g, '').startsWith(symbol))
+    return Number(stock?.price || fallback)
+  }
+  const cryptoPrices = {
+    btc: stockPrice('BTC', 67432.15),
+    eth: stockPrice('ETH', 3542.78),
+    sol: stockPrice('SOL', 172.45)
+  }
+
   userHoldings.forEach(h => {
     const stock = stocks.find(s => s.id == h.stockId)
     if (!stock) return
@@ -97,8 +137,13 @@ const riskLevel = openPositions.length >= 10 || totalExposure > availableMargin 
   balance: user.balance,
   deposit: user.deposit,
   profit: user.profit,
+  totalProfit: user.profit,
+  totalDeposit: user.deposit,
+  totalWithdrawal,
   bonus: user.bonus,
+  signal: user.signalLevel ?? 100,
   signalLevel: user.signalLevel,
+  winRate,
   kycStatus: user.kycStatus || "Not Verified",
   openPositions,
   trades: userTrades.filter(t => t.type === 'manual-trade' || t.type === 'copy-trade')
@@ -118,6 +163,12 @@ availableMargin,
 closedTradesCount: closedTrades.length,
 openTradesCount: openManualTrades.length,
 riskLevel,
+  accountSignal: user.signalLevel ?? 100,
+  currentPath: '/dashboard',
+  marketData: { marketOpen },
+  cryptoPrices,
+  performanceData,
+  impersonating: false,
   admin: req.session.admin
 })
 })
