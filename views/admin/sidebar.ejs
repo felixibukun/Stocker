@@ -1,29 +1,68 @@
-<div class="w-64 h-screen bg-slate-900 border-r border-slate-800 p-4 flex flex-col">
-
-  <p class="text-xl font-semibold mb-6">Admin Panel</p>
-
-  <nav class="flex-1 space-y-2 text-sm">
-
-    <a href="/admin" class="block px-3 py-2 rounded bg-slate-800">Dashboard</a>
-
-    <a href="/admin/users" class="block px-3 py-2 rounded hover:bg-slate-800">Users</a>
-
-    <a href="/admin/deposits" class="block px-3 py-2 rounded hover:bg-slate-800">Deposits</a>
-
-    <a href="/admin/deposit-methods" class="block px-3 py-2 rounded hover:bg-slate-800">Deposit Methods</a>
-
-    <a href="/admin/payment-settings" class="block px-3 py-2 rounded hover:bg-slate-800">Payment Settings</a>
-
-    <a href="/admin/withdrawals" class="block px-3 py-2 rounded hover:bg-slate-800">Withdrawals</a>
-
-    <a href="/admin/kyc" class="block px-3 py-2 rounded hover:bg-slate-800">KYC Requests</a>
-
-    <a href="/admin/profile" class="block px-3 py-2 rounded hover:bg-slate-800">Admin Profile</a>
-
-  </nav>
-
-  <a href="/admin-logout" class="mt-4 block px-3 py-2 bg-red-600 rounded text-center text-sm">
-    Logout
+<%
+  const adminPath = typeof currentPath === 'string' ? currentPath : (typeof path === 'string' ? path : '');
+  const adminNav = [
+    { href: '/admin', label: 'Overview', icon: 'layout-dashboard', match: /^\/admin\/?$/ },
+    { href: '/admin/users', label: 'Users', icon: 'users', match: /^\/admin\/users|^\/admin\/user\// },
+    { href: '/admin/deposits', label: 'Deposits', icon: 'wallet-cards', match: /^\/admin\/deposits$/ },
+    { href: '/admin/deposit/add', label: 'Add deposit', icon: 'circle-plus', match: /^\/admin\/deposit\/add$/ },
+    { href: '/admin/withdrawals', label: 'Withdrawals', icon: 'arrow-up-from-line', match: /^\/admin\/withdrawals$/ },
+    { href: '/admin/kyc', label: 'KYC review', icon: 'shield-check', match: /^\/admin\/kyc$/ },
+    { href: '/admin/deposit-methods', label: 'Deposit methods', icon: 'landmark', match: /^\/admin\/deposit-methods$/ },
+    { href: '/admin/payment-settings', label: 'Payment settings', icon: 'sliders-horizontal', match: /^\/admin\/payment-settings$/ },
+    { href: '/admin/database/recovery', label: 'Database recovery', icon: 'database-backup', match: /^\/admin\/database\/recovery$/ },
+    { href: '/admin/profile', label: 'Admin profile', icon: 'settings-2', match: /^\/admin\/profile$/ }
+  ];
+  const adminActive = href => adminNav.some(item => item.href === href && item.match.test(adminPath));
+%>
+<style>
+  .admin-layout { min-height: 100vh; background: radial-gradient(ellipse at 15% 0%, #172554 0, #0b1220 38%, #070b14 100%); color: #e2e8f0; }
+  .admin-sidebar { width: 17rem; background: rgba(10, 16, 29, .94); border-right: 1px solid rgba(148, 163, 184, .13); }
+  .admin-nav-link { display:flex; align-items:center; gap:.75rem; min-height:2.75rem; padding:.65rem .8rem; border:1px solid transparent; border-radius:.8rem; color:#9aa9bd; font-size:.875rem; transition:background .18s ease,color .18s ease,border-color .18s ease; }
+  .admin-nav-link:hover { color:#fff; background:rgba(51,65,85,.45); }
+  .admin-nav-link.active { color:#fff; background:linear-gradient(110deg,rgba(37,99,235,.28),rgba(14,165,233,.12)); border-color:rgba(96,165,250,.28); box-shadow:inset 3px 0 #38bdf8; }
+  .admin-nav-icon { width:1.1rem;height:1.1rem; flex:none; }
+  .admin-mobile-dock { display:none; }
+  @media(max-width:1023px) {
+    .admin-sidebar { position:fixed; inset:0 auto 0 0; z-index:70; width:min(19rem,86vw); transform:translateX(-105%); transition:transform .22s ease; box-shadow:20px 0 60px rgba(0,0,0,.35); }
+    .admin-sidebar.is-open { transform:translateX(0); }
+    .admin-mobile-dock { position:fixed; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.2rem; z-index:40; inset:auto 0 0; padding:.5rem .4rem calc(.5rem + env(safe-area-inset-bottom)); background:rgba(7,11,20,.96); border-top:1px solid rgba(148,163,184,.16); backdrop-filter:blur(18px); }
+    .admin-dock-link { display:flex; min-width:0; min-height:3.25rem; flex-direction:column; align-items:center; justify-content:center; gap:.2rem; border-radius:.7rem; color:#94a3b8; font-size:.62rem; line-height:1; text-align:center; }
+    .admin-dock-link.active { color:#7dd3fc; background:rgba(14,165,233,.12); }
+    .admin-dock-link svg { width:1.1rem;height:1.1rem; }
+    .admin-workspace { padding-bottom:5.25rem!important; }
+  }
+</style>
+<div id="adminBackdrop" class="fixed inset-0 z-[60] bg-slate-950/70 backdrop-blur-sm hidden lg:hidden" onclick="adminSetSidebar(false)" aria-hidden="true"></div>
+<aside id="adminSidebar" class="admin-sidebar fixed inset-y-0 left-0 z-[70] flex h-screen flex-col lg:sticky lg:top-0 lg:translate-x-0">
+  <a href="/admin" class="flex h-[4.5rem] items-center gap-3 border-b border-slate-700/40 px-5">
+    <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-blue-700 text-white shadow-lg shadow-sky-950/50"><i data-lucide="orbit" class="h-5 w-5"></i></span>
+    <span><strong class="block text-sm tracking-wide text-white">Stocker</strong><small class="block text-[10px] uppercase tracking-[.18em] text-slate-500">Admin workspace</small></span>
   </a>
-
-</div>
+  <div class="px-4 pt-5 pb-2 text-[10px] font-bold uppercase tracking-[.18em] text-slate-600">Workspace</div>
+  <nav class="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
+    <% adminNav.forEach(item => { const active = item.match.test(adminPath); %>
+      <a href="<%= item.href %>" class="admin-nav-link <%= active ? 'active' : '' %>" <%= active ? 'aria-current="page"' : '' %> title="<%= item.label %>">
+        <i data-lucide="<%= item.icon %>" class="admin-nav-icon"></i><span><%= item.label %></span>
+      </a>
+    <% }) %>
+  </nav>
+  <div class="border-t border-slate-700/40 p-3">
+    <a href="/admin-logout" class="admin-nav-link text-rose-300 hover:!bg-rose-950/40 hover:!text-rose-200"><i data-lucide="log-out" class="admin-nav-icon"></i><span>Sign out</span></a>
+  </div>
+</aside>
+<nav class="admin-mobile-dock" aria-label="Admin shortcuts">
+  <% const dockLinks = [adminNav[0], adminNav[1], adminNav[2], adminNav[4], adminNav[9]]; dockLinks.forEach(item => { const active = item.match.test(adminPath); %>
+    <a href="<%= item.href %>" class="admin-dock-link <%= active ? 'active' : '' %>" <%= active ? 'aria-current="page"' : '' %>><i data-lucide="<%= item.icon %>"></i><span><%= item.label === 'Overview' ? 'Home' : item.label === 'Withdrawals' ? 'Withdraw' : item.label === 'Admin profile' ? 'Profile' : item.label %></span></a>
+  <% }) %>
+</nav>
+<script>
+  function adminSetSidebar(open) {
+    const sidebar = document.getElementById('adminSidebar');
+    const backdrop = document.getElementById('adminBackdrop');
+    if (!sidebar || !backdrop) return;
+    sidebar.classList.toggle('is-open', open);
+    backdrop.classList.toggle('hidden', !open);
+    document.body.classList.toggle('overflow-hidden', open);
+  }
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') adminSetSidebar(false); });
+</script>

@@ -27,9 +27,20 @@
     .row-hover { transition: background-color .15s ease; }
     .row-hover:hover { background-color: rgba(255,255,255,0.03); }
   </style>
+<style>
+  body { background:radial-gradient(ellipse at 15% 0%,#172554 0,#0b1220 38%,#070b14 100%)!important; }
+  .admin-page-wrap { min-width:0; width:100%; }
+  @media(max-width:1023px){ .admin-page-wrap { padding-bottom:5.25rem!important; } }
+</style>
 </head>
 
-<body class="bg-[#0b0f1a] text-slate-200 min-h-screen">
+<body class="admin-layout min-h-screen text-white">
+<header class="sticky top-0 z-30 flex min-h-16 items-center justify-between border-b border-slate-700/40 bg-slate-950/75 px-4 backdrop-blur-xl sm:px-6">
+  <div class="flex min-w-0 items-center gap-3"><button id="admin-menu-toggle" type="button" onclick="adminSetSidebar(true)" class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 bg-slate-900 text-slate-200 lg:hidden" aria-label="Open admin menu"><i data-lucide="menu" class="h-5 w-5"></i></button><span class="truncate text-sm font-semibold text-slate-100">Global Equinox Trade <span class="font-normal text-slate-500">/ Admin</span></span></div>
+  <a href="/admin" class="hidden rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white sm:inline-flex">Admin overview</a>
+</header>
+<%- include('sidebar', { currentPath: '/admin/users' }) %>
+<div class="admin-page-wrap">
 
   <div class="sticky top-0 z-10 backdrop-blur bg-[#0b0f1a]/80 border-b border-white/10 px-4 sm:px-8 py-4 sm:py-5 flex justify-between items-center">
     <div>
@@ -200,5 +211,8 @@
       if (typeof lucide !== 'undefined') lucide.createIcons();
     });
   </script>
+
+</div>
+<script>document.addEventListener("DOMContentLoaded",function(){if(typeof lucide!=="undefined")lucide.createIcons();});</script>
 </body>
 </html>
