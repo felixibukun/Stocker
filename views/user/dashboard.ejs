@@ -66,8 +66,14 @@
     .account-balance-card { container-type: inline-size; }
     .account-balance-value {
       max-width: 100%;
-      font-size: clamp(1.5rem, 7cqi, 3rem);
+      font-size: clamp(1.25rem, 5.5cqi, 2.5rem);
       line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+    .dashboard-stat-card { container-type: inline-size; }
+    .dashboard-stat-value {
+      font-size: clamp(1rem, 8cqi, 1.4rem);
+      line-height: 1.25;
       overflow-wrap: anywhere;
     }
     .card-hover { transition: transform .25s ease, box-shadow .25s ease, border-color .2s ease; }
@@ -378,39 +384,39 @@
         <!-- Right column -->
         <div class="lg:col-span-3 space-y-6">
           <div class="grid grid-cols-2 gap-4">
-            <div class="card card-hover p-5">
+            <div class="card card-hover dashboard-stat-card p-5">
               <div class="flex items-center justify-between">
                 <span class="text-sm text-slate-500">Profit Available</span>
                 <span class="h-8 w-8 rounded-full bg-emerald-50 flex items-center justify-center"><i data-lucide="dollar-sign" class="w-4 h-4 text-emerald-600"></i></span>
               </div>
-              <p class="text-2xl font-bold font-display mt-3 <%= (user.totalProfit || 0) >= 0 ? 'text-emerald-600' : 'text-red-600' %>">$<%= money(user.totalProfit) %></p>
+              <p class="dashboard-stat-value font-bold font-display mt-3 <%= (user.totalProfit || 0) >= 0 ? 'text-emerald-600' : 'text-red-600' %>">$<%= money(user.totalProfit) %></p>
               <p class="text-xs text-slate-400 mt-2">After requested withdrawals</p>
             </div>
 
-            <div class="card card-hover p-5">
+            <div class="card card-hover dashboard-stat-card p-5">
               <div class="flex items-center justify-between">
                 <span class="text-sm text-slate-500">Deposit</span>
                 <span class="h-8 w-8 rounded-full bg-brand-50 flex items-center justify-center"><i data-lucide="arrow-down" class="w-4 h-4 text-brand-600"></i></span>
               </div>
-              <p class="text-2xl font-bold font-display mt-3">$<%= money(user.depositBalance) %></p>
+              <p class="dashboard-stat-value font-bold font-display mt-3">$<%= money(user.depositBalance) %></p>
               <p class="text-xs text-slate-400 mt-2">Current funds available for trading</p>
             </div>
 
-            <div class="card card-hover p-5">
+            <div class="card card-hover dashboard-stat-card p-5">
               <div class="flex items-center justify-between">
                 <span class="text-sm text-slate-500">Withdrawals Paid</span>
                 <span class="h-8 w-8 rounded-full bg-rose-50 flex items-center justify-center"><i data-lucide="arrow-up" class="w-4 h-4 text-rose-600"></i></span>
               </div>
-              <p class="text-2xl font-bold font-display mt-3">$<%= money(user.totalWithdrawal) %></p>
+              <p class="dashboard-stat-value font-bold font-display mt-3">$<%= money(user.totalWithdrawal) %></p>
               <p class="text-xs text-slate-400 mt-2">$<%= money(user.pendingWithdrawal) %> pending</p>
             </div>
 
-            <div class="card card-hover p-5">
+            <div class="card card-hover dashboard-stat-card p-5">
               <div class="flex items-center justify-between">
                 <span class="text-sm text-slate-500">Bonus</span>
                 <span class="h-8 w-8 rounded-full bg-amber-50 flex items-center justify-center"><i data-lucide="gift" class="w-4 h-4 text-amber-600"></i></span>
               </div>
-              <p class="text-2xl font-bold font-display mt-3">$<%= money(user.bonus) %></p>
+              <p class="dashboard-stat-value font-bold font-display mt-3">$<%= money(user.bonus) %></p>
               <p class="text-xs text-slate-400 mt-2 flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> All time</p>
             </div>
           </div>
