@@ -1,0 +1,1261 @@
+/* Stocker Premium Light Theme */
+:root {
+  color-scheme: light;
+  --st-bg: #f3f7fd;
+  --st-surface: #ffffff;
+  --st-surface-alt: #f7faff;
+  --st-border: #e4ebf5;
+  --st-text: #101d3a;
+  --st-muted: #64748b;
+  --st-blue: #215cff;
+  --st-blue-dark: #1749dc;
+  --st-green: #0eaa65;
+  --st-red: #e5484d;
+  --st-radius: 18px;
+}
+html { background: var(--st-bg) !important; }
+body {
+  background: var(--st-bg) !important;
+  color: var(--st-text) !important;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+body::before, body::after { opacity: .18 !important; }
+::selection { background: #cfe0ff; color: #102452; }
+
+.bg-slate-950, .bg-gray-950, .bg-gray-900,
+.bg-slate-900, .bg-slate-900\/80, .bg-slate-900\/90,
+.bg-slate-800, .bg-gray-800, .bg-neutral-950 {
+  background-color: var(--st-surface) !important;
+}
+.text-white, .text-slate-100, .text-slate-200,
+.text-gray-100, .text-gray-200, .text-gray-300 {
+  color: var(--st-text) !important;
+}
+.text-slate-300, .text-slate-400, .text-gray-400,
+.text-gray-500, .text-slate-500 {
+  color: var(--st-muted) !important;
+}
+.border-slate-700, .border-slate-800, .border-gray-700,
+.border-gray-800, .border-slate-700\/40 {
+  border-color: var(--st-border) !important;
+}
+.bg-blue-600, .bg-blue-700, .bg-indigo-600,
+.bg-indigo-700, .bg-sky-600, .bg-brand-500 {
+  background-color: var(--st-blue) !important;
+}
+.bg-blue-600.text-white, .bg-blue-700.text-white,
+.bg-indigo-600.text-white, .bg-indigo-700.text-white,
+.bg-sky-600.text-white, button.text-white,
+a.bg-blue-600, a.bg-blue-700, a.bg-indigo-600 {
+  color: #fff !important;
+}
+.text-blue-400, .text-blue-300, .text-sky-400,
+.text-cyan-400 { color: var(--st-blue) !important; }
+.text-green-400, .text-emerald-400 { color: var(--st-green) !important; }
+.text-red-400, .text-rose-400 { color: var(--st-red) !important; }
+
+.card, .admin-card, .stat-card, .glass-card,
+[class*="rounded-"][class*="border"][class*="bg-slate-900"],
+[class*="rounded-"][class*="border"][class*="bg-gray-900"] {
+  background: var(--st-surface) !important;
+  color: var(--st-text) !important;
+  border-color: var(--st-border) !important;
+  box-shadow: 0 8px 28px rgba(24, 55, 105, .055) !important;
+}
+input, select, textarea {
+  background-color: #fff !important;
+  color: var(--st-text) !important;
+  border-color: #d9e3f1 !important;
+}
+input::placeholder, textarea::placeholder {
+  color: #94a3b8 !important;
+}
+table { color: var(--st-text); }
+thead, th { color: #50627e; }
+tr { border-color: var(--st-border) !important; }
+a { transition: color .18s ease, background .18s ease; }
+button { transition: transform .18s ease, box-shadow .18s ease; }
+button:hover { filter: brightness(.98); }
+.admin-layout {
+  background: linear-gradient(145deg, #f5f8ff, #edf3fc) !important;
+  color: var(--st-text) !important;
+}
+.admin-sidebar {
+  background: rgba(255,255,255,.97) !important;
+  border-color: var(--st-border) !important;
+  box-shadow: 8px 0 32px rgba(24,55,105,.045);
+}
+.admin-nav-link { color: #536580 !important; }
+.admin-nav-link:hover {
+  color: var(--st-blue) !important;
+  background: #eef4ff !important;
+}
+.admin-nav-link.active {
+  color: #fff !important;
+  background: linear-gradient(110deg,#215cff,#4385ff) !important;
+  border-color: transparent !important;
+  box-shadow: 0 5px 16px rgba(33,92,255,.2) !important;
+}
+.admin-mobile-dock {
+  background: rgba(255,255,255,.97) !important;
+  border-color: var(--st-border) !important;
+}
+.admin-dock-link { color: #64748b !important; }
+.admin-dock-link.active {
+  color: var(--st-blue) !important;
+  background: #edf3ff !important;
+}
+#adminBackdrop { background: rgba(18,32,58,.28) !important; }
+@media (max-width: 768px) {
+  body { overflow-x: hidden; }
+  .card { border-radius: 16px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* Stocker dashboard — premium light refinements */
+:root {
+  --black: #f3f7fd;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --card2: #f7faff;
+  --border: #e4ebf5;
+  --muted: #64748b;
+  --blue: #215cff;
+  --blue2: #4385ff;
+  --cyan: #0ea5e9;
+  --green: #0eaa65;
+}
+
+/* Dashboard canvas and panels */
+body {
+  background: #f3f7fd !important;
+  color: #101d3a !important;
+}
+
+main, .main-content, .dashboard-content {
+  background: transparent !important;
+  color: #101d3a !important;
+}
+
+.card,
+.card-hover,
+.stat-accent,
+.dashboard-stat-card,
+.glass-card {
+  background: #ffffff !important;
+  color: #101d3a !important;
+  border: 1px solid #e4ebf5 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 26px rgba(24, 55, 105, .055) !important;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(24, 55, 105, .09) !important;
+}
+
+/* Navigation surfaces */
+.sidebar,
+aside,
+nav {
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.nav-link {
+  color: #536580 !important;
+}
+
+.nav-link:hover {
+  color: #215cff !important;
+  background: #eef4ff !important;
+}
+
+.nav-link.active {
+  color: #215cff !important;
+  background: #eaf1ff !important;
+}
+
+/* Text and dashboard figures */
+.text-white,
+.text-slate-100,
+.text-slate-200 {
+  color: #101d3a !important;
+}
+
+.text-slate-300,
+.text-slate-400 {
+  color: #64748b !important;
+}
+
+.dashboard-stat-value {
+  letter-spacing: -.035em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Inputs and data tables */
+input,
+select,
+textarea {
+  background: #ffffff !important;
+  color: #101d3a !important;
+  border-color: #d9e3f1 !important;
+}
+
+table,
+tbody {
+  color: #334155;
+}
+
+thead th {
+  color: #64748b;
+  background: #f7faff;
+}
+
+/* Preserve readable text on strong action buttons */
+button.bg-blue-600,
+button.bg-blue-700,
+button.bg-red-500,
+button.bg-red-600,
+button.bg-amber-500,
+button.bg-amber-600,
+a.bg-blue-600,
+a.bg-blue-700 {
+  color: #ffffff !important;
+}
+
+
+/* Contrast and navigation fixes based on dashboard preview */
+
+/* Sidebar */
+aside,
+.sidebar,
+#sidebar,
+.sidebar-container {
+  background: #ffffff !important;
+  color: #243653 !important;
+  border-right: 1px solid #e4ebf5 !important;
+}
+
+/* Sidebar navigation */
+aside .nav-link,
+.sidebar .nav-link,
+#sidebar .nav-link {
+  color: #536580 !important;
+}
+
+aside .nav-link:hover,
+.sidebar .nav-link:hover,
+#sidebar .nav-link:hover {
+  color: #215cff !important;
+  background: #eef4ff !important;
+}
+
+aside .nav-link.active,
+.sidebar .nav-link.active,
+#sidebar .nav-link.active {
+  color: #215cff !important;
+  background: #eaf1ff !important;
+}
+
+/* Top market and account bar */
+header,
+.topbar,
+.top-bar,
+.dashboard-header {
+  background: rgba(255, 255, 255, .97) !important;
+  color: #101d3a !important;
+  border-color: #e4ebf5 !important;
+}
+
+/* Ensure the main account balance is readable */
+.dashboard-stat-value,
+.account-balance,
+.balance-amount,
+[class*="balance"] .text-white {
+  color: #101d3a !important;
+  -webkit-text-fill-color: #101d3a !important;
+  text-shadow: none !important;
+}
+
+/* Preserve intentional green profit figures */
+.text-emerald-400,
+.text-green-400 {
+  color: #0eaa65 !important;
+  -webkit-text-fill-color: #0eaa65 !important;
+}
+
+/* Keep the main canvas clean */
+main,
+.main-content,
+.dashboard-content {
+  background: #f3f7fd !important;
+}
+
+
+/* Available Funds — fix low-contrast balance */
+.dashboard-stat-card,
+.dashboard-stat-card * {
+  -webkit-text-fill-color: initial;
+}
+
+.dashboard-stat-card .dashboard-stat-value {
+  color: #10234a !important;
+  -webkit-text-fill-color: #10234a !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  background: none !important;
+}
+
+.dashboard-stat-card p,
+.dashboard-stat-card span {
+  opacity: 1;
+}
+
+
+/* Fix main Account Balance amount */
+.account-balance-card .account-balance-value {
+  color: #10234a !important;
+  -webkit-text-fill-color: #10234a !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  background: none !important;
+  background-image: none !important;
+  font-weight: 800 !important;
+}
+
+
+/* ==========================================================
+   STOCKER PREMIUM LIGHT THEME — GLOBAL CONTRAST AND MARKETS
+   ========================================================== */
+
+:root {
+  color-scheme: light;
+  --st-bg: #f3f7fd;
+  --st-surface: #ffffff;
+  --st-surface-alt: #f7faff;
+  --st-border: #e4ebf5;
+  --st-text: #101d3a;
+  --st-muted: #64748b;
+  --st-blue: #215cff;
+  --st-blue-dark: #1749dc;
+}
+
+/* Ensure the page canvas stays light */
+html,
+body,
+.admin-layout {
+  background-color: var(--st-bg) !important;
+  color: var(--st-text) !important;
+}
+
+/* Convert common dark Tailwind backgrounds to light surfaces */
+.bg-slate-950,
+.bg-slate-900,
+.bg-slate-900\/70,
+.bg-slate-900\/80,
+.bg-slate-900\/90,
+.bg-slate-800,
+.bg-gray-950,
+.bg-gray-900,
+.bg-gray-800,
+.bg-neutral-950 {
+  background-color: #ffffff !important;
+}
+
+/* Convert dark gradient panels to light gradients */
+.bg-gradient-to-br.from-slate-900\/90,
+.bg-gradient-to-br.from-slate-900\/90.to-slate-950\/90,
+.bg-gradient-to-br.from-slate-900.to-slate-950 {
+  background: linear-gradient(145deg, #ffffff, #f7faff) !important;
+}
+
+/* Make dark text and white text readable on the light canvas */
+.text-white,
+.text-slate-100,
+.text-slate-200,
+.text-gray-100,
+.text-gray-200 {
+  color: #101d3a !important;
+}
+
+.text-slate-300,
+.text-slate-400,
+.text-gray-300,
+.text-gray-400 {
+  color: #64748b !important;
+}
+
+/* Preserve white text on solid action buttons */
+button.bg-blue-600,
+button.bg-blue-700,
+button.bg-indigo-600,
+button.bg-sky-600,
+button.bg-red-500,
+button.bg-red-600,
+button.bg-amber-500,
+button.bg-amber-600,
+a.bg-blue-600,
+a.bg-blue-700,
+.admin-nav-link.active {
+  color: #ffffff !important;
+}
+
+/* Borders and card surfaces */
+.border-slate-700,
+.border-slate-800,
+.border-slate-800\/50,
+.border-slate-800\/60,
+.border-slate-800\/70,
+.border-gray-700,
+.border-gray-800 {
+  border-color: #e4ebf5 !important;
+}
+
+.card,
+.card-hover,
+.stat-card,
+.admin-card,
+.glass-card,
+.dashboard-stat-card {
+  background-color: #ffffff !important;
+  color: #101d3a !important;
+  border-color: #e4ebf5 !important;
+  box-shadow: 0 8px 28px rgba(24, 55, 105, .055) !important;
+}
+
+/* Live Prices ticker */
+.live-prices-viewport {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.live-prices-track,
+.live-prices-group {
+  gap: 12px !important;
+}
+
+.live-prices-card,
+.live-price-card {
+  background: #ffffff !important;
+  color: #101d3a !important;
+  border: 1px solid #e4ebf5 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 5px 18px rgba(24, 55, 105, .045);
+}
+
+.live-prices-card p,
+.live-price-card p {
+  color: #64748b !important;
+}
+
+.live-prices-card span,
+.live-price-card span {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Chart containers and plotting areas */
+.tradingview-widget,
+#tradingview_chart,
+#activityChart {
+  max-width: 100%;
+}
+
+#activityChart {
+  background: #ffffff;
+  border-radius: 12px;
+}
+
+/* Light scrollbar styling */
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #f1f5fb !important;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #cbd5e1 !important;
+}
+
+/* Mobile layout safety */
+@media (max-width: 768px) {
+  .live-prices-card,
+  .live-prices-card * {
+    max-width: 100%;
+  }
+
+  .live-prices-viewport {
+    overflow-x: hidden !important;
+  }
+
+  body {
+    overflow-x: hidden !important;
+  }
+}
+
+
+/* =========================================================
+   Deposit and Withdraw pages — premium light theme
+   Visual-only overrides; do not change payment functionality.
+   ========================================================= */
+
+body.gradient-bg {
+  background: linear-gradient(145deg, #f5f8ff 0%, #edf3fc 100%) !important;
+  color: #101d3a !important;
+}
+
+body.gradient-bg header {
+  background: rgba(255,255,255,.96) !important;
+  border-color: #e4ebf5 !important;
+  color: #101d3a !important;
+  box-shadow: 0 4px 18px rgba(24,55,105,.045);
+}
+
+body.gradient-bg main {
+  color: #101d3a !important;
+}
+
+body.gradient-bg .gradient-bg,
+body.gradient-bg .card-gradient,
+body.gradient-bg .dropdown-gradient {
+  background: #ffffff !important;
+  color: #101d3a !important;
+  border-color: #e4ebf5 !important;
+  box-shadow: 0 8px 28px rgba(24,55,105,.055);
+}
+
+body.gradient-bg [class*="bg-slate-900"],
+body.gradient-bg [class*="bg-slate-950"],
+body.gradient-bg [class*="bg-gray-900"],
+body.gradient-bg [class*="bg-gray-800"] {
+  background-color: #f7faff !important;
+  color: #101d3a !important;
+}
+
+body.gradient-bg .custom-select-btn {
+  background: #ffffff !important;
+  color: #101d3a !important;
+  border: 1px solid #d9e3f1 !important;
+}
+
+body.gradient-bg .custom-select-btn:hover {
+  border-color: #215cff !important;
+  background: #f7faff !important;
+}
+
+body.gradient-bg .custom-select-dropdown {
+  background: #ffffff !important;
+  color: #101d3a !important;
+  border: 1px solid #d9e3f1 !important;
+  box-shadow: 0 14px 32px rgba(24,55,105,.12);
+}
+
+body.gradient-bg .custom-option {
+  color: #243653 !important;
+}
+
+body.gradient-bg .custom-option:hover,
+body.gradient-bg .custom-option.selected {
+  background: #edf3ff !important;
+  color: #1749dc !important;
+}
+
+body.gradient-bg input,
+body.gradient-bg select,
+body.gradient-bg textarea {
+  background: #ffffff !important;
+  color: #101d3a !important;
+  border-color: #d9e3f1 !important;
+}
+
+body.gradient-bg input::placeholder,
+body.gradient-bg textarea::placeholder {
+  color: #8796ad !important;
+}
+
+body.gradient-bg .text-white,
+body.gradient-bg .text-slate-100,
+body.gradient-bg .text-slate-200,
+body.gradient-bg .text-slate-300,
+body.gradient-bg .text-gray-100,
+body.gradient-bg .text-gray-200,
+body.gradient-bg .text-gray-300 {
+  color: #243653 !important;
+}
+
+body.gradient-bg .text-slate-400,
+body.gradient-bg .text-slate-500,
+body.gradient-bg .text-gray-400,
+body.gradient-bg .text-gray-500 {
+  color: #64748b !important;
+}
+
+/* Keep primary actions visibly blue with white text */
+body.gradient-bg button.bg-blue-500,
+body.gradient-bg button.bg-blue-600,
+body.gradient-bg button.bg-blue-700,
+body.gradient-bg a.bg-blue-500,
+body.gradient-bg a.bg-blue-600,
+body.gradient-bg a.bg-blue-700,
+body.gradient-bg button[type="submit"] {
+  color: #ffffff !important;
+}
+
+/* Preserve status meaning and readable contrast */
+body.gradient-bg .status-approved,
+body.gradient-bg .status-completed,
+body.gradient-bg .available {
+  color: #087443 !important;
+  background: #e8f8ef !important;
+  border-color: #b8e8cb !important;
+}
+
+body.gradient-bg .status-pending {
+  color: #8a5a00 !important;
+  background: #fff7df !important;
+  border-color: #f1dda0 !important;
+}
+
+body.gradient-bg .status-rejected,
+body.gradient-bg .status-failed,
+body.gradient-bg .unavailable {
+  color: #b42332 !important;
+  background: #fff0f1 !important;
+  border-color: #f3c3c8 !important;
+}
+
+body.gradient-bg .file-upload {
+  border-color: #cbd8eb !important;
+  background: #fbfdff !important;
+}
+
+body.gradient-bg .file-upload:hover,
+body.gradient-bg .file-upload.dragover {
+  border-color: #215cff !important;
+  background: #edf3ff !important;
+}
+
+body.gradient-bg code {
+  background: #f1f5fb !important;
+  color: #243653 !important;
+  border: 1px solid #e4ebf5;
+  overflow-wrap: anywhere;
+}
+
+body.gradient-bg .border-slate-700,
+body.gradient-bg .border-slate-800,
+body.gradient-bg .border-slate-800\/50,
+body.gradient-bg .border-gray-700,
+body.gradient-bg .border-gray-800 {
+  border-color: #e4ebf5 !important;
+}
+
+@media (max-width: 640px) {
+  body.gradient-bg main {
+    padding-top: 1.25rem;
+    padding-bottom: 1.5rem;
+  }
+
+  body.gradient-bg .custom-select-dropdown {
+    max-width: calc(100vw - 2rem);
+  }
+}
+
+
+/* =========================================================
+   Stocker homepage — finish premium light theme
+   Scoped to the page containing #hero.
+   ========================================================= */
+
+body:has(#hero) {
+  background: #f3f7fd !important;
+  color: #101d3a !important;
+}
+
+/* Main page sections */
+body:has(#hero) main,
+body:has(#hero) #hero,
+body:has(#hero) main > section {
+  color: #101d3a;
+}
+
+body:has(#hero) section.bg-slate-950\/30,
+body:has(#hero) section.bg-slate-950\/50,
+body:has(#hero) section.bg-slate-950\/80,
+body:has(#hero) section.bg-gradient-to-b,
+body:has(#hero) footer.bg-slate-950 {
+  background: #f3f7fd !important;
+  color: #101d3a !important;
+  border-color: #e4ebf5 !important;
+}
+
+/* Dark cards and panels */
+body:has(#hero) [class*="bg-slate-950"],
+body:has(#hero) [class*="bg-slate-900"],
+body:has(#hero) [class*="bg-gray-900"],
+body:has(#hero) [class*="bg-gray-800"] {
+  background-color: #ffffff !important;
+  color: #101d3a !important;
+  border-color: #e4ebf5 !important;
+}
+
+/* Replace remaining dark gradient utilities */
+body:has(#hero) [class*="from-slate-950"],
+body:has(#hero) [class*="to-slate-900"] {
+  --tw-gradient-from: #ffffff var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: #f7faff var(--tw-gradient-to-position) !important;
+}
+
+/* Homepage text contrast */
+body:has(#hero) .text-white,
+body:has(#hero) .text-slate-100,
+body:has(#hero) .text-slate-200,
+body:has(#hero) .text-slate-300,
+body:has(#hero) .text-gray-100,
+body:has(#hero) .text-gray-200,
+body:has(#hero) .text-gray-300 {
+  color: #243653 !important;
+}
+
+body:has(#hero) .text-slate-400,
+body:has(#hero) .text-slate-500,
+body:has(#hero) .text-gray-400,
+body:has(#hero) .text-gray-500 {
+  color: #64748b !important;
+}
+
+/* Keep links and accent text recognizable */
+body:has(#hero) .text-blue-400,
+body:has(#hero) .text-blue-300,
+body:has(#hero) .text-cyan-400 {
+  color: #215cff !important;
+}
+
+body:has(#hero) .text-green-400,
+body:has(#hero) .text-emerald-400 {
+  color: #087443 !important;
+}
+
+body:has(#hero) .text-red-400,
+body:has(#hero) .text-rose-400 {
+  color: #b42332 !important;
+}
+
+/* Preserve white text on primary and other colored actions */
+body:has(#hero) a.bg-blue-500,
+body:has(#hero) a.bg-blue-600,
+body:has(#hero) a.bg-blue-700,
+body:has(#hero) button.bg-blue-500,
+body:has(#hero) button.bg-blue-600,
+body:has(#hero) button.bg-blue-700,
+body:has(#hero) .bg-primary-500,
+body:has(#hero) .bg-primary-600 {
+  background-color: #215cff !important;
+  color: #ffffff !important;
+}
+
+/* Inputs and contact form */
+body:has(#hero) input,
+body:has(#hero) select,
+body:has(#hero) textarea {
+  background: #ffffff !important;
+  color: #101d3a !important;
+  border-color: #d9e3f1 !important;
+}
+
+body:has(#hero) input::placeholder,
+body:has(#hero) textarea::placeholder {
+  color: #8796ad !important;
+}
+
+/* Market ticker: light strip with readable symbols and prices */
+body:has(#hero) section.overflow-hidden.border-y {
+  background: #ffffff !important;
+  border-color: #e4ebf5 !important;
+  color: #101d3a !important;
+}
+
+/* Cards, feature panels, and hover states */
+body:has(#hero) .card-hover {
+  background-color: #ffffff !important;
+  border-color: #e4ebf5 !important;
+  box-shadow: 0 8px 26px rgba(24,55,105,.055) !important;
+}
+
+body:has(#hero) .card-hover:hover {
+  border-color: #cbdaf5 !important;
+  box-shadow: 0 14px 32px rgba(24,55,105,.09) !important;
+}
+
+/* Footer */
+body:has(#hero) footer {
+  background: #ffffff !important;
+  color: #243653 !important;
+  border-color: #e4ebf5 !important;
+}
+
+body:has(#hero) footer a {
+  color: #536580;
+}
+
+body:has(#hero) footer a:hover {
+  color: #215cff;
+}
+
+/* Decorative background grids should not become dark blocks */
+body:has(#hero) #hero .bg-slate-950.bg-grid-slate {
+  background-color: transparent !important;
+  opacity: .22;
+}
+
+@media (max-width: 640px) {
+  body:has(#hero) main > section {
+    scroll-margin-top: 5rem;
+  }
+}
+
+
+/* ==========================================================
+   GLOBAL EQUINOX TRADE — ADMIN LIGHT THEME
+   Responsive visual overrides only.
+   ========================================================== */
+
+/* Main admin canvas */
+body.admin-layout {
+  background: #f3f7fd !important;
+  color: #14213d !important;
+}
+
+.admin-layout main,
+.admin-layout .admin-content {
+  background: transparent !important;
+  color: #14213d !important;
+}
+
+/* Top headers */
+.admin-layout > header,
+.admin-layout header.sticky,
+.admin-layout header.bg-slate-950,
+.admin-layout header.bg-slate-950\/80,
+.admin-layout header.bg-slate-950\/75 {
+  background: rgba(255,255,255,.97) !important;
+  color: #14213d !important;
+  border-color: #e2eaf5 !important;
+  box-shadow: 0 4px 18px rgba(24,55,105,.045);
+}
+
+/* Main cards, panels and dashboard widgets */
+.admin-layout [class*="bg-slate-950"],
+.admin-layout [class*="bg-slate-900"],
+.admin-layout [class*="bg-slate-800"],
+.admin-layout [class*="bg-gray-950"],
+.admin-layout [class*="bg-gray-900"],
+.admin-layout [class*="bg-gray-800"] {
+  background-color: #ffffff !important;
+  color: #14213d !important;
+}
+
+/* Replace dark gradient panels */
+.admin-layout [class*="from-slate-900"],
+.admin-layout [class*="from-slate-950"],
+.admin-layout [class*="to-slate-950"] {
+  --tw-gradient-from: #ffffff var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: #f7faff var(--tw-gradient-to-position) !important;
+}
+
+/* Card borders and shadows */
+.admin-layout .rounded-2xl.border,
+.admin-layout .rounded-xl.border,
+.admin-layout section[class*="border"],
+.admin-layout main [class*="shadow-xl"],
+.admin-layout main [class*="shadow-lg"] {
+  border-color: #e2eaf5 !important;
+}
+
+.admin-layout main .rounded-2xl,
+.admin-layout main .rounded-xl {
+  box-shadow: 0 8px 26px rgba(24,55,105,.045);
+}
+
+/* Readable default text */
+.admin-layout .text-white,
+.admin-layout .text-slate-100,
+.admin-layout .text-slate-200,
+.admin-layout .text-slate-300,
+.admin-layout .text-gray-100,
+.admin-layout .text-gray-200,
+.admin-layout .text-gray-300 {
+  color: #263854 !important;
+}
+
+.admin-layout .text-slate-400,
+.admin-layout .text-slate-500,
+.admin-layout .text-gray-400,
+.admin-layout .text-gray-500 {
+  color: #64748b !important;
+}
+
+/* Keep semantic colors for metrics and status labels */
+.admin-layout .text-blue-400,
+.admin-layout .text-blue-300,
+.admin-layout .text-indigo-400 {
+  color: #215cff !important;
+}
+
+.admin-layout .text-green-400,
+.admin-layout .text-emerald-400 {
+  color: #087443 !important;
+}
+
+.admin-layout .text-amber-400,
+.admin-layout .text-yellow-400 {
+  color: #996300 !important;
+}
+
+.admin-layout .text-red-400,
+.admin-layout .text-rose-400 {
+  color: #b42332 !important;
+}
+
+/* Inputs, dropdowns and textareas */
+.admin-layout input:not([type="checkbox"]):not([type="radio"]),
+.admin-layout select,
+.admin-layout textarea {
+  background: #ffffff !important;
+  color: #14213d !important;
+  border-color: #d5e0ef !important;
+}
+
+.admin-layout input::placeholder,
+.admin-layout textarea::placeholder {
+  color: #8796ad !important;
+}
+
+.admin-layout input:focus,
+.admin-layout select:focus,
+.admin-layout textarea:focus {
+  border-color: #215cff !important;
+  outline-color: #215cff !important;
+}
+
+/* Tables */
+.admin-layout table {
+  color: #263854 !important;
+  border-color: #e2eaf5 !important;
+}
+
+.admin-layout thead,
+.admin-layout thead tr {
+  background: #f4f7fc !important;
+  color: #536580 !important;
+}
+
+.admin-layout tbody tr {
+  border-color: #e7edf6 !important;
+}
+
+.admin-layout tbody tr:hover {
+  background-color: #f5f8ff !important;
+}
+
+.admin-layout td,
+.admin-layout th {
+  border-color: #e7edf6 !important;
+}
+
+.admin-layout .overflow-x-auto {
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  background: #ffffff !important;
+  color: #263854 !important;
+  border-right: 1px solid #e2eaf5 !important;
+  box-shadow: 4px 0 24px rgba(24,55,105,.035);
+}
+
+.admin-sidebar a,
+.admin-sidebar button {
+  color: #536580;
+}
+
+.admin-sidebar a:hover,
+.admin-sidebar button:hover {
+  background: #f0f5ff !important;
+  color: #215cff !important;
+}
+
+/* Active sidebar item */
+.admin-sidebar a.active,
+.admin-sidebar a[aria-current="page"],
+.admin-sidebar .admin-nav-link.active {
+  background: #215cff !important;
+  color: #ffffff !important;
+}
+
+/* Mobile sidebar backdrop */
+#adminBackdrop {
+  background: rgba(18,32,58,.38) !important;
+}
+
+/* Mobile bottom navigation */
+.admin-mobile-dock {
+  background: rgba(255,255,255,.98) !important;
+  border-top: 1px solid #e2eaf5 !important;
+  box-shadow: 0 -8px 28px rgba(24,55,105,.08);
+}
+
+.admin-mobile-dock a,
+.admin-mobile-dock button {
+  color: #536580 !important;
+}
+
+.admin-mobile-dock a.active,
+.admin-mobile-dock a[aria-current="page"] {
+  color: #215cff !important;
+}
+
+/* Preserve primary action buttons */
+.admin-layout button.bg-blue-500,
+.admin-layout button.bg-blue-600,
+.admin-layout button.bg-blue-700,
+.admin-layout a.bg-blue-500,
+.admin-layout a.bg-blue-600,
+.admin-layout a.bg-blue-700,
+.admin-layout button[type="submit"] {
+  background-color: #215cff;
+  color: #ffffff !important;
+}
+
+/* Preserve colored status badges */
+.admin-layout [class*="bg-green-"],
+.admin-layout [class*="bg-emerald-"] {
+  color: #087443;
+}
+
+.admin-layout [class*="bg-red-"],
+.admin-layout [class*="bg-rose-"] {
+  color: #b42332;
+}
+
+.admin-layout [class*="bg-amber-"],
+.admin-layout [class*="bg-yellow-"] {
+  color: #8a5a00;
+}
+
+/* Admin login page */
+body.bg-gray-900 {
+  background: #f3f7fd !important;
+  color: #14213d !important;
+}
+
+/* Mobile and tablet */
+@media (max-width: 1023px) {
+  .admin-layout main {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .admin-layout main .grid {
+    min-width: 0;
+  }
+
+  .admin-layout table {
+    min-width: 640px;
+  }
+
+  .admin-sidebar {
+    max-width: 86vw;
+  }
+
+  .admin-mobile-dock {
+    padding-left: max(.4rem, env(safe-area-inset-left));
+    padding-right: max(.4rem, env(safe-area-inset-right));
+    padding-bottom: calc(.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-layout main {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 6rem;
+  }
+
+  .admin-layout h1 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .admin-layout .overflow-x-auto {
+    border-radius: .875rem;
+  }
+}
+
+
+/* Admin desktop: reduce excessive space before page content */
+@media (min-width: 1024px) {
+  .admin-layout .admin-page-wrap {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .admin-layout main {
+    margin-top: 0 !important;
+  }
+
+  .admin-layout main.max-w-6xl,
+  .admin-layout main.max-w-5xl,
+  .admin-layout main.max-w-3xl {
+    padding-top: 1.25rem !important;
+  }
+
+  .admin-layout .admin-workspace main {
+    padding-top: 1.25rem !important;
+  }
+}
+
+/* Fix standalone admin pages: keep the sidebar out of document flow */
+@media (min-width: 1024px) {
+  body.admin-layout > #adminSidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    width: 17rem !important;
+    height: 100vh !important;
+  }
+
+  body.admin-layout > header,
+  body.admin-layout > .admin-page-wrap {
+    margin-left: 17rem !important;
+    width: calc(100% - 17rem) !important;
+  }
+
+  body.admin-layout > header {
+    top: 0;
+  }
+
+  body.admin-layout > .admin-page-wrap {
+    min-height: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Desktop admin sidebar collapse */
+.admin-desktop-toggle {
+  position: absolute;
+  top: 5.15rem;
+  right: -.8rem;
+  z-index: 95;
+  width: 1.8rem;
+  height: 1.8rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d7e2f1;
+  border-radius: 999px;
+  background: #fff;
+  color: #365274;
+  box-shadow: 0 3px 12px rgba(24,55,105,.12);
+  cursor: pointer;
+}
+
+@media (min-width: 1024px) {
+  body.admin-layout #adminSidebar {
+    transition: width .2s ease, min-width .2s ease;
+  }
+
+  body.admin-layout #adminSidebar.is-collapsed {
+    width: 5rem !important;
+    min-width: 5rem !important;
+  }
+
+  body.admin-layout #adminSidebar.is-collapsed > a:first-child {
+    justify-content: center;
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  body.admin-layout #adminSidebar.is-collapsed .admin-brand-copy,
+  body.admin-layout #adminSidebar.is-collapsed .admin-workspace-label,
+  body.admin-layout #adminSidebar.is-collapsed .admin-nav-label {
+    display: none !important;
+  }
+
+  body.admin-layout #adminSidebar.is-collapsed .admin-nav-link {
+    justify-content: center;
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+
+  body.admin-layout #adminSidebar.is-collapsed .admin-nav-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  body.admin-layout #adminSidebar.is-collapsed .admin-desktop-toggle {
+    right: -.8rem;
+  }
+
+  body.admin-layout > header,
+  body.admin-layout > .admin-page-wrap {
+    transition: margin-left .2s ease, width .2s ease;
+  }
+
+  body.admin-layout.admin-sidebar-collapsed > header,
+  body.admin-layout.admin-sidebar-collapsed > .admin-page-wrap {
+    margin-left: 5rem !important;
+    width: calc(100% - 5rem) !important;
+  }
+}
+
+/* Tighter sidebar navigation to show more items */
+.admin-sidebar nav {
+  padding-top: .25rem;
+  padding-bottom: .5rem;
+}
+
+.admin-sidebar .admin-nav-link {
+  min-height: 2.5rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+@media (max-width: 1023px) {
+  .admin-desktop-toggle {
+    display: none !important;
+  }
+}
+
+/* Homepage hero: restore dark dashboard contrast and readable content */
+body:has(#hero) #hero .animate-fade-in {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #243653 !important;
+}
+
+body:has(#hero) #hero h1 .text-white {
+  color: #243653 !important;
+}
+
+body:has(#hero) #hero .gradient-text {
+  color: #6246ea !important;
+  -webkit-text-fill-color: #6246ea !important;
+}
+
+body:has(#hero) #hero .hero-media-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(243,247,253,.96) 0%,
+    rgba(243,247,253,.78) 45%,
+    rgba(243,247,253,.12) 100%
+  ) !important;
+}
+
+body:has(#hero) #hero .animate-fade-in p {
+  color: #405575 !important;
+}
