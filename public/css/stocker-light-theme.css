@@ -1259,3 +1259,490 @@ body:has(#hero) #hero .hero-media-overlay {
 body:has(#hero) #hero .animate-fade-in p {
   color: #405575 !important;
 }
+
+/* Animated trading hero background */
+body:has(#hero) #hero {
+  position: relative;
+  isolation: isolate;
+  background-color: #020617 !important;
+  background-image: none !important;
+}
+
+body:has(#hero) #hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: stockerTradingBackground 24s infinite;
+}
+
+@keyframes stockerTradingBackground {
+  0%, 100% {
+    background-image: url("https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1920&q=85");
+    opacity: 1;
+  }
+  30% {
+    background-image: url("https://images.unsplash.com/photo-1642790551116-18e150f248e3?auto=format&fit=crop&w=1920&q=85");
+    opacity: .85;
+  }
+  33% {
+    background-image: url("https://images.unsplash.com/photo-1642790551116-18e150f248e3?auto=format&fit=crop&w=1920&q=85");
+    opacity: 1;
+  }
+  63% {
+    background-image: url("https://images.unsplash.com/photo-1642790551116-18e150f248e3?auto=format&fit=crop&w=1920&q=85");
+    opacity: .85;
+  }
+}
+
+body:has(#hero) #hero .hero-media-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(2, 6, 23, .78),
+    rgba(2, 6, 23, .48),
+    rgba(2, 6, 23, .72)
+  ) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(#hero) #hero::before {
+    animation: none;
+    background-image: url("https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1920&q=85");
+  }
+}
+
+/* Hero slideshow and dashboard visual restoration */
+body:has(#hero) #hero {
+  isolation: isolate;
+  background: #020617 !important;
+  color: #f8fafc !important;
+}
+body:has(#hero) #hero > *:not(#hero-bg-slideshow) {
+  position: relative;
+  z-index: 1;
+}
+body:has(#hero) #hero #hero-bg-slideshow {
+  z-index: 0 !important;
+}
+body:has(#hero) #hero .hero-media-overlay {
+  background: linear-gradient(90deg,rgba(2,6,23,.70),rgba(2,6,23,.36),rgba(2,6,23,.62)) !important;
+}
+body:has(#hero) #hero .animate-fade-in,
+body:has(#hero) #hero .animate-fade-in p,
+body:has(#hero) #hero .animate-fade-in .text-white,
+body:has(#hero) #hero .animate-fade-in .text-slate-300 {
+  color: #f8fafc !important;
+}
+body:has(#hero) #hero .gradient-text {
+  background-image: linear-gradient(90deg,#38bdf8,#7c3aed) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+@media (min-width: 1024px) {
+  body:has(#hero) #hero .max-w-7xl > .grid {
+    grid-template-columns: minmax(0,.92fr) minmax(0,1.08fr) !important;
+    gap: 2rem !important;
+  }
+}
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child {
+  width: 100% !important;
+  min-width: 0;
+}
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child [class*="bg-slate-950"],
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child [class*="bg-slate-900"],
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child [class*="bg-gray-900"],
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child [class*="bg-gray-800"] {
+  background-color: rgba(7,16,32,.96) !important;
+  color: #f8fafc !important;
+  border-color: rgba(148,163,184,.28) !important;
+}
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child .text-slate-400,
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child .text-slate-500,
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child .text-slate-300,
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child .text-white {
+  color: #e2e8f0 !important;
+}
+
+/* Reduce the homepage dashboard panel size */
+@media (min-width: 1024px) {
+  body:has(#hero) #hero .max-w-7xl > .grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr) !important;
+    gap: 2rem !important;
+    align-items: center !important;
+  }
+
+  body:has(#hero) #hero .max-w-7xl > .grid > :last-child {
+    transform: scale(.88);
+    transform-origin: center right;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  body:has(#hero) #hero .max-w-7xl > .grid > :last-child {
+    transform: none;
+  }
+}
+
+/* Darken the dashboard preview image without changing its size */
+body:has(#hero) #hero .video-frame img,
+body:has(#hero) #hero img.media-cover {
+  filter: brightness(.48) contrast(1.15) saturate(1.2) !important;
+}
+
+/* Keep dashboard labels readable */
+body:has(#hero) #hero .video-frame .absolute {
+  background: linear-gradient(
+    to top,
+    rgba(2,6,23,.88),
+    rgba(2,6,23,.12)
+  ) !important;
+}
+
+/* Restore the dashboard preview image to its original appearance */
+body:has(#hero) #hero .video-frame img,
+body:has(#hero) #hero img.media-cover {
+  filter: none !important;
+}
+
+/* Preserve the original dashboard image overlay */
+body:has(#hero) #hero .video-frame .absolute {
+  background: linear-gradient(
+    to top,
+    rgba(2,6,23,.35),
+    transparent
+  ) !important;
+}
+
+/* Restore clean light homepage hero without background images */
+body:has(#hero) #hero {
+  background: linear-gradient(135deg, #f3f7fd 0%, #e8effa 55%, #f8faff 100%) !important;
+  background-image: none !important;
+  color: #243653 !important;
+}
+
+body:has(#hero) #hero::before {
+  content: none !important;
+  animation: none !important;
+  background-image: none !important;
+}
+
+body:has(#hero) #hero #hero-bg-slideshow {
+  display: none !important;
+}
+
+body:has(#hero) #hero .hero-media-overlay {
+  background: transparent !important;
+}
+
+body:has(#hero) #hero .animate-fade-in,
+body:has(#hero) #hero .animate-fade-in p,
+body:has(#hero) #hero .text-white,
+body:has(#hero) #hero .text-slate-100,
+body:has(#hero) #hero .text-slate-200,
+body:has(#hero) #hero .text-slate-300 {
+  color: #243653 !important;
+}
+
+body:has(#hero) #hero .gradient-text {
+  background-image: linear-gradient(90deg, #215cff, #7c3aed) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Premium light hero redesign */
+body:has(#hero) #hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 8% 12%, rgba(99,102,241,.15), transparent 36%),
+    radial-gradient(ellipse at 55% 75%, rgba(56,189,248,.12), transparent 38%),
+    linear-gradient(135deg, #f8faff 0%, #edf3ff 48%, #f5f3ff 100%) !important;
+  background-image:
+    radial-gradient(ellipse at 8% 12%, rgba(99,102,241,.15), transparent 36%),
+    radial-gradient(ellipse at 55% 75%, rgba(56,189,248,.12), transparent 38%),
+    linear-gradient(135deg, #f8faff 0%, #edf3ff 48%, #f5f3ff 100%) !important;
+  color: #172746 !important;
+}
+
+/* Subtle premium chart-grid texture */
+body:has(#hero) #hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .32;
+  background-image:
+    linear-gradient(rgba(83,110,160,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(83,110,160,.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(90deg, black, transparent 78%);
+}
+
+body:has(#hero) #hero #hero-bg-slideshow {
+  display: none !important;
+}
+
+body:has(#hero) #hero .hero-media-overlay {
+  background: transparent !important;
+}
+
+body:has(#hero) #hero .max-w-7xl {
+  position: relative;
+  z-index: 1;
+}
+
+body:has(#hero) #hero .animate-fade-in,
+body:has(#hero) #hero .animate-fade-in p,
+body:has(#hero) #hero .animate-fade-in .text-white,
+body:has(#hero) #hero .animate-fade-in .text-slate-100,
+body:has(#hero) #hero .animate-fade-in .text-slate-200,
+body:has(#hero) #hero .animate-fade-in .text-slate-300,
+body:has(#hero) #hero h1 .text-white {
+  color: #1d3152 !important;
+}
+
+/* Bold blue-purple headline accent */
+body:has(#hero) #hero .gradient-text {
+  background: linear-gradient(100deg, #2563eb 0%, #4f46e5 48%, #9333ea 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Refined body copy */
+body:has(#hero) #hero .animate-fade-in p {
+  color: #526783 !important;
+}
+
+/* Soft elevated hero badge */
+body:has(#hero) #hero .animate-slide-up {
+  box-shadow: 0 8px 28px rgba(79,70,229,.13);
+}
+
+/* Keep the trading dashboard dark and premium */
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child {
+  filter: none !important;
+}
+
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child [class*="bg-slate-950"],
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child [class*="bg-slate-900"],
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child [class*="bg-gray-900"],
+body:has(#hero) #hero .max-w-7xl > .grid > :last-child [class*="bg-gray-800"] {
+  background-color: #0b1425 !important;
+  color: #f1f5f9 !important;
+  border-color: rgba(148,163,184,.2) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(#hero) #hero *,
+  body:has(#hero) #hero *::before,
+  body:has(#hero) #hero *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+
+
+/* Premium continuously moving live crypto ticker */
+.crypto-ticker {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+  overflow: hidden;
+  min-height: 76px;
+  padding: 12px 0;
+  color: #f8fafc;
+  background: linear-gradient(105deg, #0b1425 0%, #101d35 52%, #0b1425 100%);
+  border-top: 1px solid rgba(148, 163, 184, .18);
+  border-bottom: 1px solid rgba(148, 163, 184, .18);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, .09);
+}
+.crypto-ticker-heading {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  align-self: stretch;
+  padding: 0 20px;
+  color: #dbeafe;
+  background: #101d35;
+  border-right: 1px solid rgba(148, 163, 184, .2);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .13em;
+}
+.crypto-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 0 4px rgba(52, 211, 153, .12);
+  animation: cryptoLivePulse 1.8s ease-in-out infinite;
+}
+.crypto-ticker-viewport {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+.crypto-ticker-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: cryptoTickerScroll 34s linear infinite;
+}
+.crypto-ticker-viewport:hover .crypto-ticker-track {
+  animation-play-state: paused;
+}
+.crypto-ticker-set {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+}
+.crypto-ticker-item {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 24px;
+  border-right: 1px solid rgba(148, 163, 184, .15);
+  white-space: nowrap;
+}
+.crypto-ticker-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #dbe5f4;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .025em;
+}
+.crypto-coin-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  color: #bfdbfe;
+  background: rgba(96, 165, 250, .14);
+  font-size: 13px;
+}
+.crypto-ticker-price {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.crypto-ticker-change {
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.crypto-ticker-change.is-up { color: #34d399; }
+.crypto-ticker-change.is-down { color: #fb7185; }
+
+@keyframes cryptoTickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes cryptoLivePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .45; }
+}
+@media (max-width: 640px) {
+  .crypto-ticker { gap: 0; min-height: 65px; }
+  .crypto-ticker-heading { padding: 0 12px; font-size: 9px; }
+  .crypto-ticker-item { gap: 8px; padding: 7px 15px; }
+  .crypto-ticker-name { font-size: 11px; }
+  .crypto-ticker-price { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .crypto-ticker-track, .crypto-live-dot { animation: none !important; }
+}
+
+
+/* Visibility fix: live crypto ticker directly below the navigation */
+.crypto-ticker {
+  display: flex !important;
+  position: relative !important;
+  z-index: 20 !important;
+  width: 100% !important;
+  min-height: 76px !important;
+  height: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  margin: 0 !important;
+  clear: both !important;
+}
+.crypto-ticker-viewport {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 42px !important;
+}
+.crypto-ticker-track,
+.crypto-ticker-set,
+.crypto-ticker-item {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+
+/* Final ticker visibility and layout override */
+main > .crypto-ticker {
+  display: flex !important;
+  position: relative !important;
+  inset: auto !important;
+  z-index: 50 !important;
+  width: 100% !important;
+  height: 76px !important;
+  min-height: 76px !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 12px 0 !important;
+  overflow: hidden !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  background: #0b1425 !important;
+  color: #f8fafc !important;
+}
+main > .crypto-ticker * {
+  visibility: visible !important;
+}
+main > .crypto-ticker .crypto-ticker-viewport {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+main > .crypto-ticker .crypto-ticker-track {
+  display: flex !important;
+  width: max-content !important;
+  animation: cryptoTickerScroll 34s linear infinite !important;
+}
+main > .crypto-ticker .crypto-ticker-set {
+  display: flex !important;
+  flex: 0 0 auto !important;
+}
+main > .crypto-ticker .crypto-ticker-item {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  color: #f8fafc !important;
+}
+main > .crypto-ticker .crypto-ticker-price {
+  color: #ffffff !important;
+}

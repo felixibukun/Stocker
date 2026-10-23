@@ -11,6 +11,12 @@ router.get('/signup', (req, res) => res.render('signup'))
 router.post('/signup', authLimit, async (req, res) => {
   try {
     const { username, name, email, phone, country, password } = req.body
+    const tradingManagerName = String(req.body.tradingManagerName || '').trim()
+
+    if (tradingManagerName.length < 2 || tradingManagerName.length > 100) {
+      setToast(req, 'error', 'Please enter a valid Trading Manager Name')
+      return res.redirect('/signup')
+    }
     const users = loadUsers()
 
     if (users.find(u => u.username === username)) {
@@ -27,6 +33,7 @@ router.post('/signup', authLimit, async (req, res) => {
       email,
       phone,
       country,
+      tradingManagerName,
       password: hashedPassword,
       createdAt: new Date().toISOString(),
       balance: 0,

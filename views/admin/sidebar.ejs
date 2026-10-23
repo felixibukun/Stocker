@@ -10,7 +10,8 @@
     { href: '/admin/deposit-methods', label: 'Deposit methods', icon: 'landmark', match: /^\/admin\/deposit-methods$/ },
     { href: '/admin/payment-settings', label: 'Payment settings', icon: 'sliders-horizontal', match: /^\/admin\/payment-settings$/ },
     { href: '/admin/database/recovery', label: 'Database recovery', icon: 'database-backup', match: /^\/admin\/database\/recovery$/ },
-    { href: '/admin/profile', label: 'Admin profile', icon: 'settings-2', match: /^\/admin\/profile$/ }
+    { href: '/admin/profile', label: 'Admin profile', icon: 'settings-2', match: /^\/admin\/profile$/ },
+    { href: '/admin/bulk-email', label: 'Bulk Email', icon: 'mail', match: /^\/admin\/bulk-email$/ }
   ];
   const adminActive = href => adminNav.some(item => item.href === href && item.match.test(adminPath));
 %>
@@ -35,19 +36,25 @@
 <div id="adminBackdrop" class="fixed inset-0 z-[60] bg-slate-950/70 backdrop-blur-sm hidden lg:hidden" onclick="adminSetSidebar(false)" aria-hidden="true"></div>
 <aside id="adminSidebar" class="admin-sidebar fixed inset-y-0 left-0 z-[70] flex h-screen flex-col lg:sticky lg:top-0 lg:translate-x-0">
   <a href="/admin" class="flex h-[4.5rem] items-center gap-3 border-b border-slate-700/40 px-5">
-    <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-blue-700 text-white shadow-lg shadow-sky-950/50"><i data-lucide="orbit" class="h-5 w-5"></i></span>
-    <span><strong class="block text-sm tracking-wide text-white">Global Equinox Trade</strong><small class="block text-[10px] uppercase tracking-[.18em] text-slate-500">Admin workspace</small></span>
+    <span class="flex h-10 w-10 flex-none items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow-lg"><img src="/temp/custom/img/logo.png" alt="Global Equinox Trade logo" class="h-full w-full object-contain"></span>
+    <span class="admin-brand-copy"><strong class="block text-sm tracking-wide text-white">Global Equinox Trade</strong><small class="block text-[10px] uppercase tracking-[.18em] text-slate-500">Admin workspace</small></span>
   </a>
-  <div class="px-4 pt-5 pb-2 text-[10px] font-bold uppercase tracking-[.18em] text-slate-600">Workspace</div>
+  <button id="admin-desktop-toggle" type="button"
+    onclick="adminToggleDesktopSidebar()"
+    class="admin-desktop-toggle hidden lg:flex"
+    aria-label="Collapse sidebar" title="Collapse sidebar">
+    <i data-lucide="panel-left-close" class="h-4 w-4"></i>
+  </button>
+  <div class="px-4 pt-5 pb-2 text-[10px] font-bold uppercase tracking-[.18em] text-slate-600 admin-workspace-label">Workspace</div>
   <nav class="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
     <% adminNav.forEach(item => { const active = item.match.test(adminPath); %>
       <a href="<%= item.href %>" class="admin-nav-link <%= active ? 'active' : '' %>" <%= active ? 'aria-current="page"' : '' %> title="<%= item.label %>">
-        <i data-lucide="<%= item.icon %>" class="admin-nav-icon"></i><span><%= item.label %></span>
+        <i data-lucide="<%= item.icon %>" class="admin-nav-icon"></i><span class="admin-nav-label"><%= item.label %></span>
       </a>
     <% }) %>
   </nav>
   <div class="border-t border-slate-700/40 p-3">
-    <a href="/admin-logout" class="admin-nav-link text-rose-300 hover:!bg-rose-950/40 hover:!text-rose-200"><i data-lucide="log-out" class="admin-nav-icon"></i><span>Sign out</span></a>
+    <a href="/admin-logout" class="admin-nav-link text-rose-300 hover:!bg-rose-950/40 hover:!text-rose-200"><i data-lucide="log-out" class="admin-nav-icon"></i><span class="admin-nav-label">Sign out</span></a>
   </div>
 </aside>
 <nav class="admin-mobile-dock" aria-label="Admin shortcuts">
@@ -56,6 +63,20 @@
   <% }) %>
 </nav>
 <script>
+  function adminToggleDesktopSidebar() {
+    if (window.innerWidth < 1024) return;
+    const collapsed = document.body.classList.toggle('admin-sidebar-collapsed');
+    const button = document.getElementById('admin-desktop-toggle');
+    const sidebar = document.getElementById('adminSidebar');
+    if (sidebar) sidebar.classList.toggle('is-collapsed', collapsed);
+    if (button) {
+      button.setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
+      button.setAttribute('title', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
+      button.innerHTML = '<i data-lucide="' + (collapsed ? 'panel-left-open' : 'panel-left-close') + '" class="h-4 w-4"></i>';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
   function adminSetSidebar(open) {
     const sidebar = document.getElementById('adminSidebar');
     const backdrop = document.getElementById('adminBackdrop');

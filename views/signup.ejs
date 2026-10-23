@@ -2,6 +2,8 @@
 <html lang="en" x-data="{ darkMode: true }" :class="{ 'dark': darkMode }" class="dark h-full">
 
 <head>
+  <link rel="icon" type="image/png" href="/temp/custom/img/logo.png?v=2">
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Create Trading Account</title>
@@ -34,6 +36,8 @@
     body { overflow-x: hidden; }
     [x-cloak] { display: none !important; }
   </style>
+  <link rel="stylesheet" href="/css/stocker-light-theme.css">
+  <link rel="stylesheet" href="/css/global-equinox-gold.css">
 </head>
 
 <body class="min-h-screen bg-slate-950 text-white font-sans">
@@ -56,7 +60,7 @@
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
           <div class="flex items-center gap-3">
-            <img src="temp/custom/img/logo.png" class="h-10 w-auto" alt="Logo">
+            <img src="/temp/custom/img/logo.png" class="h-10 w-auto" alt="Logo">
             <div>
               <p class="text-xs text-slate-400">Broker Registration</p>
               <h1 class="text-xl font-semibold">Create Your Account</h1>
@@ -123,6 +127,14 @@
                          class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2.5 text-sm focus:ring-primary-600 focus:border-primary-600"
                          placeholder="+1 (555) 123-4567">
                 </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="text-xs text-slate-300" for="tradingManagerName">Trading Manager Name</label>
+                <input id="tradingManagerName" type="text" name="tradingManagerName"
+                       required minlength="2" maxlength="100" autocomplete="name"
+                       class="w-full mt-1 bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2.5 text-sm focus:ring-primary-600 focus:border-primary-600"
+                       placeholder="Enter your trading manager's name">
               </div>
 
             </div>

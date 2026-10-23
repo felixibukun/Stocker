@@ -55,6 +55,7 @@ test('signup succeeds', async () => {
       email: `signup-user-${unique}@example.com`,
       phone: '1234567890',
       country: 'NG',
+      tradingManagerName: 'Test Manager',
       password: 'password123'
     })
   })

@@ -13,6 +13,11 @@ module.exports = function createPublicRoutes(deps) {
     }
   })
 
+  router.get('/markets', (req, res) => res.render('markets'))
+  router.get('/platform', (req, res) => res.render('platform'))
+  router.get('/pricing', (req, res) => res.render('pricing'))
+  router.get('/education', (req, res) => res.render('education'))
+
   router.get('/about', (req, res) => {
     res.render('about')
   })

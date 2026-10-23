@@ -2,7 +2,7 @@ const express = require('express')
 
 module.exports = function createRoutes(deps) {
   const router = express.Router()
-  const { BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, saveJson, saveUsers, setToast, sortUsersNewestFirst } = deps
+  const { BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, saveJson, saveUsers, setToast, sortUsersNewestFirst, sendBulkAnnouncement } = deps
 
 /* ===========================
 ADMIN SECTION
@@ -161,6 +161,8 @@ router.post('/admin/user/:id/login', requireAdmin, (req, res) => {
     return res.redirect('/admin/users')
   }
 
+  req.session.adminPreview = true
+  req.session.previewAdmin = req.session.admin
   req.session.user = {
     id: user.id,
     username: user.username,
@@ -168,15 +170,29 @@ router.post('/admin/user/:id/login', requireAdmin, (req, res) => {
     email: user.email
   }
 
-  req.session.save(() => {
+  req.session.save((err) => {
+    if (err) {
+      console.error('Preview session save error:', err)
+      return res.redirect('/admin/users')
+    }
     res.redirect('/dashboard')
   })
 })
 
 router.post('/admin/return', requireAdmin, (req, res) => {
-  delete req.session.user
+  if (!req.session.adminPreview) {
+    return res.redirect('/admin')
+  }
 
-  req.session.save(() => {
+  delete req.session.user
+  delete req.session.adminPreview
+  delete req.session.previewAdmin
+
+  req.session.save((err) => {
+    if (err) {
+      console.error('Return from preview error:', err)
+      return res.redirect('/admin')
+    }
     res.redirect('/admin')
   })
 })
@@ -1042,6 +1058,104 @@ router.post('/admin/database/restore', requireAdmin, (req, res) => {
 })
 
 
+
+
+// Admin-only bulk email announcement tools.
+let bulkEmailJob = null
+
+function bulkEmailRecipients() {
+  return loadUsers().filter(user =>
+    user &&
+    user.role !== 'admin' &&
+    typeof user.email === 'string' &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email.trim())
+  )
+}
+
+router.get('/admin/bulk-email', requireAdmin, (req, res) => {
+  res.render('admin/bulk-email', {
+    admin: req.session.admin,
+    recipientCount: bulkEmailRecipients().length,
+    job: bulkEmailJob
+  })
+})
+
+router.post('/admin/bulk-email/test', requireAdmin, async (req, res) => {
+  const email = String(req.body.email || '').trim()
+  const subject = String(req.body.subject || '').trim()
+  const message = String(req.body.message || '').trim()
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    setToast(req, 'error', 'Enter a valid test email address.')
+    return res.redirect('/admin/bulk-email')
+  }
+  if (!subject || subject.length > 150 || !message || message.length > 10000) {
+    setToast(req, 'error', 'Enter a subject and message within the permitted length.')
+    return res.redirect('/admin/bulk-email')
+  }
+
+  try {
+    await sendBulkAnnouncement(email, subject, message)
+    logAdminAction(req, 'bulk_email_test_sent', { recipient: email })
+    setToast(req, 'success', 'Test email submitted successfully.')
+  } catch (error) {
+    console.error('Bulk email test failed:', error)
+    logAdminAction(req, 'bulk_email_test_failed', { recipient: email })
+    setToast(req, 'error', 'Test email failed. Check server logs.')
+  }
+  return res.redirect('/admin/bulk-email')
+})
+
+router.post('/admin/bulk-email/send', requireAdmin, (req, res) => {
+  if (bulkEmailJob && bulkEmailJob.status === 'running') {
+    setToast(req, 'error', 'A bulk email job is already running.')
+    return res.redirect('/admin/bulk-email')
+  }
+
+  const subject = String(req.body.subject || '').trim()
+  const message = String(req.body.message || '').trim()
+  if (String(req.body.confirmation || '').trim() !== 'SEND TO ALL') {
+    setToast(req, 'error', 'Type SEND TO ALL to confirm.')
+    return res.redirect('/admin/bulk-email')
+  }
+  if (!subject || subject.length > 150 || !message || message.length > 10000) {
+    setToast(req, 'error', 'Enter a subject and message within the permitted length.')
+    return res.redirect('/admin/bulk-email')
+  }
+
+  const recipients = bulkEmailRecipients()
+  if (!recipients.length) {
+    setToast(req, 'error', 'No eligible users with valid email addresses were found.')
+    return res.redirect('/admin/bulk-email')
+  }
+
+  const job = bulkEmailJob = {
+    status: 'running', total: recipients.length, sent: 0, failed: 0,
+    startedAt: new Date().toISOString(), finishedAt: null
+  }
+  logAdminAction(req, 'bulk_email_started', { recipientCount: recipients.length, subject })
+  setToast(req, 'success', `Bulk email started for ${recipients.length} eligible accounts.`)
+  res.redirect('/admin/bulk-email')
+
+  ;(async () => {
+    for (const user of recipients) {
+      try {
+        await sendBulkAnnouncement(user.email.trim(), subject, message)
+        job.sent += 1
+      } catch (error) {
+        job.failed += 1
+        console.error('Bulk email failed for one recipient:', error.message)
+      }
+      await new Promise(resolve => setTimeout(resolve, 1000))
+    }
+    job.status = 'completed'
+    job.finishedAt = new Date().toISOString()
+  })().catch(error => {
+    console.error('Bulk email job failed:', error)
+    job.status = 'failed'
+    job.finishedAt = new Date().toISOString()
+  })
+})
 
   return router
 }

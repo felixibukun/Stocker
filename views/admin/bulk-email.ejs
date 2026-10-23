@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bulk Email | Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="/css/stocker-light-theme.css">
+  <link rel="stylesheet" href="/css/global-equinox-gold.css">
+  <style>
+    body { background:radial-gradient(ellipse at 15% 0%,#172554 0,#0b1220 38%,#070b14 100%)!important; }
+    .admin-page-wrap { min-width:0;width:100%; }
+    .field { width:100%;border:1px solid #334155;background:#0f172a;color:#f8fafc;border-radius:.65rem;padding:.75rem; }
+    @media(max-width:1023px){ .admin-page-wrap { padding-bottom:5.25rem!important; } }
+  </style>
+</head>
+<body class="admin-layout min-h-screen text-white">
+<header class="sticky top-0 z-30 flex min-h-16 items-center justify-between border-b border-slate-700/40 bg-slate-950/75 px-4 backdrop-blur-xl sm:px-6">
+  <div class="flex items-center gap-3">
+    <button type="button" onclick="adminSetSidebar(true)" class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 bg-slate-900 lg:hidden" aria-label="Open admin menu"><i data-lucide="menu"></i></button>
+    <span class="text-sm font-semibold">Global Equinox Trade / Bulk Email</span>
+  </div>
+  <a href="/admin" class="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm">Admin overview</a>
+</header>
+<%- include('sidebar', { currentPath: '/admin/bulk-email' }) %>
+<div class="admin-page-wrap">
+  <div class="border-b border-white/10 px-4 py-5 sm:px-8">
+    <h1 class="text-2xl font-semibold">Bulk Email</h1>
+    <p class="mt-1 text-sm text-slate-400">Test an announcement before sending it to eligible accounts.</p>
+  </div>
+  <main class="mx-auto max-w-4xl space-y-6 p-4 sm:p-8">
+    <section class="rounded-2xl border border-amber-400/30 bg-amber-400/10 p-4 text-sm text-amber-100">
+      <strong>Important:</strong> User records currently have no marketing consent or unsubscribe fields. Use this tool only for appropriate service announcements to recipients you are permitted to contact, not unsolicited marketing.
+    </section>
+
+    <section class="rounded-2xl border border-white/10 bg-slate-900/70 p-5">
+      <h2 class="text-lg font-semibold">Eligible recipients</h2>
+      <p class="mt-1 text-sm text-slate-400">Non-admin accounts with a valid-looking email address.</p>
+      <div class="mt-3 text-3xl font-bold text-sky-300"><%= recipientCount %></div>
+    </section>
+
+    <% if (job) { %>
+    <section class="rounded-2xl border border-white/10 bg-slate-900/70 p-5">
+      <h2 class="text-lg font-semibold">Latest send job: <%= job.status %></h2>
+      <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div class="rounded-lg bg-slate-800 p-3">Total <strong class="block text-xl"><%= job.total %></strong></div>
+        <div class="rounded-lg bg-slate-800 p-3">Submitted <strong class="block text-xl text-emerald-300"><%= job.sent %></strong></div>
+        <div class="rounded-lg bg-slate-800 p-3">Failed <strong class="block text-xl text-rose-300"><%= job.failed %></strong></div>
+        <div class="rounded-lg bg-slate-800 p-3">Remaining <strong class="block text-xl"><%= Math.max(0, job.total - job.sent - job.failed) %></strong></div>
+      </div>
+      <button type="button" onclick="location.reload()" class="mt-4 rounded-lg border border-slate-600 px-4 py-2 text-sm">Refresh status</button>
+      <% if (job.status === 'running') { %><p class="mt-2 text-xs text-slate-400">Progress is held in memory and is lost if the server restarts.</p><% } %>
+    </section>
+    <% } %>
+
+    <section class="rounded-2xl border border-white/10 bg-slate-900/70 p-5 sm:p-6">
+      <h2 class="text-lg font-semibold">Compose announcement</h2>
+      <form id="announcementForm" class="mt-5 space-y-4">
+        <div>
+          <label for="subject" class="mb-1 block text-sm text-slate-300">Subject</label>
+          <input id="subject" name="subject" maxlength="150" required class="field" placeholder="Important account update">
+        </div>
+        <div>
+          <label for="message" class="mb-1 block text-sm text-slate-300">Message</label>
+          <textarea id="message" name="message" maxlength="10000" rows="8" required class="field" placeholder="Write your announcement here..."></textarea>
+        </div>
+        <div class="border-t border-white/10 pt-5">
+          <h3 class="font-medium">1. Send a test email</h3>
+          <p class="mt-1 text-sm text-slate-400">Only the address you enter below receives the test.</p>
+          <label for="testEmail" class="mb-1 mt-3 block text-sm text-slate-300">Test recipient email</label>
+          <input id="testEmail" name="email" type="email" autocomplete="email" required class="field" placeholder="you@example.com">
+          <button type="submit" formaction="/admin/bulk-email/test" formmethod="post" class="mt-3 rounded-lg bg-sky-600 px-4 py-3 font-medium hover:bg-sky-500">Send test email</button>
+        </div>
+        <div class="border-t border-rose-400/20 pt-5">
+          <h3 class="font-medium text-rose-200">2. Send to all eligible recipients</h3>
+          <p class="mt-1 text-sm text-slate-400">Each eligible account receives an individual email. Sending cannot be recalled.</p>
+          <label for="confirmation" class="mb-1 mt-3 block text-sm text-slate-300">Type SEND TO ALL to confirm</label>
+          <input id="confirmation" name="confirmation" class="field" autocomplete="off" placeholder="SEND TO ALL">
+          <button type="submit" formaction="/admin/bulk-email/send" formmethod="post" class="mt-3 rounded-lg bg-rose-700 px-4 py-3 font-medium hover:bg-rose-600">Start bulk send</button>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+<script>
+  if (window.lucide) window.lucide.createIcons();
+  document.getElementById('announcementForm').addEventListener('submit', function (event) {
+    const action = event.submitter && event.submitter.getAttribute('formaction');
+    if (action === '/admin/bulk-email/send') {
+      if (document.getElementById('confirmation').value.trim() !== 'SEND TO ALL') {
+        event.preventDefault();
+        alert('Type SEND TO ALL to confirm.');
+        return;
+      }
+      if (!confirm('Start sending to all eligible recipients? This cannot be recalled.')) event.preventDefault();
+    }
+    if (action === '/admin/bulk-email/test' && !confirm('Send a test email only to the address entered?')) event.preventDefault();
+  });
+</script>
+</body>
+</html>

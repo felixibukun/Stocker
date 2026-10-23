@@ -306,6 +306,57 @@ async function notify(email, subject, message) {
   }
 }
 
+
+function escapeEmailHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[char])
+}
+
+async function sendBulkAnnouncement(email, subject, message) {
+  const safeSubject = escapeEmailHtml(subject)
+  const safeMessage = escapeEmailHtml(message).replace(/\r?\n/g, '<br>')
+
+  const html = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${safeSubject}</title>
+</head>
+<body style="margin:0;background:#eef1f7;font-family:Arial,Helvetica,sans-serif;color:#1a202c">
+  <div style="max-width:600px;margin:32px auto;background:#fff;border-radius:12px;overflow:hidden">
+    <header style="background:#0f2255;padding:24px;color:#fff">
+      <img src="https://globalequinoxtrade.com/temp/custom/img/logo.png"
+           alt="Global Equinox Trade" width="100"
+           style="display:block;width:100px;height:auto;border:0;outline:none;text-decoration:none">
+      <div style="font-size:12px;letter-spacing:1px;margin-top:10px;color:#cbd5e1">GLOBAL EQUINOX TRADE</div>
+    </header>
+    <main style="padding:28px 24px">
+      <h1 style="font-size:22px;color:#0f2255">${safeSubject}</h1>
+      <div style="font-size:15px;line-height:1.8;overflow-wrap:anywhere">${safeMessage}</div>
+    </main>
+    <footer style="padding:18px 24px;background:#f8f9fb;color:#64748b;font-size:12px">
+      This message was sent by Global Equinox Trade.
+    </footer>
+  </div>
+</body>
+</html>`
+
+  return mailer.sendMail({
+    from: 'Global Equinox Trade <globalequinoxtrade@gmail.com>',
+    to: email,
+    subject: String(subject),
+    text: String(message),
+    html
+  })
+}
+
 module.exports = {
-  notify
+  notify,
+  sendBulkAnnouncement
 }

@@ -35,9 +35,93 @@
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
+  <link rel="stylesheet" href="/css/stocker-light-theme.css">
+  <link rel="stylesheet" href="/css/global-equinox-gold.css?v=legalreadable20261023">
+
+<style id="legal-page-hero-fix">
+/* Legal page light hero */
+body.legal-light-fix > section {
+  background: #f7f8fc !important;
+  background-image: none !important;
+  color: #172033 !important;
+}
+
+/* Hero headings and descriptions */
+body.legal-light-fix > section h1,
+body.legal-light-fix > section h2,
+body.legal-light-fix > section h3,
+body.legal-light-fix > section p,
+body.legal-light-fix > section li {
+  color: #172033 !important;
+}
+
+/* Metadata labels and values */
+body.legal-light-fix > section .text-white,
+body.legal-light-fix > section .text-slate-200,
+body.legal-light-fix > section .text-slate-300,
+body.legal-light-fix > section .text-slate-400,
+body.legal-light-fix > section .text-slate-500 {
+  color: #334155 !important;
+}
+
+/* White cards */
+body.legal-light-fix > section .critical-card,
+body.legal-light-fix > section .risk-card,
+body.legal-light-fix > section .privacy-card,
+body.legal-light-fix > section .cookie-card,
+body.legal-light-fix > section .aml-card {
+  background: #ffffff !important;
+  background-image: none !important;
+  color: #172033 !important;
+  border-color: #e8e1d0 !important;
+}
+
+/* Gold accents */
+body.legal-light-fix > section a:not([class*="bg-"]) {
+  color: #96751c;
+}
+</style>
+
+
+<style id="legal-text-contrast-fix">
+/* Ensure text is readable on light legal-page backgrounds */
+body.legal-light-fix > section h1,
+body.legal-light-fix > section h2,
+body.legal-light-fix > section h3,
+body.legal-light-fix > section h4,
+body.legal-light-fix > section h5,
+body.legal-light-fix > section h6,
+body.legal-light-fix > section p,
+body.legal-light-fix > section li,
+body.legal-light-fix > section label,
+body.legal-light-fix > section strong,
+body.legal-light-fix > section .font-medium,
+body.legal-light-fix > section .font-semibold,
+body.legal-light-fix > section .font-bold,
+body.legal-light-fix > section .text-white,
+body.legal-light-fix > section [class*="text-slate-"],
+body.legal-light-fix > section [class*="text-gray-"] {
+  color: #172033 !important;
+}
+
+/* Keep colored icons and status indicators distinct */
+body.legal-light-fix > section .text-green-400,
+body.legal-light-fix > section .text-green-500 {
+  color: #15803d !important;
+}
+body.legal-light-fix > section .text-amber-300,
+body.legal-light-fix > section .text-amber-400 {
+  color: #96751c !important;
+}
+body.legal-light-fix > section .text-red-300,
+body.legal-light-fix > section .text-red-400 {
+  color: #b91c1c !important;
+}
+</style>
+
 </head>
 
-<body class="bg-slate-950 text-slate-200 font-sans min-h-screen flex flex-col">
+<body class="bg-slate-950 text-slate-200 font-sans min-h-screen flex flex-col legal-light-fix" legal-light-fix>
 
 <!-- HEADER -->
 <header class="border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm sticky top-0 z-50">

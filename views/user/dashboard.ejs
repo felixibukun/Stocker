@@ -335,6 +335,23 @@
       *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
     }
   </style>
+  <link rel="stylesheet" href="/css/stocker-light-theme.css">
+  <link rel="stylesheet" href="/css/global-equinox-gold.css">
+
+  <style>
+    @media (max-width: 767px) {
+      /* Keep the floating support button clear of the mobile profile tab. */
+      iframe[title*="chat" i],
+      iframe[title*="support" i],
+      #crisp-chatbox,
+      .crisp-client,
+      #tawkchat-container,
+      #intercom-container {
+        bottom: calc(110px + env(safe-area-inset-bottom)) !important;
+      }
+    }
+  </style>
+
 </head>
 
 <%
@@ -570,7 +587,7 @@
     <% if (typeof impersonating !== 'undefined' && impersonating) { %>
       <div class="mb-6 rounded-2xl border border-amber-200/30 bg-amber-500/10 px-5 py-4 text-sm text-amber-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 backdrop-blur-sm">
         <span class="font-medium">Account preview mode is active.</span>
-        <a href="/secure/stop-preview" class="inline-flex items-center justify-center rounded-xl bg-amber-500 px-4 py-2 text-xs font-semibold text-white hover:bg-amber-600 transition-colors">Exit Preview</a>
+        <form action="/admin/return" method="POST"><button type="submit" class="inline-flex items-center justify-center rounded-xl bg-amber-500 px-4 py-2 text-xs font-semibold text-white hover:bg-amber-600 transition-colors">Exit Preview</button></form>
       </div>
     <% } %>
 
@@ -582,6 +599,10 @@
           <p class="eyebrow"><%= greeting %></p>
           <h2 class="text-2xl sm:text-4xl font-bold font-display tracking-tight glow-text mt-1">Welcome back, <%= user.name || user.username %></h2>
           <p class="text-slate-500 mt-1.5">Your investment dashboard overview</p>
+<p class="text-sm mt-2" style="color: #334155;">
+  Trading Manager:
+  <span class="font-bold" style="color: #0f172a;"><%= user.tradingManagerName || 'Not provided' %></span>
+</p>
         </div>
         <div class="inline-flex self-center md:self-auto items-center gap-2 px-3.5 py-2 rounded-full bg-white/[0.04] border border-white/[0.07] text-xs text-slate-500">
           <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-brand-600"></i>

@@ -139,6 +139,7 @@ const riskLevel = openPositions.length >= 10 || totalExposure > availableMargin 
   username: user.username,
   name: user.name,
   email: user.email,
+  tradingManagerName: user.tradingManagerName || '',
   balance: user.balance,
   deposit: user.deposit,
   profit: user.profit,
@@ -176,7 +177,7 @@ riskLevel,
   marketData: { marketOpen },
   cryptoPrices,
   performanceData,
-  impersonating: false,
+  impersonating: Boolean(req.session.adminPreview),
   admin: req.session.admin
 })
 })
@@ -1096,9 +1097,20 @@ router.get('/account', requireLogin, (req, res) => {
 // UPDATED: Profile update route with better validation
 router.post('/account/update', requireLogin, (req, res) => {
   const { name, username, phone, country } = req.body
+  const tradingManagerName = String(req.body.tradingManagerName || '').trim()
 
   const users = loadUsers()
   const user = users.find(u => u.id === req.session.user.id)
+
+  if (!user) {
+    setToast(req, 'error', 'User account not found')
+    return res.redirect('/login')
+  }
+
+  if (tradingManagerName.length < 2 || tradingManagerName.length > 100) {
+    setToast(req, 'error', 'Trading Manager Name must be between 2 and 100 characters')
+    return res.redirect('/account')
+  }
 
   // Check if username is already taken (if it's being changed)
   if (username !== user.username) {
@@ -1114,8 +1126,14 @@ router.post('/account/update', requireLogin, (req, res) => {
   user.username = username || user.username
   user.phone = phone || user.phone
   user.country = country || user.country
+  user.tradingManagerName = tradingManagerName
 
-  saveUsers(users)
+ const saved = saveUsers(users)
+
+if (!saved) {
+  setToast(req, 'error', 'Could not save your profile. Please try again.')
+  return res.redirect('/account')
+}
 
   // Update session with new data
   req.session.user.name = user.name

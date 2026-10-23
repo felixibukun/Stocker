@@ -1,0 +1,677 @@
+/* Global Equinox Trade — Light and Gold Theme */
+:root {
+  color-scheme: light;
+  --st-bg: #f7f8fc;
+  --st-surface: #ffffff;
+  --st-surface-alt: #fffaf0;
+  --st-border: #e8e1d0;
+  --st-text: #172033;
+  --st-muted: #647084;
+  --st-blue: #b8932a;
+  --st-blue-dark: #96751c;
+  --st-green: #12805c;
+  --st-red: #d64550;
+  --gold: #d4af37;
+  --gold-light: #f1d99a;
+}
+
+html,
+body,
+.admin-layout {
+  background: var(--st-bg) !important;
+  color: var(--st-text) !important;
+}
+
+body {
+  color-scheme: light;
+}
+
+.bg-slate-950,
+.bg-slate-900,
+.bg-slate-900\/70,
+.bg-slate-900\/80,
+.bg-slate-900\/90,
+.bg-slate-800,
+.bg-gray-950,
+.bg-gray-900,
+.bg-gray-800,
+.bg-neutral-950 {
+  background-color: var(--st-surface) !important;
+}
+
+.bg-gradient-to-br.from-slate-900\/90,
+.bg-gradient-to-br.from-slate-900\/90.to-slate-950\/90,
+.bg-gradient-to-br.from-slate-900.to-slate-950 {
+  background: linear-gradient(145deg, #ffffff, #fffaf0) !important;
+}
+
+.text-white,
+.text-slate-100,
+.text-slate-200,
+.text-gray-100,
+.text-gray-200 {
+  color: var(--st-text) !important;
+}
+
+.text-slate-300,
+.text-slate-400,
+.text-gray-300,
+.text-gray-400,
+.text-slate-500,
+.text-gray-500 {
+  color: var(--st-muted) !important;
+}
+
+.border-slate-700,
+.border-slate-800,
+.border-gray-700,
+.border-gray-800 {
+  border-color: var(--st-border) !important;
+}
+
+.bg-blue-600,
+.bg-blue-700,
+.bg-indigo-600,
+.bg-indigo-700,
+.bg-sky-600,
+.bg-brand-500 {
+  background-color: var(--gold) !important;
+}
+
+.text-blue-400,
+.text-blue-300,
+.text-sky-400,
+.text-cyan-400,
+.text-indigo-400 {
+  color: #96751c !important;
+}
+
+.btn-primary,
+button.bg-blue-600,
+button.bg-blue-700,
+a.bg-blue-600,
+a.bg-blue-700 {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold)) !important;
+  border-color: var(--gold) !important;
+  color: #30250b !important;
+}
+
+.card,
+.card-hover,
+.admin-card,
+.stat-card,
+.glass-card,
+.dashboard-stat-card {
+  background: #ffffff !important;
+  color: var(--st-text) !important;
+  border-color: var(--st-border) !important;
+  box-shadow: 0 8px 26px rgba(45, 36, 12, .055) !important;
+}
+
+input,
+select,
+textarea {
+  background: #ffffff !important;
+  color: var(--st-text) !important;
+  border-color: #ddd5c3 !important;
+}
+
+.admin-sidebar,
+.admin-mobile-dock,
+.glass-header,
+header,
+.topbar,
+.top-bar,
+.dashboard-header {
+  background: rgba(255,255,255,.97) !important;
+  color: var(--st-text) !important;
+  border-color: var(--st-border) !important;
+}
+
+.admin-nav-link,
+.nav-link {
+  color: #536078 !important;
+}
+
+.admin-nav-link:hover,
+.nav-link:hover {
+  background: #fff6dc !important;
+  color: #96751c !important;
+}
+
+.admin-nav-link.active,
+.admin-dock-link.active,
+.nav-link.active {
+  background: #fff2c9 !important;
+  color: #7c5d10 !important;
+  border-color: #ead28a !important;
+  box-shadow: none !important;
+}
+
+.admin-nav-link.active {
+  border-left: 3px solid var(--gold) !important;
+}
+
+.account-balance-value,
+.dashboard-stat-value {
+  color: #172033 !important;
+  -webkit-text-fill-color: #172033 !important;
+  background: none !important;
+  background-image: none !important;
+}
+
+.mobile-downbar,
+.user-mobile-downbar {
+  background: rgba(255,255,255,.97) !important;
+  border-color: var(--st-border) !important;
+}
+
+@media (max-width: 768px) {
+  body { overflow-x: hidden; }
+}
+
+/* Global Equinox Trade: FAQ and About light-and-gold theme */
+body {
+  background: #f7f8fc !important;
+  color: #172033 !important;
+}
+
+body main,
+body section,
+body article,
+body .container,
+body .content,
+body .faq-container,
+body .about-container {
+  color: #172033;
+}
+
+body .card,
+body .faq-item,
+body .faq-card,
+body .value-card,
+body .stat-card,
+body .feature-card,
+body .timeline-item {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border-color: #e8e1d0 !important;
+  box-shadow: 0 4px 18px rgba(23, 32, 51, 0.06);
+}
+
+body h1,
+body h2,
+body h3,
+body h4,
+body p,
+body li,
+body label {
+  color: #172033;
+}
+
+body .text-white,
+body [class*="text-gray-"],
+body [class*="text-slate-"] {
+  color: #172033 !important;
+}
+
+body a:not(.btn):not(.button) {
+  color: #96751c;
+}
+
+body button,
+body .btn,
+body .button,
+body a.btn,
+body a.button {
+  border-color: #d4af37;
+}
+
+body .btn-primary,
+body .button-primary {
+  background: #d4af37 !important;
+  color: #172033 !important;
+}
+
+body input,
+body textarea,
+body select {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border-color: #e8e1d0 !important;
+}
+
+
+/* FAQ and About: enforce Global Equinox light-and-gold theme */
+body.text-white {
+  background: #f7f8fc !important;
+  color: #172033 !important;
+}
+
+body.text-white main,
+body.text-white main section {
+  background-color: transparent;
+  color: #172033;
+}
+
+/* Replace dark surfaces */
+body.text-white [class*="bg-slate-950"],
+body.text-white [class*="bg-slate-900"],
+body.text-white [class*="bg-slate-800"],
+body.text-white [class*="bg-gray-950"],
+body.text-white [class*="bg-gray-900"],
+body.text-white [class*="bg-gray-800"],
+body.text-white [class*="bg-black"] {
+  background-color: #ffffff !important;
+}
+
+/* Replace white and slate text */
+body.text-white .text-white,
+body.text-white [class*="text-slate-300"],
+body.text-white [class*="text-slate-400"],
+body.text-white [class*="text-slate-500"],
+body.text-white [class*="text-gray-300"],
+body.text-white [class*="text-gray-400"] {
+  color: #172033 !important;
+}
+
+/* Gold accents instead of purple and blue */
+body.text-white .gradient-text {
+  background: linear-gradient(135deg, #96751c, #d4af37) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+body.text-white [class*="bg-gradient-primary"],
+body.text-white [class*="gradient-primary"] {
+  background: linear-gradient(135deg, #d4af37, #f1d99a) !important;
+  color: #172033 !important;
+}
+
+/* FAQ cards, About cards, and other panels */
+body.text-white .faq-item,
+body.text-white .faq-card,
+body.text-white .card,
+body.text-white .value-card,
+body.text-white .feature-card,
+body.text-white .timeline-item,
+body.text-white .glass,
+body.text-white .glass-card {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border-color: #e8e1d0 !important;
+  box-shadow: 0 4px 18px rgba(23, 32, 51, 0.06) !important;
+}
+
+/* Navigation and footer */
+body.text-white nav,
+body.text-white footer {
+  background: rgba(255, 255, 255, 0.97) !important;
+  border-color: #e8e1d0 !important;
+}
+
+body.text-white nav a,
+body.text-white footer a,
+body.text-white footer h4,
+body.text-white footer h5,
+body.text-white footer span {
+  color: #172033 !important;
+}
+
+/* Buttons */
+body.text-white a[class*="bg-slate-900"],
+body.text-white a[class*="bg-slate-800"] {
+  background: #fffaf0 !important;
+  color: #7c5d10 !important;
+  border-color: #e8d49a !important;
+}
+
+body.text-white button,
+body.text-white a,
+body.text-white input,
+body.text-white select {
+  border-color: #e8e1d0;
+}
+
+
+/* Global Equinox: light-and-gold legal pages */
+body.text-white,
+body.text-white main,
+body.text-white main section {
+  background-color: #f7f8fc !important;
+  color: #172033 !important;
+}
+
+/* Remove dark backgrounds from legal-page sections and panels */
+body.text-white [class*="bg-slate-950"],
+body.text-white [class*="bg-slate-900"],
+body.text-white [class*="bg-slate-800"],
+body.text-white [class*="bg-gray-950"],
+body.text-white [class*="bg-gray-900"],
+body.text-white [class*="bg-gray-800"],
+body.text-white [class*="bg-black"],
+body.text-white [style*="#0f172a"],
+body.text-white [style*="#0F172A"],
+body.text-white [style*="#111827"],
+body.text-white [style*="#030508"] {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/* Readable headings, paragraphs and legal text */
+body.text-white main h1,
+body.text-white main h2,
+body.text-white main h3,
+body.text-white main h4,
+body.text-white main p,
+body.text-white main li,
+body.text-white main span,
+body.text-white main label,
+body.text-white main strong {
+  color: #172033;
+}
+
+/* Override dark utility text classes */
+body.text-white main .text-white,
+body.text-white main [class*="text-slate-300"],
+body.text-white main [class*="text-slate-400"],
+body.text-white main [class*="text-slate-500"],
+body.text-white main [class*="text-gray-300"],
+body.text-white main [class*="text-gray-400"] {
+  color: #172033 !important;
+}
+
+/* Gold headings and gradients */
+body.text-white main .gradient-text {
+  background: linear-gradient(135deg, #96751c, #d4af37) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Legal content cards and borders */
+body.text-white main article,
+body.text-white main .card,
+body.text-white main [class*="rounded-"][class*="border"] {
+  border-color: #e8e1d0;
+}
+
+/* Keep the navigation and footer light */
+body.text-white nav,
+body.text-white footer {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border-color: #e8e1d0 !important;
+}
+
+body.text-white nav a,
+body.text-white footer a,
+body.text-white footer h4,
+body.text-white footer h5 {
+  color: #96751c !important;
+}
+
+/* Gold buttons */
+body.text-white main a[class*="bg-gradient"],
+body.text-white main a[class*="bg-indigo-"],
+body.text-white main a[class*="bg-purple-"] {
+  background: linear-gradient(135deg, #d4af37, #f1d99a) !important;
+  color: #172033 !important;
+}
+
+/* Soft warning banners */
+body.text-white [class*="bg-red-"],
+body.text-white [class*="bg-rose-"] {
+  background-color: #fff1f0 !important;
+  border-color: #f0c9c5 !important;
+}
+
+
+
+/* Definitive light hero override for legal pages */
+body.text-white {
+  background: #f7f8fc !important;
+  color: #172033 !important;
+}
+body.text-white main {
+  background: #f7f8fc !important;
+  color: #172033 !important;
+}
+body.text-white main > section:first-of-type {
+  background: #f7f8fc !important;
+  background-image: none !important;
+  color: #172033 !important;
+}
+body.text-white main > section:first-of-type > div {
+  color: #172033 !important;
+}
+body.text-white main > section:first-of-type [style*="linear-gradient"],
+body.text-white main > section:first-of-type [style*="radial-gradient"] {
+  background: #ffffff !important;
+  background-image: none !important;
+}
+body.text-white main > section:first-of-type h1,
+body.text-white main > section:first-of-type h2,
+body.text-white main > section:first-of-type h3,
+body.text-white main > section:first-of-type p,
+body.text-white main > section:first-of-type span:not(.gradient-text),
+body.text-white main > section:first-of-type li {
+  color: #172033 !important;
+}
+body.text-white main > section:first-of-type .gradient-text {
+  background: linear-gradient(135deg, #96751c, #d4af37) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+body.text-white main > section:first-of-type [class*="bg-slate-"],
+body.text-white main > section:first-of-type [class*="bg-gray-"],
+body.text-white main > section:first-of-type [class*="bg-black"] {
+  background-color: #ffffff !important;
+  color: #172033 !important;
+  border-color: #e8e1d0 !important;
+}
+
+
+/* Risk Disclosure page: override its custom dark hero gradients */
+body.text-white .risk-hero,
+body.text-white .risk-hero *,
+body.text-white .risk-warning-card {
+  color: #172033 !important;
+}
+
+body.text-white .risk-hero,
+body.text-white .risk-hero::before,
+body.text-white .risk-hero::after,
+body.text-white .risk-warning-card {
+  background: #ffffff !important;
+  background-image: none !important;
+  border-color: #e8e1d0 !important;
+}
+
+body.text-white .risk-hero h1,
+body.text-white .risk-hero h2,
+body.text-white .risk-hero p,
+body.text-white .risk-warning-card h3,
+body.text-white .risk-warning-card p,
+body.text-white .risk-warning-card li {
+  color: #172033 !important;
+}
+
+/* Risk Disclosure: force light page and hero backgrounds */
+body.text-white {
+  background: #f7f8fc !important;
+}
+
+body.text-white main {
+  background: #f7f8fc !important;
+  background-image: none !important;
+}
+
+body.text-white main > section {
+  background-color: #f7f8fc !important;
+  background-image: none !important;
+}
+
+body.text-white main > section h1,
+body.text-white main > section h2,
+body.text-white main > section h3,
+body.text-white main > section p,
+body.text-white main > section li {
+  color: #172033 !important;
+}
+
+
+/* Risk Disclosure: improve text contrast on the existing dark hero */
+body.risk-disclosure-page main > section:first-of-type,
+body.risk-disclosure-page main > section:first-of-type > div {
+  color: #f8fafc !important;
+}
+body.risk-disclosure-page main > section:first-of-type h1,
+body.risk-disclosure-page main > section:first-of-type h2,
+body.risk-disclosure-page main > section:first-of-type h3,
+body.risk-disclosure-page main > section:first-of-type p,
+body.risk-disclosure-page main > section:first-of-type li,
+body.risk-disclosure-page main > section:first-of-type div,
+body.risk-disclosure-page main > section:first-of-type span:not(.gradient-text) {
+  color: #f8fafc !important;
+}
+body.risk-disclosure-page main > section:first-of-type .text-green-400,
+body.risk-disclosure-page main > section:first-of-type .text-green-500 {
+  color: #4ade80 !important;
+}
+body.risk-disclosure-page main > section:first-of-type .text-amber-400,
+body.risk-disclosure-page main > section:first-of-type .text-yellow-400 {
+  color: #fcd34d !important;
+}
+body.risk-disclosure-page main > section:first-of-type .text-red-400,
+body.risk-disclosure-page main > section:first-of-type .text-red-500 {
+  color: #fca5a5 !important;
+}
+body.risk-disclosure-page main > section:first-of-type .gradient-text {
+  color: #f1d99a !important;
+  -webkit-text-fill-color: #f1d99a !important;
+  background: none !important;
+}
+
+
+/* FINAL RISK PAGE READABILITY FIX */
+body.risk-disclosure-page {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+/* The hero section is a direct child of body, not main */
+body.risk-disclosure-page > section {
+  background: #0f172a !important;
+  background-image: none !important;
+  color: #f8fafc !important;
+}
+
+body.risk-disclosure-page > section h1,
+body.risk-disclosure-page > section h2,
+body.risk-disclosure-page > section h3,
+body.risk-disclosure-page > section p,
+body.risk-disclosure-page > section li,
+body.risk-disclosure-page > section .font-medium,
+body.risk-disclosure-page > section .font-semibold,
+body.risk-disclosure-page > section .font-bold {
+  color: #f8fafc !important;
+}
+
+body.risk-disclosure-page > section .text-slate-300,
+body.risk-disclosure-page > section .text-slate-400,
+body.risk-disclosure-page > section .text-slate-500 {
+  color: #e2e8f0 !important;
+}
+
+body.risk-disclosure-page > section .critical-card,
+body.risk-disclosure-page > section .risk-card {
+  background: #1e293b !important;
+  background-image: none !important;
+  border-color: #64748b !important;
+}
+
+body.risk-disclosure-page > section .text-red-300,
+body.risk-disclosure-page > section .text-red-400 {
+  color: #fca5a5 !important;
+}
+
+body.risk-disclosure-page > section .text-amber-300,
+body.risk-disclosure-page > section .text-amber-400 {
+  color: #fcd34d !important;
+}
+
+body.risk-disclosure-page > section .text-green-400 {
+  color: #4ade80 !important;
+}
+
+
+/* LEGAL PAGES READABILITY FIX */
+body.legal-light-fix {
+  background: #f7f8fc !important;
+  color: #172033 !important;
+}
+
+body.legal-light-fix > header,
+body.legal-light-fix > footer {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border-color: #e8e1d0 !important;
+}
+
+body.legal-light-fix main,
+body.legal-light-fix main > section {
+  background-color: #f7f8fc !important;
+  background-image: none !important;
+  color: #172033 !important;
+}
+
+body.legal-light-fix main h1,
+body.legal-light-fix main h2,
+body.legal-light-fix main h3,
+body.legal-light-fix main h4,
+body.legal-light-fix main p,
+body.legal-light-fix main li,
+body.legal-light-fix main label,
+body.legal-light-fix main strong,
+body.legal-light-fix main span {
+  color: #172033 !important;
+}
+
+body.legal-light-fix main a {
+  color: #96751c !important;
+}
+
+body.legal-light-fix main [class*="bg-slate-"],
+body.legal-light-fix main [class*="bg-gray-"],
+body.legal-light-fix main [class*="bg-black"] {
+  background: #ffffff !important;
+  background-image: none !important;
+  color: #172033 !important;
+  border-color: #e8e1d0 !important;
+}
+
+body.legal-light-fix main [class*="bg-gradient"] {
+  background: #fffaf0 !important;
+  color: #172033 !important;
+}
+
+body.legal-light-fix main .text-white,
+body.legal-light-fix main [class*="text-slate-"],
+body.legal-light-fix main [class*="text-gray-"] {
+  color: #172033 !important;
+}
+
+body.legal-light-fix nav,
+body.legal-light-fix footer {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border-color: #e8e1d0 !important;
+}
+
+body.legal-light-fix nav a,
+body.legal-light-fix footer a {
+  color: #96751c !important;
+}

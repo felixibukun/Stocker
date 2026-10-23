@@ -12,7 +12,7 @@ const { BCRYPT_ROUNDS, sessionSecret } = require('./config/security')
 const { createAuthMiddleware } = require('./middleware/auth')
 const { upload } = require('./middleware/upload')
 const { loadJson, saveJson } = require('./services/jsonStore')
-const { notify } = require('./services/notifications')
+const { notify, sendBulkAnnouncement } = require('./services/notifications')
 const { ensureSignalLevel, loadUsers, recalcUserBalance, saveUsers, sortUsersNewestFirst } = require('./services/users')
 const createPublicRoutes = require('./routes/public')
 const createAuthRoutes = require('./routes/auth')
@@ -54,6 +54,20 @@ app.set('views', path.join(__dirname, 'views'))
 
 app.use(helmet({ contentSecurityPolicy: false }))
 
+app.use((req, res, next) => {
+  if (req.path === '/temp/custom/img/logo.png') {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
+  }
+  next()
+})
+
+app.use((req, res, next) => {
+  if (req.path === '/temp/custom/img/logo.png') {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
+  }
+  next()
+})
+
 // CRITICAL FIX: Add body parsers and cookie parser
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -90,34 +104,85 @@ app.use((req, res, next) => {
   next()
 })
 
-async function getMarketPrice(symbol) {
+const marketPriceCache = new Map()
+const marketPriceRequests = new Map()
+const MARKET_PRICE_CACHE_MS = 3000
+
+const cryptoTickerCache = { updatedAt: 0, data: null }
+
+app.get('/api/crypto-ticker', async (req, res) => {
   try {
-    const map = {
-      'BTC/USD': 'BTCUSDT',
-      'ETH/USD': 'ETHUSDT',
-      'BNB/USD': 'BNBUSDT',
-      'SOL/USD': 'SOLUSDT',
-      'XRP/USD': 'XRPUSDT'
+    if (cryptoTickerCache.data && Date.now() - cryptoTickerCache.updatedAt < 15000) {
+      return res.json({ source: 'Binance', updatedAt: cryptoTickerCache.updatedAt, prices: cryptoTickerCache.data })
     }
 
-    const binanceSymbol = map[symbol]
+    const symbols = ['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT', 'XRPUSDT']
+    const response = await axios.get('https://api.binance.com/api/v3/ticker/24hr', {
+      params: { symbols: JSON.stringify(symbols) },
+      timeout: 10000
+    })
 
-    if (!binanceSymbol) {
-      return 0
-    }
+    const prices = response.data.map(item => ({
+      symbol: item.symbol.replace('USDT', '/USD'),
+      price: Number(item.lastPrice),
+      changePercent: Number(item.priceChangePercent)
+    })).filter(item => Number.isFinite(item.price) && item.price > 0)
 
-    const response = await axios.get(
-      `https://api.binance.com/api/v3/ticker/price?symbol=${binanceSymbol}`,
-      { timeout: 7000 }
-    )
-
-    return Number(response.data.price || 0)
+    cryptoTickerCache.data = prices
+    cryptoTickerCache.updatedAt = Date.now()
+    res.json({ source: 'Binance', updatedAt: cryptoTickerCache.updatedAt, prices })
   } catch (error) {
-    console.error('Live price error:', error.message)
-    return 0
+    console.error('Crypto ticker API error:', error.message)
+    res.status(502).json({ error: 'Live crypto prices are temporarily unavailable' })
   }
-}
+})
 
+
+async function getMarketPrice(symbol) {
+  const map = {
+    'BTC/USD': 'BTCUSDT',
+    'ETH/USD': 'ETHUSDT',
+    'BNB/USD': 'BNBUSDT',
+    'SOL/USD': 'SOLUSDT',
+    'XRP/USD': 'XRPUSDT'
+  }
+
+  const binanceSymbol = map[symbol]
+  if (!binanceSymbol) return 0
+
+  const now = Date.now()
+  const cached = marketPriceCache.get(symbol)
+
+  if (cached && now - cached.updatedAt < MARKET_PRICE_CACHE_MS) {
+    return cached.price
+  }
+
+  if (marketPriceRequests.has(symbol)) {
+    return marketPriceRequests.get(symbol)
+  }
+
+  const request = axios.get(
+    `https://api.binance.com/api/v3/ticker/price?symbol=${binanceSymbol}`,
+    { timeout: 10000 }
+  ).then(response => {
+    const price = Number(response.data?.price)
+
+    if (!Number.isFinite(price) || price <= 0) {
+      throw new Error('Binance returned an invalid price')
+    }
+
+    marketPriceCache.set(symbol, { price, updatedAt: Date.now() })
+    return price
+  }).catch(error => {
+    console.error(`Live price error (${symbol}):`, error.message)
+    return cached?.price || 0
+  }).finally(() => {
+    marketPriceRequests.delete(symbol)
+  })
+
+  marketPriceRequests.set(symbol, request)
+  return request
+}
 
 function loadVerify() {
   return loadJson(verifyFile, [])
@@ -234,7 +299,7 @@ DASHBOARD
 app.use(createPublicRoutes({ loadJson, saveJson, setToast }))
 app.use(createAuthRoutes({ BCRYPT_ROUNDS, authLimit, bcrypt, loadUsers, saveUsers, setToast }))
 app.use(createUserRoutes({ bcrypt, getMarketPrice, loadJson, loadUsers, notify, recalcUserBalance, requireLogin, requireSignalActive, saveJson, saveUsers, setToast, upload }))
-app.use(createAdminRoutes({ BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, saveJson, saveUsers, setToast, sortUsersNewestFirst }))
+app.use(createAdminRoutes({ BCRYPT_ROUNDS, adminLimit, bcrypt, fs, getClientIp, loadJson, loadUsers, logAdminAction, recalcUserBalance, saveJson, saveUsers, setToast, sortUsersNewestFirst, sendBulkAnnouncement }))
 
 app.use((err, req, res, next) => {
   if (err && (err.message === 'Invalid file type' || err.code === 'LIMIT_FILE_SIZE')) {

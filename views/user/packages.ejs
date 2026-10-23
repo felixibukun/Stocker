@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
+  <link rel="icon" type="image/png" href="/temp/custom/img/logo.png?v=2">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Investment Packages</title>
@@ -68,12 +70,40 @@
         gap: 1rem !important;
       }
     }
+  
+  /* Investment packages: light theme */
+  body {
+    background: #f7f8fc !important;
+    color: #172033;
+  }
+  .package-card {
+    background: #ffffff !important;
+    color: #172033 !important;
+    border-color: #e2e8f0 !important;
+  }
+  .package-card h1,
+  .package-card h2,
+  .package-card h3,
+  .package-card h4,
+  .package-card p,
+  .package-card span,
+  .package-card label {
+    color: #172033;
+  }
+  .package-card .text-slate-400,
+  .package-card .text-slate-500,
+  .package-card .text-slate-600 {
+    color: #64748b !important;
+  }
+
   </style>
+  <link rel="stylesheet" href="/css/stocker-light-theme.css">
+  <link rel="stylesheet" href="/css/global-equinox-gold.css">
 </head>
 
 <body class="bg-gradient-to-br from-slate-950 via-slate-900 to-gray-950 text-white min-h-screen">
 
-<header class="h-16 border-b border-slate-800/50 bg-slate-950/90 backdrop-blur-xl sticky top-0 z-50 flex items-center">
+<header class="h-16 border-b border-slate-200/50 bg-slate-950/90 backdrop-blur-xl sticky top-0 z-50 flex items-center">
   <div class="max-w-6xl mx-auto w-full px-4 flex justify-between items-center">
     <div class="flex items-center gap-2">
       <i class="fas fa-cubes text-blue-400"></i>
@@ -240,7 +270,7 @@
     
     <% packages.forEach(plan => { %>
       <% index++; %>
-      <div class="package-card bg-gradient-to-br from-slate-900/80 to-slate-950/90 p-5 md:p-6 border border-slate-800 rounded-xl md:rounded-2xl shadow-lg relative">
+      <div class="package-card bg-white p-5 md:p-6 border border-slate-200 rounded-xl md:rounded-2xl shadow-lg relative">
         
         <!-- Tier Badge -->
         <div class="tier-badge bg-gradient-to-r <%= plan.color %> shadow-lg text-[10px]">
