@@ -138,6 +138,77 @@ app.get('/api/crypto-ticker', async (req, res) => {
 })
 
 
+
+const marketTickerCache = { updatedAt: 0, prices: null }
+const MARKET_TICKER_CACHE_MS = 15000
+const MARKET_TICKER_SYMBOLS = [
+  { symbol: 'EUR/USD', feed: 'EURUSD', label: 'Euro / US Dollar', digits: 5 },
+  { symbol: 'USD/JPY', feed: 'USDJPY', label: 'US Dollar / Japanese Yen', digits: 3 },
+  { symbol: 'XAU/USD', feed: 'XAUUSD', label: 'Gold / US Dollar', digits: 2 },
+  { symbol: 'SPX500', feed: 'US500', label: 'S&P 500', digits: 2 },
+  { symbol: 'NAS100', feed: 'USTEC', label: 'Nasdaq 100', digits: 2 }
+]
+
+app.get('/api/market-ticker', async (req, res) => {
+  try {
+    if (marketTickerCache.prices && Date.now() - marketTickerCache.updatedAt < MARKET_TICKER_CACHE_MS) {
+      return res.json({
+        source: 'BiQuote',
+        updatedAt: marketTickerCache.updatedAt,
+        prices: marketTickerCache.prices
+      })
+    }
+
+    const results = await Promise.allSettled(
+      MARKET_TICKER_SYMBOLS.map(async item => {
+        const response = await axios.get(
+          `https://biquote.io/api/${encodeURIComponent(item.feed)}`,
+          { timeout: 8000 }
+        )
+        const q = response.data || {}
+        const price = Number(q.mid || (Number(q.bid) > 0 && Number(q.ask) > 0
+          ? (Number(q.bid) + Number(q.ask)) / 2
+          : q.last))
+        const changePercent = Number(q.dayDiffPercent)
+        const quoteAgeSeconds = Number(q.quoteAgeSeconds)
+
+        if (!Number.isFinite(price) || price <= 0 || q.stale === true ||
+            !Number.isFinite(quoteAgeSeconds) || quoteAgeSeconds > 120) {
+          return null
+        }
+
+        return {
+          symbol: item.symbol,
+          name: item.label,
+          price,
+          changePercent: Number.isFinite(changePercent) ? changePercent : null,
+          timestamp: q.timestamp || null,
+          quoteAgeSeconds,
+          marketState: q.marketState || 'unknown',
+          source: 'BiQuote'
+        }
+      })
+    )
+
+    const prices = results
+      .filter(result => result.status === 'fulfilled' && result.value)
+      .map(result => result.value)
+
+    marketTickerCache.prices = prices
+    marketTickerCache.updatedAt = Date.now()
+
+    res.json({
+      source: 'BiQuote',
+      updatedAt: marketTickerCache.updatedAt,
+      prices
+    })
+  } catch (error) {
+    console.error('Market ticker API error:', error.message)
+    res.status(502).json({ error: 'Additional market quotes are temporarily unavailable' })
+  }
+})
+
+
 async function getMarketPrice(symbol) {
   const map = {
     'BTC/USD': 'BTCUSDT',

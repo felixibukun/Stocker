@@ -1,197 +1,788 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="/temp/custom/img/logo.png?v=3">
+<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="A starting point for learning about the platform, managing account access, and approaching markets responsibly.">
+  <meta name="description" content="A starting point for learning about the platform, managing account access, and approaching markets responsibly. Explore platform tools, security, and account features on Global Equinox Trade.">
   <title>The Global Equinox Platform | Global Equinox Trade</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace']
+          },
+          colors: {
+            ink: { 950: '#05080f', 900: '#070b14', 850: '#0a101c', 800: '#0e1626', 700: '#16213a' },
+            gold: { 300: '#f1d99a', 400: '#e6c36a', 500: '#d4af37', 600: '#b8932a' },
+            up: '#2ee6a6',
+            down: '#ff6b81'
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
   <link rel="stylesheet" href="/css/global-equinox-gold.css?v=pages20261023">
+
   <style>
-:root{--page:#f7f8fc;--ink:#172033;--muted:#647084;--gold:#d4af37;--gold-dark:#96751c;--line:#e8e1d0;--white:#fff}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body.ge-page{margin:0;background:var(--page);color:var(--ink);font-family:'DM Sans',Arial,sans-serif;line-height:1.65}
-.ge-page a{color:inherit;text-decoration:none}
-.ge-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid #e5e7eb}
-.ge-nav{max-width:1200px;margin:auto;padding:0 24px;min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.ge-brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--ink);white-space:nowrap}
-.ge-brand img{width:auto;height:34px;max-width:48px;object-fit:contain}
-.ge-links{display:flex;align-items:center;gap:23px;font-size:14px;color:#475569}
-.ge-links a:hover,.ge-links a[aria-current="page"]{color:var(--gold-dark)}
-.ge-actions{display:flex;align-items:center;gap:10px}
-.ge-btn{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;padding:11px 18px;font-weight:700;font-size:14px;border:1px solid var(--line);background:#fff;color:var(--ink)!important}
-.ge-btn.gold{border-color:var(--gold);background:linear-gradient(135deg,#f1d99a,#d4af37);color:#211a08!important}
-.ge-menu-btn{display:none;background:white;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:20px;color:var(--ink)}
-.ge-mobile{display:none;padding:8px 24px 20px;background:white;border-top:1px solid var(--line)}
-.ge-mobile a{display:block;padding:10px 0;color:var(--ink)}
-.ge-hero{background:linear-gradient(135deg,#fff 0%,#fffdf7 70%,#f8f1dd 100%);border-bottom:1px solid var(--line)}
-.ge-wrap{max-width:1160px;margin:auto;padding-left:24px;padding-right:24px}
-.ge-hero-inner{padding-top:66px;padding-bottom:58px}
-.ge-eyebrow{display:inline-flex;align-items:center;border:1px solid #eadba8;border-radius:999px;background:#fffaf0;color:#806315;padding:6px 13px;font-size:12px;font-weight:800;letter-spacing:.09em}
-.ge-hero h1{font-size:clamp(34px,5vw,56px);line-height:1.12;letter-spacing:-.035em;margin:20px 0 16px;color:var(--ink)}
-.ge-hero h1 span{color:var(--gold-dark)}
-.ge-intro{max-width:760px;font-size:18px;color:#526075;margin:0}
-.ge-actions-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
-.ge-section{padding-top:46px;padding-bottom:54px}
-.ge-section-heading{margin-bottom:24px}
-.ge-section-heading h2{font-size:clamp(24px,3vw,32px);line-height:1.2;margin:0 0 8px;color:var(--ink)}
-.ge-section-heading p{margin:0;color:var(--muted)}
-.ge-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.ge-card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 8px 28px rgba(23,32,51,.045)}
-.ge-card-mark{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:13px;background:#fff6d9;color:#826316;font-size:13px;font-weight:800;margin-bottom:17px}
-.ge-card h3{font-size:18px;margin:0 0 9px;color:var(--ink)}
-.ge-card p{font-size:14px;line-height:1.75;color:#596579;margin:0}
-.ge-callout{display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;padding:28px;border-radius:18px;background:#fff;border:1px solid var(--line);margin-top:28px}
-.ge-callout h2{font-size:22px;margin:0 0 8px;color:var(--ink)}
-.ge-callout p{color:#596579;margin:0;max-width:800px}
-.ge-footer{background:#fff;border-top:1px solid #e5e7eb;margin-top:20px}
-.ge-footer-inner{max-width:1200px;margin:auto;padding:38px 24px 24px}
-.ge-footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px}
-.ge-footer h3,.ge-footer h4{margin:0 0 12px;color:var(--ink)}
-.ge-footer p,.ge-footer a{font-size:13px;color:#647084}
-.ge-footer a:hover{color:var(--gold-dark)}
-.ge-footer ul{list-style:none;padding:0;margin:0}
-.ge-footer li{margin:8px 0}
-.ge-footer-bottom{border-top:1px solid #e5e7eb;margin-top:28px;padding-top:18px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.ge-footer-bottom p{margin:0}
-@media(max-width:1000px){.ge-links{gap:13px}.ge-nav{padding:0 18px}.ge-brand{font-size:14px}.ge-actions .ge-btn{padding:9px 12px}.ge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){.ge-nav{min-height:68px}.ge-links,.ge-actions{display:none}.ge-menu-btn{display:block}.ge-mobile.open{display:block}.ge-hero-inner{padding-top:44px;padding-bottom:42px}.ge-intro{font-size:16px}.ge-grid{grid-template-columns:1fr}.ge-section{padding-top:34px;padding-bottom:38px}.ge-card{padding:21px}.ge-callout{grid-template-columns:1fr;padding:22px}.ge-footer-grid{grid-template-columns:1fr 1fr;gap:24px}.ge-footer-grid>div:first-child{grid-column:1/-1}}
-@media(max-width:420px){.ge-wrap{padding-left:17px;padding-right:17px}.ge-brand img{height:30px}.ge-footer-grid{grid-template-columns:1fr}.ge-footer-grid>div:first-child{grid-column:auto}.ge-hero h1{font-size:35px}}
-</style>
+    :root {
+      --gold: #d4af37;
+      --gold-soft: #e6c36a;
+      --up: #2ee6a6;
+      --down: #ff6b81;
+      --line: rgba(255,255,255,.08);
+      --header-h: 4.25rem;
+    }
+    * { -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #f7f8fc;
+      color: #172033;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: "ss01", "cv11";
+    }
+    ::selection { background: rgba(212,175,55,.35); color: #172033; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(#d4af37, #8a6d1c); border-radius: 4px; }
+
+    i[data-lucide] { width: 18px; height: 18px; stroke-width: 1.6; display: inline-block; vertical-align: middle; }
+    .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+
+    /* ---------- Background ---------- */
+    .bg-stage { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; background: #f7f8fc; }
+    .bg-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(15,23,42,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15,23,42,.045) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 30%, transparent 75%);
+              mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 30%, transparent 75%);
+    }
+    .aurora { position: absolute; border-radius: 9999px; filter: blur(110px); opacity: .16; will-change: transform; }
+    .aurora.a1 { width: 620px; height: 620px; top: -220px; left: 8%; background: radial-gradient(circle, rgba(212,175,55,.32), transparent 65%); animation: drift1 22s ease-in-out infinite; }
+    .aurora.a2 { width: 560px; height: 560px; top: 8%; right: -140px; background: radial-gradient(circle, rgba(46,230,166,.18), transparent 65%); animation: drift2 26s ease-in-out infinite; }
+    .aurora.a3 { width: 700px; height: 700px; bottom: -300px; left: -160px; background: radial-gradient(circle, rgba(79,70,229,.2), transparent 65%); animation: drift1 30s ease-in-out infinite reverse; }
+    @keyframes drift1 { 0%,100% { transform: translate(0,0) } 50% { transform: translate(60px,40px) } }
+    @keyframes drift2 { 0%,100% { transform: translate(0,0) } 50% { transform: translate(-50px,60px) } }
+    .grain {
+      position: absolute; inset: 0; opacity: .025; mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      background: rgba(255,255,255,.94);
+      border-bottom: 1px solid #e5e7eb;
+      transition: transform .35s ease, background .3s ease;
+    }
+    .site-header.is-hidden { transform: translateY(-100%); }
+    .nav-link { position: relative; font-size: .875rem; font-weight: 500; color: #475569; transition: color .2s; padding: .25rem 0; }
+    .nav-link::after { content: ""; position: absolute; left: 0; bottom: -4px; height: 1px; width: 0; background: linear-gradient(90deg, var(--gold), transparent); transition: width .3s ease; }
+    .nav-link:hover { color: #111827; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link[aria-current="page"] { color: #8a6815; font-weight: 600; }
+    .nav-link[aria-current="page"]::after { width: 100%; }
+
+    .mobile-menu {
+      position: fixed; top: var(--header-h); left: 0; right: 0; bottom: 0; z-index: 999;
+      background: rgba(255,255,255,.98); backdrop-filter: blur(20px);
+      transform: translateX(100%); transition: transform .3s cubic-bezier(.4,0,.2,1);
+      overflow-y: auto;
+    }
+    .mobile-menu.open { transform: translateX(0); }
+    .mobile-menu a { color: #172033; }
+
+    /* ---------- Buttons ---------- */
+    .btn-gold {
+      position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .85rem 1.6rem; border-radius: 14px; font-weight: 600; color: #1a1405 !important;
+      background: linear-gradient(135deg, #f1d99a 0%, #d4af37 55%, #b8932a 100%);
+      box-shadow: 0 8px 30px -8px rgba(212,175,55,.55), inset 0 1px 0 rgba(255,255,255,.5);
+      transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 14px 40px -8px rgba(212,175,55,.7), inset 0 1px 0 rgba(255,255,255,.5); filter: brightness(1.05); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .85rem 1.6rem; border-radius: 14px; font-weight: 500; color: #172033 !important;
+      background: #fff; border: 1px solid #dbe2ea;
+      transition: background .25s ease, border-color .25s ease, transform .25s ease;
+    }
+    .btn-ghost:hover { background: #f1f5f9; border-color: #cbd5e1; transform: translateY(-2px); }
+
+    /* ---------- Cards ---------- */
+    .glass {
+      background: linear-gradient(145deg,#fff,#f8fafc);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 16px 44px rgba(15,23,42,.07);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+    }
+    .spot { position: relative; overflow: hidden; transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease; }
+    .spot::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .35s ease;
+      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(212,175,55,.13), transparent 45%);
+    }
+    .spot:hover { transform: translateY(-4px); border-color: rgba(212,175,55,.35); box-shadow: 0 22px 48px rgba(15,23,42,.11); }
+    .spot:hover::before { opacity: 1; }
+
+    .icon-chip {
+      width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(145deg, rgba(212,175,55,.18), rgba(212,175,55,.04));
+      border: 1px solid rgba(212,175,55,.28); color: #987015;
+    }
+    .icon-chip.green { background: linear-gradient(145deg, rgba(46,230,166,.16), rgba(46,230,166,.03)); border-color: rgba(46,230,166,.26); color: #047857; }
+    .icon-chip.blue { background: linear-gradient(145deg, rgba(79,70,229,.14), rgba(79,70,229,.03)); border-color: rgba(79,70,229,.24); color: #4338ca; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem; padding: .4rem .9rem; border-radius: 9999px;
+      font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+      color: #8a6815; background: #fff9e8; border: 1px solid #ead9a5;
+    }
+    .gold-text {
+      background: linear-gradient(120deg, #f6e7b8 0%, #e6c36a 35%, #d4af37 60%, #f1d99a 100%);
+      background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      animation: sheen 6s linear infinite;
+    }
+    @keyframes sheen { to { background-position: 200% center; } }
+
+    /* ---------- Reveal ---------- */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .d1 { transition-delay: .08s } .d2 { transition-delay: .16s } .d3 { transition-delay: .24s } .d4 { transition-delay: .32s }
+
+    /* ---------- Live dot ---------- */
+    .live-dot { width: 8px; height: 8px; border-radius: 9999px; background: #059669; position: relative; display: inline-block; }
+    .live-dot::after { content: ""; position: absolute; inset: -4px; border-radius: 9999px; border: 1px solid #059669; animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
+    @keyframes ping { 0% { transform: scale(.6); opacity: .9 } 100% { transform: scale(1.8); opacity: 0 } }
+
+    /* ---------- Misc ---------- */
+    .divider-glow { height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,.4), transparent); }
+    .step-num {
+      font-family: 'JetBrains Mono', monospace; font-size: .8rem; font-weight: 600; color: #987015;
+      width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(212,175,55,.3); background: rgba(212,175,55,.08);
+    }
+    .field {
+      width: 100%; padding: .85rem 1rem; border-radius: 14px; color: #172033;
+      background: #fff; border: 1px solid #cbd5e1; outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .field::placeholder { color: #94a3b8; }
+    .field:focus { border-color: rgba(212,175,55,.6); box-shadow: 0 0 0 3px rgba(212,175,55,.14); }
+    .chip { display: inline-flex; padding: .25rem .65rem; border-radius: 9999px; font-size: .72rem; font-weight: 500; color: #334155; background: #f1f5f9; border: 1px solid #e2e8f0; }
+    .price-ring { position: relative; }
+    .price-ring::before {
+      content: ""; position: absolute; inset: 0; padding: 1px; border-radius: inherit;
+      background: linear-gradient(160deg, rgba(212,175,55,.7), rgba(212,175,55,.05) 40%, rgba(46,230,166,.25));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+              mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+      pointer-events: none; opacity: .55;
+    }
+
+    /* ---------- Feature step cards ---------- */
+    .feature-card {
+      background: linear-gradient(145deg,#fff,#f8fafc);
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 26px;
+      box-shadow: 0 12px 32px rgba(15,23,42,.06);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content:""; position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .35s ease;
+      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(212,175,55,.12), transparent 45%);
+    }
+    .feature-card:hover { transform: translateY(-5px); border-color: rgba(212,175,55,.4); box-shadow: 0 20px 46px rgba(15,23,42,.11); }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-card .f-icon {
+      width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(145deg, rgba(212,175,55,.18), rgba(212,175,55,.04));
+      border: 1px solid rgba(212,175,55,.28); color: #987015; margin-bottom: 16px;
+    }
+    .feature-card .f-num {
+      position: absolute; top: 22px; right: 22px;
+      font-family: 'JetBrains Mono', monospace; font-size: .72rem; font-weight: 600;
+      color: #cbd5e1;
+    }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 700; color: #172033; margin: 0 0 .5rem; }
+    .feature-card p { font-size: .9rem; line-height: 1.7; color: #596579; margin: 0; }
+
+    /* ---------- Platform preview mock ---------- */
+    .mock-panel {
+      background: linear-gradient(160deg, #0e1626, #070b14);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(5,8,15,.35);
+    }
+    .mock-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+    }
+    .mock-dot { width: 10px; height: 10px; border-radius: 9999px; }
+    .mock-body { padding: 18px; }
+    .mock-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+    .mock-row:last-child { border-bottom: 0; }
+    .mock-bar { height: 6px; border-radius: 9999px; background: rgba(255,255,255,.08); overflow: hidden; }
+    .mock-bar > span { display: block; height: 100%; border-radius: 9999px; }
+
+    /* ---------- Security list ---------- */
+    .sec-row {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 16px 0; border-bottom: 1px solid #eef2f7;
+    }
+    .sec-row:last-child { border-bottom: 0; }
+    .sec-ico {
+      width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: #eaf5ff; border: 1px solid #c4e2ff; color: #1d4ed8;
+    }
+    .sec-row h4 { font-size: .92rem; font-weight: 700; color: #172033; margin: 0 0 2px; }
+    .sec-row p { font-size: .84rem; line-height: 1.6; color: #64748b; margin: 0; }
+
+    /* ---------- Accordion ---------- */
+    .acc-item { border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(15,23,42,.04); overflow: hidden; }
+    .acc-item + .acc-item { margin-top: 12px; }
+    .acc-trigger {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 18px 22px; background: #fff; border: 0; cursor: pointer; font-weight: 600; font-size: 1rem; color: #172033;
+      text-align: left; transition: background .2s ease;
+    }
+    .acc-trigger:hover { background: #fcfaf3; }
+    .acc-trigger .acc-ico { transition: transform .3s ease; color: #987015; flex-shrink: 0; }
+    .acc-item.open .acc-trigger .acc-ico { transform: rotate(180deg); }
+    .acc-panel { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+    .acc-panel-inner { padding: 0 22px 20px; color: #596579; font-size: .92rem; line-height: 1.75; }
+    .acc-item.open .acc-panel { max-height: 500px; }
+
+    /* ---------- Security checklist ---------- */
+    .check-card {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 18px 20px; border-radius: 16px;
+      background: #fff; border: 1px solid #e2e8f0;
+      box-shadow: 0 8px 24px rgba(15,23,42,.04);
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .check-card:hover { border-color: rgba(212,175,55,.4); box-shadow: 0 14px 34px rgba(15,23,42,.08); }
+    .check-card .c-ico { width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #d1fae5; color: #047857; }
+    .check-card h4 { font-size: .9rem; font-weight: 700; color: #172033; margin: 0 0 3px; }
+    .check-card p { font-size: .82rem; line-height: 1.6; color: #64748b; margin: 0; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .aurora, .gold-text { animation: none !important; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
 </head>
-<body class="ge-page">
 
-<header class="ge-header">
-  <div class="ge-nav">
-    <a class="ge-brand" href="/">
-      <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade logo">
-      <span>Global Equinox Trade</span>
-    </a>
-    <nav class="ge-links" aria-label="Main navigation">
-      <a href="/">Home</a>
-      <a href="/markets" >Markets</a>
-      <a href="/platform" aria-current="page">Platform</a>
-      <a href="/pricing" >Pricing</a>
-      <a href="/education" >Education</a>
-      <a href="/FAQ">FAQ</a>
-      <a href="/about">About</a>
-    </nav>
-    <div class="ge-actions">
-      <a class="ge-btn" href="/login">Login</a>
-      <a class="ge-btn gold" href="/signup">Start Trading</a>
-    </div>
-    <button class="ge-menu-btn" id="geMenuBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
+<body class="font-sans antialiased">
+  <div class="bg-stage" aria-hidden="true">
+    <div class="bg-grid"></div>
+    <div class="aurora a1"></div>
+    <div class="aurora a2"></div>
+    <div class="aurora a3"></div>
+    <div class="grain"></div>
   </div>
-  <nav class="ge-mobile" id="geMobileMenu" aria-label="Mobile navigation">
-    <a href="/">Home</a><a href="/markets">Markets</a><a href="/platform">Platform</a>
-    <a href="/pricing">Pricing</a><a href="/education">Education</a>
-    <a href="/FAQ">FAQ</a><a href="/about">About</a>
-    <a href="/login">Login</a><a href="/signup">Create Account</a>
-  </nav>
-</header>
 
-<main>
-  <section class="ge-hero">
-    <div class="ge-wrap ge-hero-inner">
-      <span class="ge-eyebrow">YOUR TRADING WORKSPACE</span>
-      <h1>The Global Equinox Platform<br><span>Knowledge. Clarity. Preparation.</span></h1>
-      <p class="ge-intro">A starting point for learning about the platform, managing account access, and approaching markets responsibly.</p>
-      <div class="ge-actions-row">
-        <a class="ge-btn gold" href="/signup">Create Account</a>
-        <a class="ge-btn" href="/risk-disclosure">Read Risk Disclosure</a>
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="h-[4.25rem] flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3 group">
+          <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-8 w-auto transition-transform duration-300 group-hover:scale-105">
+          <span class="hidden sm:block text-[0.95rem] font-semibold tracking-tight" style="color:#172033">Global Equinox Trade</span>
+        </a>
+
+        <nav class="hidden lg:flex items-center gap-8">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/markets" class="nav-link">Markets</a>
+          <a href="/platform" class="nav-link" aria-current="page">Platform</a>
+          <a href="/pricing" class="nav-link">Pricing</a>
+          <a href="/education" class="nav-link">Education</a>
+          <a href="/FAQ" class="nav-link">FAQ</a>
+          <a href="/about" class="nav-link">About</a>
+        </nav>
+
+        <div class="hidden lg:flex items-center gap-3">
+          <a href="/login" class="btn-ghost !py-2 !px-5 text-sm">Login</a>
+          <a href="/signup" class="btn-gold !py-2 !px-5 text-sm">Start Trading</a>
+        </div>
+
+        <button id="menuBtn" aria-label="Toggle menu" class="lg:hidden h-10 w-10 rounded-xl border flex items-center justify-center transition-colors" style="border-color:#e2e8f0;background:#f8fafc;color:#172033">
+          <i data-lucide="menu" id="menuIcon"></i>
+        </button>
       </div>
     </div>
-  </section>
-  <section class="ge-wrap ge-section">
-    <div class="ge-section-heading">
-      <h2>Explore the platform</h2>
-      <p>Start with the essentials and confirm account-specific details before use.</p>
-    </div>
-    <div class="ge-grid"><article class="ge-card">
-          <div class="ge-card-mark">01</div>
-          <h3>Account access</h3>
-          <p>Use the account login to access your existing account, or visit registration if you are new. Protect your credentials and never share passwords or authentication codes.</p>
-        </article>
-<article class="ge-card">
-          <div class="ge-card-mark">02</div>
-          <h3>Market research</h3>
-          <p>Prepare for a trading decision by reviewing relevant market information, understanding volatility, and checking the details of the instrument you intend to trade.</p>
-        </article>
-<article class="ge-card">
-          <div class="ge-card-mark">03</div>
-          <h3>Risk awareness</h3>
-          <p>Consider your position size, potential loss, leverage where applicable, and the effect of sudden price movements before placing an order.</p>
-        </article>
-<article class="ge-card">
-          <div class="ge-card-mark">04</div>
-          <h3>Account security</h3>
-          <p>Use a unique password, keep your devices secure, and contact support through verified channels if you notice unexpected account activity.</p>
-        </article>
-<article class="ge-card">
-          <div class="ge-card-mark">05</div>
-          <h3>Review and recordkeeping</h3>
-          <p>Keep track of your decisions, transactions, and account activity so you can review your approach and identify questions that need support.</p>
-        </article>
-<article class="ge-card">
-          <div class="ge-card-mark">06</div>
-          <h3>Help and support</h3>
-          <p>Visit the FAQ or contact the support team for assistance with account access and general platform questions.</p>
-        </article></div>
-    <div class="ge-callout">
-      <div><h2>Getting started</h2><p>Start by reviewing the available account features and applicable terms. Specific tools, instruments, fees, and order types should be confirmed in your account before you rely on them.</p></div>
-      <a class="ge-btn gold" href="/FAQ">Visit FAQ</a>
-    </div>
-  </section>
-</main>
+  </header>
 
-<footer class="ge-footer">
-  <div class="ge-footer-inner">
-    <div class="ge-footer-grid">
-      <div>
-        <h3>Global Equinox Trade</h3>
-        <p>Market information and trading resources to help users make informed decisions. Trading involves risk, and losses are possible.</p>
+  <!-- Mobile menu -->
+  <div class="mobile-menu lg:hidden" id="mobileMenu">
+    <div class="p-6 space-y-2">
+      <a href="/" class="flex items-center gap-3 text-lg font-medium py-3"><i data-lucide="home"></i> Home</a>
+      <a href="/markets" class="flex items-center gap-3 text-lg font-medium py-3"><i data-lucide="trending-up"></i> Markets</a>
+      <a href="/platform" class="flex items-center gap-3 text-lg font-medium py-3" style="color:#8a6815"><i data-lucide="layout-dashboard"></i> Platform</a>
+      <a href="/pricing" class="flex items-center gap-3 text-lg font-medium py-3"><i data-lucide="credit-card"></i> Pricing</a>
+      <a href="/education" class="flex items-center gap-3 text-lg font-medium py-3"><i data-lucide="graduation-cap"></i> Education</a>
+      <a href="/FAQ" class="flex items-center gap-3 text-lg font-medium py-3"><i data-lucide="help-circle"></i> FAQ</a>
+      <a href="/about" class="flex items-center gap-3 text-lg font-medium py-3"><i data-lucide="info"></i> About</a>
+      <div class="pt-6 mt-4 border-t space-y-3" style="border-color:#e2e8f0">
+        <a href="/login" class="btn-ghost w-full">Login to Account</a>
+        <a href="/signup" class="btn-gold w-full">Create Account</a>
       </div>
-      <div><h4>Explore</h4><ul>
-        <li><a href="/markets">Markets</a></li><li><a href="/platform">Platform</a></li>
-        <li><a href="/pricing">Pricing</a></li><li><a href="/education">Education</a></li>
-      </ul></div>
-      <div><h4>Account</h4><ul>
-        <li><a href="/login">Login</a></li><li><a href="/signup">Create account</a></li>
-        <li><a href="/FAQ">Frequently asked questions</a></li><li><a href="/about">About us</a></li>
-      </ul></div>
-      <div><h4>Policies</h4><ul>
-        <li><a href="/terms">Terms of Service</a></li><li><a href="/privacy-policy">Privacy Policy</a></li>
-        <li><a href="/risk-disclosure">Risk Disclosure</a></li><li><a href="/cookie-policy">Cookie Policy</a></li>
-        <li><a href="/aml-policy">AML Policy</a></li>
-      </ul></div>
-    </div>
-    <div class="ge-footer-bottom">
-      <p>&copy; <span id="geYear"></span> Global Equinox Trade. All rights reserved.</p>
-      <p>Trading involves risk. Past performance does not guarantee future results.</p>
     </div>
   </div>
-</footer>
 
+  <main>
+    <!-- ================= HERO ================= -->
+    <section id="hero" class="relative pt-[4.25rem]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12 md:pt-20 md:pb-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-7">
+            <div class="eyebrow reveal"><span class="live-dot"></span> Your Trading Workspace</div>
+            <h1 class="reveal d1 mt-6 text-[2.4rem] leading-[1.06] sm:text-5xl lg:text-[3.8rem] font-bold tracking-tight" style="color:#172033">
+              The Global Equinox Platform.<br>
+              <span class="gold-text">Knowledge. Clarity. Preparation.</span>
+            </h1>
+            <p class="reveal d2 mt-6 text-lg max-w-xl leading-relaxed" style="color:#475569">
+              A starting point for learning about the platform, managing account access, and approaching markets responsibly. Confirm account-specific details before use.
+            </p>
+            <div class="reveal d3 mt-8 flex flex-col sm:flex-row gap-3.5">
+              <a href="/signup" class="btn-gold group text-[0.95rem]">
+                Create Account
+                <i data-lucide="arrow-right" class="transition-transform group-hover:translate-x-1"></i>
+              </a>
+              <a href="/risk-disclosure" class="btn-ghost text-[0.95rem]">
+                <i data-lucide="shield-alert"></i> Read Risk Disclosure
+              </a>
+            </div>
+            <div class="reveal d4 mt-10 grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl">
+              <div class="flex items-center gap-2.5">
+                <div class="icon-chip green !w-10 !h-10 !rounded-xl"><i data-lucide="lock" class="!w-4 !h-4"></i></div>
+                <div><p class="text-sm font-semibold" style="color:#172033">Secure access</p><p class="text-xs" style="color:#64748b">Protected login</p></div>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <div class="icon-chip !w-10 !h-10 !rounded-xl"><i data-lucide="layout-dashboard" class="!w-4 !h-4"></i></div>
+                <div><p class="text-sm font-semibold" style="color:#172033">All-in-one</p><p class="text-xs" style="color:#64748b">Single workspace</p></div>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <div class="icon-chip blue !w-10 !h-10 !rounded-xl"><i data-lucide="headset" class="!w-4 !h-4"></i></div>
+                <div><p class="text-sm font-semibold" style="color:#172033">Support</p><p class="text-xs" style="color:#64748b">Help when needed</p></div>
+              </div>
+            </div>
+          </div>
 
-<script>
-(function(){
-  const btn=document.getElementById('geMenuBtn');
-  const menu=document.getElementById('geMobileMenu');
-  if(btn && menu){
-    btn.addEventListener('click',function(){
-      const open=menu.classList.toggle('open');
-      btn.setAttribute('aria-expanded',String(open));
-      btn.setAttribute('aria-label',open?'Close navigation':'Open navigation');
-      btn.textContent=open?'×':'☰';
+          <!-- Platform preview mock -->
+          <div class="lg:col-span-5 reveal d2">
+            <div class="mock-panel">
+              <div class="mock-topbar">
+                <div class="flex items-center gap-2">
+                  <span class="mock-dot" style="background:#ff6b81"></span>
+                  <span class="mock-dot" style="background:#e6c36a"></span>
+                  <span class="mock-dot" style="background:#2ee6a6"></span>
+                  <span class="mono text-[0.68rem] ml-2" style="color:#7c869b">dashboard</span>
+                </div>
+                <span class="mono text-[0.65rem]" style="color:#7c869b">v2.4</span>
+              </div>
+              <div class="mock-body">
+                <div class="flex items-center justify-between mb-4">
+                  <div>
+                    <p class="text-xs" style="color:#7c869b">Account equity</p>
+                    <p class="mono text-2xl font-semibold" style="color:#fff">$12,480.35</p>
+                  </div>
+                  <span class="chg mono" style="color:#047857;background:#d1fae5">+2.41%</span>
+                </div>
+                <div class="mock-row">
+                  <div class="flex items-center gap-2.5">
+                    <div class="coin-badge !w-7 !h-7" style="background:linear-gradient(135deg,#f7931a,#c26a00);font-size:.7rem">₿</div>
+                    <div><p class="text-xs font-medium" style="color:#fff">Bitcoin</p><p class="mono text-[0.62rem]" style="color:#7c869b">BTC/USD</p></div>
+                  </div>
+                  <div class="text-right"><p class="mono text-xs font-semibold" style="color:#fff">$67,210.50</p><p class="mono text-[0.62rem]" style="color:#2ee6a6">+1.85%</p></div>
+                </div>
+                <div class="mock-row">
+                  <div class="flex items-center gap-2.5">
+                    <div class="coin-badge !w-7 !h-7" style="background:linear-gradient(135deg,#7c8cff,#4455d6);font-size:.7rem">Ξ</div>
+                    <div><p class="text-xs font-medium" style="color:#fff">Ethereum</p><p class="mono text-[0.62rem]" style="color:#7c869b">ETH/USD</p></div>
+                  </div>
+                  <div class="text-right"><p class="mono text-xs font-semibold" style="color:#fff">$3,450.22</p><p class="mono text-[0.62rem]" style="color:#2ee6a6">+0.94%</p></div>
+                </div>
+                <div class="mock-row">
+                  <div class="flex items-center gap-2.5">
+                    <div class="coin-badge !w-7 !h-7" style="background:linear-gradient(135deg,#f3ba2f,#b88611);font-size:.7rem">◆</div>
+                    <div><p class="text-xs font-medium" style="color:#fff">BNB</p><p class="mono text-[0.62rem]" style="color:#7c869b">BNB/USD</p></div>
+                  </div>
+                  <div class="text-right"><p class="mono text-xs font-semibold" style="color:#fff">$594.10</p><p class="mono text-[0.62rem]" style="color:#ff6b81">-0.32%</p></div>
+                </div>
+                <div class="mt-4">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-[0.68rem]" style="color:#7c869b">Portfolio allocation</span>
+                    <span class="mono text-[0.65rem]" style="color:#7c869b">3 assets</span>
+                  </div>
+                  <div class="mock-bar"><span style="width:62%;background:linear-gradient(90deg,#d4af37,#e6c36a)"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PLATFORM ESSENTIALS ================= -->
+    <section id="essentials" class="py-14 md:py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl reveal">
+          <div class="eyebrow"><i data-lucide="compass" class="!w-3.5 !h-3.5"></i> Explore the Platform</div>
+          <h2 class="mt-5 text-3xl md:text-4xl font-bold tracking-tight" style="color:#172033">Start with the essentials.</h2>
+          <p class="mt-4 text-lg" style="color:#475569">Confirm account-specific details before use. These six areas cover the foundations of a careful trading setup.</p>
+        </div>
+
+        <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <article class="feature-card reveal">
+            <span class="f-num">01</span>
+            <div class="f-icon"><i data-lucide="key-round"></i></div>
+            <h3>Account access</h3>
+            <p>Use the account login to access your existing account, or visit registration if you are new. Protect your credentials and never share passwords or authentication codes.</p>
+          </article>
+          <article class="feature-card reveal d1">
+            <span class="f-num">02</span>
+            <div class="f-icon"><i data-lucide="search"></i></div>
+            <h3>Market research</h3>
+            <p>Prepare for a trading decision by reviewing relevant market information, understanding volatility, and checking the details of the instrument you intend to trade.</p>
+          </article>
+          <article class="feature-card reveal d2">
+            <span class="f-num">03</span>
+            <div class="f-icon"><i data-lucide="shield-alert"></i></div>
+            <h3>Risk awareness</h3>
+            <p>Consider your position size, potential loss, leverage where applicable, and the effect of sudden price movements before placing an order.</p>
+          </article>
+          <article class="feature-card reveal">
+            <span class="f-num">04</span>
+            <div class="f-icon"><i data-lucide="fingerprint"></i></div>
+            <h3>Account security</h3>
+            <p>Use a unique password, keep your devices secure, and contact support through verified channels if you notice unexpected account activity.</p>
+          </article>
+          <article class="feature-card reveal d1">
+            <span class="f-num">05</span>
+            <div class="f-icon"><i data-lucide="notebook-pen"></i></div>
+            <h3>Review and recordkeeping</h3>
+            <p>Keep track of your decisions, transactions, and account activity so you can review your approach and identify questions that need support.</p>
+          </article>
+          <article class="feature-card reveal d2">
+            <span class="f-num">06</span>
+            <div class="f-icon"><i data-lucide="life-buoy"></i></div>
+            <h3>Help and support</h3>
+            <p>Visit the FAQ or contact the support team for assistance with account access and general platform questions.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECURITY & ACCOUNT HYGIENE ================= -->
+    <section class="py-14 md:py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+          <div class="lg:col-span-5 reveal">
+            <div class="eyebrow"><i data-lucide="shield-check" class="!w-3.5 !h-3.5"></i> Account Security</div>
+            <h2 class="mt-5 text-3xl md:text-4xl font-bold tracking-tight" style="color:#172033">Protect your account.</h2>
+            <p class="mt-4 text-lg" style="color:#475569">A few simple habits go a long way. Review these security steps before you log in for the first time.</p>
+
+            <div class="glass p-6 mt-8">
+              <div class="sec-row">
+                <div class="sec-ico"><i data-lucide="lock" class="!w-4 !h-4"></i></div>
+                <div>
+                  <h4>Use a unique password</h4>
+                  <p>Never reuse passwords across sites. A password manager helps you keep each account distinct.</p>
+                </div>
+              </div>
+              <div class="sec-row">
+                <div class="sec-ico"><i data-lucide="smartphone" class="!w-4 !h-4"></i></div>
+                <div>
+                  <h4>Enable two-factor authentication</h4>
+                  <p>Add a second verification step so a leaked password alone cannot grant access.</p>
+                </div>
+              </div>
+              <div class="sec-row">
+                <div class="sec-ico"><i data-lucide="mail-warning" class="!w-4 !h-4"></i></div>
+                <div>
+                  <h4>Watch for phishing</h4>
+                  <p>Check sender addresses carefully. We never ask for your password or authentication codes by email.</p>
+                </div>
+              </div>
+              <div class="sec-row">
+                <div class="sec-ico"><i data-lucide="globe-lock" class="!w-4 !h-4"></i></div>
+                <div>
+                  <h4>Use verified links only</h4>
+                  <p>Access the platform by typing the URL directly or using a saved bookmark — not from unfamiliar links.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 reveal d2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="check-card">
+                <div class="c-ico"><i data-lucide="check" class="!w-4 !h-4"></i></div>
+                <div><h4>Log out on shared devices</h4><p>Always sign out when using a computer that isn't yours.</p></div>
+              </div>
+              <div class="check-card">
+                <div class="c-ico"><i data-lucide="check" class="!w-4 !h-4"></i></div>
+                <div><h4>Keep devices updated</h4><p>Install OS and browser updates promptly to close known vulnerabilities.</p></div>
+              </div>
+              <div class="check-card">
+                <div class="c-ico"><i data-lucide="check" class="!w-4 !h-4"></i></div>
+                <div><h4>Review login activity</h4><p>Check recent sessions periodically for unfamiliar devices or locations.</p></div>
+              </div>
+              <div class="check-card">
+                <div class="c-ico"><i data-lucide="check" class="!w-4 !h-4"></i></div>
+                <div><h4>Report suspicious activity</h4><p>If something looks wrong, contact support through verified channels immediately.</p></div>
+              </div>
+              <div class="check-card">
+                <div class="c-ico"><i data-lucide="check" class="!w-4 !h-4"></i></div>
+                <div><h4>Secure your email</h4><p>Your email account is a recovery key — protect it with the same care.</p></div>
+              </div>
+              <div class="check-card">
+                <div class="c-ico"><i data-lucide="check" class="!w-4 !h-4"></i></div>
+                <div><h4>Beware unsolicited offers</h4><p>Ignore requests to "help" you trade or recover funds — these are common scams.</p></div>
+              </div>
+            </div>
+
+            <div class="risk-callout mt-6" style="background:linear-gradient(135deg,#fffbef,#fff7e0);border:1px solid #ead9a5;border-radius:18px;padding:22px 24px">
+              <div class="flex items-start gap-3">
+                <i data-lucide="info" class="!w-5 !h-5 mt-0.5" style="color:#987015"></i>
+                <p class="text-sm leading-relaxed" style="color:#526075">If you suspect your account has been accessed without your permission, change your password and contact support immediately. Do not share account details with anyone claiming to represent the platform through unofficial channels.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PLATFORM FAQ ================= -->
+    <section id="platform-faq" class="py-14 md:py-20">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center reveal">
+          <div class="eyebrow"><i data-lucide="help-circle" class="!w-3.5 !h-3.5"></i> Platform Questions</div>
+          <h2 class="mt-5 text-3xl md:text-4xl font-bold tracking-tight" style="color:#172033">Getting started FAQ.</h2>
+          <p class="mt-4 text-lg" style="color:#475569">Quick answers to common questions about the platform.</p>
+        </div>
+
+        <div class="mt-10 reveal d1">
+          <div class="acc-item open">
+            <button class="acc-trigger" aria-expanded="true">How do I access my account? <i data-lucide="chevron-down" class="acc-ico !w-5 !h-5"></i></button>
+            <div class="acc-panel"><div class="acc-panel-inner">Use the Login link in the header to sign in with your registered credentials. If you are new, use the Create Account button to register.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger" aria-expanded="false">What should I check before my first trade? <i data-lucide="chevron-down" class="acc-ico !w-5 !h-5"></i></button>
+            <div class="acc-panel"><div class="acc-panel-inner">Confirm the instrument details, available order types, fees, and margin requirements in your account. Review the risk disclosure and only use capital you can afford to lose.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger" aria-expanded="false">How can I keep my account secure? <i data-lucide="chevron-down" class="acc-ico !w-5 !h-5"></i></button>
+            <div class="acc-panel"><div class="acc-panel-inner">Use a unique password, enable two-factor authentication where available, avoid sharing credentials, and log out of shared devices. Contact support through verified channels if you notice suspicious activity.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger" aria-expanded="false">Where can I find help? <i data-lucide="chevron-down" class="acc-ico !w-5 !h-5"></i></button>
+            <div class="acc-panel"><div class="acc-panel-inner">Visit the FAQ for common questions or contact the support team through the channels listed on the contact section of our homepage.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger" aria-expanded="false">Are all features available on every account? <i data-lucide="chevron-down" class="acc-ico !w-5 !h-5"></i></button>
+            <div class="acc-panel"><div class="acc-panel-inner">No. Available tools, instruments, fees, and order types depend on the account features you actually have. Confirm these in your account before you rely on them.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RISK CALLOUT ================= -->
+    <section class="py-10 md:py-14">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="risk-callout reveal" style="background:linear-gradient(135deg,#fffbef,#fff7e0);border:1px solid #ead9a5;border-radius:20px;padding:28px 30px">
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] items-center gap-6">
+            <div>
+              <h2 class="text-2xl font-bold" style="color:#172033">Getting started</h2>
+              <p class="mt-3 max-w-2xl leading-relaxed" style="color:#526075">Start by reviewing the available account features and applicable terms. Specific tools, instruments, fees, and order types should be confirmed in your account before you rely on them.</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <a href="/FAQ" class="btn-gold">Visit FAQ</a>
+              <a href="/signup" class="btn-ghost">Create Account</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="pb-16 md:pb-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="dark-surface relative overflow-hidden rounded-[2rem] border border-gold-500/25 px-6 py-14 md:px-16 md:py-16 text-center reveal"
+             style="background:radial-gradient(ellipse at 50% 0%,rgba(212,175,55,.2),transparent 60%),linear-gradient(180deg,#0e1626,#070b14)">
+          <div class="divider-glow absolute top-0 left-0 right-0"></div>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight" style="color:#fff">Ready to explore the platform?</h2>
+          <p class="mt-3 text-lg max-w-xl mx-auto" style="color:#cbd5e1">Open your account in minutes and review the tools, security, and account features before you begin.</p>
+          <div class="mt-8 flex flex-col sm:flex-row gap-3.5 justify-center">
+            <a href="/signup" class="btn-gold">Create Free Account</a>
+            <a href="/login" class="btn-ghost" style="color:#fff !important;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18)">Login to Existing Account</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer dark-surface border-t border-white/10" style="background:#070b14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+        <div class="lg:col-span-2">
+          <div class="flex items-center gap-3 mb-5">
+            <img src="/temp/custom/img/logo.png" alt="Global Equinox Trade" class="h-10 w-auto">
+            <div>
+              <span class="text-lg font-semibold" style="color:#fff">Global Equinox Trade</span>
+              <p class="text-xs" style="color:#7c869b">Professional Trading Platform</p>
+            </div>
+          </div>
+          <p class="text-sm max-w-md leading-relaxed" style="color:#a7b0c4">A modern trading platform providing access to global markets with transparent pricing and professional tools.</p>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold tracking-wide mb-4" style="color:#fff">Platform</h4>
+          <ul class="space-y-3 text-sm">
+            <li><a href="/login" class="transition-colors" style="color:#a7b0c4">Login</a></li>
+            <li><a href="/signup" class="transition-colors" style="color:#a7b0c4">Sign Up</a></li>
+            <li><a href="/platform" class="transition-colors" style="color:#a7b0c4">Platform Tools</a></li>
+            <li><a href="/pricing" class="transition-colors" style="color:#a7b0c4">Pricing</a></li>
+            <li><a href="/copy-trader" class="transition-colors" style="color:#a7b0c4">Copy Trading</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold tracking-wide mb-4" style="color:#fff">Markets</h4>
+          <ul class="space-y-3 text-sm">
+            <li><a href="/markets#categories" class="transition-colors" style="color:#a7b0c4">Forex</a></li>
+            <li><a href="/markets#categories" class="transition-colors" style="color:#a7b0c4">Cryptocurrency</a></li>
+            <li><a href="/markets#categories" class="transition-colors" style="color:#a7b0c4">Stocks</a></li>
+            <li><a href="/markets#categories" class="transition-colors" style="color:#a7b0c4">Indices</a></li>
+            <li><a href="/markets#categories" class="transition-colors" style="color:#a7b0c4">Commodities</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold tracking-wide mb-4" style="color:#fff">Legal</h4>
+          <ul class="space-y-3 text-sm">
+            <li><a href="/terms" class="transition-colors" style="color:#a7b0c4">Terms of Service</a></li>
+            <li><a href="/privacy-policy" class="transition-colors" style="color:#a7b0c4">Privacy Policy</a></li>
+            <li><a href="/risk-disclosure" class="transition-colors" style="color:#a7b0c4">Risk Disclosure</a></li>
+            <li><a href="/cookie-policy" class="transition-colors" style="color:#a7b0c4">Cookie Policy</a></li>
+            <li><a href="/aml-policy" class="transition-colors" style="color:#a7b0c4">AML Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-sm" style="color:#7c869b">&copy; 2015-<span id="currentYear"></span> Global Equinox Trade. All rights reserved.</p>
+        <p class="text-xs max-w-md text-center md:text-right" style="color:#7c869b">Trading involves risk. Past performance is not indicative of future results. Only trade with capital you can afford to lose.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button id="backToTop" aria-label="Back to top" style="color:#fff;background:#0e1626" class="fixed bottom-6 left-6 z-50 h-11 w-11 rounded-full border border-white/10 backdrop-blur flex items-center justify-center hover:border-gold-500/50 transition-all opacity-0 invisible">
+    <i data-lucide="chevron-up"></i>
+  </button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const icons = () => { if (window.lucide) lucide.createIcons(); };
+      icons();
+      window.addEventListener('load', icons);
+
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+      /* ---------- Mobile menu ---------- */
+      const menuBtn = document.getElementById('menuBtn');
+      const menu = document.getElementById('mobileMenu');
+      const menuIcon = document.getElementById('menuIcon');
+      const setMenu = (open) => {
+        menu.classList.toggle('open', open);
+        menuIcon.setAttribute('data-lucide', open ? 'x' : 'menu');
+        icons();
+      };
+      menuBtn.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+      /* ---------- Header hide/show + back-to-top ---------- */
+      const header = document.getElementById('siteHeader');
+      const toTop = document.getElementById('backToTop');
+      let lastY = 0;
+      window.addEventListener('scroll', () => {
+        const y = window.pageYOffset || document.documentElement.scrollTop;
+        header.classList.toggle('is-hidden', y > 120 && y > lastY);
+        lastY = y;
+        const show = y > 400;
+        toTop.style.opacity = show ? '1' : '0';
+        toTop.style.visibility = show ? 'visible' : 'hidden';
+      }, { passive: true });
+      toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+      /* ---------- Smooth anchor offset ---------- */
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', function (e) {
+          const id = this.getAttribute('href');
+          if (id === '#') return;
+          const el = document.querySelector(id);
+          if (!el) return;
+          e.preventDefault();
+          window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 72, behavior: 'smooth' });
+        });
+      });
+
+      /* ---------- Reveal on scroll ---------- */
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+      /* ---------- Spotlight hover ---------- */
+      document.querySelectorAll('.spot, .feature-card').forEach(card => {
+        card.addEventListener('pointermove', e => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        });
+      });
+
+      /* ---------- Accordion ---------- */
+      document.querySelectorAll('.acc-trigger').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          const item = trigger.closest('.acc-item');
+          const isOpen = item.classList.contains('open');
+          document.querySelectorAll('.acc-item').forEach(i => {
+            i.classList.remove('open');
+            const t = i.querySelector('.acc-trigger');
+            if (t) t.setAttribute('aria-expanded', 'false');
+          });
+          if (!isOpen) {
+            item.classList.add('open');
+            trigger.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
     });
-  }
-  const year=document.getElementById('geYear');
-  if(year) year.textContent=new Date().getFullYear();
-})();
-</script>
-
+  </script>
 </body>
 </html>
